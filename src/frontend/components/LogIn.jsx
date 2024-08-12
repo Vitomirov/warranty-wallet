@@ -8,14 +8,14 @@ const LogIn = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Funkcija za obradu forme za prijavu
+  // Function to process the login form
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted');
     try {
       const response = await login(username, password);
       console.log('Response received:', response);
-      navigate('/dashboard'); // Preusmeravanje na dashboard nakon uspešne prijave
+      navigate('/navigation'); // Redirection to navigation after successful login
     } catch (error) {
       console.error('Failed to log in', error);
     }
@@ -23,13 +23,14 @@ const LogIn = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>Warranty Wallet</h1>
       <div>
         <label>Username:</label>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
       </div>
       <div>
         <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
       </div>
       <button type="submit">Log In</button>
       <br />

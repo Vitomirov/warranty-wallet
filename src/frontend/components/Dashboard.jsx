@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 function Dashboard() {
   return (
     <>
+      <h1>Warranty Wallet</h1>
       <h1>Dashboard</h1>
       <Link to="/newWarranty">New Warranty</Link>
       <br />

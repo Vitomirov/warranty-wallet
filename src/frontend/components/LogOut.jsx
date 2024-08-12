@@ -6,16 +6,10 @@ function LogOut() {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+/*   const handleLogout = () => {
     logout();
     navigate('/');
-  };
-
-  return (
-    <button onClick={handleLogout}>
-      Log Out
-    </button>
-  );
+  };   */
 }
 
 export default LogOut;
