@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,6 +8,15 @@ const NewWarranty = () => {
   const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
   const [warrantyImage, setWarrantyImage] = useState(null);
   const [message, setMessage] = useState('');
+  const [token, setToken] = useState('');
+
+  // UseEffect hook za preuzimanje tokena iz localStorage pri inicijalnom učitavanju komponente
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,13 +28,14 @@ const NewWarranty = () => {
     formData.append('warrantyImage', warrantyImage);
 
     try {
-      const response = await axios.post('http://localhost:3001/api/warranties', formData, {
+      const response = await axios.post('http://localhost:3001/warranties', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Set content type for FormData
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}` // Uključivanje tokena u zaglavlje zahteva
         },
       });
       setMessage('Warranty added successfully!');
-      // Reset form fields
+      // Resetovanje polja forme
       setProductName('');
       setDateOfPurchase('');
       setWarrantyExpireDate('');

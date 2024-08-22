@@ -7,7 +7,7 @@ const WarrantyDetails = () => {
   const [warranty, setWarranty] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/warranties/${id}`)
+    axios.get(`http://localhost:3001/warranties/${id}`)
       .then(response => {
         setWarranty(response.data);
       })

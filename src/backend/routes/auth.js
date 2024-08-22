@@ -8,9 +8,10 @@ dotenv.config();
 
 const router = express.Router();
 const SECRET_KEY = process.env.SECRET_KEY;
+console.log("SECRET_KEY:", SECRET_KEY);
 
 // Middleware function to verify JWT token
-const verifyToken = (req, res, next) => {
+export const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   
@@ -24,14 +25,13 @@ const verifyToken = (req, res, next) => {
       return res.sendStatus(403); // Forbidden if token is invalid
     }
     req.user = user;
+    console.log('Token verified successfully:', user);
     next();
   });
 };
 
 router.post('/login', async (req, res) => {
-  console.log('Login request received');
   const { username, password } = req.body;
-  console.log(`Username: ${username}, Password: ${password}`);
   
   const sql = 'SELECT * FROM users WHERE username = ?';
   
@@ -41,7 +41,6 @@ router.post('/login', async (req, res) => {
       return res.status(500).send('Error logging in');
     }
     if (result.length === 0) {
-      console.log('Invalid username or password');
       return res.status(401).send('Invalid username or password');
     }
     
@@ -49,12 +48,10 @@ router.post('/login', async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     
     if (match) {
-      console.log('Password match, generating token');
       const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
-      console.log('Token generated:', token);
+      console.log('Generated Token:', token); // Ovaj console.log dodaješ da vidiš generisani token
       res.status(200).json({ token });
     } else {
-      console.log('Invalid username or password');
       return res.status(401).send('Invalid username or password');
     }
   });
@@ -83,7 +80,6 @@ router.post('/signup', async (req, res) => {
 
 // Route to verify token
 router.get('/verifyToken', verifyToken, (req, res) => {
-  console.log('Token is valid');
   res.sendStatus(200); // Token is valid
 });
 

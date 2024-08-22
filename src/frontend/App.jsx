@@ -8,6 +8,7 @@ import LayoutWithNav from './components/LayoutWithNav';
 import LayoutWithoutNav from './components/LayoutWithoutNav';
 import NewWarranty from './components/NewWarranty';
 import WarrantyDetails from './components/WarrantyDetails';
+import MyWarranties from './components/MyWarranties';
 import LogOut from './components/LogOut';
 import PrivateRoute from './components/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
@@ -38,6 +39,11 @@ function App() {
             <LayoutWithoutNav><WarrantyDetails /></LayoutWithoutNav>
           </PrivateRoute>
         } />
+        <Route path="/myWarranties" element={
+          <PrivateRoute>
+            <LayoutWithoutNav><MyWarranties /></LayoutWithoutNav>
+          </PrivateRoute>
+          } />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AuthProvider>

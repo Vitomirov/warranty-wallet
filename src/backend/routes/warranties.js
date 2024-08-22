@@ -1,42 +1,61 @@
 import express from 'express';
 import connection from '../db.js';
+import multer from 'multer';
+import { verifyToken } from './auth.js';
 
 const router = express.Router();
 
-// Middleware function to verify JWT token
-const verifyToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  
-  if (!token) {
-    return res.sendStatus(401);
+// Setting up multer for file upload handling
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
   }
+});
 
-  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-    if (err) {
-      console.error('Error verifying token:', err);
-      return res.sendStatus(403);
-    }
-    req.user = user;
-    next();
-  });
-};
+const upload = multer({ storage: storage });
 
-router.get('/', verifyToken, (req, res) => {
+// Route to get all warranties for the logged-in user
+router.get('/all', verifyToken, (req, res) => {
   const sql = 'SELECT * FROM warranties WHERE userId = ?';
   connection.query(sql, [req.user.userId], (err, results) => {
     if (err) {
       console.error('Error fetching warranties:', err);
       return res.status(500).send('Error fetching warranties');
     }
+    if (results.length === 0) {
+      return res.status(404).send('No warranties found');
+    }
     res.json(results);
   });
 });
 
-router.post('/', verifyToken, (req, res) => {
-  const { title, description, purchaseDate, expirationDate } = req.body;
-  const sql = 'INSERT INTO warranties (title, description, purchaseDate, expirationDate, userId) VALUES (?, ?, ?, ?, ?)';
-  connection.query(sql, [title, description, purchaseDate, expirationDate, req.user.userId], (err, result) => {
+// Route to get a specific warranty by ID
+router.get('/:id', verifyToken, (req, res) => {
+  const warrantyId = req.params.id;
+
+  const sql = 'SELECT * FROM warranties WHERE id = ? AND userId = ?';
+  connection.query(sql, [warrantyId, req.user.userId], (err, result) => {
+    if (err) {
+      console.error('Error fetching warranty:', err);
+      return res.status(500).send('Error fetching warranty');
+    }
+    if (result.length === 0) {
+      return res.status(404).send('Warranty not found');
+    }
+    res.json(result[0]);
+  });
+});
+
+// Route to add a new warranty
+router.post('/', verifyToken, upload.single('warrantyImage'), (req, res) => {
+  const { productName, dateOfPurchase, warrantyExpireDate } = req.body;
+  const warrantyImage = req.file ? req.file.filename : null;
+
+  const sql = 'INSERT INTO warranties (productName, dateOfPurchase, warrantyExpireDate, warrantyImage, userId) VALUES (?, ?, ?, ?, ?)';
+  connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, warrantyImage, req.user.userId], (err, result) => {
     if (err) {
       console.error('Error adding warranty:', err);
       return res.status(500).send('Error adding warranty');
