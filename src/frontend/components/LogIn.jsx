@@ -8,17 +8,20 @@ const LogIn = () => {
   const { login } = useAuth(); // Extracting the login function from AuthContext
   const navigate = useNavigate(); // Hook for programmatic navigation
 
-  // Function to process the login form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevents the default form submission behavior
-    console.log('Form submitted');
+    e.preventDefault(); // Prevent default form submission
     try {
-      const response = await login(username, password); // Calls the login function with username and password
-      console.log('Response received:', response); // Logs the response from the login function
-      console.log('Token stored in localStorage:', localStorage.getItem('authToken')); // Verifies if the token is stored in localStorage
-      navigate('/navigation'); // Redirects the user to the navigation page after a successful login
+        const response = await login(username, password); // Call login function from AuthContext
+        
+        if (response.data && response.data.token) {
+            localStorage.setItem('token', response.data.token); // Store token in localStorage
+          console.log('Token stored in localStorage:', localStorage.getItem('token'));
+            navigate('/'); 
+        } else {
+            console.error('Token not found in response'); // Log an error if token is missing
+        }
     } catch (error) {
-      console.error('Failed to log in', error); // Logs any error that occurs during login
+        console.error('Failed to log in:', error); // Log any errors during login
     }
   };
 
@@ -27,11 +30,19 @@ const LogIn = () => {
       <h1>Warranty Wallet</h1>
       <div>
         <label>Username:</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} /> {/* Input for username */}
+        <input 
+          type="text" 
+          value={username} 
+          onChange={(e) => setUsername(e.target.value)} // Update username state on input change
+        />
       </div>
       <div>
         <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /> {/* Input for password */}
+        <input 
+          type="password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} // Update password state on input change
+        />
       </div>
       <button type="submit">Log In</button> {/* Submit button */}
       <br />

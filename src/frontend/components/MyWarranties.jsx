@@ -10,15 +10,13 @@ const MyWarranties = () => {
     const fetchWarranties = async () => {
       try {
         // Dobijanje tokena iz localStorage-a 
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem('token');
         console.log('Token being sent:', token);
 
         const response = await axios.get('http://localhost:3001/warranties/all', {
-          headers: {
-            Authorization: `Bearer ${token}` // Dodavanje tokena u zaglavlje zahteva
-          }
+          headers: { Authorization: `Bearer ${token}`} // Dodavanje tokena u zaglavlje zahteva          
         });
-        console.log('Response from server:', response.data); // Proveri odgovor servera
+        console.log('Warranties fetched:', response.data); // Proveri odgovor servera
         setWarranties(response.data);
       } catch (error) {
         console.error('Error fetching warranties:', error);

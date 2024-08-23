@@ -80,7 +80,11 @@ router.post('/signup', async (req, res) => {
 
 // Route to verify token
 router.get('/verifyToken', verifyToken, (req, res) => {
-  res.sendStatus(200); // Token is valid
+  if (req.user) {
+    res.json({ user: req.user });  // Vrati podatke o korisniku
+  } else {
+    res.status(401).json({ message: 'No user data found' });
+  }
 });
 
 export default router;
