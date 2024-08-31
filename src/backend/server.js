@@ -11,7 +11,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001; // Use port from .env file or default to 3001
 
-app.use(cors()); // Enable CORS for cross-origin requests
+// Configure CORS to allow requests from the frontend
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow requests from this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allow these headers
+}));
+
 app.use(bodyParser.json()); // Parse incoming JSON requests
 
 app.use('/auth', authRoutes); // Define routes for authentication

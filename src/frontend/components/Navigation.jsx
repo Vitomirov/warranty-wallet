@@ -26,7 +26,7 @@ function Navigation() {
         <>
             <Link to="/dashboard">Dashboard</Link>
             <br />
-            <Link to="/logout" onClick={logout}>Log Out</Link>
+            <Link to="/" onClick={logout}>Log Out</Link>
         </>
       )}
     </nav>

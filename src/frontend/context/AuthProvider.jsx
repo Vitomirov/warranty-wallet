@@ -3,51 +3,69 @@ import axios from 'axios';
 import AuthContext from './AuthContext';
 
 export const AuthProvider = ({ children }) => {
-  // Initialize the user state to null
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.get('http://localhost:3001/auth/verifyToken', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-        .then(response => {
-          console.log('Token verified:', response.data);
-          if (response.data && response.data.user) {
-            setUser(response.data.user);  // Postavi korisnika u state
-          } else {
-            console.error('User data not found in response');
-            localStorage.removeItem('token');
-          }
-        })
-        .catch(error => {
-          console.error('Error verifying token:', error);
-          localStorage.removeItem('token');
-        })
-        .finally(() =>{
-          setIsLoading(false);
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    const verifyToken = async (token) => {
+      try {
+        const response = await axios.get('http://localhost:3001/auth/verifyToken', {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
+        if (response.data && response.data.user) {
+          setUser(response.data.user);
+        } else {
+          console.error('User data not found in response');
+          logout();
+        }
+      } catch (error) {
+        console.error('Error verifying token:', error);
+        if (error.response && error.response.status === 403) { // Token istekao
+          refreshAccessToken(refreshToken); // Pokušaj osvežavanja tokena
+        } else {
+          logout();
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (accessToken) {
+      verifyToken(accessToken);
     } else {
       setIsLoading(false);
     }
   }, []);
-  
-  
 
-  // Login function, takes username and password as arguments
+  const refreshAccessToken = async (refreshToken) => {
+    try {
+      const response = await axios.post('http://localhost:3001/auth/refresh-token', { refreshToken });
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem('accessToken', response.data.accessToken);
+        verifyToken(response.data.accessToken); // Verifikuj novi pristupni token
+      } else {
+        logout();
+      }
+    } catch (error) {
+      console.error('Error refreshing access token:', error);
+      logout();
+    }
+  };
+
   const login = async (username, password) => {
     try {
-      // Send a POST request to the login endpoint
       const response = await axios.post('http://localhost:3001/auth/login', { username, password });
-      
-      if (response.data && response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        setUser({ username }); // Set user in state
+
+      if (response.data && response.data.accessToken && response.data.refreshToken) {
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        setUser({ username });
         return response;
       } else {
-        throw new Error('Token not found in response');
+        throw new Error('Tokens not found in response');
       }
     } catch (error) {
       console.error('Error logging in:', error);
@@ -55,18 +73,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout function, removes the token from local storage and sets user state to null
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setUser(null);
     console.log('User logged out');
   };
 
-  // Return the AuthContext provider with the user, login, and logout values
   return (
     <AuthContext.Provider value={{ user, login, logout, isLoading }}>
       {children}
-      </AuthContext.Provider>
+    </AuthContext.Provider>
   );
 };
 

@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
+const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY; // Dodajte ovo u .env
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];

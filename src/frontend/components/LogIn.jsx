@@ -11,17 +11,19 @@ const LogIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
     try {
-        const response = await login(username, password); // Call login function from AuthContext
-        
-        if (response.data && response.data.token) {
-            localStorage.setItem('token', response.data.token); // Store token in localStorage
-          console.log('Token stored in localStorage:', localStorage.getItem('token'));
-            navigate('/'); 
-        } else {
-            console.error('Token not found in response'); // Log an error if token is missing
-        }
+      const response = await login(username, password); // Call login function from AuthContext
+
+      if (response.data && response.data.accessToken && response.data.refreshToken) {
+        localStorage.setItem('accessToken', response.data.accessToken); // Store access token in localStorage
+        localStorage.setItem('refreshToken', response.data.refreshToken); // Store refresh token in localStorage
+        console.log('Access Token stored in localStorage:', localStorage.getItem('accessToken'));
+        console.log('Refresh Token stored in localStorage:', localStorage.getItem('refreshToken'));
+        navigate('/'); // Redirect to home page
+      } else {
+        console.error('Tokens not found in response'); // Log an error if tokens are missing
+      }
     } catch (error) {
-        console.error('Failed to log in:', error); // Log any errors during login
+      console.error('Failed to log in:', error); // Log any errors during login
     }
   };
 

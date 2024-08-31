@@ -44,6 +44,11 @@ function App() {
             <LayoutWithoutNav><MyWarranties /></LayoutWithoutNav>
           </PrivateRoute>
           } />
+        <Route path="/warranties/:id" element={
+          <PrivateRoute>
+            <LayoutWithoutNav><WarrantyDetails /></LayoutWithoutNav>
+          </PrivateRoute>
+          } />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AuthProvider>  

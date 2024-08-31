@@ -2,6 +2,15 @@ import express from 'express';
 import connection from '../db.js';
 import multer from 'multer';
 import { verifyToken } from './auth.js';
+import fs from 'fs';
+import path from 'path';
+import { extname } from 'path';
+import { format } from 'date-fns';
+import { fileURLToPath } from 'url';
+
+// Obtain the current directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
@@ -17,6 +26,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Function to format date to "dd-MM-yyyy"
+const formatDate = (date) => {
+  return format(new Date(date), 'dd-MM-yyyy');
+}
+
 // Route to get all warranties for the logged-in user
 router.get('/all', verifyToken, (req, res) => {
   const sql = 'SELECT * FROM warranties WHERE userId = ?';
@@ -28,6 +42,14 @@ router.get('/all', verifyToken, (req, res) => {
     if (results.length === 0) {
       return res.status(404).send('No warranties found');
     }
+
+    // Format dates
+    results = results.map(warranty => ({
+      ...warranty,
+      dateOfPurchase: formatDate(warranty.dateOfPurchase),
+      warrantyExpireDate: formatDate(warranty.warrantyExpireDate),
+    }));
+
     res.json(results);
   });
 });
@@ -35,9 +57,10 @@ router.get('/all', verifyToken, (req, res) => {
 // Route to get a specific warranty by ID
 router.get('/:id', verifyToken, (req, res) => {
   const warrantyId = req.params.id;
+  const userId = req.user.userId;
 
-  const sql = 'SELECT * FROM warranties WHERE id = ? AND userId = ?';
-  connection.query(sql, [warrantyId, req.user.userId], (err, result) => {
+  const sql = 'SELECT * FROM warranties WHERE userId = ? AND id = ?';
+  connection.query(sql, [userId, warrantyId], (err, result) => {
     if (err) {
       console.error('Error fetching warranty:', err);
       return res.status(500).send('Error fetching warranty');
@@ -45,7 +68,37 @@ router.get('/:id', verifyToken, (req, res) => {
     if (result.length === 0) {
       return res.status(404).send('Warranty not found');
     }
-    res.json(result[0]);
+    
+    const warranty = result[0];
+
+    // Format dates
+    warranty.dateOfPurchase = formatDate(warranty.dateOfPurchase);
+    warranty.warrantyExpireDate = formatDate(warranty.warrantyExpireDate);
+
+    // If warrantyImage is not provided, return the warranty data without image
+    res.json(warranty);
+  });
+});
+
+// Route to get a specific warranty image by filename
+router.get('/warranty-image/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filepath = path.join(__dirname, 'uploads', filename);
+
+  // Check if file exists and is a valid image type
+  fs.stat(filepath, (err, stats) => {
+    if (err || !stats.isFile()) {
+      console.error('Image file not found:', err);
+      return res.status(404).send('Image file not found');
+    }
+
+    const validExtensions = ['.jpg', '.jpeg', '.png'];
+    if (validExtensions.includes(extname(filename).toLowerCase())) {
+      res.sendFile(filepath);
+    } else {
+      console.error('Invalid file type:', extname(filename));
+      res.status(400).send('Invalid file type');
+    }
   });
 });
 

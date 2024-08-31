@@ -69,6 +69,8 @@ const NewWarranty = () => {
         <button type="submit">Add Warranty</button>
       </form>
       <br />
+      <Link to='/dashboard'>Back</Link>
+      <br />
       <Link to="/">Home</Link>
       {message && <p>{message}</p>}
     </>

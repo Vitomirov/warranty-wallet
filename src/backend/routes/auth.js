@@ -8,7 +8,7 @@ dotenv.config();
 
 const router = express.Router();
 const SECRET_KEY = process.env.SECRET_KEY;
-console.log("SECRET_KEY:", SECRET_KEY);
+const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
 
 // Middleware function to verify JWT token
 export const verifyToken = (req, res, next) => {
@@ -30,6 +30,7 @@ export const verifyToken = (req, res, next) => {
   });
 };
 
+// Route to login and provide access and refresh tokens
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   
@@ -48,15 +49,20 @@ router.post('/login', async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     
     if (match) {
-      const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
-      console.log('Generated Token:', token); // Ovaj console.log dodaješ da vidiš generisani token
-      res.status(200).json({ token });
+      const accessToken = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '15m' }); // Shorter expiration for security
+      const refreshToken = jwt.sign({ userId: user.id }, REFRESH_SECRET_KEY, { expiresIn: '7d' }); // Longer expiration for refresh token
+
+      console.log('Generated Access Token:', accessToken); 
+      console.log('Generated Refresh Token:', refreshToken); 
+
+      res.status(200).json({ accessToken, refreshToken });
     } else {
       return res.status(401).send('Invalid username or password');
     }
   });
 });
 
+// Route to signup a new user
 router.post('/signup', async (req, res) => {
   const { username, email, password } = req.body;
   
@@ -78,13 +84,33 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// Route to verify token
+// Route to verify access token
 router.get('/verifyToken', verifyToken, (req, res) => {
   if (req.user) {
-    res.json({ user: req.user });  // Vrati podatke o korisniku
+    res.json({ user: req.user });  // Return user data
   } else {
     res.status(401).json({ message: 'No user data found' });
   }
+});
+
+// Route to refresh access token using refresh token
+router.post('/refresh-token', (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.sendStatus(401); // Unauthorized
+  }
+
+  jwt.verify(refreshToken, REFRESH_SECRET_KEY, (err, user) => {
+    if (err) {
+      console.error('Error verifying refresh token:', err);
+      return res.sendStatus(403); // Forbidden
+    }
+
+    const accessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '15m' }); // Generate a new access token
+
+    res.json({ accessToken });
+  });
 });
 
 export default router;
