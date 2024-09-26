@@ -10,7 +10,10 @@ const MyWarranties = () => {
     const accessToken = localStorage.getItem('accessToken');
     try {
       const response = await axios.get('http://localhost:3000/warranties/all', {
-        headers: { Authorization: `Bearer ${accessToken}` }
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
       });
       setWarranties(response.data);
     } catch (error) {

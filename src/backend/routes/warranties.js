@@ -12,30 +12,30 @@ const formatDate = (date) => {
 
 // Route to get all warranties for the logged-in user
 router.get('/all', verifyToken, (req, res) => {
-  console.log('Fetching warranties for user:', req.user); 
+  console.log(`Retrieving warranties for user: ${req.user.userId}`);
 
   const sql = 'SELECT * FROM warranties WHERE userId = ?';
   connection.query(sql, [req.user.userId], (err, results) => {
     if (err) {
-      console.error('Error fetching warranties:', err);
-      return res.status(500).send('Error fetching warranties');
+      console.error(`Error retrieving warranties for user ${req.user.userId}:`, err);
+      return res.status(500).send({ message: 'Error fetching warranties', error: err.message });
     }
+
     if (results.length === 0) {
-      console.log('No warranties found for user:', req.user.userId);
-      return res.status(404).send('No warranties found');
+      console.log(`No warranties found for user: ${req.user.userId}`);
+      return res.status(404).send({ message: 'No warranties found' });
     }
 
     // Format dates
-    results = results.map(warranty => ({
+    const formattedWarranties = results.map(warranty => ({
       ...warranty,
       dateOfPurchase: formatDate(warranty.dateOfPurchase),
       warrantyExpireDate: formatDate(warranty.warrantyExpireDate),
     }));
 
-    res.json(results);
+    res.json(formattedWarranties);
   });
 });
-
 // Route to get a specific warranty by ID
 router.get('/:id', verifyToken, (req, res) => {
   const warrantyId = req.params.id;

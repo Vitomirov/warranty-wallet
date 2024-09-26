@@ -13,18 +13,22 @@ const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
 
 // Middleware function to verify JWT token
 export const verifyToken = (req, res, next) => {
+  console.log('Verifying token...');
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
 
-  if (!token) {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    console.log('No token provided');
     return res.sendStatus(401); // Unauthorized if no token is provided
   }
 
-  jwt.verify(token, SECRET_KEY, (err, user) => {
+  const token = authHeader.substring(7); // Extract the token from the Authorization header
+
+  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
       console.error('Error verifying token:', err);
       return res.sendStatus(403); // Forbidden if token is invalid
     }
+    console.log('Token verified successfully');
     req.user = user;
     next();
   });
@@ -122,13 +126,5 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// Route to verify access token
-router.get('/verifyToken', verifyToken, (req, res) => {
-  if (req.user) {
-    res.json({ user: req.user });
-  } else {
-    res.status(401).json({ message: 'No user data found' });
-  }
-});
 
 export default router;

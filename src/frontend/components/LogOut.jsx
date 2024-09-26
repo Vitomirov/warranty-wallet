@@ -12,6 +12,7 @@ function LogOut() {
     localStorage.removeItem('accessToken');
     navigate('/');
   };
+  console.log("Log out");
 
   return (
     <Link onClick={handleLogout}>Log Out</Link>
