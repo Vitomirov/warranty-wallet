@@ -10,11 +10,12 @@ const router = express.Router();
 const SECRET_KEY = process.env.SECRET_KEY;
 const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
 
+
 // Middleware function to verify JWT token
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  
+
   if (!token) {
     return res.sendStatus(401); // Unauthorized if no token is provided
   }
@@ -25,23 +26,27 @@ export const verifyToken = (req, res, next) => {
       return res.sendStatus(403); // Forbidden if token is invalid
     }
     req.user = user;
-    console.log('Token verified successfully:', user);
     next();
   });
 };
 
 // Route to login and provide access and refresh tokens
 router.post('/login', async (req, res) => {
+  console.log('LogIn route reached');
+
   const { username, password } = req.body;
+  console.log('Login attempt with:', username); 
   
   const sql = 'SELECT * FROM users WHERE username = ?';
   
   connection.query(sql, [username], async (err, result) => {
     if (err) {
       console.error('Error logging in:', err);
-      return res.status(500).send('Error logging in');
+      return res.status(500).send({ message: 'Error logging in', error: err.message });
     }
+    console.log('Query result:', result);
     if (result.length === 0) {
+      console.log('No user found with username:', username); 
       return res.status(401).send('Invalid username or password');
     }
     
@@ -49,16 +54,49 @@ router.post('/login', async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     
     if (match) {
-      const accessToken = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '15m' }); // Shorter expiration for security
-      const refreshToken = jwt.sign({ userId: user.id }, REFRESH_SECRET_KEY, { expiresIn: '7d' }); // Longer expiration for refresh token
+      console.log('Password match, generating tokens');
 
-      console.log('Generated Access Token:', accessToken); 
-      console.log('Generated Refresh Token:', refreshToken); 
+      const accessToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '15m' });
+      const refreshToken = jwt.sign({ userId: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: '7d' });
+      
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: false, // Set to true in production
+        sameSite: 'strict'
+      })
+        .header('Authorization', accessToken)
+        .status(200)
+        .json({
+          accessToken,
+          refreshToken,
+          user: { id: user.id, username: user.username }
+        });
 
-      res.status(200).json({ accessToken, refreshToken });
     } else {
+      console.log('Password mismatch for user:', username);
       return res.status(401).send('Invalid username or password');
     }
+  });
+});
+
+
+// Route to refresh access token using refresh token from cookie
+router.post('/refresh-token', (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.sendStatus(401); // Unauthorized
+  }
+
+  jwt.verify(refreshToken, REFRESH_SECRET_KEY, (err, user) => {
+    if (err) {
+      console.error('Error verifying refresh token:', err);
+      return res.sendStatus(403); // Forbidden
+    }
+
+    const accessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '15m' });
+
+    res.json({ accessToken });
   });
 });
 
@@ -87,30 +125,10 @@ router.post('/signup', async (req, res) => {
 // Route to verify access token
 router.get('/verifyToken', verifyToken, (req, res) => {
   if (req.user) {
-    res.json({ user: req.user });  // Return user data
+    res.json({ user: req.user });
   } else {
     res.status(401).json({ message: 'No user data found' });
   }
-});
-
-// Route to refresh access token using refresh token
-router.post('/refresh-token', (req, res) => {
-  const { refreshToken } = req.body;
-
-  if (!refreshToken) {
-    return res.sendStatus(401); // Unauthorized
-  }
-
-  jwt.verify(refreshToken, REFRESH_SECRET_KEY, (err, user) => {
-    if (err) {
-      console.error('Error verifying refresh token:', err);
-      return res.sendStatus(403); // Forbidden
-    }
-
-    const accessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '15m' }); // Generate a new access token
-
-    res.json({ accessToken });
-  });
 });
 
 export default router;

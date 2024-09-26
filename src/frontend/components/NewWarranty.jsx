@@ -6,7 +6,6 @@ const NewWarranty = () => {
   const [productName, setProductName] = useState('');
   const [dateOfPurchase, setDateOfPurchase] = useState('');
   const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
-  const [warrantyImage, setWarrantyImage] = useState(null);
   const [message, setMessage] = useState('');
   const [token, setToken] = useState('');
 
@@ -25,13 +24,12 @@ const NewWarranty = () => {
     formData.append('productName', productName);
     formData.append('dateOfPurchase', dateOfPurchase);
     formData.append('warrantyExpireDate', warrantyExpireDate);
-    formData.append('warrantyImage', warrantyImage);
 
     try {
-      const response = await axios.post('http://localhost:3001/warranties', formData, {
+      const response = await axios.post('http://localhost:3000/warranties', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}` // Uključivanje tokena u zaglavlje zahteva
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
         },
       });
       setMessage('Warranty added successfully!');
@@ -39,7 +37,6 @@ const NewWarranty = () => {
       setProductName('');
       setDateOfPurchase('');
       setWarrantyExpireDate('');
-      setWarrantyImage(null);
     } catch (error) {
       setMessage('There was an error adding the warranty!');
       console.error('Error adding warranty:', error);
@@ -61,10 +58,6 @@ const NewWarranty = () => {
         <div>
           <label>Warranty Expire Date:</label>
           <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} required />
-        </div>
-        <div>
-          <label>Warranty Image:</label>
-          <input type="file" onChange={(e) => setWarrantyImage(e.target.files[0])} required />
         </div>
         <button type="submit">Add Warranty</button>
       </form>

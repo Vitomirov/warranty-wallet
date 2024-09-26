@@ -7,13 +7,15 @@ const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && user === null) {
+    if (!isLoading && !user) {
       navigate('/login');
     }
   }, [user, isLoading, navigate]);
 
   if (isLoading) {
+
     return <>Loading...</>
+
   }
 
   return user ? children : null;

@@ -9,7 +9,7 @@ const MyWarranties = () => {
   const fetchWarranties = async () => {
     const accessToken = localStorage.getItem('accessToken');
     try {
-      const response = await axios.get('http://localhost:3001/warranties/all', {
+      const response = await axios.get('http://localhost:3000/warranties/all', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
       setWarranties(response.data);
@@ -28,7 +28,7 @@ const MyWarranties = () => {
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken) {
       try {
-        const response = await axios.post('http://localhost:3001/refresh-token', { refreshToken });
+        const response = await axios.post('http://localhost:3000/refresh-token', { refreshToken });
         localStorage.setItem('accessToken', response.data.accessToken);
       } catch (error) {
         console.error('Refresh token failed:', error);
@@ -52,8 +52,10 @@ const MyWarranties = () => {
       ) : (
         <ul>
           {warranties.map(warranty => (
-            <li key={warranty.id}>
-              <Link to={`/warranty/${warranty.id}`}>{warranty.productName}</Link>
+            <li key={warranty.warrantyId}>
+              <Link to={`/warranty/${warranty.warrantyId}`}>
+              {warranty.productName}
+              </Link>
             </li>
           ))}
         </ul>

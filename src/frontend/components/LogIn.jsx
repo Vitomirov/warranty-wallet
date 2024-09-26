@@ -1,56 +1,46 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const LogIn = () => {
-  const [username, setUsername] = useState(''); // State to hold the username input value
-  const [password, setPassword] = useState(''); // State to hold the password input value
-  const { login } = useAuth(); // Extracting the login function from AuthContext
-  const navigate = useNavigate(); // Hook for programmatic navigation
+const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (loading) return;
+    setLoading(true);
     try {
-      const response = await login(username, password); // Call login function from AuthContext
-
-      if (response.data && response.data.accessToken && response.data.refreshToken) {
-        localStorage.setItem('accessToken', response.data.accessToken); // Store access token in localStorage
-        localStorage.setItem('refreshToken', response.data.refreshToken); // Store refresh token in localStorage
-        console.log('Access Token stored in localStorage:', localStorage.getItem('accessToken'));
-        console.log('Refresh Token stored in localStorage:', localStorage.getItem('refreshToken'));
-        navigate('/'); // Redirect to home page
+      const response = await login(username, password);
+      if (response && response.accessToken) {
+        console.log('Login successful:', response.accessToken);
+        navigate('/dashboard');
       } else {
-        console.error('Tokens not found in response'); // Log an error if tokens are missing
+        setError('Login failed');
       }
     } catch (error) {
-      console.error('Failed to log in:', error); // Log any errors during login
+      setError('Login failed: ' + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Warranty Wallet</h1>
-      <div>
-        <label>Username:</label>
-        <input 
-          type="text" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} // Update username state on input change
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} // Update password state on input change
-        />
-      </div>
-      <button type="submit">Log In</button> {/* Submit button */}
+      <label>Username:</label>
+      <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
       <br />
-      <Link to="/">Home</Link> {/* Link back to the home page */}
+      <label>Password:</label>
+      <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+      <br />
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+      <button type="submit">Log In</button>
     </form>
   );
 };
 
-export default LogIn;
+export default Login;

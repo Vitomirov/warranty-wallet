@@ -15,7 +15,7 @@ const WarrantyDetails = () => {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:3001/warranties/${id}`, {
+        const response = await axios.get(`http://localhost:3000/warranties/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -44,13 +44,6 @@ const WarrantyDetails = () => {
       <p>Product Name: {warranty.productName}</p>
       <p>Date of Purchase: {warranty.dateOfPurchase}</p>
       <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
-      {warranty.warrantyImage && (
-        <img
-          src={`http://localhost:3001/warranties/warranty-image/${warranty.warrantyImage}`}
-          alt={warranty.productName}
-          style={{ maxWidth: '100%', height: 'auto' }}
-        />
-      )}
       <br />
       <Link to='/myWarranties'>Back</Link>
       <br />
