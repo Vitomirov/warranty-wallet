@@ -31,6 +31,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>Warranty Wallet</h1>
       <label>Username:</label>
       <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
       <br />

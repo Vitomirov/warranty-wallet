@@ -9,6 +9,7 @@ const instance = axios.create({
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('accessToken'));
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (token && typeof token === 'string') {
@@ -20,12 +21,11 @@ const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await instance.post('/login', { username, password }, {
-        withCredentials: true
-      });
+      const response = await instance.post('/login', { username, password });
       if (response.data && response.data.accessToken) {
         localStorage.setItem('accessToken', response.data.accessToken);
         setToken(response.data.accessToken);
+        setUser(response.data.user);
         return response.data;
       } else {
         throw new Error('Access token not found in response');
@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('accessToken');
     setToken(null);
+    setUser(null);
   };
 
   const refreshToken = async () => {
@@ -58,7 +59,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, refreshToken }}>
+    <AuthContext.Provider value={{ token, login, logout, refreshToken, user }}>
       {children}
     </AuthContext.Provider>
   );

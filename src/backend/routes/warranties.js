@@ -1,7 +1,7 @@
 import express from 'express';
 import connection from '../db.js';
 import { format } from 'date-fns';
-import { verifyToken } from './auth.js';
+import { verifyToken } from './auth.functions.js';
 
 const router = express.Router();
 

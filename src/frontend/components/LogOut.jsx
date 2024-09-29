@@ -1,21 +1,18 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 function LogOut() {
   const { logout } = useAuth();
-  const navigate = useNavigate();
 
-  const handleLogout = (event) => {
+  const handleLogout = async (event) => {
     event.preventDefault();
-    logout();
-    localStorage.removeItem('accessToken');
-    navigate('/');
+    await logout();
+    console.log("User is logged out");
   };
-  console.log("Log out");
 
   return (
-    <Link onClick={handleLogout}>Log Out</Link>
+    <Link to="/" onClick={handleLogout}>Log Out</Link>
   );
 }
 
