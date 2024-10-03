@@ -82,22 +82,45 @@ export const login = async (req, res) => {
 
 // Function to refresh access token using refresh token from cookie
 export const refreshToken = (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  console.log('req:', req);
+  console.log('req.cookies:', req.cookies);
+  console.log('req.headers:', req.headers)
 
-  if (!refreshToken) {
-    return res.sendStatus(401); // Unauthorized
-  }
+  try {
+    console.log('req.cookies:', req.cookies);
+    console.log('req.cookies.refreshToken:', req.cookies.refreshToken);
 
-  jwt.verify(refreshToken, REFRESH_SECRET_KEY, (err, user) => {
-    if (err) {
-      console.error('Error verifying refresh token:', err);
-      return res.sendStatus(403); // Forbidden
+    if (!req.cookies) {
+      return res.status(401).json({ message: 'Unauthorized' }); // Unauthorized
     }
 
-    const accessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '15m' });
+    const refreshToken = req.cookies.refreshToken;
+    console.log('Refresh token:', refreshToken);
 
-    res.json({ accessToken });
-  });
+    if (!refreshToken) {
+      return res.status(401).json({ message: 'Unauthorized' }); // Unauthorized
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY, (err, user) => {
+      if (err) {
+        console.error('Error verifying refresh token:', err);
+        return res.status(403).json({ message: 'Forbidden' }); // Forbidden
+      }
+
+      try {
+        const accessToken = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
+        res.json({ accessToken });
+      } catch (err) {
+        console.error('Error generating access token:', err);
+        console.log('Error refreshing token:', err); 
+        return res.status(500).json({ error: 'Error refreshing token' });
+      }
+    });
+  } catch (err) {
+    console.error('Error refreshing token:', err);
+    console.log('Error refreshing token:', err); 
+    return res.status(500).json({ error: 'Error refreshing token' });
+  }
 };
 
 // Function to signup a new user

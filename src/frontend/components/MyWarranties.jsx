@@ -20,6 +20,8 @@ const MyWarranties = () => {
       if (error.response && error.response.status === 403) {
         await refreshToken();
         fetchWarranties(); // Retry fetching warranties after refreshing token
+      } else if (error.response && error.response.status === 404) {
+        setWarranties([]);
       } else {
         console.error('Error fetching warranties:', error);
         setError('Failed to fetch warranties.');

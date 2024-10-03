@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
 function SignUp() {
+  const { signup } = useAuth();
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/auth/signup', {
+      const response = await axios.post('http://localhost:3000/signup', {
         username,
         email,
         password,
@@ -38,7 +40,7 @@ function SignUp() {
         </div>
         <div>
           <label>Email:</label>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
+          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
         <div>
           <label>Password:</label>

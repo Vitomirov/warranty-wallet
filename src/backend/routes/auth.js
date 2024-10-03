@@ -1,5 +1,11 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
+import warrantiesRouter from './warranties.js';
 import { verifyToken, login, refreshToken, signup } from './auth.functions.js';
+
+const app = express();
+
+app.use(cookieParser());
 
 const router = express.Router();
 
@@ -16,5 +22,9 @@ router.post('/signup', signup);
 router.use(verifyToken);
 
 // Add protected routes here
+
+app.use(router);
+
+app.use('/warranties', warrantiesRouter);
 
 export default router;

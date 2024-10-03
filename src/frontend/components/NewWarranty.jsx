@@ -9,34 +9,59 @@ const NewWarranty = () => {
   const [message, setMessage] = useState('');
   const [token, setToken] = useState('');
 
-  // UseEffect hook za preuzimanje tokena iz localStorage pri inicijalnom učitavanju komponente
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
+  const refreshToken = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/refresh-token', {}, {
+        withCredentials: true
+      });
+      console.log('Refresh token response:', response);
+      return response.data.accessToken;
+    } catch (err) {
+      console.error('Error refreshing token:', err);
+      throw err;
     }
+  };
+
+  useEffect(() => {
+    refreshToken()
+      .then(token => {
+        setToken(token);
+      })
+      .catch(error => {
+        console.error('Error refreshing token:', error);
+        setMessage('Error refreshing token. Please try again.');
+      });
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData();
-    formData.append('productName', productName);
-    formData.append('dateOfPurchase', dateOfPurchase);
-    formData.append('warrantyExpireDate', warrantyExpireDate);
+    if (!token) {
+      console.log("Token is not available");
+      return;
+    }
+
+    const formData = {
+      productName,
+      dateOfPurchase,
+      warrantyExpireDate,
+    };
 
     try {
-      const response = await axios.post('http://localhost:3000/warranties', formData, {
+      const response = await axios.post('http://localhost:3000/warranties/', formData, {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
+        withCredentials: true
       });
       setMessage('Warranty added successfully!');
+
       // Resetovanje polja forme
       setProductName('');
       setDateOfPurchase('');
       setWarrantyExpireDate('');
+
     } catch (error) {
       setMessage('There was an error adding the warranty!');
       console.error('Error adding warranty:', error);
