@@ -65,17 +65,22 @@ router.get('/:id', verifyToken, (req, res) => {
 
 // Route to add a new warranty
 router.post('/', verifyToken, async (req, res) => {
-  const { productName, dateOfPurchase, warrantyExpireDate } = req.body;
+  try {
+    const { productName, dateOfPurchase, warrantyExpireDate } = req.body;
 
-  // Insert warranty into the database
-  const sql = 'INSERT INTO warranties (productName, dateOfPurchase, warrantyExpireDate, userId) VALUES (?, ?, ?, ?)';
-  connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, req.user.userId], (err, result) => {
-    if (err) {
-      console.error('Error adding warranty:', err);
-      return res.status(500).send('Error adding warranty');
-    }
-    res.status(201).send('Warranty added');
-  });
+    // Insert warranty into the database
+    const sql = 'INSERT INTO warranties (warrantyId, productName, dateOfPurchase, warrantyExpireDate, userId) VALUES (NULL, ?, ?, ?, ?)';
+    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, req.user.userId], (err, result) => {
+      if (err) {
+        console.error('Error adding warranty:', err);
+        return res.status(500).send({ message: 'Error adding warranty', error: err.message });
+      }
+      res.status(201).send({ message: 'Warranty added successfully' });
+    });
+  } catch (err) {
+    console.error('Error adding warranty:', err);
+    return res.status(500).send({ message: 'Error adding warranty', error: err.message });
+  }
 });
 
 
