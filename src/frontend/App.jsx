@@ -8,6 +8,7 @@ import LayoutWithNav from './components/LayoutWithNav';
 import LayoutWithoutNav from './components/LayoutWithoutNav';
 import NewWarranty from './components/NewWarranty';
 import WarrantyDetails from './components/WarrantyDetails';
+import DeleteWarranty from './components/DeleteWarranty';
 import MyWarranties from './components/MyWarranties';
 import LogOut from './components/LogOut';
 import PrivateRoute from './components/PrivateRoute';
@@ -15,7 +16,6 @@ import AuthProvider from './context/AuthProvider';
 
 function App() {
   console.log('Rendering App component');
-
 
   return (
     <AuthProvider>
@@ -34,7 +34,7 @@ function App() {
             <LayoutWithoutNav><NewWarranty /></LayoutWithoutNav>
           </PrivateRoute>
         } />
-        <Route path="/warranty/:id" element={
+        <Route path="/warranties/details/:id" element={
           <PrivateRoute>
             <LayoutWithoutNav><WarrantyDetails /></LayoutWithoutNav>
           </PrivateRoute>
@@ -44,9 +44,9 @@ function App() {
             <LayoutWithoutNav><MyWarranties /></LayoutWithoutNav>
           </PrivateRoute>
           } />
-        <Route path="/warranties/:id" element={
+        <Route path="/warranties/delete/:id" element={
           <PrivateRoute>
-            <LayoutWithoutNav><WarrantyDetails /></LayoutWithoutNav>
+            <LayoutWithoutNav><DeleteWarranty /></LayoutWithoutNav>
           </PrivateRoute>
           } />
         <Route path="*" element={<Navigate to="/" />} />

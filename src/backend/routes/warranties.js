@@ -37,7 +37,7 @@ router.get('/all', verifyToken, (req, res) => {
   });
 });
 // Route to get a specific warranty by ID
-router.get('/:id', verifyToken, (req, res) => {
+router.get('/details/:id', verifyToken, (req, res) => {
   const warrantyId = req.params.id;
   const userId = req.user.userId;
 
@@ -49,8 +49,7 @@ router.get('/:id', verifyToken, (req, res) => {
     }
     if (result.length === 0) {
       return res.status(404).send('Warranty not found');
-    }
-    
+    }   
     const warranty = result[0];
 
     // Format dates
@@ -83,7 +82,22 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
+// Route to delete a warranty
+router.delete('/delete/:id', verifyToken, (req, res) => {
+  const warrantyId = req.params.id;
+  const userId = req.user.userId;
 
-
+  const sql = 'DELETE FROM warranties WHERE warrantyId = ? AND userId = ?';
+  connection.query(sql, [warrantyId, userId], (err, result) => {
+    if (err) {
+      console.error('Error deleting warranty:', err);
+      return res.status(500).send({ message: 'Error deleting warranty', error: err.message });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send({ message: 'Warranty not found' });
+    }
+    res.send({ message: 'Warranty deleted successfully' });
+  });
+});
 
 export default router;

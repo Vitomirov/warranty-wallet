@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
+import DeleteWarranty from './DeleteWarranty';
 
 const WarrantyDetails = () => {
   const [warranty, setWarranty] = useState(null);
@@ -15,7 +16,7 @@ const WarrantyDetails = () => {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:3000/warranties/${id}`, {
+        const response = await axios.get(`http://localhost:3000/warranties/details/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -44,6 +45,7 @@ const WarrantyDetails = () => {
       <p>Product Name: {warranty.productName}</p>
       <p>Date of Purchase: {warranty.dateOfPurchase}</p>
       <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
+      <DeleteWarranty id={warranty.warrantyId}/>
       <br />
       <Link to='/myWarranties'>Back</Link>
       <br />

@@ -56,12 +56,12 @@ const MyWarranties = () => {
         <p>No warranties found.</p>
       ) : (
         <ul>
-          {warranties.map(warranty => (
-            <li key={warranty.warrantyId}>
-              <Link to={`/warranty/${warranty.warrantyId}`}>
-              {warranty.productName}
-              </Link>
-            </li>
+           {warranties.map(warranty => (
+          <li key={warranty.warrantyId}>
+          <Link to={`/warranties/details/${warranty.warrantyId}`}>
+            {warranty.productName}
+          </Link>
+          </li>
           ))}
         </ul>
       )}
