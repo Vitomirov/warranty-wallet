@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, replace, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const NewWarranty = () => {
@@ -8,6 +8,7 @@ const NewWarranty = () => {
   const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
   const [message, setMessage] = useState('');
   const [token, setToken] = useState('');
+  const navigate = useNavigate();
 
   const refreshToken = async () => {
     try {
@@ -62,6 +63,8 @@ const NewWarranty = () => {
       setDateOfPurchase('');
       setWarrantyExpireDate('');
 
+      navigate('/myWarranties', { replace: true });
+      console.log("Back to My Warranties");
     } catch (error) {
       setMessage('There was an error adding the warranty!');
       console.error('Error adding warranty:', error);

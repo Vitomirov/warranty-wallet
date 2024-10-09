@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DeleteWarranty = ({ id }) => {
   const { token: accessToken } = useAuth();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
@@ -18,6 +20,7 @@ const DeleteWarranty = ({ id }) => {
       });
       console.log("Delete response:", response);
       setSuccess(response.data.message);
+      navigate('/myWarranties', { replace: true });
     } catch (error) {
       console.error("Delete error:", error);
       setError(error.message);
@@ -25,11 +28,11 @@ const DeleteWarranty = ({ id }) => {
   };
 
   return (
-    <div>
+    <>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
-      <button onClick={handleDelete}>Delete Warranty</button>
-    </div>
+      <Link onClick={handleDelete}>Delete Warranty</Link>
+    </>
   );
 };
 
