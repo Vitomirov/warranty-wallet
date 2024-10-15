@@ -1,100 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { Link, replace, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// NewWarranty component
+import React, { useState } from 'react';
 
 const NewWarranty = () => {
   const [productName, setProductName] = useState('');
   const [dateOfPurchase, setDateOfPurchase] = useState('');
   const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
-  const [message, setMessage] = useState('');
-  const [token, setToken] = useState('');
-  const navigate = useNavigate();
+  const [file, setFile] = useState(null);
 
-  const refreshToken = async () => {
-    try {
-      const response = await axios.post('http://localhost:3000/refresh-token', {}, {
-        withCredentials: true
-      });
-      console.log('Refresh token response:', response);
-      return response.data.accessToken;
-    } catch (err) {
-      console.error('Error refreshing token:', err);
-      throw err;
-    }
-  };
-
-  useEffect(() => {
-    refreshToken()
-      .then(token => {
-        setToken(token);
-      })
-      .catch(error => {
-        console.error('Error refreshing token:', error);
-        setMessage('Error refreshing token. Please try again.');
-      });
-  }, []);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!token) {
-      console.log("Token is not available");
-      return;
-    }
-
-    const formData = {
-      productName,
-      dateOfPurchase,
-      warrantyExpireDate,
-    };
+  const handleAddWarranty = async () => {
+    const token = localStorage.getItem('accessToken')
+    const formData = new FormData();
+    formData.append('productName', productName);
+    formData.append('dateOfPurchase', dateOfPurchase);
+    formData.append('warrantyExpireDate', warrantyExpireDate);
+    formData.append('pdfFile', file);
 
     try {
-      const response = await axios.post('http://localhost:3000/warranties/', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true
+      const response = await fetch('http://localhost:3000/warranties', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData,
       });
-      setMessage('Warranty added successfully!');
 
-      // Resetovanje polja forme
-      setProductName('');
-      setDateOfPurchase('');
-      setWarrantyExpireDate('');
-
-      navigate('/myWarranties', { replace: true });
-      console.log("Back to My Warranties");
+      if (response.ok) {
+        console.log('Warranty created successfully');
+      } else {
+        console.error('Error creating warranty:', response.status);
+      }
     } catch (error) {
-      setMessage('There was an error adding the warranty!');
-      console.error('Error adding warranty:', error);
+      console.error('Error creating warranty:', error);
     }
   };
 
   return (
-    <>
-      <h1>Add New Warranty</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Product Name:</label>
-          <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} required />
-        </div>
-        <div>
-          <label>Date of Purchase:</label>
-          <input type="date" value={dateOfPurchase} onChange={(e) => setDateOfPurchase(e.target.value)} required />
-        </div>
-        <div>
-          <label>Warranty Expire Date:</label>
-          <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} required />
-        </div>
-        <button type="submit">Add Warranty</button>
+    <div>
+      <h2>Create New Warranty</h2>
+      <form>
+        <label>Product Name:</label>
+        <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} />
+        <br />
+        <label>Purchase Date:</label>
+        <input type="date" value={dateOfPurchase} onChange={(e) => setDateOfPurchase(e.target.value)} />
+        <br />
+        <label>Expiry Date:</label>
+        <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} />
+        <br />
+        <label>Upload PDF File:</label>
+        <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} />
+        <br />
+        <button type="button" onClick={handleAddWarranty}>Add Warranty</button>
       </form>
-      <br />
-      <Link to='/dashboard'>Back</Link>
-      <br />
-      <Link to="/">Home</Link>
-      {message && <p>{message}</p>}
-    </>
+    </div>
   );
 };
 

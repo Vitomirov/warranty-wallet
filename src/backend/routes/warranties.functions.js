@@ -60,21 +60,29 @@ export const getWarranty = (req, res) => {
 
 // Function to add a new warranty
 export const addWarranty = async (req, res) => {
+  console.log("Data:", req.body);  
+  console.log("File:", req.file);   
   try {
     const { productName, dateOfPurchase, warrantyExpireDate } = req.body;
+    const pdfFile = req.file; // Get the uploaded PDF file
+
+    if (!pdfFile) {
+      return res.status(400).send({ message: 'PDF file is required' });
+    }
 
     // Insert warranty into the database
-    const sql = 'INSERT INTO warranties (warrantyId, productName, dateOfPurchase, warrantyExpireDate, userId) VALUES (NULL, ?, ?, ?, ?)';
-    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, req.user.userId], (err, result) => {
+    const sql = 'INSERT INTO warranties (warrantyId, productName, dateOfPurchase, warrantyExpireDate, userId, pdfFilePath) VALUES (NULL, ?, ?, ?, ?, ?)';
+    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, req.user.userId , pdfFile.path], (err, results) => {
       if (err) {
         console.error('Error adding warranty:', err);
-        return res.status(500).send({ message: 'Error adding warranty', error: err.message });
+        return res.status(500).send({ message: 'Error adding warranty' });
       }
-      res.status(201).send({ message: 'Warranty added successfully' });
+
+      res.json({ message: 'Warranty added successfully' });
     });
-  } catch (err) {
-    console.error('Error adding warranty:', err);
-    return res.status(500).send({ message: 'Error adding warranty', error: err.message });
+  } catch (error) {
+    console.error('Error adding warranty:', error);
+    res.status(500).send({ message: 'Error adding warranty' });
   }
 };
 
@@ -83,15 +91,15 @@ export const deleteWarranty = (req, res) => {
   const warrantyId = req.params.id;
   const userId = req.user.userId;
 
-  const sql = 'DELETE FROM warranties WHERE warrantyId = ? AND userId = ?';
-  connection.query(sql, [warrantyId, userId], (err, result) => {
+  const sql = 'DELETE FROM warranties WHERE userId = ? AND warrantyId = ?';
+  connection.query(sql, [userId, warrantyId], (err, result) => {
     if (err) {
       console.error('Error deleting warranty:', err);
-      return res.status(500).send({ message: 'Error deleting warranty', error: err.message });
+      return res.status(500).send('Error deleting warranty');
     }
     if (result.affectedRows === 0) {
-      return res.status(404).send({ message: 'Warranty not found' });
+      return res.status(404).send('Warranty not found');
     }
-    res.status(200).send({ message: 'Warranty deleted successfully' });
+    res.json({ message: 'Warranty deleted successfully' });
   });
 };

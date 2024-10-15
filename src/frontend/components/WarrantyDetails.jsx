@@ -45,6 +45,7 @@ const WarrantyDetails = () => {
       <p>Product Name: {warranty.productName}</p>
       <p>Date of Purchase: {warranty.dateOfPurchase}</p>
       <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
+      <p>Warranty document: <a href={warranty.pdfFilePath} target='_blank' rel="noopener noreferrer"> {warranty.productName} Warranty</a></p>
       <DeleteWarranty id={warranty.warrantyId}/>
       <br />
       <Link to='/myWarranties'>Back</Link>

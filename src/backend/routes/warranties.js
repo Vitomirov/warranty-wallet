@@ -1,7 +1,13 @@
 import express from 'express';
-import connection from '../db.js';
 import { verifyToken } from './auth.functions.js';
 import { getWarranties, getWarranty, addWarranty, deleteWarranty } from './warranties.functions.js';
+import multer from 'multer';
+import path from 'path';
+
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
+const uploadDirectory = path.join(__dirname, 'uploads'); // Custom upload directory
+const upload = multer({ dest: uploadDirectory });
 
 const router = express.Router();
 
