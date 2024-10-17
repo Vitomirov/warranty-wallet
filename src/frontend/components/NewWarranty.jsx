@@ -1,11 +1,13 @@
 // NewWarranty component
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const NewWarranty = () => {
   const [productName, setProductName] = useState('');
   const [dateOfPurchase, setDateOfPurchase] = useState('');
   const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
   const [file, setFile] = useState(null);
+  const [message, setMessage] = useState('');
 
   const handleAddWarranty = async () => {
     const token = localStorage.getItem('accessToken')
@@ -24,6 +26,7 @@ const NewWarranty = () => {
 
       if (response.ok) {
         console.log('Warranty created successfully');
+        setMessage('Warranty created successfully!!!');
       } else {
         console.error('Error creating warranty:', response.status);
       }
@@ -50,6 +53,8 @@ const NewWarranty = () => {
         <br />
         <button type="button" onClick={handleAddWarranty}>Add Warranty</button>
       </form>
+      {message && <p>{message}</p>}
+      <Link to='/myWarranties'>Back</Link>
     </div>
   );
 };
