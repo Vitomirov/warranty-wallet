@@ -1,46 +1,47 @@
-import express from 'express';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv'; // Import dotenv for environment variable management
-import authRoutes from './routes/auth.js'; // Import authentication routes
-import warrantiesRoutes from './routes/warranties.js'; // Import warranties routes
-import { dirname } from 'path'; // Import dirname and join
-import { fileURLToPath } from 'url'; // Import fileURLToPath
-import multer from 'multer';
-import path from 'path';
+import express from 'express'; // Framework for building web applications
+import cors from 'cors'; // Middleware for enabling CORS
+import cookieParser from 'cookie-parser'; // Middleware for parsing cookies
+import dotenv from 'dotenv'; // For loading environment variables
+import authRoutes from './routes/auth.js'; // Authentication routes
+import warrantiesRoutes from './routes/warranties.js'; // Warranties management routes
+import { dirname } from 'path'; // Utility for directory paths
+import { fileURLToPath } from 'url'; // Utility for converting file URLs to paths
+import multer from 'multer'; // Middleware for handling file uploads
+import path from 'path'; // Utility for handling file and directory paths
 
-const app = express();
+const app = express(); // Create an express application
 
-// Configure CORS to allow requests from the frontend
+// CORS configuration
 app.use(cors({
-  origin: ['http://localhost:5173'], // Allow requests from this origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
-  exposedHeaders: ['Authorization', 'Set-Cookie'],
-  credentials: true,
-  maxAge: 3600
+  origin: ['http://localhost:5173'], // Allowed origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  exposedHeaders: ['Authorization', 'Set-Cookie'], // Exposed headers to the frontend
+  credentials: true, // Allow credentials
+  maxAge: 3600 // Cache pre-flight response for 1 hour
 }));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// Environment variables setup
+const __filename = fileURLToPath(import.meta.url); // Get current file name
+const __dirname = dirname(__filename); // Get current directory name
+dotenv.config({ path: `${__dirname}/../../.env` }); // Load .env variables
 
-dotenv.config({ path: `${__dirname}/../../.env` });
-console.log(process.env.SECRET_KEY);
+const PORT = process.env.PORT || 3000; // Set the port for the server
 
-const PORT = process.env.PORT || 3000; // Use port from .env file or default to 3000
+app.use(cookieParser()); // Parse cookies
+app.use(express.json()); // Parse JSON request bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 
-app.use(cookieParser());
-app.use(express.json()); // Keep this for JSON parsing
-app.use(express.urlencoded({ extended: true }));
+// Upload directory setup
+const uploadDirectory = path.join(__dirname, 'uploads'); // Define upload directory
+const upload = multer({ dest: uploadDirectory }); // Configure multer for uploads
 
-const uploadDirectory = path.join(__dirname, 'uploads'); // Custom upload directory
-const upload = multer({ dest: uploadDirectory });
+app.use('/uploads', express.static(uploadDirectory)); // Serve static files from uploads
 
-// Use multer middleware for file uploads
-app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes); // Use upload.single for single file uploads
+app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes); // Warranties routes with file upload
+app.use('/', authRoutes); // Authentication routes
 
-app.use('/', authRoutes); // Define routes for authentication
-
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`); // Log the port number the server is running on
+  console.log(`Server running on port ${PORT}`); // Log server start
 });

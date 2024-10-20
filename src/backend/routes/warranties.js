@@ -20,6 +20,9 @@ router.get('/details/:id', verifyToken, getWarranty);
 // Route to add a new warranty
 router.post('/', verifyToken, addWarranty);
 
+// Route to get the PDF of a specific warranty
+router.get('/pdf/:id', verifyToken, getWarranty);
+
 // Route to delete a warranty
 router.delete('/delete/:id', verifyToken, deleteWarranty);
 

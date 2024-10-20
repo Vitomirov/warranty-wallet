@@ -1,5 +1,7 @@
 import connection from '../db.js';
 import { format } from 'date-fns';
+import path from 'path';
+import fs from 'fs';
 
 // Function to format date to "dd-MM-yyyy"
 const formatDate = (date) => {
@@ -33,7 +35,7 @@ export const getWarranties = (req, res) => {
   });
 };
 
-// Function to get a specific warranty by ID
+// Function to get and display specific warranty by ID
 export const getWarranty = (req, res) => {
   const warrantyId = req.params.id;
   const userId = req.user.userId;
@@ -46,14 +48,16 @@ export const getWarranty = (req, res) => {
     }
     if (result.length === 0) {
       return res.status(404).send('Warranty not found');
-    }   
+    }
     const warranty = result[0];
 
     // Format dates
     warranty.dateOfPurchase = formatDate(warranty.dateOfPurchase);
     warranty.warrantyExpireDate = formatDate(warranty.warrantyExpireDate);
 
-    // If warrantyImage is not provided, return the warranty data without image
+    // Convert to URL path
+    warranty.pdfFilePath = `http://localhost:3000/${warranty.pdfFilePath}`;
+
     res.json(warranty);
   });
 };
@@ -70,9 +74,12 @@ export const addWarranty = async (req, res) => {
       return res.status(400).send({ message: 'PDF file is required' });
     }
 
+    // Use relative path for the PDF file
+    const pdfFilePath = `uploads/${pdfFile.filename}`;
+
     // Insert warranty into the database
     const sql = 'INSERT INTO warranties (warrantyId, productName, dateOfPurchase, warrantyExpireDate, userId, pdfFilePath) VALUES (NULL, ?, ?, ?, ?, ?)';
-    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, req.user.userId , pdfFile.path], (err, results) => {
+    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, req.user.userId, pdfFile.path], (err, results) => {
       if (err) {
         console.error('Error adding warranty:', err);
         return res.status(500).send({ message: 'Error adding warranty' });
