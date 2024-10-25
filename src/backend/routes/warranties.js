@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken } from './auth.functions.js';
-import { getWarranties, getWarranty, addWarranty, deleteWarranty } from './warranties.functions.js';
+import { getWarranties, getWarranty, addWarranty, deleteWarranty, getWarrantyPDF } from './warranties.functions.js'; // Import getWarrantyPDF
 import multer from 'multer';
 import path from 'path';
 
@@ -21,7 +21,7 @@ router.get('/details/:id', verifyToken, getWarranty);
 router.post('/', verifyToken, addWarranty);
 
 // Route to get the PDF of a specific warranty
-router.get('/pdf/:id', verifyToken, getWarranty);
+router.get('/pdf/:id', verifyToken, getWarrantyPDF); // Ensure this route is included
 
 // Route to delete a warranty
 router.delete('/delete/:id', verifyToken, deleteWarranty);

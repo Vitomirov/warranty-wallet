@@ -1,7 +1,12 @@
 import connection from '../db.js';
 import { format } from 'date-fns';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import fs from 'fs';
+
+// Define __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Function to format date to "dd-MM-yyyy"
 const formatDate = (date) => {
@@ -59,6 +64,45 @@ export const getWarranty = (req, res) => {
     warranty.pdfFilePath = `http://localhost:3000/${warranty.pdfFilePath}`;
 
     res.json(warranty);
+  });
+};
+
+// Function to get the PDF file path for a specific warranty
+export const getWarrantyPDF = (req, res) => {
+  const warrantyId = req.params.id;
+  const userId = req.user.userId;
+
+  const sql = 'SELECT pdfFilePath FROM warranties WHERE userId = ? AND warrantyId = ?';
+  connection.query(sql, [userId, warrantyId], (err, result) => {
+    if (err) {
+      console.error('Error fetching warranty PDF path:', err);
+      return res.status(500).send('Error fetching warranty PDF path');
+    }
+    if (result.length === 0) {
+      return res.status(404).send('Warranty not found');
+    }
+
+    const pdfFilePath = result[0].pdfFilePath;
+    console.log('PDF file path:', pdfFilePath); // Log the path for debugging
+
+    if (!fs.existsSync(pdfFilePath)) {
+      console.error('File does not exist:', pdfFilePath);
+      return res.status(404).send('File not found');
+    }
+
+    // Set headers to display PDF in the browser
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="' + path.basename(pdfFilePath) + '"');
+    
+    // Check if the file exists before sending
+    res.sendFile(pdfFilePath, (err) => {
+      if (err) {
+        console.error('Error sending PDF file:', err);
+        res.status(err.status).end();
+      } else {
+        console.log('PDF file sent successfully');
+      }
+    });
   });
 };
 
