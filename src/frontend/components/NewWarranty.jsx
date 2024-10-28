@@ -7,6 +7,7 @@ const NewWarranty = () => {
   const [dateOfPurchase, setDateOfPurchase] = useState('');
   const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
   const [file, setFile] = useState(null);
+  const [sellersEmail, setSellersEmail] = useState('');
   const [message, setMessage] = useState('');
 
   const handleAddWarranty = async () => {
@@ -16,6 +17,7 @@ const NewWarranty = () => {
     formData.append('dateOfPurchase', dateOfPurchase);
     formData.append('warrantyExpireDate', warrantyExpireDate);
     formData.append('pdfFile', file);
+    formData.append('sellersEmail', sellersEmail);
 
     try {
       const response = await fetch('http://localhost:3000/warranties', {
@@ -47,6 +49,9 @@ const NewWarranty = () => {
         <br />
         <label>Expiry Date:</label>
         <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} />
+        <br />
+        <label>Seller's email: </label>
+        <input type="email" value={sellersEmail} onChange={(e) => setSellersEmail(e.target.value)} />
         <br />
         <label>Upload PDF File:</label>
         <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} />

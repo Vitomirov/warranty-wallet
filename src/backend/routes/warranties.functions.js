@@ -83,7 +83,7 @@ export const getWarrantyPDF = (req, res) => {
     }
 
     const pdfFilePath = result[0].pdfFilePath;
-    console.log('PDF file path:', pdfFilePath); // Log the path for debugging
+    console.log('PDF file path:', pdfFilePath); 
 
     if (!fs.existsSync(pdfFilePath)) {
       console.error('File does not exist:', pdfFilePath);
@@ -111,7 +111,7 @@ export const addWarranty = async (req, res) => {
   console.log("Data:", req.body);  
   console.log("File:", req.file);   
   try {
-    const { productName, dateOfPurchase, warrantyExpireDate } = req.body;
+    const { productName, dateOfPurchase, warrantyExpireDate, sellersEmail } = req.body;
     const pdfFile = req.file; // Get the uploaded PDF file
 
     if (!pdfFile) {
@@ -122,8 +122,8 @@ export const addWarranty = async (req, res) => {
     const pdfFilePath = `uploads/${pdfFile.filename}`;
 
     // Insert warranty into the database
-    const sql = 'INSERT INTO warranties (warrantyId, productName, dateOfPurchase, warrantyExpireDate, userId, pdfFilePath) VALUES (NULL, ?, ?, ?, ?, ?)';
-    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, req.user.userId, pdfFile.path], (err, results) => {
+    const sql = 'INSERT INTO warranties (warrantyId, productName, dateOfPurchase, warrantyExpireDate, sellersEmail, userId, pdfFilePath) VALUES (NULL, ?, ?, ?, ?, ?, ?)';
+    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, sellersEmail, req.user.userId, pdfFile.path], (err, results) => {
       if (err) {
         console.error('Error adding warranty:', err);
         return res.status(500).send({ message: 'Error adding warranty' });

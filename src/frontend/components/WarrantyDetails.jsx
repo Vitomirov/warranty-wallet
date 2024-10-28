@@ -8,7 +8,7 @@ const WarrantyDetails = () => {
   const [warranty, setWarranty] = useState(null);
   const [error, setError] = useState(null);
   const { id } = useParams();
-  const { token, refreshToken } = useAuth();
+  const { token, refreshToken, user } = useAuth();
 
   const fetchWarranty = async () => {
     if (!id) {
@@ -80,12 +80,44 @@ const WarrantyDetails = () => {
     return <div>Loading...</div>;
   }
 
+  // Assuming your warranty variables are something like this:
+const productName = warranty.productName; // Product name variable
+const warrantyFile = warranty.warrantyFile; // File name or description if available
+const sellersEmail = warranty.sellersEmail;
+
+// Customize the mailto link:
+const mailtoLink = `mailto:${sellersEmail}?subject=${encodeURIComponent(
+  productName + ' - Complaint'
+)}&body=${encodeURIComponent(
+  `Dear ${warranty.sellerName},
+  I would like to make a complaint regarding the following product:
+  Product Name: ${warranty.productName}
+  Issue Description:
+
+  Warranty Document: Attached.
+  Please let me know how we can proceed with this issue.
+
+  Best regards,
+  ${user.username}`
+)}`;
+
   return (
     <>
       <h1>Warranty Details</h1>
       <p>Product Name: {warranty.productName}</p>
       <p>Date of Purchase: {warranty.dateOfPurchase}</p>
       <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
+      <p>Send mail to:
+  <a
+    href={mailtoLink}
+    onClick={(e) => {
+      e.preventDefault(); // Prevents the default behavior of opening in the same tab
+      window.open(mailtoLink, '_blank'); // Opens the email link in a new tab
+    }}
+  >
+    {warranty.sellersEmail}
+  </a>
+      </p>
       <p>
         <button onClick={handleOpenPDF}>Open PDF</button>
       </p>
