@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import db from './db.js';
 import authRoutes from './routes/auth.js';
 import warrantiesRoutes from './routes/warranties.js';
+import userRoutes from './routes/user.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
@@ -45,6 +46,7 @@ const upload = multer({ dest: uploadDirectory });
 app.use('/uploads', express.static(uploadDirectory));
 app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes);
 app.use('/', authRoutes);
+app.use('/', userRoutes); 
 
 //Sending complaints mails
 app.post('/warranty/claim', async (req, res) => {

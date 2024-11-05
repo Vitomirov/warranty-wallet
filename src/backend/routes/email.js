@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs'; // Ensure you import the 'fs' module
+import fs from 'fs'; 
 
 // Define __dirname for use in ES modules
 const __filename = fileURLToPath(import.meta.url);

@@ -13,6 +13,8 @@ function Dashboard() {
       <br />
       <Link to="/myWarranties">My Warranties</Link>
       <br />
+      <Link to="/myAccount">My Account</Link>
+      <br />
       <Link to="/">Back</Link>
       </>
   );

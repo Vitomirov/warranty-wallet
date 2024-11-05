@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
+import MyAccount from './components/MyAccount';
 import Dashboard from './components/Dashboard';
 import Home from './components/Home';
 import LayoutWithNav from './components/LayoutWithNav';
@@ -28,6 +29,11 @@ function App() {
            <PrivateRoute>
             <LayoutWithoutNav><Dashboard /></LayoutWithoutNav>
           </PrivateRoute> 
+        } />
+        <Route path='/myAccount' element={
+          <PrivateRoute>
+            <LayoutWithNav><MyAccount /></LayoutWithNav>
+          </PrivateRoute>
         } />
         <Route path="/newWarranty" element={
           <PrivateRoute>
