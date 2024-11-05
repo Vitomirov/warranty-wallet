@@ -125,13 +125,13 @@ export const refreshToken = (req, res) => {
 
 // Function to signup a new user
 export const signup = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, userEmail, password } = req.body;
   
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+    const sql = 'INSERT INTO users (username, userEmail, password) VALUES (?, ?, ?)';
     
-    connection.query(sql, [username, email, hashedPassword], (err, result) => {
+    connection.query(sql, [username, userEmail, hashedPassword], (err, result) => {
       if (err) {
         console.error('Error signing up:', err);
         return res.status(500).send('Failed to sign up');

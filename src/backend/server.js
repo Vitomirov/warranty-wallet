@@ -1,47 +1,100 @@
-import express from 'express'; // Framework for building web applications
-import cors from 'cors'; // Middleware for enabling CORS
-import cookieParser from 'cookie-parser'; // Middleware for parsing cookies
-import dotenv from 'dotenv'; // For loading environment variables
-import authRoutes from './routes/auth.js'; // Authentication routes
-import warrantiesRoutes from './routes/warranties.js'; // Warranties management routes
-import { dirname } from 'path'; // Utility for directory paths
-import { fileURLToPath } from 'url'; // Utility for converting file URLs to paths
-import multer from 'multer'; // Middleware for handling file uploads
-import path from 'path'; // Utility for handling file and directory paths
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import db from './db.js';
+import authRoutes from './routes/auth.js';
+import warrantiesRoutes from './routes/warranties.js';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import multer from 'multer';
+import path from 'path';
+import { sendWarrantyClaimEmail } from './routes/email.js';
+import fs from 'fs';
 
-const app = express(); // Create an express application
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 app.use(cors({
-  origin: ['http://localhost:5173'], // Allowed origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  exposedHeaders: ['Authorization', 'Set-Cookie'], // Exposed headers to the frontend
-  credentials: true, // Allow credentials
-  maxAge: 3600 // Cache pre-flight response for 1 hour
+  origin: ['http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Authorization', 'Set-Cookie'],
+  credentials: true,
+  maxAge: 3600
 }));
 
 // Environment variables setup
-const __filename = fileURLToPath(import.meta.url); // Get current file name
-const __dirname = dirname(__filename); // Get current directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 dotenv.config({ path: `${__dirname}/../../.env` }); // Load .env variables
 
-const PORT = process.env.PORT || 3000; // Set the port for the server
+console.log('Server EMAIL_USER:', process.env.EMAIL_USER);
+console.log('Server EMAIL_PASS:', process.env.EMAIL_PASS);
 
-app.use(cookieParser()); // Parse cookies
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // Upload directory setup
-const uploadDirectory = path.join(__dirname, 'uploads'); // Define upload directory
-const upload = multer({ dest: uploadDirectory }); // Configure multer for uploads
+const uploadDirectory = path.join(__dirname, 'uploads');
+const upload = multer({ dest: uploadDirectory });
 
-app.use('/uploads', express.static(uploadDirectory)); // Serve static files from uploads
+app.use('/uploads', express.static(uploadDirectory));
+app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes);
+app.use('/', authRoutes);
 
-app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes); // Warranties routes with file upload
-app.use('/', authRoutes); // Authentication routes
+//Sending complaints mails
+app.post('/warranty/claim', async (req, res) => {
+  const { userId, productName, username, warrantyId } = req.body;
 
-// Start server
+  try {
+    const [warranties] = await db.promise().query('SELECT sellersEmail, pdfFilePath FROM warranties WHERE warrantyId = ?', [warrantyId]);
+    if (warranties.length === 0) return res.status(404).send('Warranty not found');
+    const { sellersEmail, pdfFilePath } = warranties[0];
+    console.log('PDF File Path:', pdfFilePath);
+
+    if (!pdfFilePath) {
+      console.error('pdfFilePath is undefined');
+      return res.status(400).send('File path is undefined');
+    }
+
+    if (!fs.existsSync(pdfFilePath)) {
+      console.error('File does not exist:', pdfFilePath);
+      return res.status(400).send('File not found');
+    }
+
+    const stats = fs.statSync(pdfFilePath);
+    console.log('File size before sending:', stats.size);
+    if (stats.size === 0) {
+      console.error('File is empty:', pdfFilePath);
+      return res.status(400).send('File is empty');
+    }
+
+    const [users] = await db.promise().query('SELECT userEmail, username FROM users WHERE id = ?', [userId]);
+    if (users.length === 0) return res.status(404).send('User  not found');
+    const {userEmail, username} = users[0];
+
+    // Log the parameters before sending the email
+    console.log('Sending email with parameters:', {
+      sellersEmail,
+      productName,
+      username,
+      userEmail,
+      pdfFilePath,
+    });
+
+    // Send the email with the attachment
+    await sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, pdfFilePath);
+    res.status(200).send('Claim submitted successfully!');
+  } catch (error) {
+    console.error('Error handling warranty claim:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`); // Log server start
+  console.log(`Server running on port ${PORT}`);
 });

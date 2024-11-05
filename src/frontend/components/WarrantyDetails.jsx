@@ -55,10 +55,7 @@ const WarrantyDetails = () => {
         },
         responseType: 'blob'
       });
-
       const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      // Open the PDF in a new tab
       window.open(url, '_blank');
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -72,6 +69,42 @@ const WarrantyDetails = () => {
     }
   };
 
+  const handleSendEmail = async () => {
+    if (!warranty || !user) {
+      setError("Cannot send email: Warranty or user details not available");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/warranty/claim',
+        {
+          userId: user.id,
+          productName: warranty.productName,
+          warrantyId: warranty.warrantyId,
+          username: user.username,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      alert("Email sent successfully!");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        const newToken = await refreshToken();
+        if (newToken) {
+          handleSendEmail();
+        } else {
+          setError('Session expired. Please log in again.');
+        }
+      } else {
+        setError("Error sending email. Please try again.");
+      }
+    }
+  };
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -80,44 +113,13 @@ const WarrantyDetails = () => {
     return <div>Loading...</div>;
   }
 
-  // Assuming your warranty variables are something like this:
-const productName = warranty.productName; // Product name variable
-const warrantyFile = warranty.warrantyFile; // File name or description if available
-const sellersEmail = warranty.sellersEmail;
-
-// Customize the mailto link:
-const mailtoLink = `mailto:${sellersEmail}?subject=${encodeURIComponent(
-  productName + ' - Complaint'
-)}&body=${encodeURIComponent(
-  `Dear ${warranty.sellerName},
-  I would like to make a complaint regarding the following product:
-  Product Name: ${warranty.productName}
-  Issue Description:
-
-  Warranty Document: Attached.
-  Please let me know how we can proceed with this issue.
-
-  Best regards,
-  ${user.username}`
-)}`;
-
   return (
     <>
       <h1>Warranty Details</h1>
       <p>Product Name: {warranty.productName}</p>
       <p>Date of Purchase: {warranty.dateOfPurchase}</p>
       <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
-      <p>Send mail to:
-  <a
-    href={mailtoLink}
-    onClick={(e) => {
-      e.preventDefault(); // Prevents the default behavior of opening in the same tab
-      window.open(mailtoLink, '_blank'); // Opens the email link in a new tab
-    }}
-  >
-    {warranty.sellersEmail}
-  </a>
-      </p>
+      <p>Send complaint <Link onClick={handleSendEmail}>here</Link>.</p>
       <p>
         <button onClick={handleOpenPDF}>Open PDF</button>
       </p>
