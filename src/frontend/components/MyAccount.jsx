@@ -68,7 +68,6 @@ function MyAccount() {
             setError("No token found, please log in.");
             return;
         }
-
         try {
             await axios.put('http://localhost:3000/me', userData, {
                 headers: {
@@ -78,7 +77,7 @@ function MyAccount() {
             setSuccessMessage('Account information updated successfully.');
             setError(null);
             // Optionally fetch user data again to ensure it's up-to-date
-            // fetchUser Data(); // Uncomment this line if you want to refresh data after update
+           // fetchUser(); // Uncomment this line if you want to refresh data after update
         } catch (error) {
             if (error.response) {
                 console.error('Error updating account information:', error.response.status);

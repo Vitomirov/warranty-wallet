@@ -9,7 +9,6 @@ function Navigation() {
   return (
     <nav>
       <h1>Warranty Wallet</h1>
-
       {!user ? (
         <>
           <Link to="/login">Log In</Link>

@@ -13,11 +13,8 @@ const PrivateRoute = ({ children }) => {
   }, [user, isLoading, navigate]);
 
   if (isLoading) {
-
     return <>Loading...</>
-
   }
-
   return user ? children : null;
 };
 
