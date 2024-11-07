@@ -9,7 +9,11 @@ const instance = axios.create({
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('accessToken'));
-  const [user, setUser] = useState(null);
+  const [user, setUser ] = useState(() => {
+    // Retrieve user from localStorage if it exists
+    const savedUser  = localStorage.getItem('user');
+    return savedUser  ? JSON.parse(savedUser ) : null;
+  });
 
   useEffect(() => {
     if (token && typeof token === 'string') {
@@ -24,8 +28,9 @@ const AuthProvider = ({ children }) => {
       const response = await instance.post('/login', { username, password });
       if (response.data && response.data.accessToken) {
         localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('user', JSON.stringify(response.data.user)); // Store user in localStorage
         setToken(response.data.accessToken);
-        setUser(response.data.user);
+        setUser (response.data.user);
         return response.data;
       } else {
         throw new Error('Access token not found in response');
@@ -38,8 +43,9 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('user'); // Remove user from localStorage
     setToken(null);
-    setUser(null);
+    setUser (null);
   };
 
   const refreshToken = async () => {
