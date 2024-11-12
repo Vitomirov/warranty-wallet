@@ -50,7 +50,7 @@ app.use('/', userRoutes);
 
 //Sending complaints mails
 app.post('/warranty/claim', async (req, res) => {
-  const { userId, productName, username, warrantyId } = req.body;
+  const { userId, productName, username, fullName, userAddress, userPhoneNumber, issueDescription, warrantyId } = req.body;
 
   try {
     const [warranties] = await db.promise().query('SELECT sellersEmail, pdfFilePath FROM warranties WHERE warrantyId = ?', [warrantyId]);
@@ -75,7 +75,9 @@ app.post('/warranty/claim', async (req, res) => {
       return res.status(400).send('File is empty');
     }
 
-    const [users] = await db.promise().query('SELECT userEmail, username FROM users WHERE id = ?', [userId]);
+    const [users] = await db.promise().query(
+    'SELECT userEmail, username, fullName, userAddress, userPhoneNumber FROM users WHERE id = ?',
+    [userId]);
     if (users.length === 0) return res.status(404).send('User  not found');
     const {userEmail, username} = users[0];
 
@@ -85,11 +87,15 @@ app.post('/warranty/claim', async (req, res) => {
       productName,
       username,
       userEmail,
+      fullName,
+      userAddress,
+      userPhoneNumber,
+      issueDescription,
       pdfFilePath,
     });
 
     // Send the email with the attachment
-    await sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, pdfFilePath);
+    await sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, fullName, userAddress, userPhoneNumber,issueDescription, pdfFilePath);
     res.status(200).send('Claim submitted successfully!');
   } catch (error) {
     console.error('Error handling warranty claim:', error);

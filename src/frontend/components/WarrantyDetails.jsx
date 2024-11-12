@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 const WarrantyDetails = () => {
   const [warranty, setWarranty] = useState(null);
   const [error, setError] = useState(null);
+  const [issueDescription, setIssueDesription] = useState('');
   const { id } = useParams();
   const { token, refreshToken, user } = useAuth();
 
@@ -75,6 +76,8 @@ const WarrantyDetails = () => {
       return;
     }
 
+    console.log('User  details:', user); // Add this line to check user properties
+
     try {
       const response = await axios.post(
         'http://localhost:3000/warranty/claim',
@@ -83,6 +86,10 @@ const WarrantyDetails = () => {
           productName: warranty.productName,
           warrantyId: warranty.warrantyId,
           username: user.username,
+          fullName: user.fullName,
+          userAddress: user.userAddress,
+          userPhoneNumber: user.userPhoneNumber,
+          issueDescription
         },
         {
           headers: {
@@ -119,6 +126,13 @@ const WarrantyDetails = () => {
       <p>Product Name: {warranty.productName}</p>
       <p>Date of Purchase: {warranty.dateOfPurchase}</p>
       <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
+      <textarea
+        placeholder='Describe your issue here...'
+        value={issueDescription}
+        onChange={(e) => setIssueDesription(e.target.value)}
+        rows="4"
+        cols="50"
+      />
       <p>Send complaint <Link onClick={handleSendEmail}>here</Link>.</p>
       <p>
         <button onClick={handleOpenPDF}>Open PDF</button>

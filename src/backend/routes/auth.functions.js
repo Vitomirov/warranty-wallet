@@ -70,7 +70,13 @@ export const login = async (req, res) => {
         .json({
           accessToken,
           refreshToken,
-          user: { id: user.id, username: user.username }
+          user: {
+            id: user.id,
+            username: user.username,
+            fullName: user.fullName,
+            userAddress: user.userAddress,
+            userPhoneNumber: user.userPhoneNumber
+          }
         });
 
     } else {

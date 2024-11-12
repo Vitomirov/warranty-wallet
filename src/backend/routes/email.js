@@ -24,21 +24,21 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send warranty claim email
-export async function sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, pdfFilePath) {
+export async function sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, fullName, userAddress, userPhoneNumber,issueDescription, pdfFilePath) {
   console.log("Retrieved pdfFilePath from DB:", pdfFilePath);
   const subject = `Customer Warranty Claim – ${productName}`;
   const text = `
-  Dear Customer Service Team,
+  Hi there,
 
-  I am reaching out to request assistance with a warranty claim for a product I recently purchased. Here are the details:
+  I'm ${fullName}, and I recently purchased a ${productName}. 
+  I'm reaching out because I’m experiencing an issue: ${issueDescription}.
 
-  - **Product Name**: ${productName}
-  
-  I would appreciate any guidance on how to proceed with this claim. Please feel free to contact me if further information is required.
+  Could you please arrange to pick it up from my address: ${userAddress}? 
+  If you have any questions, feel free to call me at ${userPhoneNumber}.
 
-  Thank you for your attention to this matter.
+  Thanks so much for your help!
 
-  Best regards,
+  Best,
   ${username}
 `;
 
@@ -65,6 +65,10 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
     subject,
     text,
     username,
+    fullName,
+    userAddress,
+    userPhoneNumber,
+    issueDescription,
     replyTo: userEmail,
     attachments: [
       {

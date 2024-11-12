@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+
 
 function MyAccount() {
     const { token } = useAuth(); // Get the token from the AuthContext
@@ -76,8 +78,7 @@ function MyAccount() {
             });
             setSuccessMessage('Account information updated successfully.');
             setError(null);
-            // Optionally fetch user data again to ensure it's up-to-date
-           // fetchUser(); // Uncomment this line if you want to refresh data after update
+
         } catch (error) {
             if (error.response) {
                 console.error('Error updating account information:', error.response.status);
@@ -93,6 +94,8 @@ function MyAccount() {
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
+        <>
+        <h1>My Account</h1>
         <form onSubmit={handleUpdate}>
             <div>
                 <label htmlFor="fullName">Full Name:</label>
@@ -132,7 +135,11 @@ function MyAccount() {
             </div>
             <button type="submit">Update Account</button>
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-        </form>
+            <br />
+            </form>
+            <Link to="/dashboard">Back</Link>
+        </>
+
     );
 }
 

@@ -32,7 +32,7 @@ function App() {
         } />
         <Route path='/myAccount' element={
           <PrivateRoute>
-            <LayoutWithNav><MyAccount /></LayoutWithNav>
+            <LayoutWithoutNav><MyAccount /></LayoutWithoutNav>
           </PrivateRoute>
         } />
         <Route path="/newWarranty" element={
