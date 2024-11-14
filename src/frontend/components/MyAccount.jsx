@@ -3,10 +3,9 @@ import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
-
 function MyAccount() {
-    const { token } = useAuth(); // Get the token from the AuthContext
-    const [userData, setUser] = useState({
+    const { token, updateUser  } = useAuth(); // Get the token and updateUser  from the AuthContext
+    const [userData, setUser ] = useState({
         fullName: '',
         userAddress: '',
         userPhoneNumber: ''
@@ -17,7 +16,7 @@ function MyAccount() {
 
     // Fetch user data on component mount
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchUser  = async () => {
             setLoading(true);
             try {
                 if (!token) {
@@ -29,13 +28,12 @@ function MyAccount() {
 
                 const response = await axios.get('http://localhost:3000/me', {
                     headers: {
-                        'Authorization': `Bearer ${token}` // Use token here
+                        'Authorization': `Bearer ${token}`
                     }
                 });
-                console.log("Fetched user data:", response.data); // Log the fetched data
-                // Update state with fetched user data
+ console.log("Fetched user data:", response.data);
                 if (response.data) {
-                    setUser({
+                    setUser  ({
                         fullName: response.data.fullName || '',
                         userAddress: response.data.userAddress || '',
                         userPhoneNumber: response.data.userPhoneNumber || ''
@@ -53,12 +51,12 @@ function MyAccount() {
                 setLoading(false);
             }
         };
-        fetchUser();
-    }, [token]); // Include token in dependency array
+        fetchUser  ();
+    }, [token]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUser((prevData) => ({
+        setUser  ((prevData) => ({
             ...prevData,
             [name]: value
         }));
@@ -78,7 +76,14 @@ function MyAccount() {
             });
             setSuccessMessage('Account information updated successfully.');
             setError(null);
-
+            
+            // Fetch updated user data
+            const response = await axios.get('http://localhost:3000/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            updateUser  (response.data); // Call updateUser   to update context with new user data
         } catch (error) {
             if (error.response) {
                 console.error('Error updating account information:', error.response.status);
@@ -95,51 +100,49 @@ function MyAccount() {
 
     return (
         <>
-        <h1>My Account</h1>
-        <form onSubmit={handleUpdate}>
-            <div>
-                <label htmlFor="fullName">Full Name:</label>
-                <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={userData.fullName} // Display current full name
-                    onChange={handleInputChange}
-                    placeholder="Full Name"
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="userAddress">Address:</label>
-                <input
-                    type="text"
-                    id="userAddress"
-                    name="userAddress"
-                    value={userData.userAddress} // Display current address
-                    onChange={handleInputChange}
-                    placeholder="Address"
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="userPhoneNumber">Phone Number:</label>
-                <input
-                    type="text"
-                    id="userPhoneNumber"
-                    name="userPhoneNumber"
-                    value={userData.userPhoneNumber} // Display current phone number
-                    onChange={handleInputChange}
-                    placeholder="Phone Number"
-                    required
-                />
-            </div>
-            <button type="submit">Update Account</button>
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            <br />
+            <h1>My Account</h1>
+            <form onSubmit={handleUpdate}>
+                <div>
+                    <label htmlFor="fullName">Full Name:</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        value={userData.fullName}
+                        onChange={handleInputChange}
+                        placeholder="Full Name"
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="userAddress">Address:</label>
+                    <input
+                        type="text"
+                        id="userAddress"
+                        name="userAddress"
+                        value={userData.userAddress}
+                        onChange={handleInputChange}
+                        placeholder="Address"
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="userPhoneNumber">Phone Number:</label>
+                    <input
+                        type="text"
+                        id="userPhoneNumber"
+                        name="userPhoneNumber"
+                        value={userData.userPhoneNumber}
+                        onChange={handleInputChange}
+                        placeholder="Phone Number"
+                        required
+                    />
+                </div>
+                <button type="submit">Update Account</button>
+                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             </form>
             <Link to="/dashboard">Back</Link>
         </>
-
     );
 }
 

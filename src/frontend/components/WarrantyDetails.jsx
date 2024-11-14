@@ -88,6 +88,7 @@ const WarrantyDetails = () => {
           username: user.username,
           fullName: user.fullName,
           userAddress: user.userAddress,
+          sellersEmail: warranty.sellersEmail,
           userPhoneNumber: user.userPhoneNumber,
           issueDescription
         },
@@ -126,13 +127,18 @@ const WarrantyDetails = () => {
       <p>Product Name: {warranty.productName}</p>
       <p>Date of Purchase: {warranty.dateOfPurchase}</p>
       <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
-      <textarea
+      <p>Seller's email: {warranty.sellersEmail}</p>
+      <>
+        <p>Describe issue:</p>
+        <textarea
         placeholder='Describe your issue here...'
         value={issueDescription}
         onChange={(e) => setIssueDesription(e.target.value)}
         rows="4"
         cols="50"
-      />
+        />
+      </>
+
       <p>Send complaint <Link onClick={handleSendEmail}>here</Link>.</p>
       <p>
         <button onClick={handleOpenPDF}>Open PDF</button>

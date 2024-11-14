@@ -10,7 +10,6 @@ const instance = axios.create({
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('accessToken'));
   const [user, setUser ] = useState(() => {
-    // Retrieve user from localStorage if it exists
     const savedUser  = localStorage.getItem('user');
     return savedUser  ? JSON.parse(savedUser ) : null;
   });
@@ -28,7 +27,7 @@ const AuthProvider = ({ children }) => {
       const response = await instance.post('/login', { username, password });
       if (response.data && response.data.accessToken) {
         localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('user', JSON.stringify(response.data.user)); // Store user in localStorage
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         setToken(response.data.accessToken);
         setUser (response.data.user);
         return response.data;
@@ -43,7 +42,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('user'); // Remove user from localStorage
+    localStorage.removeItem('user');
     setToken(null);
     setUser (null);
   };
@@ -64,8 +63,21 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Method to update user data
+  const updateUser  = (newUserData) => {
+    setUser ((prevUser ) => ({ 
+      ...prevUser ,  
+      ...newUserData, 
+    }));
+
+    localStorage.setItem('user', JSON.stringify({
+      ...user,
+      ...newUserData, 
+    }));
+  };
+
   return (
-    <AuthContext.Provider value={{ token, login, logout, refreshToken, user }}>
+    <AuthContext.Provider value={{ token, login, logout, refreshToken, user, updateUser  }}>
       {children}
     </AuthContext.Provider>
   );

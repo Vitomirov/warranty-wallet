@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import db from './db.js';
+import db from './db.js'; // Make sure this is your database connection file
 import authRoutes from './routes/auth.js';
 import warrantiesRoutes from './routes/warranties.js';
 import userRoutes from './routes/user.js';
@@ -31,13 +31,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: `${__dirname}/../../.env` }); // Load .env variables
 
-console.log('Server EMAIL_USER:', process.env.EMAIL_USER);
-console.log('Server EMAIL_PASS:', process.env.EMAIL_PASS);
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // Upload directory setup
 const uploadDirectory = path.join(__dirname, 'uploads');
@@ -48,9 +44,9 @@ app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes);
 app.use('/', authRoutes);
 app.use('/', userRoutes); 
 
-//Sending complaints mails
+// Sending complaints mails
 app.post('/warranty/claim', async (req, res) => {
-  const { userId, productName, username, fullName, userAddress, userPhoneNumber, issueDescription, warrantyId } = req.body;
+  const { userId, productName, username, issueDescription, warrantyId } = req.body;
 
   try {
     const [warranties] = await db.promise().query('SELECT sellersEmail, pdfFilePath FROM warranties WHERE warrantyId = ?', [warrantyId]);
@@ -76,10 +72,11 @@ app.post('/warranty/claim', async (req, res) => {
     }
 
     const [users] = await db.promise().query(
-    'SELECT userEmail, username, fullName, userAddress, userPhoneNumber FROM users WHERE id = ?',
-    [userId]);
+      'SELECT userEmail, fullName, userAddress, userPhoneNumber FROM users WHERE id = ?',
+      [userId]
+    );
     if (users.length === 0) return res.status(404).send('User  not found');
-    const {userEmail, username} = users[0];
+    const { userEmail, fullName, userAddress, userPhoneNumber } = users[0];
 
     // Log the parameters before sending the email
     console.log('Sending email with parameters:', {
@@ -95,7 +92,7 @@ app.post('/warranty/claim', async (req, res) => {
     });
 
     // Send the email with the attachment
-    await sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, fullName, userAddress, userPhoneNumber,issueDescription, pdfFilePath);
+    await sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, { fullName, userAddress, userPhoneNumber }, issueDescription, pdfFilePath);
     res.status(200).send('Claim submitted successfully!');
   } catch (error) {
     console.error('Error handling warranty claim:', error);

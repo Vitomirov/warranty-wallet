@@ -11,9 +11,6 @@ const __dirname = dirname(__filename);
 // Load .env variables
 dotenv.config({ path: `${__dirname}/../../../.env` });
 
-console.log('EMAIL_USER:', process.env.EMAIL_USER);
-console.log('EMAIL_PASS:', process.env.EMAIL_PASS);
-
 // Create a nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -24,8 +21,9 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send warranty claim email
-export async function sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, fullName, userAddress, userPhoneNumber,issueDescription, pdfFilePath) {
-  console.log("Retrieved pdfFilePath from DB:", pdfFilePath);
+export async function sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, userData, issueDescription, pdfFilePath) {
+  const { fullName, userAddress, userPhoneNumber } = userData; // Destructure user data
+
   const subject = `Customer Warranty Claim – ${productName}`;
   const text = `
   Hi there,
@@ -42,18 +40,20 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
   ${username}
 `;
 
+  // Validate the PDF file path
+  if (!pdfFilePath || typeof pdfFilePath !== 'string') {
+    console.error('Invalid PDF file path:', pdfFilePath);
+    throw new Error('Invalid PDF file path');
+  }
 
-  // Log the PDF file path
-  console.log('Attempting to send email with PDF file at:', pdfFilePath);
-
-  // Check if the file exists and log its size
+  // Check if the PDF file exists
   if (!fs.existsSync(pdfFilePath)) {
     console.error('File does not exist:', pdfFilePath);
     throw new Error('File does not exist');
   }
 
+  // Check if the file is empty
   const stats = fs.statSync(pdfFilePath);
-  console.log('File size before sending:', stats.size);
   if (stats.size === 0) {
     console.error('File is empty:', pdfFilePath);
     throw new Error('File is empty');
@@ -64,11 +64,6 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
     to: sellersEmail,
     subject,
     text,
-    username,
-    fullName,
-    userAddress,
-    userPhoneNumber,
-    issueDescription,
     replyTo: userEmail,
     attachments: [
       {
@@ -78,13 +73,11 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
     ],
   };
 
-  console.log('Mail Options:', mailOptions);
-
   try {
     await transporter.sendMail(mailOptions);
     console.log('Email sent successfully with attachment!');
   } catch (error) {
     console.error('Error sending email:', error.response ? error.response.data : error);
-    throw error;
+    throw error; // Rethrow the error for further handling
   }
 }
