@@ -1,18 +1,23 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LogOut() {
   const { logout } = useAuth();
+  const navigate = useNavigate(); // Hook to programmatically navigate
 
   const handleLogout = async (event) => {
-    event.preventDefault();
-    await logout();
-    console.log("User is logged out");
+    event.preventDefault(); // Prevent default link behavior
+    await logout(); // Call the logout function
+    console.log("User  is logged out");
+    navigate('/'); // Redirect to home or another page after logout
   };
 
   return (
-    <Link to="/" onClick={handleLogout}>Log Out</Link>
+    <button className="nav-link btn logout-link"
+      onClick={handleLogout}>
+      Log Out
+    </button>
   );
 }
 

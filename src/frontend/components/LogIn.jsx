@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const { login } = useAuth();
@@ -30,17 +31,39 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Warranty Wallet</h1>
-      <label>Username:</label>
-      <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
-      <br />
-      <label>Password:</label>
-      <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-      <br />
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      <button type="submit">Log In</button>
-    </form>
+    <div className="container mt-5">
+      <h1 className="text-center">Warranty Wallet</h1>
+      <form onSubmit={handleSubmit} className="mt-4">
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label">Username:</label>
+          <input
+            type="text"
+            className="form-control"
+            id="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">Password:</label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+        </div>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? 'Logging In...' : 'Log In'}
+        </button>
+        <br />
+        <Link to="/">Back</Link>
+      </form>
+    </div>
   );
 };
 

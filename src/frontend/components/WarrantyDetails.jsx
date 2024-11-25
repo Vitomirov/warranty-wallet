@@ -7,10 +7,11 @@ import { useAuth } from '../context/AuthContext';
 const WarrantyDetails = () => {
   const [warranty, setWarranty] = useState(null);
   const [error, setError] = useState(null);
-  const [issueDescription, setIssueDesription] = useState('');
+  const [issueDescription, setIssueDescription] = useState('');
   const { id } = useParams();
   const { token, refreshToken, user } = useAuth();
 
+  // Function to fetch the warranty details from the API
   const fetchWarranty = async () => {
     if (!id) {
       setError('Invalid warranty ID');
@@ -37,13 +38,27 @@ const WarrantyDetails = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchWarranty();
-    };
-    fetchData();
-  }, [id, token]);
+  // Function to calculate the remaining days until warranty expiry
+  const calculateDaysLeft = (expiryDate) => {
+    const [day, month, year] = expiryDate.split('-').map(Number);
+    const expiry = new Date(year, month - 1, day); // month is 0-indexed in JavaScript
 
+    const currentDate = new Date();
+
+    // Get the difference in milliseconds
+    const daysLeft = expiry - currentDate;
+
+    // If the warranty is already expired
+    if (daysLeft <= 0) {
+      return "Warranty has expired";
+    }
+
+    // Calculate days
+    const days = Math.floor(daysLeft / (1000 * 60 * 60 * 24));
+    return `${days} days left`;
+  };
+
+  // Function to handle opening the warranty PDF
   const handleOpenPDF = async () => {
     if (!warranty || !warranty.warrantyId) {
       console.error("Warranty details are not loaded yet");
@@ -70,13 +85,12 @@ const WarrantyDetails = () => {
     }
   };
 
+  // Function to handle sending a complaint email
   const handleSendEmail = async () => {
     if (!warranty || !user) {
       setError("Cannot send email: Warranty or user details not available");
       return;
     }
-
-    console.log('User  details:', user); // Add this line to check user properties
 
     try {
       const response = await axios.post(
@@ -113,42 +127,61 @@ const WarrantyDetails = () => {
     }
   };
 
+  // useEffect to fetch warranty details on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchWarranty();
+    };
+    fetchData();
+  }, [id, token]);
+
   if (error) {
-    return <div>{error}</div>;
+    return <div className="alert alert-danger">{error}</div>;
   }
 
   if (!warranty) {
-    return <div>Loading...</div>;
+    return <div className="alert alert-info">Loading...</div>;
   }
 
   return (
-    <>
-      <h1>Warranty Details</h1>
-      <p>Product Name: {warranty.productName}</p>
-      <p>Date of Purchase: {warranty.dateOfPurchase}</p>
-      <p>Warranty Expire Date: {warranty.warrantyExpireDate}</p>
-      <p>Seller's email: {warranty.sellersEmail}</p>
-      <>
-        <p>Describe issue:</p>
-        <textarea
-        placeholder='Describe your issue here...'
-        value={issueDescription}
-        onChange={(e) => setIssueDesription(e.target.value)}
-        rows="4"
-        cols="50"
-        />
-      </>
+    <div className="container mt-5">
+      <h1 className="mb-4">Warranty Details</h1>
+      <div className="mb-3">
+        <strong>Product Name:</strong> {warranty.productName}
+      </div>
+      <div className="mb-3">
+        <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
+      </div>
+      <div className="mb-3">
+        <strong>Warranty Expiry Date:</strong> {warranty.warrantyExpireDate}
+      </div>
+      <div className="mb-3">
+        <strong>Seller's Email:</strong> {warranty.sellersEmail}
+      </div>
 
-      <p>Send complaint <Link onClick={handleSendEmail}>here</Link>.</p>
-      <p>
-        <button onClick={handleOpenPDF}>Open PDF</button>
-      </p>
+      {/* Display the days left till the warranty expires */}
+      <div className="mb-3">
+        <strong>Days Left Till Expiry:</strong> {calculateDaysLeft(warranty.warrantyExpireDate)}
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="issueDescription">Describe issue:</label>
+        <textarea
+          id="issueDescription"
+          className="form-control"
+          placeholder='Describe your issue here...'
+          value={issueDescription}
+          onChange={(e) => setIssueDescription(e.target.value)}
+          rows="4"
+        />
+      </div>
+
+      <button className="btn btn-primary" onClick={handleSendEmail}>Send Complaint</button>
+      <button className="btn btn-secondary ml-2" onClick={handleOpenPDF}>Open Warranty PDF</button>
       <DeleteWarranty id={warranty.warrantyId} />
       <br />
-      <Link to='/myWarranties'>Back</Link>
-      <br />
-      <Link to="/">Home</Link>
-    </>
+      <Link to='/myWarranties' className="btn btn-link">Back</Link>
+    </div>
   );
 };
 

@@ -31,9 +31,9 @@ function MyAccount() {
                         'Authorization': `Bearer ${token}`
                     }
                 });
- console.log("Fetched user data:", response.data);
+                console.log("Fetched user data:", response.data);
                 if (response.data) {
-                    setUser  ({
+                    setUser ({
                         fullName: response.data.fullName || '',
                         userAddress: response.data.userAddress || '',
                         userPhoneNumber: response.data.userPhoneNumber || ''
@@ -51,12 +51,12 @@ function MyAccount() {
                 setLoading(false);
             }
         };
-        fetchUser  ();
+        fetchUser ();
     }, [token]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUser  ((prevData) => ({
+        setUser ((prevData) => ({
             ...prevData,
             [name]: value
         }));
@@ -83,7 +83,7 @@ function MyAccount() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            updateUser  (response.data); // Call updateUser   to update context with new user data
+            updateUser (response.data); // Call updateUser  to update context with new user data
         } catch (error) {
             if (error.response) {
                 console.error('Error updating account information:', error.response.status);
@@ -100,48 +100,53 @@ function MyAccount() {
 
     return (
         <>
-            <h1>My Account</h1>
-            <form onSubmit={handleUpdate}>
-                <div>
-                    <label htmlFor="fullName">Full Name:</label>
-                    <input
-                        type="text"
-                        id="fullName"
-                        name="fullName"
-                        value={userData.fullName}
-                        onChange={handleInputChange}
-                        placeholder="Full Name"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="userAddress">Address:</label>
-                    <input
-                        type="text"
-                        id="userAddress"
-                        name="userAddress"
-                        value={userData.userAddress}
-                        onChange={handleInputChange}
-                        placeholder="Address"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="userPhoneNumber">Phone Number:</label>
-                    <input
-                        type="text"
-                        id="userPhoneNumber"
-                        name="userPhoneNumber"
-                        value={userData.userPhoneNumber}
-                        onChange={handleInputChange}
-                        placeholder="Phone Number"
-                        required
-                    />
-                </div>
-                <button type="submit">Update Account</button>
-                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            </form>
-            <Link to="/dashboard">Back</Link>
+            <div className="container mt-4">
+                <h1>My Account</h1>
+                <form onSubmit={handleUpdate} className="mt-3">
+                    <div className="mb-3">
+                        <label htmlFor="fullName" className="form-label">Full Name:</label>
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            value={userData.fullName}
+                            onChange={handleInputChange}
+                            className="form-control"
+                            placeholder="Full Name"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="userAddress" className="form-label">Address:</label>
+                        <input
+                            type="text"
+                            id="userAddress"
+                            name="userAddress"
+                            value={userData.userAddress}
+                            onChange={handleInputChange}
+                            className="form-control"
+                            placeholder="Address"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="userPhoneNumber" className="form-label">Phone Number:</label>
+                        <input
+                            type="text"
+                            id="userPhoneNumber"
+                            name="userPhoneNumber"
+                            value={userData.userPhoneNumber}
+                            onChange={handleInputChange}
+                            className="form-control"
+                            placeholder="Phone Number"
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary">Update Account</button>
+                    {successMessage && <p className="text-success mt-2">{successMessage}</p>}
+                </form>
+                <Link to="/dashboard" className="btn btn-secondary mt-3">Back</Link>
+            </div>
         </>
     );
 }

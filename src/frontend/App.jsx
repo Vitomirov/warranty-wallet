@@ -14,6 +14,8 @@ import MyWarranties from './components/MyWarranties';
 import LogOut from './components/LogOut';
 import PrivateRoute from './components/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
+import About from './components/About';
+
 
 function App() {
   console.log('Rendering App component');
@@ -25,6 +27,7 @@ function App() {
         <Route path="/login" element={<LayoutWithoutNav><LogIn /></LayoutWithoutNav>} />
         <Route path="/signup" element={<LayoutWithoutNav><SignUp /></LayoutWithoutNav>} />
         <Route path="/logout" element={<LayoutWithNav><LogOut /></LayoutWithNav>} />
+        <Route path="/about" element={<LayoutWithoutNav><About /></LayoutWithoutNav>} />
         <Route path="/dashboard" element={
            <PrivateRoute>
             <LayoutWithoutNav><Dashboard /></LayoutWithoutNav>

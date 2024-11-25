@@ -1,0 +1,153 @@
+/* Define Color Scheme Variables */
+:root {
+    --primary-color: #00796B; /* Teal */
+    --secondary-color: #F5F5F5; /* Light Gray */
+    --accent-color: #FF9800; /* Orange */
+    --hover-color: #383838; /* Dark Gray for hover effects */
+    --text-dark: #212121; /* Dark Text */
+    --text-light: #f3f3f3; /* Light Text */
+    --button-background: #555; /* Default Button Background */
+    --button-hover: #333; /* Button Hover Background */
+}
+
+/* Global Styles */
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--secondary-color); /* Light gray background */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 81vh;
+    background: linear-gradient(135deg, #00796B, #80CBC4); /* Teal gradient */
+    padding: 0 50px;
+    color: var(--text-light);
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.hero-left {
+    flex: 1;
+    max-width: 50%;
+}
+
+.hero-left h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero-left p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Hero Right - Buttons */
+.hero-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.hero-right .btn {
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-block;
+    width: 200px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.hero-right .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.hero-right .btn-primary:hover {
+    background-color: var(--hover-color);
+}
+
+.hero-right .btn-secondary {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+.hero-right .btn-secondary:hover {
+    background-color: var(--hover-color);
+}
+
+/* Navigation Bar */
+.navbar {
+    border-bottom:  0 solid #ddd;
+    background: linear-gradient(135deg, #00796B, #80CBC4);
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-light);
+}
+
+/* Navigation Links */
+.nav-link {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+    color: var(--hover-color);
+}
+
+/* "Log Out" Button Styled as Link */
+.logout-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+    color: var(--accent-color);
+}
+
+/* Footer Styles - Stick to the bottom of the main content */
+footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0; /* No margin-top to avoid extra space */
+}
+
+/* Footer Text */
+footer p {
+    font-size: 1rem;
+    margin: 0;
+}

@@ -35,30 +35,30 @@ const MyWarranties = () => {
   }, [token]); // Add token as a dependency to refetch if it changes
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="alert alert-danger">{error}</div>;
   }
 
   return (
-    <>
+    <div className="container mt-4">
       <h1>My Warranties</h1>
       {warranties.length === 0 ? (
         <p>No warranties found.</p>
       ) : (
-        <ul>
+        <ul className="list-group mt-3">
           {warranties.map(warranty => (
-            <li key={warranty.warrantyId}>
-              <Link to={`/warranties/details/${warranty.warrantyId}`}>
+            <li key={warranty.warrantyId} className="list-group-item">
+              <Link to={`/warranties/details/${warranty.warrantyId}`} className="link-primary">
                 {warranty.productName}
               </Link>
             </li>
           ))}
         </ul>
       )}
-      <br />
-      <Link to="/newWarranty">Add a new warranty</Link>
-      <br />
-      <Link to="/dashboard">Back</Link>
-    </>
+      <div className="mt-3">
+        <Link to="/newWarranty" className="btn btn-primary me-2">Add a new warranty</Link>
+        <Link to="/dashboard" className="btn btn-secondary">Back</Link>
+      </div>
+    </div>
   );
 };
 
