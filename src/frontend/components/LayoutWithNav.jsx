@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from "./Footer"; // Ensure the path is correct
-import Navigation from "./Navigation"; // This may already be included
+import Footer from "./Footer";
+import Navigation from "./Navigation"; 
 
 function LayoutWithNav({ children }) {
   return (

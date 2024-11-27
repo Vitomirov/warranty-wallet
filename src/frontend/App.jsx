@@ -4,7 +4,6 @@ import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import MyAccount from './components/MyAccount';
 import Dashboard from './components/Dashboard';
-import Home from './components/Home';
 import LayoutWithNav from './components/LayoutWithNav';
 import LayoutWithoutNav from './components/LayoutWithoutNav';
 import NewWarranty from './components/NewWarranty';
@@ -15,6 +14,7 @@ import LogOut from './components/LogOut';
 import PrivateRoute from './components/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
 import About from './components/About';
+import LandingPage from './components/LendingPage';
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<LayoutWithoutNav><Home /></LayoutWithoutNav>} />
+        <Route path="/" element={<LandingPage/>} />
         <Route path="/login" element={<LayoutWithoutNav><LogIn /></LayoutWithoutNav>} />
         <Route path="/signup" element={<LayoutWithoutNav><SignUp /></LayoutWithoutNav>} />
         <Route path="/logout" element={<LayoutWithNav><LogOut /></LayoutWithNav>} />

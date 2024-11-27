@@ -14,7 +14,7 @@ function LogOut() {
   };
 
   return (
-    <button className="nav-link btn logout-link"
+    <button className="col text-end"
       onClick={handleLogout}>
       Log Out
     </button>

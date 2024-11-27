@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LogOut from './LogOut';
 
+
 function Dashboard() {
   const { user } = useAuth();
 
@@ -14,6 +15,7 @@ function Dashboard() {
         </div>
         <div className="col text-end">
           <Link to="/myAccount" className="btn btn-link">My Account</Link>
+          <LogOut />
         </div>
       </div>
 
@@ -23,12 +25,7 @@ function Dashboard() {
           <Link to="/myWarranties" className="btn btn-primary mx-2">My Warranties</Link>
         </div>
       </div>
-
-      <div className="row">
-        <div className="col text-start mt-auto">
-          <LogOut />
-        </div>
-      </div>
+      <Link to="/" className="btn btn-secondary">Back</Link>
     </div>
   );
 }

@@ -10,6 +10,8 @@ const WarrantyDetails = () => {
   const [issueDescription, setIssueDescription] = useState('');
   const { id } = useParams();
   const { token, refreshToken, user } = useAuth();
+  const [daysLeft, setDaysLeft] = useState(0);
+  const [isExpired, setIsExpired] = useState(false);
 
   // Function to fetch the warranty details from the API
   const fetchWarranty = async () => {
@@ -44,19 +46,28 @@ const WarrantyDetails = () => {
     const expiry = new Date(year, month - 1, day); // month is 0-indexed in JavaScript
 
     const currentDate = new Date();
-
-    // Get the difference in milliseconds
     const daysLeft = expiry - currentDate;
 
     // If the warranty is already expired
-    if (daysLeft <= 0) {
-      return "Warranty has expired";
-    }
+    const isExpired = daysLeft <= 0;
 
     // Calculate days
-    const days = Math.floor(daysLeft / (1000 * 60 * 60 * 24));
-    return `${days} days left`;
+    const days = isExpired ? 0 : Math.floor(daysLeft / (1000 * 60 * 60 * 24));
+    return { days, isExpired };
   };
+
+  // UseEffect to fetch warranty details and calculate days left
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchWarranty();
+      if (warranty) {
+        const { days, isExpired } = calculateDaysLeft(warranty.warrantyExpireDate);
+        setDaysLeft(days);
+        setIsExpired(isExpired);
+      }
+    };
+    fetchData();
+  }, [id, token, warranty]);
 
   // Function to handle opening the warranty PDF
   const handleOpenPDF = async () => {
@@ -127,14 +138,6 @@ const WarrantyDetails = () => {
     }
   };
 
-  // useEffect to fetch warranty details on component mount
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchWarranty();
-    };
-    fetchData();
-  }, [id, token]);
-
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
@@ -161,9 +164,10 @@ const WarrantyDetails = () => {
 
       {/* Display the days left till the warranty expires */}
       <div className="mb-3">
-        <strong>Days Left Till Expiry:</strong> {calculateDaysLeft(warranty.warrantyExpireDate)}
+        <strong>Days Left Till Expiry:</strong> {isExpired ? "Warranty has expired" : `${daysLeft} days left`}
       </div>
-
+      {!isExpired &&(
+      <>
       <div className="mb-3">
         <label htmlFor="issueDescription">Describe issue:</label>
         <textarea
@@ -173,10 +177,13 @@ const WarrantyDetails = () => {
           value={issueDescription}
           onChange={(e) => setIssueDescription(e.target.value)}
           rows="4"
+          disabled={isExpired} // Disable if expired
         />
       </div>
 
-      <button className="btn btn-primary" onClick={handleSendEmail}>Send Complaint</button>
+      <button className="btn btn-primary" onClick={handleSendEmail} disabled={isExpired}>Send Complaint</button>
+      </>
+    )}
       <button className="btn btn-secondary ml-2" onClick={handleOpenPDF}>Open Warranty PDF</button>
       <DeleteWarranty id={warranty.warrantyId} />
       <br />

@@ -11,128 +11,103 @@
 }
 
 /* Global Styles */
-html, body {
+html, body{
     height: 100vh;
     margin: 0;
-    padding: 0;
+    padding: 0%;
     font-family: Arial, sans-serif;
-    background-color: var(--secondary-color); /* Light gray background */
     display: flex;
     flex-direction: column;
-}
-
-/* Hero Section */
-.hero-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 81vh;
-    background: linear-gradient(135deg, #00796B, #80CBC4); /* Teal gradient */
-    padding: 0 50px;
-    color: var(--text-light);
-}
-
-.hero-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.hero-left {
-    flex: 1;
-    max-width: 50%;
-}
-
-.hero-left h2 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-.hero-left p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-}
-
-/* Hero Right - Buttons */
-.hero-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 15px;
-}
-
-.hero-right .btn {
-    padding: 12px 20px;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    text-decoration: none;
-    display: inline-block;
-    width: 200px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.hero-right .btn-primary {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-}
-
-.hero-right .btn-primary:hover {
-    background-color: var(--hover-color);
-}
-
-.hero-right .btn-secondary {
-    background-color: var(--accent-color);
-    color: var(--text-light);
-}
-
-.hero-right .btn-secondary:hover {
-    background-color: var(--hover-color);
+    box-sizing: content-box;
+    background: linear-gradient(45deg, #ffffff, #92a0db); 
 }
 
 /* Navigation Bar */
 .navbar {
-    border-bottom:  0 solid #ddd;
-    background: linear-gradient(135deg, #00796B, #80CBC4);
-    background-color: var(--primary-color);
-    padding: 10px 20px;
+    border-bottom: 0 solid;
+    background-color: rgb(12, 0, 12);
     backdrop-filter: blur(12px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.navbar-nav{
+    padding-right: 9%;
+}
+
+.navbar h1{
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    padding-left: 9%;
 }
 
 .navbar-brand {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--text-light);
+    color: var(--secondary-color);
 }
 
 /* Navigation Links */
 .nav-link {
-    color: var(--text-light);
+    color: var(--secondary-color) !important; /* Ensure white color */
     text-decoration: none;
     transition: color 0.3s ease, text-decoration 0.3s ease;
+    padding-right: 8%;
+
 }
 
 .nav-link:hover {
     text-decoration: underline;
-    color: var(--hover-color);
+    color: var(--accent-color); /* Optional hover color */
 }
 
-/* "Log Out" Button Styled as Link */
-.logout-link {
-    background: none;
-    border: none;
+/* Hero Section */
+.hero-section {
+    width: 100%;
+    height: 100vh; /* Full viewport height */
     padding: 0;
-    cursor: pointer;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
+    background: linear-gradient(161deg, #ffffff 50%, #007bff 50%);
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: flex-start; /* Align content to the left */
 }
 
-.logout-link:hover {
-    text-decoration: underline;
-    color: var(--accent-color);
+/* Hero Content */
+.hero-content {
+    width: 50%; /* Occupies half the screen width */
+    padding: 2rem;
+
+}
+
+/* Hero Left */
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30%;
+}
+.hero-left h2 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: var(--bs-dark); /* Using Bootstrap variable */
+}
+
+.hero-left p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: var(--bs-dark); /* Using Bootstrap variable */
+    margin-bottom: 2rem;
+}
+.navbar-toggler .bi {
+    color: white; /* Change icon color to white */
+}
+
+/* Buttons */
+.hero-links .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.hero-links .btn:hover {
+    transform: scale(1.05); /* Slight scale effect on hover */
 }
 
 /* Footer Styles - Stick to the bottom of the main content */

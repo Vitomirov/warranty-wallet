@@ -12,7 +12,7 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-gradient border-bottom border-secondary py-2 d-flex justify-content-between align-items-center">
+    <footer id="contact" className="bg-gradient border-bottom border-secondary py-2 d-flex justify-content-between align-items-center">
       <p className="mb-0">
         &copy; Designed and Developed by Dejan Vitomirov
       </p>

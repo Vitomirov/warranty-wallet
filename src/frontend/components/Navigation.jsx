@@ -11,25 +11,44 @@ function Navigation() {
 
   // Check user login status on initial load
   useEffect(() => {
-    // Set logged-in state based on user context or localStorage
-    if (user || localStorage.getItem('token')) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(!!(user || localStorage.getItem('token')));
   }, [user]);
 
   return (
-    <nav className="navbar navbar-expand-lg py-1">
-      <div className="container">
-        <h1 className="h1">Warranty Wallet</h1>
-
-        <div className="collapse navbar-collapse justify-content-end">
-          <ul className="navbar-nav d-flex align-items-center">
+    <nav className="navbar navbar-expand-lg py-2 mb-0 sticky-top">
+      <div className="container-fluid">
+        {/* Title on the left */}
+        <h1 className="h1 mb-0">Warranty Wallet</h1>
+  
+        {/* Button for toggling navbar */}
+        <button 
+          className="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+        >
+          <i className="bi bi-list"></i>
+        </button>
+  
+        {/* Links on the right */}
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul className="navbar-nav ms-auto text-end">
             <li className="nav-item">
-              <Link to="/about" className="nav-link">About</Link>
+              <a className="nav-link" href="#about">About</a>
             </li>
-
+            <li className="nav-item">
+              <a className="nav-link" href="#features">Features</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#FAQ">FAQ</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#contact">Contact</a>
+            </li>
+  
             {/* Render login/signup buttons only if the user is not logged in and not on the landing page */}
             {!isLoggedIn && !isLandingPage && (
               <>
@@ -41,7 +60,7 @@ function Navigation() {
                 </li>
               </>
             )}
-
+  
             {/* Render dashboard and logout only if the user is logged in */}
             {isLoggedIn && (
               <>
