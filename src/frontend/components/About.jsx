@@ -1,24 +1,48 @@
-// components/About.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css"; // Only CSS import; no JS here.
 
 function About() {
   return (
-    <div id="about" className="container my-5 container-fluid d-flex justify-content-between"> 
-      <header className="text-left mb-4">
-        <h1 className="display-4">About</h1>
-      </header>
-      <p className="lead text-justify">
-        Warranty Wallet is your ultimate tool for managing warranties with ease.
-        We understand how frustrating it can be to keep track of receipts, expiration dates,
-        and warranty details. That’s why we designed an app that simplifies the process,
-        ensuring your valuable products are always protected.
+    <div id="about" className="container-fluid vh-100 d-flex align-items-center">
+      <div className="row w-100">
+        {/* Column for the "About" title */}
+        <div className="col-lg-3 d-flex justify-content-center align-items-center">
+          <h1 className="display-1 mt-3 fw-bold text-uppercase about-title">About</h1>
+        </div>
 
-        With Warranty Wallet, you can securely store, organize,
-        and access all your warranties in one place. Whether it’s a household appliance,
-        an electronic gadget, or even your car, Warranty Wallet helps you stay informed
-        about warranty terms and expiration dates so you never miss out on a claim.
-      </p>
+        {/* Column for the text content */}
+        <div className="col-lg-8 p-4">
+          <p className="lead p-4">
+            <strong>Warranty Wallet</strong> is your ultimate tool for managing warranties with ease.
+            We understand how frustrating it can be to keep track of receipts, expiration dates,
+            and warranty details. That’s why we designed an app that simplifies the process,
+            ensuring your valuable products are always protected.
+          </p>
+
+          {/* Main Dropdown */}
+          <div className="dropdown">
+            <button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="moreButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              More
+            </button>
+            <ul className="dropdown-menu p-3" aria-labelledby="moreButton">
+              <li>
+                <p>
+                  With <strong>Warranty Wallet</strong>, you can securely store, organize, and access
+                  all your warranties in one place. Whether it’s a household appliance, an electronic
+                  gadget, or even your car, Warranty Wallet helps you stay informed about warranty
+                  terms and expiration dates so you never miss out on a claim.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -25,7 +25,6 @@ function Dashboard() {
           <Link to="/myWarranties" className="btn btn-primary mx-2">My Warranties</Link>
         </div>
       </div>
-      <Link to="/" className="btn btn-secondary">Back</Link>
     </div>
   );
 }

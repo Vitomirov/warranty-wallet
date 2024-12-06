@@ -1,6 +1,7 @@
+
 /* Define Color Scheme Variables */
 :root {
-    --primary-color: #00796B; /* Teal */
+    --primary-color: #253257; /* Teal */
     --secondary-color: #F5F5F5; /* Light Gray */
     --accent-color: #FF9800; /* Orange */
     --hover-color: #383838; /* Dark Gray for hover effects */
@@ -8,31 +9,39 @@
     --text-light: #f3f3f3; /* Light Text */
     --button-background: #555; /* Default Button Background */
     --button-hover: #333; /* Button Hover Background */
+    --diagonal-blue: #c2dfe3; 
 }
 
 /* Global Styles */
-html, body{
+html, body {
     height: 100vh;
     margin: 0;
-    padding: 0%;
+    padding: 0;
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     box-sizing: content-box;
-    background: linear-gradient(45deg, #ffffff, #92a0db); 
 }
 
 /* Navigation Bar */
 .navbar {
     border-bottom: 0 solid;
-    background-color: rgb(12, 0, 12);
+    background-color: var(--primary-color);
     backdrop-filter: blur(12px);
 }
-.navbar-nav{
+
+.navbar-nav {
     padding-right: 9%;
 }
 
-.navbar h1{
+.navbar img {
+    height: 60px; /* Adjust as needed */
+    width: auto;  /* Maintain aspect ratio */
+    padding-top: 7px;
+    margin-left: 7%;
+}
+
+.navbar h1 {
     color: var(--secondary-color);
     font-size: 1.5rem;
     padding-left: 9%;
@@ -46,11 +55,10 @@ html, body{
 
 /* Navigation Links */
 .nav-link {
-    color: var(--secondary-color) !important; /* Ensure white color */
+    color: var(--secondary-color);
     text-decoration: none;
     transition: color 0.3s ease, text-decoration 0.3s ease;
-    padding-right: 8%;
-
+    padding-right: 7%;
 }
 
 .nav-link:hover {
@@ -63,16 +71,10 @@ html, body{
     width: 100%;
     height: 100vh; /* Full viewport height */
     padding: 0;
-    background: linear-gradient(161deg, #ffffff 50%, #007bff 50%);
+    background: linear-gradient(161deg, #ffffff 50%, var(--diagonal-blue)50%);
     display: flex;
-    align-items: center; /* Center content vertically */
-    justify-content: flex-start; /* Align content to the left */
-}
-
-/* Hero Content */
-.hero-content {
-    width: 50%; /* Occupies half the screen width */
-    padding: 2rem;
+    align-items: center; /* Centtr content vertically */
+    justify-content: space-between; /* Align content to the left and right */
 
 }
 
@@ -80,27 +82,35 @@ html, body{
 .hero-left {
     display: flex;
     flex-direction: column;
-    padding-bottom: 30%;
+    height: 20%;
+    align-items: flex-start;
+    justify-content: right;
+    padding-bottom: 40%;
 }
+
+/* Hero Left Text Styles */
 .hero-left h2 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
-    color: var(--bs-dark); /* Using Bootstrap variable */
+    color: var(--text-dark); /* Using defined variable */
 }
 
 .hero-left p {
     font-size: 1.5rem;
     line-height: 1.6;
-    color: var(--bs-dark); /* Using Bootstrap variable */
-    margin-bottom: 2rem;
-}
-.navbar-toggler .bi {
-    color: white; /* Change icon color to white */
-}
+    color: var(--text-dark); /* Using defined variable */
+    padding-left: 7%;
 
+}
+.hero-left .hero-links{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 9%;
+}
 /* Buttons */
 .hero-links .btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.3rem 2rem;
     font-size: 1rem;
     border-radius: 0.3rem;
     transition: transform 0.3s ease-in-out;
@@ -110,6 +120,28 @@ html, body{
     transform: scale(1.05); /* Slight scale effect on hover */
 }
 
+.hero-links .btn:hover {
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+/* Right Content Image */
+.img-lending-page {
+    display: flex;
+    justify-content: right;
+    align-items:flex-start;
+    padding-bottom: 20%;
+}
+
+/* About Section */
+
+.about-title {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    font-weight:bolder;
+    font-size-adjust: 0.85;
+    color: var(--diagonal-blue);
+    letter-spacing: 1rem;
+  }
+  
 /* Footer Styles - Stick to the bottom of the main content */
 footer {
     background-color: var(--primary-color);
@@ -125,4 +157,4 @@ footer {
 footer p {
     font-size: 1rem;
     margin: 0;
-}
+} 

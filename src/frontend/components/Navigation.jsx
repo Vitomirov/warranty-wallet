@@ -18,8 +18,9 @@ function Navigation() {
     <nav className="navbar navbar-expand-lg py-2 mb-0 sticky-top">
       <div className="container-fluid">
         {/* Title on the left */}
-        <h1 className="h1 mb-0">Warranty Wallet</h1>
-  
+        {/*<h1 className="h1 mb-0">Warranty Wallet</h1>*/}
+        <img src="src/frontend/images/Logo.png" alt="Warranty Wallet" />
+
         {/* Button for toggling navbar */}
         <button 
           className="navbar-toggler" 

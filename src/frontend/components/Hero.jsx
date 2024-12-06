@@ -10,15 +10,19 @@ const Hero = () => {
           <div className="col-lg-6 col-md-7 col-12">
             <div className="hero-left">
               <h2>Warranty Wallet</h2>
-              <p>All warranties in one place.</p>
-              <div className="hero-links d-flex gap-3">
-                <Link to="/login" className="btn btn-primary">Log In</Link>
-                <Link to="/signup" className="btn btn-secondary">Sign Up</Link>
+              <p className='d-flex justify-content-center'>All warranties in one place.</p>
+              <div className="hero-links d-flex justify-content-center gap-3">
+                <Link to="/login" className="btn btn-primary btn-lg">Log In</Link>
+                <Link to="/signup" className="btn btn-secondary btn-lg">Sign Up</Link>
               </div>
             </div>
           </div>
-          {/* Right Content (Optional placeholder for future use) */}
-          <div className="col-lg-6 d-none d-lg-block"></div>
+          {/* Right Content */}
+          <div className="col-lg-6 d-none d-lg-block">
+            <div className="hero-right">
+              <img src="src/frontend/images/LendingPage.png" alt="LendingPage" className='img-lending-page '/>
+            </div>
+          </div>
         </div>
       </div>
     </section>
