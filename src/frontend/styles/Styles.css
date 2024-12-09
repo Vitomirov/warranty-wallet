@@ -35,8 +35,8 @@ html, body {
 }
 
 .navbar img {
-    height: 60px; /* Adjust as needed */
-    width: auto;  /* Maintain aspect ratio */
+    height: 60px; 
+    width: auto;  
     padding-top: 7px;
     margin-left: 7%;
 }
@@ -63,7 +63,7 @@ html, body {
 
 .nav-link:hover {
     text-decoration: underline;
-    color: var(--accent-color); /* Optional hover color */
+    color: var(--accent-color);
 }
 
 /* Hero Section */
@@ -117,11 +117,8 @@ html, body {
 }
 
 .hero-links .btn:hover {
-    transform: scale(1.05); /* Slight scale effect on hover */
-}
-
-.hero-links .btn:hover {
-    transform: scale(1.05); /* Slight scale effect on hover */
+    transform: scale(1.05); 
+    background-color: var(--accent-color);
 }
 /* Right Content Image */
 .img-lending-page {
@@ -132,14 +129,35 @@ html, body {
 }
 
 /* About Section */
-
+.about-section{
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    padding: 0;
+    background: linear-gradient(203deg, var(--diagonal-blue)50%, #ffffff 50%) !important;
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: space-between; /* Align content to the left and right */
+}
 .about-title {
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     font-weight:bolder;
     font-size-adjust: 0.85;
     color: var(--diagonal-blue);
+    position: relative;
+    z-index: 1;
     letter-spacing: 1rem;
+  }
+
+  .about-title::before {
+    content: "ABOUT";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white; /* Bela boja za tekst na plavoj pozadini */
+    z-index: -1; /* Pseudoelement iza osnovnog teksta */
+    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); /* Prilagođavanje liniji pozadine */
+    -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
   }
   
 /* Footer Styles - Stick to the bottom of the main content */

@@ -18,9 +18,9 @@ const Hero = () => {
             </div>
           </div>
           {/* Right Content */}
-          <div className="col-lg-6 d-none d-lg-block">
+          <div className="col-lg-6 col-md-3 col-sm-1 ">
             <div className="hero-right">
-              <img src="src/frontend/images/LendingPage.png" alt="LendingPage" className='img-lending-page '/>
+              <img className="img-fluid d-none d-lg-block" src="src/frontend/images/LendingPage.png" alt="LendingPage"/>
             </div>
           </div>
         </div>
