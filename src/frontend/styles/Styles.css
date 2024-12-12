@@ -1,92 +1,46 @@
 
 /* Define Color Scheme Variables */
 :root {
-    --primary-color: #253257; /* Teal */
-    --secondary-color: #F5F5F5; /* Light Gray */
+    --primary-color:  #c2dfe3; /* Teal */
+    --secondary-color: #f5f5f5; /* Light Gray */
     --accent-color: #FF9800; /* Orange */
     --hover-color: #383838; /* Dark Gray for hover effects */
     --text-dark: #212121; /* Dark Text */
     --text-light: #f3f3f3; /* Light Text */
     --button-background: #555; /* Default Button Background */
     --button-hover: #333; /* Button Hover Background */
-    --diagonal-blue: #c2dfe3; 
-}
-
-/* Global Styles */
-html, body {
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    box-sizing: content-box;
+    --header-footer: #253257; /* Teal */
 }
 
 /* Navigation Bar */
 .navbar {
-    border-bottom: 0 solid;
-    background-color: var(--primary-color);
-    backdrop-filter: blur(12px);
-}
-
-.navbar-nav {
-    padding-right: 9%;
+    background-color: var(--header-footer);
 }
 
 .navbar img {
-    height: 60px; 
+    height: 70px; 
     width: auto;  
     padding-top: 7px;
-    margin-left: 7%;
-}
-
-.navbar h1 {
-    color: var(--secondary-color);
-    font-size: 1.5rem;
-    padding-left: 9%;
-}
-
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--secondary-color);
 }
 
 /* Navigation Links */
 .nav-link {
     color: var(--secondary-color);
-    text-decoration: none;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-    padding-right: 7%;
 }
 
 .nav-link:hover {
-    text-decoration: underline;
     color: var(--accent-color);
 }
 
 /* Hero Section */
 .hero-section {
-    width: 100%;
-    height: 100vh; /* Full viewport height */
-    padding: 0;
-    background: linear-gradient(161deg, #ffffff 50%, var(--diagonal-blue)50%);
-    display: flex;
-    align-items: center; /* Centtr content vertically */
-    justify-content: space-between; /* Align content to the left and right */
-
+    background: linear-gradient(156deg, var(--secondary-color) 50%, var(--primary-color)50%);
 }
 
 /* Hero Left */
 .hero-left {
-    display: flex;
-    flex-direction: column;
-    height: 20%;
-    align-items: flex-start;
-    justify-content: right;
-    padding-bottom: 40%;
-}
+    margin-bottom: 40%;
+} 
 
 /* Hero Left Text Styles */
 .hero-left h2 {
@@ -97,16 +51,7 @@ html, body {
 
 .hero-left p {
     font-size: 1.5rem;
-    line-height: 1.6;
     color: var(--text-dark); /* Using defined variable */
-    padding-left: 7%;
-
-}
-.hero-left .hero-links{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 9%;
 }
 /* Buttons */
 .hero-links .btn {
@@ -133,7 +78,7 @@ html, body {
     width: 100%;
     height: 100vh; /* Full viewport height */
     padding: 0;
-    background: linear-gradient(203deg, var(--diagonal-blue)50%, #ffffff 50%) !important;
+    background: linear-gradient(203deg, var(--primary-color)50%, #ffffff 50%) !important;
     display: flex;
     align-items: center; /* Center content vertically */
     justify-content: space-between; /* Align content to the left and right */
@@ -162,7 +107,7 @@ html, body {
   
 /* Footer Styles - Stick to the bottom of the main content */
 footer {
-    background-color: var(--primary-color);
+    background-color: var(--header-footer);
     color: var(--text-light);
     text-align: center;
     padding: 10px 0;

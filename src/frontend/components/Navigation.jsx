@@ -16,11 +16,11 @@ function Navigation() {
 
   return (
     <nav className="navbar navbar-expand-lg py-2 mb-0 sticky-top">
-      <div className="container-fluid">
+      <div className="container">
         {/* Title on the left */}
-        {/*<h1 className="h1 mb-0">Warranty Wallet</h1>*/}
-        <img src="src/frontend/images/Logo.png" alt="Warranty Wallet" />
-
+        <a className="navbar-brand" href='#'>
+        <img src="src/frontend/images/Logo.png" alt="WW logo" />
+        </a>
         {/* Button for toggling navbar */}
         <button 
           className="navbar-toggler" 
@@ -35,7 +35,7 @@ function Navigation() {
         </button>
   
         {/* Links on the right */}
-        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto text-end">
             <li className="nav-item">
               <a className="nav-link" href="#about">About</a>
