@@ -53,15 +53,16 @@
     font-size: 1.5rem;
     color: var(--text-dark); /* Using defined variable */
 }
+
 /* Buttons */
-.hero-links .btn {
+.button .btn {
     padding: 0.3rem 2rem;
     font-size: 1rem;
     border-radius: 0.3rem;
     transition: transform 0.3s ease-in-out;
 }
 
-.hero-links .btn:hover {
+.button .btn:hover {
     transform: scale(1.05); 
     background-color: var(--accent-color);
 }
@@ -75,36 +76,44 @@
 
 /* About Section */
 .about-section{
-    width: 100%;
-    height: 100vh; /* Full viewport height */
-    padding: 0;
-    background: linear-gradient(203deg, var(--primary-color)50%, #ffffff 50%) !important;
-    display: flex;
-    align-items: center; /* Center content vertically */
-    justify-content: space-between; /* Align content to the left and right */
+    background: var(--secondary-color);
 }
 .about-title {
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     font-weight:bolder;
     font-size-adjust: 0.85;
-    color: var(--diagonal-blue);
+    color: var(--primary-color);
     position: relative;
     z-index: 1;
     letter-spacing: 1rem;
   }
 
-  .about-title::before {
-    content: "ABOUT";
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: white; /* Bela boja za tekst na plavoj pozadini */
-    z-index: -1; /* Pseudoelement iza osnovnog teksta */
-    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); /* Prilagođavanje liniji pozadine */
-    -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-  }
-  
+ /* Features Section */
+ .features-section {
+    background: var(--secondary-color);
+}
+.features-title {
+    font-weight: bolder;
+    letter-spacing: 1.5rem;
+    font-size-adjust: 0.85;
+    color: var(--accent-color);
+}
+
+.hover-text{
+    display:none;
+}
+
+.individualFeature:hover{
+    background-color: var(--primary-color);
+    height: 100%;
+}
+.individualFeature:hover .hover-text{
+    display: block;
+    pointer-events: all;
+}
+
+
 /* Footer Styles - Stick to the bottom of the main content */
 footer {
     background-color: var(--header-footer);
@@ -118,6 +127,12 @@ footer {
 
 /* Footer Text */
 footer p {
-    font-size: 1rem;
     margin: 0;
-} 
+}
+
+
+
+/* HELPERS - TO BE REMOVED */
+.helpBorder{
+    border: red 2px solid;
+}

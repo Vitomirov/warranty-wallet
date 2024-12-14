@@ -39,7 +39,7 @@ const MyWarranties = () => {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 col-6">
       <h1>My Warranties</h1>
       {warranties.length === 0 ? (
         <p>No warranties found.</p>
@@ -54,7 +54,7 @@ const MyWarranties = () => {
           ))}
         </ul>
       )}
-      <div className="mt-3">
+      <div className="button mt-3 d-flex justify-content-between">
         <Link to="/newWarranty" className="btn btn-primary me-2">Add a new warranty</Link>
         <Link to="/dashboard" className="btn btn-secondary">Back</Link>
       </div>

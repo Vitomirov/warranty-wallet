@@ -7,13 +7,13 @@ function About() {
       <div id="about" className="container-fluid vh-100 d-flex align-items-center">
         <div className="row w-100">
           {/* Column for the "About" title */}
-          <div className="col-lg-3 d-flex justify-content-center align-items-center">
-            <h1 className="display-1 mt-3 fw-bold text-uppercase about-title">About</h1>
+          <div className="col-lg-3 d-flex justify-content-center align-items-center pt-5">
+            <h1 className="about-title display-2 fw-bolder ">ABOUT</h1>
           </div>
 
           {/* Column for the text content */}
-          <div className="col-lg-8 p-4">
-            <p className="lead p-4">
+          <div className="col-lg-8 pt-5">
+            <p className="lead p-5">
               <span className="fw-bold">Warranty Wallet</span> is your ultimate tool for managing warranties with ease.
               We understand how frustrating it can be to keep track of receipts, expiration dates,
               and warranty details. That’s why we designed an app that simplifies the process,
@@ -21,9 +21,9 @@ function About() {
             </p>
 
             {/* Main Dropdown */}
-            <div className="dropdown">
+            <div className="button">
               <button
-                className="btn btn-secondary dropdown-toggle"
+                className="btn btn-primary dropdown-toggle"
                 type="button"
                 id="moreButton"
                 data-bs-toggle="dropdown"
@@ -31,7 +31,7 @@ function About() {
               >
                 More
               </button>
-              <ul className="dropdown-menu p-3 border-0" aria-labelledby="moreButton">
+              <ul className="dropdown-menu p-3 border-0 col-lg-6" aria-labelledby="moreButton">
                 <li>
                   <p>
                     With <span className="fw-bold">Warranty Wallet</span>, you can securely store, organize, and access

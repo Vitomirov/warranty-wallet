@@ -33,36 +33,44 @@ const Login = () => {
   return (
     <div className="container mt-5">
       <h1 className="text-center">Warranty Wallet</h1>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="mb-3">
-          <label htmlFor="username" className="form-label">Username:</label>
+      <div className='row justify-content-center'>
+      <form onSubmit={handleSubmit} className="mt-4 col-md-6">
+        <div className="mb-3 form-floating">
           <input
             type="text"
             className="form-control"
-            id="username"
+              id="username"
+              placeholder="Username"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
             required
-          />
+            />
+          <label for="username">Username</label>
         </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password:</label>
+        <div className="mb-3 form-floating">
           <input
             type="password"
             className="form-control"
-            id="password"
+              id="password"
+              placeholder="Password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
-          />
+            />
+          <label for="password">Password</label>  
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Logging In...' : 'Log In'}
-        </button>
-        <br />
-        <Link to="/">Back</Link>
-      </form>
+        <div className='button'>
+            <button type="submit" className="button btn btn-primary" disabled={loading}>
+                    {loading ? 'Logging In...' : 'Log In'}
+            </button>
+        </div>
+          <div >
+          <Link to="/">Back</Link>
+        </div>
+        
+        </form>
+      </div>
     </div>
   );
 };

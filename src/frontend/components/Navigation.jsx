@@ -48,31 +48,7 @@ function Navigation() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#contact">Contact</a>
-            </li>
-  
-            {/* Render login/signup buttons only if the user is not logged in and not on the landing page */}
-            {!isLoggedIn && !isLandingPage && (
-              <>
-                <li className="nav-item">
-                  <Link to="/login" className="nav-link">Log In</Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/signup" className="nav-link">Sign Up</Link>
-                </li>
-              </>
-            )}
-  
-            {/* Render dashboard and logout only if the user is logged in */}
-            {isLoggedIn && (
-              <>
-                <li className="nav-item">
-                  <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                </li>
-                <li className="nav-item logout-link">
-                  <LogOut />
-                </li>
-              </>
-            )}
+            </li> 
           </ul>
         </div>
       </div>
