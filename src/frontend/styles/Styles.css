@@ -3,7 +3,7 @@
 :root {
     --primary-color:  #c2dfe3; /* Teal */
     --secondary-color: #f5f5f5; /* Light Gray */
-    --accent-color: #FF9800; /* Orange */
+    --accent-color: #fae637; /* Orange */
     --hover-color: #383838; /* Dark Gray for hover effects */
     --text-dark: #212121; /* Dark Text */
     --text-light: #f3f3f3; /* Light Text */
@@ -83,10 +83,13 @@
     transform: rotate(180deg);
     font-weight:bolder;
     font-size-adjust: 0.85;
-    color: var(--primary-color);
+    color: var(--accent-color);
     position: relative;
     z-index: 1;
     letter-spacing: 1rem;
+  }
+  .load{
+    background-color: #212121;
   }
 
  /* Features Section */
@@ -95,23 +98,35 @@
 }
 .features-title {
     font-weight: bolder;
-    letter-spacing: 1.5rem;
+    letter-spacing: 1rem;
     font-size-adjust: 0.85;
-    color: var(--accent-color);
+    color: var(--primary-color);
 }
 
 .hover-text{
-    display:none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease; 
 }
 
 .individualFeature:hover{
     background-color: var(--primary-color);
-    height: 100%;
+    min-height: 100%;
+    border-radius: 10%;
 }
 .individualFeature:hover .hover-text{
-    display: block;
-    pointer-events: all;
+    visibility: visible;
+    opacity: 1;    
 }
+.individualFeature:hover .featureTitle{
+    background-color: var(--secondary-color);
+}
+
+.featureTitle{
+    background-color: var(--primary-color);
+    border-radius: 10%;
+}
+
 
 
 /* Footer Styles - Stick to the bottom of the main content */

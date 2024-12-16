@@ -13,7 +13,7 @@ function About() {
 
           {/* Column for the text content */}
           <div className="col-lg-8 pt-5">
-            <p className="lead p-5">
+            <p className="lead pt-5 pb-5">
               <span className="fw-bold">Warranty Wallet</span> is your ultimate tool for managing warranties with ease.
               We understand how frustrating it can be to keep track of receipts, expiration dates,
               and warranty details. That’s why we designed an app that simplifies the process,
@@ -31,7 +31,7 @@ function About() {
               >
                 More
               </button>
-              <ul className="dropdown-menu p-3 border-0 col-lg-6" aria-labelledby="moreButton">
+              <ul className="dropdown-menu p-3  col-lg-6" aria-labelledby="moreButton">
                 <li>
                   <p>
                     With <span className="fw-bold">Warranty Wallet</span>, you can securely store, organize, and access

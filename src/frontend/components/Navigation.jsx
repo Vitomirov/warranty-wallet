@@ -15,7 +15,7 @@ function Navigation() {
   }, [user]);
 
   return (
-    <nav className="navbar navbar-expand-lg py-2 mb-0 sticky-top">
+    <nav className="bg-gradient navbar navbar-expand-lg py-2 mb-0 sticky-top">
       <div className="container">
         {/* Title on the left */}
         <a className="navbar-brand" href='#'>
