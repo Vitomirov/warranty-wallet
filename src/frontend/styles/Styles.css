@@ -95,10 +95,11 @@
  /* Features Section */
  .features-section {
     background: var(--secondary-color);
+
 }
 .features-title {
     font-weight: bolder;
-    letter-spacing: 1rem;
+    letter-spacing: 0.85rem;
     font-size-adjust: 0.85;
     color: var(--primary-color);
 }
@@ -110,7 +111,7 @@
 }
 
 .individualFeature:hover{
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     min-height: 100%;
     border-radius: 10%;
 }
@@ -126,8 +127,6 @@
     background-color: var(--primary-color);
     border-radius: 10%;
 }
-
-
 
 /* Footer Styles - Stick to the bottom of the main content */
 footer {
