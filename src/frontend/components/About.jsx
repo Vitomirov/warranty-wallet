@@ -4,8 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function About() {
   return (
     <section className="about-section">
-      <div id="about" className="helpBorder container-fluid min-vh-100 d-flex align-items-center">
-        <div className="row w-100 p-5">
+      <div id="about" className="container-fluid min-vh-100 d-flex align-items-center">
+        <div className="row p-5">
           {/* Column for the "About" title */}
           <div className="col-lg-3 d-flex justify-content-center align-items-center pt-5">
             <h1 className="about-title display-2 fw-bolder ">ABOUT</h1>

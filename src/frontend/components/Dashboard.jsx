@@ -13,14 +13,14 @@ function Dashboard() {
         <div className="col text-start">
           <p>Welcome, {user.username}</p>
         </div>
-        <div className="col text-end">
+        <div className="button col text-end">
           <Link to="/myAccount" className="btn btn-link">My Account</Link>
           <LogOut />
         </div>
       </div>
 
       <div className="row justify-content-center mt-5">
-        <div className="col text-center">
+        <div className="button col text-center">
           <Link to="/newWarranty" className="btn btn-primary mx-2">New Warranty</Link>
           <Link to="/myWarranties" className="btn btn-primary mx-2">My Warranties</Link>
         </div>

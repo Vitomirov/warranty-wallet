@@ -3,7 +3,7 @@
 :root {
     --primary-color:  #c2dfe3; /* Teal */
     --secondary-color: #f5f5f5; /* Light Gray */
-    --accent-color: #fae637; /* Orange */
+    --accent-color: #d1c132; /* Orange */
     --hover-color: #383838; /* Dark Gray for hover effects */
     --text-dark: #212121; /* Dark Text */
     --text-light: #f3f3f3; /* Light Text */
@@ -113,7 +113,6 @@
 .individualFeature:hover{
     background-color: var(--accent-color);
     min-height: 100%;
-    border-radius: 10%;
 }
 .individualFeature:hover .hover-text{
     visibility: visible;
@@ -125,7 +124,18 @@
 
 .featureTitle{
     background-color: var(--primary-color);
-    border-radius: 10%;
+}
+
+/* FAQ-Section */
+.faq-section{
+    background: linear-gradient(206deg, var(--secondary-color) 65%, var(--primary-color)65%);
+}
+
+.questionField{
+    background-color: var(--primary-color);
+}
+.questionField:hover{
+    background-color: var(--accent-color);
 }
 
 /* Footer Styles - Stick to the bottom of the main content */

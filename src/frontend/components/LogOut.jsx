@@ -14,10 +14,11 @@ function LogOut() {
   };
 
   return (
-    <button className="btn btn-link"
-      onClick={handleLogout}>
-      Log Out
-    </button>
+        <button className="btn btn-primary"
+         onClick={handleLogout}>
+         Log Out
+        </button>
+
   );
 }
 
