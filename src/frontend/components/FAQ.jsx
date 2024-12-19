@@ -36,7 +36,7 @@ const FAQ = () => {
           
           {/* First column for the image */}
           <div className='col-lg-6 col-md-6 text-center mb-4 mb-md-0'>
-            <img className="img-fluid" style={{ maxWidth: '50%', height: 'auto' }} src="src/frontend/images/FAQ1.png" alt="FAQ-image" />
+            <img className="img-fluid" style={{ maxWidth: '50%', height: 'auto' }} src="src/frontend/images/FAQ.png" alt="FAQ-image" />
           </div>
 
           {/* Second column for the FAQ */}
