@@ -23,7 +23,7 @@ function SignUp() {
         password,
         fullName,
         userAddress,
-        userPhoneNumber
+        userPhoneNumber,
       });
       setMessage(response.data);
       setUsername('');
@@ -39,92 +39,123 @@ function SignUp() {
   };
 
   return (
-    <>
-      <h2>Sign Up</h2>
-      {message && <p>{message}</p>}
+    <div className="signup container-fluid p-4">
       <form onSubmit={handleSubmit}>
-  
-        <fieldset>
-          <legend>Account Information</legend>
-          <div>
-            <label htmlFor="username">Username:</label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter a unique username"
-              required
-            />
+        <div className="d-flex flex-column align-items-center">
+          <div className='col-lg-12'>
+          <div className="col-lg-3">
+            <h1 className='fw-bold'>Sign Up</h1>
+            </div>
           </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              type="email"
-              value={userEmail}
-              onChange={(e) => setUserEmail(e.target.value)}
-              placeholder="example@domain.com"
-              required
-            />
+          
+          {/* Account Information */}
+          <fieldset className="mb-1 col-lg-5">
+            <legend>Account Information</legend>
+            <div className=" d-flex mb-2 align-items-center">
+              <label htmlFor="username" className="me-2" style={{ width: '35%' }}>
+                Username:
+              </label>
+              <input
+                id="username"
+                type="text"
+                className="form-control form-control-sm"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+                required
+              />
+            </div>
+            <div className="d-flex mb-2 align-items-center">
+              <label htmlFor="email" className="me-2" style={{ width: '35%' }}>
+                Email:
+              </label>
+              <input
+                id="email"
+                type="email"
+                className="form-control form-control-sm"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
+                placeholder="Email"
+                required
+              />
+            </div>
+            <div className="d-flex mb-2 align-items-center">
+              <label htmlFor="password" className="me-2" style={{ width: '35%' }}>
+                Password:
+              </label>
+              <input
+                id="password"
+                type="password"
+                className="form-control form-control-sm"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+              />
+            </div>
+          </fieldset>
+
+          {/* Personal Information */}
+          <fieldset className="mt-5 col-lg-5">
+            <legend>Personal Information</legend>
+            <div className="d-flex mb-2 align-items-center">
+              <label htmlFor="fullName" className="me-2" style={{ width: '35%' }}>
+                Full Name:
+              </label>
+              <input
+                id="fullName"
+                type="text"
+                className="form-control form-control-sm"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Full Name"
+                required
+              />
+            </div>
+            <div className="d-flex mb-2 align-items-center">
+              <label htmlFor="address" className="me-2" style={{ width: '35%' }}>
+                Address:
+              </label>
+              <input
+                id="address"
+                type="text"
+                className="form-control form-control-sm"
+                value={userAddress}
+                onChange={(e) => setUserAddress(e.target.value)}
+                placeholder="Address"
+                required
+              />
+            </div>
+            <div className="d-flex mb-2 align-items-center">
+              <label htmlFor="phoneNumber" className="me-2" style={{ width: '35%' }}>
+                Phone:
+              </label>
+              <input
+                id="phoneNumber"
+                type="tel"
+                className="form-control form-control-sm"
+                value={userPhoneNumber}
+                onChange={(e) => setUserPhoneNumber(e.target.value)}
+                placeholder="Phone"
+                required
+              />
+            </div>
+          </fieldset>
+
+          {/* Buttons */}
+          <div className="button col-lg-5 d-flex justify-content-between mt-3">
+            <button type="submit" className="btn btn-primary">
+              Sign Up
+            </button>
+            <Link to="/" className="btn btn-secondary">
+              Home
+            </Link>
           </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Choose a strong password"
-              required
-            />
-          </div>
-        </fieldset>
-  
-        <fieldset>
-          <legend>Personal Information</legend>
-          <div>
-            <label htmlFor="fullName">Full Name:</label>
-            <input
-              id="fullName"
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="John Doe"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="address">Address:</label>
-            <input
-              id="address"
-              type="text"
-              value={userAddress}
-              onChange={(e) => setUserAddress(e.target.value)}
-              placeholder="1234 Main St, City, Country"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="phoneNumber">Phone Number:</label>
-            <input
-              id="phoneNumber"
-              type="tel"
-              value={userPhoneNumber}
-              onChange={(e) => setUserPhoneNumber(e.target.value)}
-              placeholder="+1 234 567 890"
-              required
-            />
-          </div>
-        </fieldset>
-  
-        <button type="submit">Sign Up</button>
+
+        </div>
       </form>
-      
-      <br />
-      <Link to="/">Home</Link>
-    </>
-  );  
+    </div>
+  );
 }
 
 export default SignUp;

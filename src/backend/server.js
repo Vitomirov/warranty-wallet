@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import db from './db.js'; // Make sure this is your database connection file
+import db from './db.js'; 
 import authRoutes from './routes/auth.js';
 import warrantiesRoutes from './routes/warranties.js';
 import userRoutes from './routes/user.js';

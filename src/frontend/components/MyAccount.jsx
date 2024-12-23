@@ -4,8 +4,11 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 function MyAccount() {
-    const { token, updateUser  } = useAuth(); // Get the token and updateUser  from the AuthContext
-    const [userData, setUser ] = useState({
+    const { token, updateUser  } = useAuth(); // Get the token and updateUser from the AuthContext
+    const [userData, setUser] = useState({
+        username: '',
+        userEmail: '',
+        password: '',
         fullName: '',
         userAddress: '',
         userPhoneNumber: ''
@@ -33,7 +36,10 @@ function MyAccount() {
                 });
                 console.log("Fetched user data:", response.data);
                 if (response.data) {
-                    setUser ({
+                    setUser({
+                        username: response.data.username || '',
+                        userEmail: response.data.userEmail || '',
+                        password: response.data.pasword || '',
                         fullName: response.data.fullName || '',
                         userAddress: response.data.userAddress || '',
                         userPhoneNumber: response.data.userPhoneNumber || ''
@@ -99,55 +105,129 @@ function MyAccount() {
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
-        <>
-            <div className="container mt-4">
-                <h1>My Account</h1>
-                <form onSubmit={handleUpdate} className="mt-3">
-                    <div className="mb-3">
-                        <label htmlFor="fullName" className="form-label">Full Name:</label>
-                        <input
-                            type="text"
-                            id="fullName"
-                            name="fullName"
-                            value={userData.fullName}
-                            onChange={handleInputChange}
-                            className="form-control"
-                            placeholder="Full Name"
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="userAddress" className="form-label">Address:</label>
-                        <input
-                            type="text"
-                            id="userAddress"
-                            name="userAddress"
-                            value={userData.userAddress}
-                            onChange={handleInputChange}
-                            className="form-control"
-                            placeholder="Address"
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="userPhoneNumber" className="form-label">Phone Number:</label>
-                        <input
-                            type="text"
-                            id="userPhoneNumber"
-                            name="userPhoneNumber"
-                            value={userData.userPhoneNumber}
-                            onChange={handleInputChange}
-                            className="form-control"
-                            placeholder="Phone Number"
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Update Account</button>
-                    {successMessage && <p className="text-success mt-2">{successMessage}</p>}
-                </form>
-                <Link to="/dashboard" className="btn btn-secondary mt-3">Back</Link>
+        <div className="myAccount container-fluid p-4">
+          <form onSubmit={handleUpdate}>
+            <div className="d-flex flex-column align-items-center">
+              <div className='col-lg-12'>
+                <div className="col-lg-3">
+                  <h1 className='fw-bold'>My Account</h1>
+                </div>
+              </div>
+    
+              {/* Account Information */}
+              <fieldset className="mb-1 col-lg-5">
+                <legend>Account Information</legend>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="username" className="me-2" style={{ width: '35%' }}>
+                    Username:
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={userData.username}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Username"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="userEmail" className="me-2" style={{ width: '35%' }}>
+                    Email:
+                  </label>
+                  <input
+                    type="email"
+                    id="userEmail"
+                    name="userEmail"
+                    value={userData.userEmail}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="password" className="me-2" style={{ width: '35%' }}>
+                    Password:
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={userData.password}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+              </fieldset>
+    
+              {/* Personal Information */}
+              <fieldset className="mt-5 col-lg-5">
+                <legend>Personal Information</legend>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="fullName" className="me-2" style={{ width: '35%' }}>
+                    Full Name:
+                  </label>
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    value={userData.fullName}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Full Name"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="userAddress" className="me-2" style={{ width: '35%' }}>
+                    Address:
+                  </label>
+                  <input
+                    type="text"
+                    id="userAddress"
+                    name="userAddress"
+                    value={userData.userAddress}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Address"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="userPhoneNumber" className="me-2" style={{ width: '35%' }}>
+                    Phone Number:
+                  </label>
+                  <input
+                    type="text"
+                    id="userPhoneNumber"
+                    name="userPhoneNumber"
+                    value={userData.userPhoneNumber}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Phone Number"
+                    required
+                  />
+                </div>
+              </fieldset>
+    
+              {/* Buttons */}
+              <div className="button col-lg-5 col-md-4 d-flex justify-content-between mt-3">
+                <button type="submit" className="btn btn-primary">
+                  Update Account
+                </button>
+                <Link to="/dashboard" className="btn btn-secondary">
+                  Back
+                </Link>
+              </div>
+    
+              {successMessage && <p className="text-success mt-2">{successMessage}</p>}
             </div>
-        </>
+          </form>
+        </div>
     );
 }
 

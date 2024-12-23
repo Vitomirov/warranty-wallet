@@ -5,7 +5,8 @@ import Hero from './Hero'; // Import the Hero component
 import About from './About';
 import Features from './Features'; // New component for features
 import FAQ from './FAQ'; // New component for FAQs
-import Footer from './Footer'; 
+import Footer from './Footer'
+
 
 const LandingPage = () => {
   return (

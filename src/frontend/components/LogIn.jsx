@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   const { login } = useAuth();
@@ -31,45 +30,54 @@ const Login = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center">Warranty Wallet</h1>
-      <div className='row justify-content-center'>
-      <form onSubmit={handleSubmit} className="mt-4 col-md-6">
-        <div className="mb-3 form-floating">
-          <input
-            type="text"
-            className="form-control"
-              id="username"
-              placeholder="Username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            required
-            />
-          <label for="username">Username</label>
+    <div className="login container-fluid pt-5">
+      <div className="row d-flex justify-content-center align-items-center">
+        {/* Left Column - Form */}
+        <div className="col-lg-4">
+          <h1 className="text-start mb-4">Log In</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3 form-floating">
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                placeholder="Username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                required
+              />
+              <label htmlFor="username">Username</label>
+            </div>
+            <div className="mb-3 form-floating">
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+              />
+              <label htmlFor="password">Password</label>
+            </div>
+            {error && <div className="alert alert-danger" role="alert" aria-live="assertive">{error}</div>}
+            <div className="button d-flex justify-content-between">
+              <button type="submit" className="btn btn-primary" disabled={loading}>
+                {loading ? 'Logging In...' : 'Log In'}
+              </button>
+              <Link className="btn btn-secondary" to='/'>Back</Link>
+            </div>
+          </form>
         </div>
-        <div className="mb-3 form-floating">
-          <input
-            type="password"
-            className="form-control"
-              id="password"
-              placeholder="Password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-            />
-          <label for="password">Password</label>  
+
+        {/* Right Column - Image */}
+        <div className="col-md-6 d-flex justify-content-end">
+          <img
+            src="src/frontend/images/SignUp.png"
+            alt="Login Illustration"
+            className="img-fluid rounded"
+          />
         </div>
-        {error && <div className="alert alert-danger">{error}</div>}
-        <div className='button'>
-            <button type="submit" className="button btn btn-primary" disabled={loading}>
-                    {loading ? 'Logging In...' : 'Log In'}
-            </button>
-        </div>
-          <div >
-          <Link to="/">Back</Link>
-        </div>
-        
-        </form>
       </div>
     </div>
   );
