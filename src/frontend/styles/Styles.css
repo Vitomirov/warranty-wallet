@@ -64,6 +64,17 @@
     transform: scale(1.05); 
     background-color: var(--accent-color);
 }
+.dashboardbutton{
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    border-radius: 0.3rem;
+    transition: transform 5s ease-in-out;
+}
+.dashboardbutton .btn:hover {
+    transform: scale(1.05); 
+    background-color: var(--accent-color);
+}
+
 /* Right Content Image */
 .img-lending-page {
     display: flex;
@@ -139,7 +150,7 @@
 /* Footer Styles - Stick to the bottom of the main content */
 footer {
     background-color: var(--header-footer);
-    color: var(--text-light);
+    color: var(--secondary-color);
     text-align: center;
     padding: 10px 0;
     width: 100%;
@@ -177,6 +188,19 @@ footer p {
     var(--primary-color) 74.8%, 
     var(--secondary-color) 74.8%);
 }
+
+/* >>>>>>>>>>>>>>>>>           Dashboard           <<<<<<<<<<<<<<<<<<<<<<<<<<<*/  
+
+.dashboard{
+    background-color: var(--secondary-color);
+    background-image: url('src/frontend/images/Background2.png');
+    background-size: 65%;
+    background-position: right;
+    background-repeat: no-repeat;
+
+    background-attachment: fixed;
+}
+
 
 /* HELPERS - TO BE REMOVED */
 .help{

@@ -59,7 +59,7 @@ const NewWarranty = () => {
         <button type="button" onClick={handleAddWarranty}>Add Warranty</button>
       </form>
       {message && <p>{message}</p>}
-      <Link to='/MyWarranties'>Back</Link>
+      <Link to='/dashboard'>Back</Link>
     </div>
   );
 };

@@ -14,7 +14,6 @@ import PrivateRoute from './components/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
 import About from './components/About';
 import LandingPage from './components/LandingPage';
-import Footer from './components/Footer';
 import LayoutWithoutHeader from './components/LayoutWithoutHeader'; // Import the layout
 
 function App() {
