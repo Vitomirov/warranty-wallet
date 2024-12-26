@@ -14,7 +14,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard container-fluid p-5">
-      <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: 'transparent' }}>
+      <nav className="navbar navbar-expand-lg navbar-light bg-transparent shadow-lg mb-4">
         <div className="container-fluid d-flex justify-content-between align-items-center">
           <h1 className="fs-1 mb-0 fw-bold">Welcome, {user.username}</h1>
           <button 
@@ -45,17 +45,25 @@ function Dashboard() {
         </div>
       </nav>
       
-      <div className="row p-5 mt-5">
-        <div className="dashboardbutton col-lg-12 col-sm-8 d-flex justify-content-start text-center">
-          <Link to="/myWarranties" className="btn btn-primary btn-lg col-lg-6 shadow">
+      <div className="text-center mb-5">
+        <h2 className="fw-bold">Your Dashboard</h2>
+        <p className="text-muted">Manage your warranties easily and efficiently.</p>
+      </div>
+
+      <div className="row justify-content-center button">
+        <div className="col-lg-5 col-md-6 mb-4">
+          <Link to="/myWarranties" className="btn btn-lg border w-100 shadow" style={{
+            padding: '8% 5%',
+            fontSize: '1.5rem',
+          }}>
             My Warranties
           </Link>
         </div>
-      </div>
-      <br />
-      <div className="row p-5 mt-5">
-        <div className="dashboardbutton col-lg-12 col-sm-8 d-flex justify-content-end text-center">
-          <Link to="/newWarranty" className="btn btn-primary btn-lg col-lg-6 shadow">
+        <div className="col-lg-5 col-md-6 mb-4">
+          <Link to="/newWarranty" className="btn btn-lg border w-100 shadow" style={{
+            padding: '8% 5%',
+            fontSize: '1.5rem',
+          }}>
             New Warranty
           </Link>
         </div>

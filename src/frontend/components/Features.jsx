@@ -20,20 +20,20 @@ const Features = () => {
             <span className="hover-text">
               Quickly report issues with your products using our predefined email templates. Just describe your issue, and the app will handle the rest, sending the email directly to the seller for you.
             </span>
-            <div className='featureTitle d-flex row align-items-center justify-content-center rounded rounded'>
+            <div className='featureTitle d-flex row align-items-center justify-content-center rounded'>
               <i className="bi bi-envelope-paper-fill h3 d-flex justify-content-center "></i>
               <h5 className="text-center rounded">Predefined Email Templates</h5>
             </div>
           </div>
          </div>
 
-          {/*Section Title*/}
-            <div className="row ">
-              <h1 className="features-title display-2 text-center">FEATURES</h1>
-            </div>
-
+        {/*Section Title*/}
+            <div className="row d-flex align-items-center mb-1">
+              <h1 className="features-title display-1 text-center ">FEATURES</h1>
+        </div>
+        
           {/* Second Row */}
-        <div className="row d-flex justify-content-evenly pb-5 gy-5">
+        <div className="row d-flex justify-content-evenly pt-2 gy-3">
           <div className="individualFeature col-md-6 col-lg-4 p-4 d-flex flex-column justify-content-evenly rounded">
             <div className='featureTitle d-flex row align-items-center justify-content-center rounded'>
               <i className="bi bi-upload h3 d-flex justify-content-center"></i>

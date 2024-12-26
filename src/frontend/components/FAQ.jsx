@@ -8,7 +8,7 @@ const FAQ = () => {
   const faqs = [
     {
       question: "What can I use Warranty Wallet for?",
-      answer: "Warranty Wallet is perfect for organizing and managing warranties for electronics, appliances, furniture, vehicles, and more. If it comes with a warranty, you can track it with our app!"
+      answer: "Warranty Wallet helps you organize and manage warranties for electronics, appliances, furniture, vehicles, and more"
     },
     {
       question: "Is my data secure?",
@@ -16,7 +16,7 @@ const FAQ = () => {
     },
     {
       question: "How do I add a warranty?",
-      answer: "Adding a warranty is easy! Simply fill out the required fields like product name, purchase date, and warranty expiration. You can also upload an image of the receipt for future reference."
+      answer: "To add a warranty, navigate to the New Warranty form, fill it out, and remember to upload the PDF of your warranty for safekeeping."
     },
     {
       question: "How many warranties can I store in the app?",

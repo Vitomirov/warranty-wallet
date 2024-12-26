@@ -30,9 +30,13 @@
     color: var(--accent-color);
 }
 
-/* Hero Section */
+/* >>>>>>>>>>>>>>>>>           HERO SECTION           <<<<<<<<<<<<<<<<<<<<<<<<<<<*/  
 .hero-section {
     background: linear-gradient(156deg, var(--secondary-color) 50%, var(--primary-color)50%);
+    background-attachment: fixed;
+    background-size: cover; 
+    position: relative; 
+    z-index: 1;
 }
 
 /* Hero Left */
@@ -51,6 +55,7 @@
     font-size: 1.5rem;
     color: var(--text-dark); /* Using defined variable */
 }
+
 
 /* Buttons */
 .button .btn {
@@ -86,6 +91,7 @@
 /* About Section */
 .about-section{
     background: var(--secondary-color);
+
 }
 .about-title {
     writing-mode: vertical-lr;
@@ -136,14 +142,21 @@
 }
 
 /* FAQ-Section */
-.faq-section{
-    background: linear-gradient(206deg, var(--secondary-color) 65%, var(--primary-color)65%);
+.faq-section {
+    background: linear-gradient(206deg, var(--secondary-color) 65%, var(--primary-color) 65%);
+    background-attachment: fixed;
+    background-size: cover; 
+    position: relative; 
+    z-index: 1;
 }
 
-.questionField{
+.questionField {
     background-color: var(--primary-color);
+    position: relative; /* Ensure proper stacking context */
+    z-index: 2; /* Ensure it stays above the background */
 }
-.questionField:hover{
+
+.questionField:hover {
     background-color: var(--accent-color);
 }
 
@@ -179,7 +192,7 @@ footer p {
     var(--primary-color) 74.8%);
 }
 
-/* >>>>>>>>>>>>>>>>>           My Account           <<<<<<<<<<<<<<<<<<<<<<<<<<<*/  
+/* >>>>>>>>>>>>>>>>>           MY ACCOUNT          <<<<<<<<<<<<<<<<<<<<<<<<<<<*/  
 
 .myAccount {
     background: linear-gradient(120deg, 
@@ -193,11 +206,12 @@ footer p {
 
 .dashboard{
     background-color: var(--secondary-color);
-    background-image: url('src/frontend/images/Background2.png');
-    background-size: 65%;
+    background: linear-gradient(165deg, var(--secondary-color) 50%, var(--primary-color) 50%);
+
+   /* background-image: url('src/frontend/images/Background2.png');*/
+    background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
-
     background-attachment: fixed;
 }
 
