@@ -1,6 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+
 const Hero = () => {
+
+    const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+    }
+
 return (
 <section className="hero-section">
     <div className="container min-vh-100">
@@ -10,11 +20,19 @@ return (
                 <div className="hero-left">
                     <h2 className='mb-3'>Warranty Wallet</h2>
                     <p className='mb-4'>All warranties in one place.</p>
-                    <div className="button d-flex justify-content-center justify-content-md-start gap-3">
-                        <Link to="/login" className="btn btn-primary btn-lg">
-                        Log In</Link>
-                        <Link to="/signup" className="btn btn-secondary btn-lg">
-                        Sign Up</Link>
+                        <div className="button d-flex justify-content-center justify-content-md-start gap-3">
+                            {user ? (
+                                <>
+                                    <button className="btn btn-primary btn-lg" onClick={handleLogout}>Log Out</button>
+                                    <Link to="/dashboard" className="btn btn-primary btn-lg">Dashboard</Link>
+                                </>
+                            ) : (
+                                <>    
+                                <Link to="/login" className="btn btn-primary btn-lg">Log In</Link>
+                                <Link to="/signup" className="btn btn-secondary btn-lg">Sign Up</Link>
+                            </>
+                            )}
+
                     </div>
                 </div>
             </div>

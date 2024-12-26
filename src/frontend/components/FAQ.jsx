@@ -43,7 +43,7 @@ const FAQ = () => {
           <div className='col-lg-5 col-md-5 d-flex pt-5 flex-column justify-content-start'>
             <h2 className="text-start">FAQ</h2>
             {faqs.map((faq, index) => (
-              <div key={index} className='questionField p-2 m-1 border rounded'>
+              <div key={index} className='bg-gradient questionField p-2 m-1 rounded'>
                 <h5 onClick={() => toggleAnswer(index)} style={{ cursor: 'pointer' }}>
                   Q: {faq.question}
                 </h5>

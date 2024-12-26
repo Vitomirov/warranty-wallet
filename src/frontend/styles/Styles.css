@@ -3,7 +3,7 @@
 :root {
     --primary-color:  #c2dfe3; /* Teal */
     --secondary-color: #f5f5f5; /* Light Gray */
-    --accent-color: #d1c132; /* Orange */
+    --accent-color: #e5d352; /* Orange */
     --text-dark: #212121; /* Dark Text */
     --header-footer: #0e1730; /* Teal */
 }
@@ -59,6 +59,8 @@
 
 /* Buttons */
 .button .btn {
+    background-color: var(--header-footer);
+    color: var(--secondary-color);
     padding: 0.3rem 2rem;
     font-size: 1rem;
     border-radius: 0.3rem;
@@ -67,6 +69,7 @@
 
 .button .btn:hover {
     transform: scale(1.05); 
+    color: var(--header-footer);
     background-color: var(--accent-color);
 }
 .dashboardbutton{
@@ -134,11 +137,13 @@
     opacity: 1;    
 }
 .individualFeature:hover .featureTitle{
+    color: var(--header-footer);
     background-color: var(--secondary-color);
 }
 
 .featureTitle{
-    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    background-color: var(--header-footer);
 }
 
 /* FAQ-Section */
@@ -151,12 +156,14 @@
 }
 
 .questionField {
-    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    background-color: var(--header-footer);
     position: relative; /* Ensure proper stacking context */
     z-index: 2; /* Ensure it stays above the background */
 }
 
 .questionField:hover {
+    color: var(--header-footer);
     background-color: var(--accent-color);
 }
 
@@ -206,7 +213,7 @@ footer p {
 
 .dashboard{
     background-color: var(--secondary-color);
-    background: linear-gradient(165deg, var(--secondary-color) 50%, var(--primary-color) 50%);
+    background: linear-gradient(165deg, var(--primary-color) 50%, var(--secondary-color) 50%);
 
    /* background-image: url('src/frontend/images/Background2.png');*/
     background-size: cover;

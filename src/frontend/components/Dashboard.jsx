@@ -50,7 +50,7 @@ function Dashboard() {
         <p className="text-muted">Manage your warranties easily and efficiently.</p>
       </div>
 
-      <div className="row justify-content-center button">
+      <div className="row justify-content-center dashboardbutton">
         <div className="col-lg-5 col-md-6 mb-4">
           <Link to="/myWarranties" className="btn btn-lg border w-100 shadow" style={{
             padding: '8% 5%',
