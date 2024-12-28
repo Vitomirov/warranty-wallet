@@ -30,7 +30,7 @@ function App() {
         <Route path="/signup" element={<LayoutWithoutHeader><SignUp /></LayoutWithoutHeader>} />
         <Route path="/about" element={<LayoutWithoutHeader><About /></LayoutWithoutHeader>} />
         <Route path="/logout" element={<LayoutWithoutHeader><LogOut /></LayoutWithoutHeader>} />
-        <Route path="/dashboard" element={<PrivateRoute><LayoutWithoutHeader><Dashboard /></LayoutWithoutHeader></PrivateRoute>} />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/myAccount" element={<PrivateRoute><LayoutWithoutHeader><MyAccount /></LayoutWithoutHeader></PrivateRoute>} />
         <Route path="/newWarranty" element={<PrivateRoute><LayoutWithoutHeader><NewWarranty /></LayoutWithoutHeader></PrivateRoute>} />
         <Route path="/warranties/details/:id" element={<PrivateRoute><LayoutWithoutHeader><WarrantyDetails /></LayoutWithoutHeader></PrivateRoute>} />

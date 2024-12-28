@@ -10,11 +10,11 @@ function LogOut() {
     event.preventDefault(); // Prevent default link behavior
     await logout(); // Call the logout function
     console.log("User  is logged out");
-    navigate('/'); // Redirect to home or another page after logout
+    navigate('/');
   };
 
   return (
-        <button className="btn btn-primary"
+        <button className="nav-link text-end"
          onClick={handleLogout}>
          Log Out
         </button>

@@ -3,10 +3,11 @@
 :root {
     --primary-color:  #c2dfe3; /* Teal */
     --secondary-color: #f5f5f5; /* Light Gray */
-    --accent-color: #e5d352; /* Orange */
+    --accent-color: #e3c6c2; /* Orange */
     --text-dark: #212121; /* Dark Text */
-    --header-footer: #0e1730; /* Teal */
+    --header-footer: #162D46; /* Teal */
 }
+
 
 /*>>>>>>>>>>>>>>>>>>>>>>>>>          LENDING PAGE          <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -70,7 +71,7 @@
 .button .btn:hover {
     transform: scale(1.05); 
     color: var(--header-footer);
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
 }
 .dashboardbutton{
     padding: 1rem 2rem;
@@ -129,7 +130,7 @@
 }
 
 .individualFeature:hover{
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
     min-height: 100%;
 }
 .individualFeature:hover .hover-text{

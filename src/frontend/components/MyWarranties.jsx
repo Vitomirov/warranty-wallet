@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Import the AuthContext
+import { useAuth } from '../context/AuthContext'; 
 
 const MyWarranties = () => {
+  const { user } = useAuth();
   const [warranties, setWarranties] = useState([]);
   const [error, setError] = useState(null);
   const { token, refreshToken } = useAuth(); // Get token and refreshToken from context
@@ -40,7 +41,7 @@ const MyWarranties = () => {
 
   return (
     <div className="container mt-4 col-6">
-      <h1>My Warranties</h1>
+      <h1>{user.username}'s Warranties</h1>
       {warranties.length === 0 ? (
         <p>No warranties found.</p>
       ) : (
