@@ -112,8 +112,7 @@ function MyAccount() {
                 <div className="col-lg-3">
                   <h1 className='fw-bold'>My Account</h1>
                 </div>
-              </div>
-    
+            </div>    
               {/* Account Information */}
               <fieldset className="mb-1 col-lg-5">
                 <legend>Account Information</legend>

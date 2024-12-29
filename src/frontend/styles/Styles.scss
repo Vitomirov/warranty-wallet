@@ -1,0 +1,240 @@
+// Define Color Scheme Variables
+$blueLight: #c2dfe3;
+$white: #f5f5f5;
+$pink: #e3c6c2;
+$dark: #212121;
+$blue-dark: #162D46;
+
+.text-blueLight {
+    color: $blueLight;
+}
+
+.white {
+    color: $white;
+}
+
+.title {
+    font-weight: bold;
+    letter-spacing: 0.85rem;
+    font-size-adjust: 0.85;
+    color: $blueLight;
+}
+
+.title-white {
+    font-weight: bold;
+    letter-spacing: 0.85rem;
+    font-size-adjust: 0.85;
+    color: $white;
+}
+
+// Navigation Bar
+.navbar {
+    background-color: $blue-dark;
+
+    img {
+        height: 70px;
+        width: auto;
+        padding-top: 7px;
+    }
+}
+
+// Navigation Links
+.nav-link {
+    color: $white;
+
+    &:hover {
+        color: $pink;
+    }
+}
+
+// HERO SECTION
+.hero-section {
+    background: linear-gradient(156deg, $white 50%, $blueLight 50%);
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
+// Hero Left
+.hero-left {
+    margin-bottom: 40%;
+
+    h2 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        color: $dark;
+    }
+
+    p {
+        font-size: 1.5rem;
+        color: $dark;
+    }
+}
+
+// Buttons
+.button {
+    .btn {
+        background-color: $blue-dark;
+        color: $white;
+        padding: 0.3rem 2rem;
+        font-size: 1rem;
+        border-radius: 0.3rem;
+        transition: transform 0.3s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+            color: $blue-dark;
+            background-color: $blueLight;
+        }
+    }
+}
+
+.dashboardbutton {
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    border-radius: 0.3rem;
+    transition: transform 5s ease-in-out;
+
+    .btn:hover {
+        transform: scale(1.05);
+        background-color: $pink;
+    }
+}
+
+// Right Content Image
+.img-lending-page {
+    display: flex;
+    justify-content: right;
+    align-items: flex-start;
+    padding-bottom: 20%;
+}
+
+// About Section
+.about-section {
+    background: $blueLight;
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
+.load {
+    background-color: $dark;
+}
+
+.dropdown-menu {
+    background-color: transparent;
+    border: none;
+}
+
+// Features Section
+.features-section {
+    background: $white;
+
+    .hover-text {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    .individualFeature {
+        &:hover {
+            background-color: $blueLight;
+            min-height: 100%;
+
+            .hover-text {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            .featureTitle {
+                color: $blue-dark;
+                background-color: $white;
+            }
+        }
+    }
+
+    .featureTitle {
+        color: $white;
+        background-color: $blue-dark;
+    }
+}
+
+// FAQ-Section
+.faq-section {
+    background: linear-gradient(206deg, $white 65%, $blueLight 65%);
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+
+    .questionField {
+        color: $white;
+        background-color: $blue-dark;
+        position: relative;
+        /* Ensure proper stacking context */
+        z-index: 2;
+        /* Ensure it stays above the background */
+
+        &:hover {
+            color: $blue-dark;
+            background-color: $blueLight;
+        }
+    }
+}
+
+// Footer Styles - Stick to the bottom of the main content
+footer {
+    background-color: $blue-dark;
+    color: $white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0;
+    /* No margin-top to avoid extra space */
+
+    p {
+        margin: 0;
+    }
+}
+
+// LOG IN
+.login {
+    background: linear-gradient(155deg, $white 60%, $blueLight 60%);
+}
+
+// SIGN UP
+.signup {
+    background: linear-gradient(125deg,
+            $blueLight 26.5%,
+            $white 25.5%,
+            $white 74.8%,
+            $blueLight 74.8%);
+}
+
+// MY ACCOUNT
+.myAccount {
+    background: linear-gradient(120deg,
+            $white 26.5%,
+            $blueLight 25.5%,
+            $blueLight 74.8%,
+            $white 74.8%);
+}
+
+// Dashboard
+.dashboard {
+    background-color: $white;
+    background: linear-gradient(165deg, $blueLight 50%, $white 50%);
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+// HELPERS - TO BE REMOVED
+.help {
+    border: red 2px solid;
+}

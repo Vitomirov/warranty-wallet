@@ -2,11 +2,11 @@ import React from 'react';
 
 const Features = () => {
   return (
-    <section className="features-section">
-      <div id="features" className="container-fluid min-vh-100">
-
-          {/* First Row */}
-          <div className="row d-flex justify-content-evenly pt-5 gy-5">
+    <section className="features-section ">
+      <div id="features" className="container min-vh-100 ">
+        <div className="col-lg-12 col-md-6 text-center text-md-start ">
+                    {/* First Row */}
+                    <div className="row d-flex justify-content-evenly pt-4 gy-5">
             <div className="individualFeature col-md-6 col-lg-4 p-4 d-flex flex-column justify-content-evenly rounded">
               <span className="hover-text">
                 Say goodbye to lost receipts and scattered documents. Warranty Wallet keeps all your warranties in one secure location, accessible anytime, anywhere.
@@ -29,7 +29,7 @@ const Features = () => {
 
         {/*Section Title*/}
             <div className="row d-flex align-items-center mb-1">
-              <h1 className="features-title display-1 text-center ">FEATURES</h1>
+              <h1 className="title display-1 text-center">FEATURES</h1>
         </div>
         
           {/* Second Row */}
@@ -53,6 +53,8 @@ const Features = () => {
             </span>
           </div>
         </div>
+        </div>
+
       </div>
     </section>
   );
