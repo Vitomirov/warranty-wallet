@@ -2,14 +2,13 @@ import React from "react";
 
 function About() {
   return (
-    <section className="about-section">
-      <div id="about" className="container min-vh-100">
+    <section className="about-section min-vh-100">
+      <div id="about" className="container">
         <div className="row align-items-center">
-
           {/* Column for the text content */}
-          <div className="pt-5">
-            <p className="lead pt-5 pb-5">
-              <br />
+          <div className="pt-5 mt-5">
+            <p className="lead pt-1 pb-5">
+              
               <span className="fw-bold">Warranty Wallet</span> is your ultimate tool for managing warranties with ease.
               We understand how frustrating it can be to keep track of receipts, expiration dates,
               and warranty details. That’s why we designed an app that simplifies the process,

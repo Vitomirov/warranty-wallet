@@ -14,7 +14,8 @@ import PrivateRoute from './components/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
 import About from './components/About';
 import LandingPage from './components/LandingPage';
-import LayoutWithoutHeader from './components/LayoutWithoutHeader'; // Import the layout
+import LayoutWithoutHeader from './components/LayoutWithoutHeader'; 
+
 
 function App() {
   console.log('Rendering App component');

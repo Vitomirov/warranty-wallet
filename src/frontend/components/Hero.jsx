@@ -12,12 +12,12 @@ const Hero = () => {
     }
 
 return (
-<section className="hero-section">
-    <div className="container min-vh-100">
+<section className="hero-section min-vh-100">
+    <div className="container">
         <div className="row align-items-center">
             {/* Left Content */}
-            <div className="col-lg-6 col-md-12 text-center text-md-start">
-                <div className="hero-left">
+            <div className="col-lg-6 col-md-12 text-center text-md-start pt-5">
+                <div className="hero-left mt-5">
                     <h2 className='mb-3'>Warranty Wallet</h2>
                     <p className='mb-4'>All warranties in one place.</p>
                         <div className="button d-flex justify-content-center justify-content-md-start gap-3">
@@ -37,9 +37,9 @@ return (
                 </div>
             </div>
             {/* Right Content */}
-            <div className="col-lg-6 col-md-12 d-flex justify-content-center">
-                <img className="img-fluid" src="src/frontend/images/LendingPage.png" alt="LendingPage" />
-            </div>
+            <div className="col-lg-5 ms-5 col-md-12 d-flex justify-content-center">
+    <img className="img-fluid" style={{ maxWidth: 'auto', height: '75%' }} src="src/frontend/images/LendingPage.png" alt="LendingPage" />
+</div>
         </div>
     </div>
 </section>

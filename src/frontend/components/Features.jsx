@@ -2,8 +2,8 @@ import React from 'react';
 
 const Features = () => {
   return (
-    <section className="features-section ">
-      <div id="features" className="container min-vh-100 ">
+    <section className="features-section min-vh-100">
+      <div id="features" className="container">
         <div className="col-lg-12 col-md-6 text-center text-md-start ">
                     {/* First Row */}
                     <div className="row d-flex justify-content-evenly pt-4 gy-5">
