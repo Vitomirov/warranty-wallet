@@ -1,11 +1,12 @@
-// components/LandingPage.jsx
+
 import React from 'react';
 import Navigation from './Navigation';
-import Hero from './Hero'; // Import the Hero component
+import Hero from './Hero';
 import About from './About';
-import Features from './Features'; // New component for features
-import FAQ from './FAQ'; // New component for FAQs
+import Features from './Features';
+import FAQ from './FAQ'; 
 import Footer from './Footer'
+import BackToTopButton from './BackToTopButton'; 
 
 
 const LandingPage = () => {
@@ -15,6 +16,7 @@ const LandingPage = () => {
       <Hero />
       <About />
       <Features />
+      <BackToTopButton />
       <FAQ />
       <Footer />
     </>
