@@ -1,6 +1,5 @@
-// NewWarranty component
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NewWarranty = () => {
   const [productName, setProductName] = useState('');
@@ -9,9 +8,12 @@ const NewWarranty = () => {
   const [file, setFile] = useState(null);
   const [sellersEmail, setSellersEmail] = useState('');
   const [message, setMessage] = useState('');
+  
+  // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleAddWarranty = async () => {
-    const token = localStorage.getItem('accessToken')
+    const token = localStorage.getItem('accessToken');
     const formData = new FormData();
     formData.append('productName', productName);
     formData.append('dateOfPurchase', dateOfPurchase);
@@ -29,6 +31,9 @@ const NewWarranty = () => {
       if (response.ok) {
         console.log('Warranty created successfully');
         setMessage('Warranty created successfully!!!');
+        
+        // Navigate to My Warranties page
+        navigate('/myWarranties');
       } else {
         console.error('Error creating warranty:', response.status);
       }
@@ -38,28 +43,45 @@ const NewWarranty = () => {
   };
 
   return (
-    <div>
-      <h2>Create New Warranty</h2>
-      <form>
-        <label>Product Name:</label>
-        <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} />
-        <br />
-        <label>Purchase Date:</label>
-        <input type="date" value={dateOfPurchase} onChange={(e) => setDateOfPurchase(e.target.value)} />
-        <br />
-        <label>Expiry Date:</label>
-        <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} />
-        <br />
-        <label>Seller's email: </label>
-        <input type="email" value={sellersEmail} onChange={(e) => setSellersEmail(e.target.value)} />
-        <br />
-        <label>Upload PDF File:</label>
-        <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} />
-        <br />
-        <button type="button" onClick={handleAddWarranty}>Add Warranty</button>
-      </form>
-      {message && <p>{message}</p>}
-      <Link to='/dashboard'>Back</Link>
+    <div className='newWarranty container-fluid p-5'>
+      <h1>Create New Warranty</h1>
+      <div className='row p-3'>
+        {/* Form Section */}
+        <div className='col-lg-6 col-md-6 col-sm-12 mx-auto mt-5'>
+          <form>
+            <div className="mb-3">
+              <label className="me-4">Product Name:</label>
+              <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} className="form-control form-control-sm" />
+            </div>
+            <div className="mb-3">
+              <label className="me-4">Purchase Date:</label>
+              <input type="date" value={dateOfPurchase} onChange={(e) => setDateOfPurchase(e.target.value)} className="form-control form-control-sm" />
+            </div>
+            <div className="mb-3">
+              <label className="me-4">Expiry Date:</label>
+              <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} className="form-control form-control-sm" />
+            </div>
+            <div className="mb-3">
+              <label className="me-4">Seller's email:</label>
+              <input type="email" value={sellersEmail} onChange={(e) => setSellersEmail(e.target.value)} className="form-control form-control-sm" />
+            </div>
+            <div className="mb-3">
+              <label className="me-4">Upload PDF File:</label>
+              <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} className="form-control form-control-sm" />
+            </div>
+            <div className="button mt-3 d-flex justify-content-between">
+              {message && <p>{message}</p>}
+              <button type="button" onClick={handleAddWarranty} className="btn btn-primary me-2">Add Warranty</button>
+              <Link to='/myWarranties' className='btn btn-secondary'>Back</Link>
+            </div>
+          </form>
+        </div>
+
+        {/* Image Section */}
+        <div className='col-lg-6 col-md -6 col-sm-12 d-flex justify-content-center align-items-center'>
+          <img className="img-fluid" style={{ maxWidth: 'auto', height: '100%' }} src="src/frontend/images/NewWarranty.png" alt="New Warranty" />
+        </div>
+      </div>
     </div>
   );
 };

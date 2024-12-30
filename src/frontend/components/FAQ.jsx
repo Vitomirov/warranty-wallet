@@ -31,7 +31,7 @@ const FAQ = () => {
 
   return (
     <section className="faq-section">
-      <div id='FAQ' className='container-fluid'>
+      <div id='FAQ' className='container-fluid pt-3'>
         <div className="row py-5">
           
           {/* First column for the image */}

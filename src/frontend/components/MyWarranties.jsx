@@ -40,12 +40,12 @@ const MyWarranties = () => {
   }
 
   return (
-    <div className="container mt-4 col-6">
+    <div className="container mt-4 col-lg-5 help mt-3 p-5">
       <h1>{user.username}'s Warranties</h1>
       {warranties.length === 0 ? (
         <p>No warranties found.</p>
       ) : (
-        <ul className="list-group mt-3">
+        <ul className="list-group mt-5">
           {warranties.map(warranty => (
             <li key={warranty.warrantyId} className="list-group-item">
               <Link to={`/warranties/details/${warranty.warrantyId}`} className="link-primary">

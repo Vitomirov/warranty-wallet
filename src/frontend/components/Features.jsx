@@ -40,7 +40,7 @@ const Features = () => {
               <h5 className="text-center">Easy Warranty Uploads</h5>
             </div>
             <span className="hover-text pb-0 rounded">
-              Upload warranty details effortlessly by filling out a simple form or uploading an image of your receipt. The app organizes everything for you.
+              Upload warranty details effortlessly by filling out a simple form with uploading an image of your receipt. The app will do the rest.
             </span>
           </div>
           <div className="individualFeature col-md-6 col-lg-4 p-4 d-flex flex-column justify-content-evenly rounded">

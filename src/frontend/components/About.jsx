@@ -66,7 +66,7 @@ function About() {
           </div>
         </div>
         <div className="row d-flex align-items-end">
-              <h1 className="title-white display-1 text-center white">ABOUT</h1>
+              <h1 className="title-white display-1 text-center">ABOUT</h1>
         </div>
       </div>
     </section>

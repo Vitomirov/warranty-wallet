@@ -50,8 +50,8 @@ function Dashboard() {
       {/* Main content */}
       <main className="flex-grow-1 container-fluid p-5"> 
         <div className="text-center mb-5">
-          <h2 className="fw-bold">Your Dashboard</h2>
-          <p className="text-muted">All your warranties in one place. Add, view, and manage with ease.</p>
+          <h2 className="text-muted">All your warranties in one place.
+            Add, view, and manage with ease.</h2>
         </div>
 
         <div className="row justify-content-center dashboardbutton">
