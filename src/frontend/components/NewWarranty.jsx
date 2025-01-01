@@ -47,32 +47,32 @@ const NewWarranty = () => {
       <h1>Create New Warranty</h1>
       <div className='row p-3'>
         {/* Form Section */}
-        <div className='col-lg-6 col-md-6 col-sm-12 mx-auto mt-5'>
+        <div className=' col-lg-6 col-md-6 col-sm-12 mx-auto mt-5'>
           <form>
             <div className="mb-3">
               <label className="me-4">Product Name:</label>
-              <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} className="form-control form-control-sm" />
+              <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} className="form-control form-control-sm form-style" />
             </div>
             <div className="mb-3">
               <label className="me-4">Purchase Date:</label>
-              <input type="date" value={dateOfPurchase} onChange={(e) => setDateOfPurchase(e.target.value)} className="form-control form-control-sm" />
+              <input type="date" value={dateOfPurchase} onChange={(e) => setDateOfPurchase(e.target.value)} className="form-control form-control-sm form-style" />
             </div>
             <div className="mb-3">
               <label className="me-4">Expiry Date:</label>
-              <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} className="form-control form-control-sm" />
+              <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} className="form-control form-control-sm form-style" />
             </div>
             <div className="mb-3">
               <label className="me-4">Seller's email:</label>
-              <input type="email" value={sellersEmail} onChange={(e) => setSellersEmail(e.target.value)} className="form-control form-control-sm" />
+              <input type="email" value={sellersEmail} onChange={(e) => setSellersEmail(e.target.value)} className="form-control form-control-sm form-style" />
             </div>
             <div className="mb-3">
               <label className="me-4">Upload PDF File:</label>
-              <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} className="form-control form-control-sm" />
+              <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} className="form-control form-control-sm form-style" />
             </div>
             <div className="button mt-3 d-flex justify-content-between">
               {message && <p>{message}</p>}
               <button type="button" onClick={handleAddWarranty} className="btn btn-primary me-2">Add Warranty</button>
-              <Link to='/myWarranties' className='btn btn-secondary'>Back</Link>
+              <Link to='/dashboard' className='btn btn-secondary'>Back</Link>
             </div>
           </form>
         </div>

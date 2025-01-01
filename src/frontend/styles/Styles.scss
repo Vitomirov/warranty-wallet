@@ -243,6 +243,30 @@ footer {
     background: linear-gradient(208deg, $white 50%, $blueLight 50%);
 
 }
+
+.form-style {
+    background-color: $white;
+}
+
+//My Warranties
+.myWarranties {
+    background: linear-gradient(200deg, $white 55%, $blueLight 50%);
+}
+
+.list-style {
+    background-color: $white;
+    color: $dark;
+
+    .link-text {
+        color: $dark;
+        text-shadow: $white;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background-color: $pink;
+    }
+}
 // HELPERS - TO BE REMOVED
 .help {
     border: red 2px solid;

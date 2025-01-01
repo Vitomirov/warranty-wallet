@@ -38,8 +38,8 @@ return (
             </div>
             {/* Right Content */}
             <div className="col-lg-5 ms-5 col-md-12 d-flex justify-content-center">
-    <img className="img-fluid" style={{ maxWidth: 'auto', height: '75%' }} src="src/frontend/images/LendingPage.png" alt="LendingPage" />
-</div>
+              <img className="img-fluid" style={{ maxWidth: 'auto', height: '75%' }} src="src/frontend/images/LendingPage.png" alt="LendingPage" />
+            </div>
         </div>
     </div>
 </section>
