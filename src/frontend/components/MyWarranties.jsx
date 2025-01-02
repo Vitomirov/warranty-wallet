@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const MyWarranties = () => {
-  const { user, token, refreshToken } = useAuth(); // Koristi user, token i refreshToken iz konteksta
+  const { user, token, refreshToken } = useAuth(); 
   const [warranties, setWarranties] = useState([]);
   const [error, setError] = useState(null);
 
@@ -19,8 +19,9 @@ const MyWarranties = () => {
       setWarranties(response.data);
     } catch (error) {
       if (error.response?.status === 403) {
-        await refreshToken();
-        fetchWarranties();
+        const newToken = await refreshToken();
+        setToken(newToken);
+        fetchWarranties(); 
       } else if (error.response?.status === 404) {
         setWarranties([]);
       } else {
@@ -32,16 +33,16 @@ const MyWarranties = () => {
 
   useEffect(() => {
     fetchWarranties();
-  }, [token]); // Refetch kad se token promeni
+  }, [token]); 
 
   if (error) {
-    return <div className="alert alert-danger">{error}</div>;
+    return <div className="alert alert-danger">Error: {error}</div>; 
   }
 
   return (
-    <div className="myWarranties container-fluid"> {/* Removed max-vh-100 for full page */}
+    <div className="myWarranties container-fluid"> 
       <div className="row col-lg-12 d-flex align-items-center mb-4 p-1">
-      <h1 className="fw-bold display-4">{user?.username}'s Warranties</h1> {/* Added margin-bottom for padding */}
+        <h1 className="fw-bold display-4">{(user && user.username) ? user.username + "'s Warranties" : "My Warranties"}</h1> 
       </div>
       <div className="row align-items-center ps-4">
         {/* Left Content */}
@@ -54,7 +55,7 @@ const MyWarranties = () => {
                 {warranties.map((warranty) => (
                   <li key={warranty.warrantyId} className="list-style list-group-item mb-2 border">
                     <Link to={`/warranties/details/${warranty.warrantyId}`} className="link-text">
-                      {warranty.productName}
+                      {warranty.productName} 
                     </Link>
                   </li>
                 ))}
@@ -76,8 +77,8 @@ const MyWarranties = () => {
             <img
               className="img-fluid"
               style={{ maxWidth: '80%', height: 'auto' }}  
-              src="src/frontend/images/MyWarranties.png"
-              alt="LendingPage"
+              src="src/frontend/images/MyWarranties.png" 
+              alt="LendingPage" 
             />
           </div>
         </div>

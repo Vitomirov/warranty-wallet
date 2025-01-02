@@ -1,24 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import DeleteWarranty from './DeleteWarranty';
 import { useAuth } from '../context/AuthContext';
 
 const WarrantyDetails = () => {
+  const { user, token, refreshToken } = useAuth(); 
+  const { id } = useParams();
   const [warranty, setWarranty] = useState(null);
   const [error, setError] = useState(null);
   const [issueDescription, setIssueDescription] = useState('');
-  const { id } = useParams();
-  const { token, refreshToken, user } = useAuth();
   const [daysLeft, setDaysLeft] = useState(0);
   const [isExpired, setIsExpired] = useState(false);
 
-  // Function to fetch the warranty details from the API
   const fetchWarranty = async () => {
-    if (!id) {
-      setError('Invalid warranty ID');
-      return;
-    }
     try {
       const response = await axios.get(`http://localhost:3000/warranties/details/${id}`, {
         headers: {
@@ -28,48 +23,43 @@ const WarrantyDetails = () => {
       setWarranty(response.data);
     } catch (err) {
       if (err.response && err.response.status === 401) {
-        const newToken = await refreshToken();
+        const newToken = await refreshToken(); 
         if (newToken) {
-          fetchWarranty();
+          setToken(newToken); // Update the token state
+          fetchWarranty(); // Call fetchWarranty once after successful refresh
         } else {
           setError('Session expired. Please log in again.');
         }
+      } else if (err.response && err.response.status === 404) {
+        setError('Warranty not found.'); 
       } else {
         setError('There was an error fetching the warranty details!');
       }
     }
   };
 
-  // Function to calculate the remaining days until warranty expiry
   const calculateDaysLeft = (expiryDate) => {
     const [day, month, year] = expiryDate.split('-').map(Number);
-    const expiry = new Date(year, month - 1, day); // month is 0-indexed in JavaScript
-
+    const expiry = new Date(year, month - 1, day); 
     const currentDate = new Date();
     const daysLeft = expiry - currentDate;
-
-    // If the warranty is already expired
     const isExpired = daysLeft <= 0;
-
-    // Calculate days
     const days = isExpired ? 0 : Math.floor(daysLeft / (1000 * 60 * 60 * 24));
     return { days, isExpired };
   };
 
-  // UseEffect to fetch warranty details and calculate days left
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchWarranty();
-      if (warranty) {
-        const { days, isExpired } = calculateDaysLeft(warranty.warrantyExpireDate);
-        setDaysLeft(days);
-        setIsExpired(isExpired);
-      }
-    };
-    fetchData();
-  }, [id, token, warranty]);
+    fetchWarranty();
+  }, [id, token]); // Fetch warranty details and update on id or token change
 
-  // Function to handle opening the warranty PDF
+  useEffect(() => {
+    if (warranty) {
+      const { days, isExpired } = calculateDaysLeft(warranty.warrantyExpireDate);
+      setDaysLeft(days);
+      setIsExpired(isExpired);
+    }
+  }, [warranty]); 
+
   const handleOpenPDF = async () => {
     if (!warranty || !warranty.warrantyId) {
       console.error("Warranty details are not loaded yet");
@@ -78,25 +68,27 @@ const WarrantyDetails = () => {
     try {
       const response = await axios.get(`http://localhost:3000/warranties/pdf/${warranty.warrantyId}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          'Authorization': `Bearer ${token}`
         },
         responseType: 'blob'
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
       window.open(url, '_blank');
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
         const newToken = await refreshToken();
         if (newToken) {
-          handleOpenPDF();
+          setToken(newToken); 
+          handleOpenPDF(); 
         } else {
           setError('Session expired. Please log in again.');
         }
+      } else {
+        setError('Error fetching warranty PDF.');
       }
     }
   };
 
-  // Function to handle sending a complaint email
   const handleSendEmail = async () => {
     if (!warranty || !user) {
       setError("Cannot send email: Warranty or user details not available");
@@ -124,11 +116,12 @@ const WarrantyDetails = () => {
         }
       );
       alert("Email sent successfully!");
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
         const newToken = await refreshToken();
         if (newToken) {
-          handleSendEmail();
+          setToken(newToken); 
+          handleSendEmail(); 
         } else {
           setError('Session expired. Please log in again.');
         }
