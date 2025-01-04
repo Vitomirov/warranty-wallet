@@ -42,7 +42,7 @@ const MyWarranties = () => {
   return (
     <div className="myWarranties container-fluid"> 
       <div className="row col-lg-12 d-flex align-items-center mb-4 p-1">
-        <h1 className="fw-bold display-4">{(user && user.username) ? user.username + "'s Warranties" : "My Warranties"}</h1> 
+        <h1 className="fw-bold mt-5 col-lg-6 help ps-4"> {user.username}'s Warranties</h1> 
       </div>
       <div className="row align-items-center ps-4">
         {/* Left Content */}

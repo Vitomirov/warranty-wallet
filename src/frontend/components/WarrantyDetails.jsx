@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import DeleteWarranty from './DeleteWarranty';
 import { useAuth } from '../context/AuthContext';
+import ExpiredWarrantyImage from '../images/ExpiredWarranty.png';
+import NotExpiredWarrantyImage from '../images/NotExpiredWarranty.png';
+
 
 const WarrantyDetails = () => {
   const { user, token, refreshToken } = useAuth(); 
@@ -139,48 +142,61 @@ const WarrantyDetails = () => {
     return <div className="alert alert-info">Loading...</div>;
   }
 
+  const imageSrc = isExpired 
+    ? ExpiredWarrantyImage 
+    : NotExpiredWarrantyImage;
+
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Warranty Details</h1>
-      <div className="mb-3">
-        <strong>Product Name:</strong> {warranty.productName}
+    <div className="warrantyDetails container-fluid">
+      <div className="row col-lg-12 mt-3">
+        <h1 className="fw-bold d-flex justify-content-center align-items-center ">{warranty.productName} - Warranty Details</h1>
       </div>
-      <div className="mb-3">
-        <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
+      <div className="row align-items-center ps-4 mt-1">
+        <div className="col-lg-6 mb-0 mt-4">
+          <div className="mb-3 ">
+            <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
+          </div>
+          <div className="mb-3">
+            <strong>Warranty Expiry Date:</strong> {warranty.warrantyExpireDate}
+          </div>
+          <div className="mb-3">
+            <strong>Days Left Till Expiry:</strong> {isExpired ? "Warranty has expired" : `${daysLeft} days left`}
+          </div>
+          <div className="mb-3">
+            <strong>Seller's Email:</strong> {warranty.sellersEmail}
+          </div>
+          <div className="button d-flex justify-content-between">
+            <button className="btn btn-primary ml-2" onClick={handleOpenPDF}>Open Warranty PDF</button>
+          </div>
+          <div className="mb-3 mt-3">
+            <textarea
+              id="issueDescription"
+              className="form-control"
+              placeholder='Describe your issue here...'
+              value={issueDescription}
+              onChange={(e) => setIssueDescription(e.target.value)}
+              rows="4"
+              disabled={isExpired} // Disable if expired
+            />
+          </div>
+          <div className="button d-flex justify-content-between mb-2">
+              <button className="btn btn-primary " onClick={handleSendEmail} disabled={isExpired}>Send Complaint</button>
+              <DeleteWarranty id={warranty.warrantyId} />
+              <Link to='/myWarranties' className="btn btn-primary">Back</Link>
+          </div>
+        </div>
+        <div className="col-lg-5 d-flex justify-content-end mb-5 align-items-start">
+          <div className='d-flex align-items-start justify-content-end pb-5 mb-3'>
+            <img
+              className="img-fluid"
+              style={{
+                maxWidth: '400px', height: 'auto', rotate: '12deg' }}
+              src= {imageSrc} 
+              alt={isExpired ? "Expired Warranty" : "Not Expired Warranty"} 
+            />
+          </div>
+        </div>
       </div>
-      <div className="mb-3">
-        <strong>Warranty Expiry Date:</strong> {warranty.warrantyExpireDate}
-      </div>
-      <div className="mb-3">
-        <strong>Seller's Email:</strong> {warranty.sellersEmail}
-      </div>
-
-      {/* Display the days left till the warranty expires */}
-      <div className="mb-3">
-        <strong>Days Left Till Expiry:</strong> {isExpired ? "Warranty has expired" : `${daysLeft} days left`}
-      </div>
-      {!isExpired &&(
-      <>
-      <div className="mb-3">
-        <label htmlFor="issueDescription">Describe issue:</label>
-        <textarea
-          id="issueDescription"
-          className="form-control"
-          placeholder='Describe your issue here...'
-          value={issueDescription}
-          onChange={(e) => setIssueDescription(e.target.value)}
-          rows="4"
-          disabled={isExpired} // Disable if expired
-        />
-      </div>
-
-      <button className="btn btn-primary" onClick={handleSendEmail} disabled={isExpired}>Send Complaint</button>
-      </>
-    )}
-      <button className="btn btn-secondary ml-2" onClick={handleOpenPDF}>Open Warranty PDF</button>
-      <DeleteWarranty id={warranty.warrantyId} />
-      <br />
-      <Link to='/myWarranties' className="btn btn-link">Back</Link>
     </div>
   );
 };

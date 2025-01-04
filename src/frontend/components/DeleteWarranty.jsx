@@ -31,7 +31,9 @@ const DeleteWarranty = ({ id }) => {
     <>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
-      <Link onClick={handleDelete}>Delete Warranty</Link>
+      <div className="button">
+      <Link onClick={handleDelete} className='btn btn-primary'>Delete Warranty</Link>
+      </div>
     </>
   );
 };

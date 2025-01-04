@@ -267,6 +267,14 @@ footer {
         background-color: $pink;
     }
 }
+// Warranty Details
+.warrantyDetails {
+    background: linear-gradient(205deg, $white 52%, $blueLight 50%);
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 // HELPERS - TO BE REMOVED
 .help {
     border: red 2px solid;
