@@ -79,7 +79,7 @@ $blue-dark: #162D46;
         padding: 0.3rem 2rem;
         font-size: 1rem;
         border-radius: 0.3rem;
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.5s ease-in-out;
 
         &:hover {
             transform: scale(1.05);
@@ -87,6 +87,19 @@ $blue-dark: #162D46;
             background-color: $blueLight;
         }
     }
+.buttonOpenWarranty {
+    border-radius: 0.3rem;
+    border-color: $blue-dark;
+    transition: transform 0.5s ease-in-out;
+    background-color: $blueLight;
+    color: $blue-dark;
+
+    &:hover {
+        transform: scale(1.05);
+        color: $white;
+        background-color: $blue-dark;
+    }
+}
 }
 
 .dashboardbutton {
@@ -101,6 +114,7 @@ $blue-dark: #162D46;
             background-color: $blueLight;
     }
 }
+
 
 .back-to-top {
     color: $blue-dark;
@@ -269,7 +283,7 @@ footer {
 }
 // Warranty Details
 .warrantyDetails {
-    background: linear-gradient(205deg, $white 52%, $blueLight 50%);
+    background: linear-gradient(85deg, $blueLight 55%, $white 55%);
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;

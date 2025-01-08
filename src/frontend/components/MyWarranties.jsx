@@ -42,7 +42,7 @@ const MyWarranties = () => {
   return (
     <div className="myWarranties container-fluid pt-1 ps-5"> 
       <div className="row col-lg-12 d-flex align-items-center mb-4 p-1">
-        <h1 className="mt-5 col-lg-6 col-md-4 ps-4 display-4"> {user.username}'s Warranties</h1> 
+        <h1 className="col-lg-6 col-md-4 mt-5 ps-4 display-4 $blue-dark"> {user.username}'s Warranties</h1> 
       </div>
       <div className="row align-items-start ps-3">
         {/* Content Section */}

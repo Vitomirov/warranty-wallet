@@ -147,13 +147,13 @@ const WarrantyDetails = () => {
     : NotExpiredWarrantyImage;
 
   return (
-    <div className="warrantyDetails container-fluid">
-      <div className="row col-lg-12 mt-3">
-        <h1 className="display-4 d-flex justify-content-center align-items-center ">{warranty.productName} - Warranty Details</h1>
+    <div className="warrantyDetails container-fluid pt-1 ps-5">
+      <div className="row col-lg-12 mt-5">
+        <h1 className="display-5 ps-4 d-flex align-items-center">{warranty.productName} - Warranty Details</h1>
       </div>
-      <div className="row align-items-center ps-4 mt-1">
-        <div className="col-lg-6 mb-0 mt-4">
-          <div className="mb-3 ">
+      <div className="row align-items-center ps-3">
+        <div className="col-lg-6 mb-0 ps-3">
+          <div className="mb-3">
             <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
           </div>
           <div className="mb-3">
@@ -166,7 +166,7 @@ const WarrantyDetails = () => {
             <strong>Seller's Email:</strong> {warranty.sellersEmail}
           </div>
           <div className="button d-flex justify-content-between">
-            <button className="btn btn-primary ml-2" onClick={handleOpenPDF}>Open Warranty PDF</button>
+            <button className="btn buttonOpenWarranty ml-2" onClick={handleOpenPDF}>Open Warranty PDF</button>
           </div>
           <div className="mb-3 mt-3">
             <textarea
@@ -176,21 +176,25 @@ const WarrantyDetails = () => {
               value={issueDescription}
               onChange={(e) => setIssueDescription(e.target.value)}
               rows="4"
-              disabled={isExpired} // Disable if expired
+              disabled={isExpired}
             />
           </div>
-          <div className="button d-flex justify-content-between mb-2">
-              <button className="btn btn-primary " onClick={handleSendEmail} disabled={isExpired}>Send Complaint</button>
+          <div className="button d-flex justify-content-between mb-1">
+            <button className="btn btn-primary "
+              onClick={handleSendEmail}
+              disabled={isExpired}>Send Complaint</button>
               <DeleteWarranty id={warranty.warrantyId} />
               <Link to='/myWarranties' className="btn btn-primary">Back</Link>
           </div>
         </div>
+
+        {/* Image Section */}
         <div className="col-lg-5 d-flex justify-content-end mb-5 align-items-start">
-          <div className='d-flex align-items-start justify-content-end pb-5 mb-3'>
+          <div className='d-flex align-items-start justify-content-end pb-3 mb-3'>
             <img
               className="img-fluid"
               style={{
-                maxWidth: '400px', height: 'auto', rotate: '12deg' }}
+                maxWidth: '400px', height: 'auto'}}
               src= {imageSrc} 
               alt={isExpired ? "Expired Warranty" : "Not Expired Warranty"} 
             />
