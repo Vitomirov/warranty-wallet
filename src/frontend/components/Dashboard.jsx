@@ -18,7 +18,7 @@ function Dashboard() {
       {/* Navbar within Dashboard */}
       <nav className="bg-gradient navbar navbar-expand-lg shadow-lg mb-4 px-3">
         <div className="container py-3 d-flex justify-content-evenly align-items-center">
-          <h1 className="fs-1 mb-0 fw-bold white">Welcome, {user.username}</h1>
+          <h1 className="fs-2 mb-0 white">Welcome, {user.username}</h1>
           <button 
             className="navbar-toggler" 
             type="button" 
@@ -51,8 +51,8 @@ function Dashboard() {
       <main className="flex-grow-1 container-fluid p-5"> 
         <div className="row">
         <div className="text-center mb-5">
-          <h2 className="text-muted">All your warranties in one place.
-            Add, view, and manage with ease.</h2>
+          <h2 className="text-white fw-lighter">All your warranties in one place.
+            Add and manage with ease.</h2>
         </div>
         </div>
 

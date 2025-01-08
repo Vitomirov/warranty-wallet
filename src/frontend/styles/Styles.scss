@@ -1,7 +1,7 @@
 // Define Color Scheme Variables
 $blueLight: #c2dfe3;
 $white: #f5f5f5;
-$pink: #fffc5f;
+$yellow: #fffc5f;
 $dark: #212121;
 $blue-dark: #162D46;
 
@@ -42,7 +42,7 @@ $blue-dark: #162D46;
     color: $white;
 
     &:hover {
-        color: $pink;
+        color: $yellow;
     }
 }
 
@@ -97,8 +97,8 @@ $blue-dark: #162D46;
 
     .btn:hover {
         transform: scale(1.05);
-        color: $blueLight;
-            background-color: $blue-dark;
+        color: $dark;
+            background-color: $blueLight;
     }
 }
 
@@ -230,7 +230,7 @@ footer {
 // Dashboard
 .dashboard {
     background-color: $white;
-    background: linear-gradient(181deg, $blueLight 42%, $white 42%);
+    background: linear-gradient(181deg, $blue-dark 45%, $white 45%);
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
@@ -264,7 +264,7 @@ footer {
     }
 
     &:hover {
-        background-color: $pink;
+        background-color: $yellow;
     }
 }
 // Warranty Details

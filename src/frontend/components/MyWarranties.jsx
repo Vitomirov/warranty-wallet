@@ -40,18 +40,18 @@ const MyWarranties = () => {
   }
 
   return (
-    <div className="myWarranties container-fluid"> 
+    <div className="myWarranties container-fluid pt-1 ps-5"> 
       <div className="row col-lg-12 d-flex align-items-center mb-4 p-1">
         <h1 className="mt-5 col-lg-6 col-md-4 ps-4 display-4"> {user.username}'s Warranties</h1> 
       </div>
-      <div className="row align-items-center ps-3">
+      <div className="row align-items-start ps-3">
         {/* Content Section */}
-        <div className="col-lg-6 mb-0">
+        <div className="col-lg-6">
           {warranties.length === 0 ? (
             <p>No warranties found.</p>
           ) : (
-            <div className="col-lg-10 mt-4">
-              <ol className=" list-group list-group-numbered mt-3 overflow-auto" style={{ maxHeight: '55vh' }}>
+            <div className="col-lg-10">
+              <ol className="list-group list-group-numbered mt-2 overflow-auto" style={{ maxHeight: '55vh' }}>
                 {warranties.map((warranty) => (
                   <li key={warranty.warrantyId} className="list-style list-group-item mb-2 border">
                     <Link to={`/warranties/details/${warranty.warrantyId}`} className="link-text">

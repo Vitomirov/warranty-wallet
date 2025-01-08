@@ -44,7 +44,7 @@ const NewWarranty = () => {
 
   return (
     <div className='newWarranty container-fluid pt-2 ps-5'>
-      <h1 className='col-lg-6 mx-4 display-5 mt-3'>Create New Warranty</h1>
+      <h1 className='col-lg-5 mx-4 display-5 mt-3'>Create New Warranty</h1>
       <div className='row p-2'>
         {/* Content Section */}
         <div className='col-lg-5 col-md-5 col-sm-12 mx-3 mt-1'>
