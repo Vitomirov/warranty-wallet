@@ -3,7 +3,11 @@ $blueLight: #c2dfe3;
 $white: #f5f5f5;
 $yellow: #fffc5f;
 $dark: #212121;
-$blue-dark: #162D46;
+$blueDark: #162D46;
+
+body {
+    font-family: 'Roboto Serif', 'Edu AU VIC WA NT Pre', serif;
+}
 
 .text-blueLight {
     color: $blueLight;
@@ -16,19 +20,16 @@ $blue-dark: #162D46;
 .title {
     letter-spacing: 0.85rem;
     font-size-adjust: 0.85;
-    color: $blueLight;
+    color: $dark;
+        font-family: Montserrat;
 }
-
-.title-white {
-    font-weight: bold;
-    letter-spacing: 0.85rem;
-    font-size-adjust: 0.85;
-    color: $white;
+.montserrat {
+    font-family: Montserrat;
 }
 
 // Navigation Bar
 .navbar {
-    background-color: $blue-dark;
+    background-color: $blueDark;
 
     img {
         height: 70px;
@@ -74,30 +75,32 @@ $blue-dark: #162D46;
 // Buttons
 .button {
     .btn {
-        background-color: $blue-dark;
+        background-color: $blueDark;
         color: $white;
+        border-color: $blueDark;
         padding: 0.3rem 2rem;
         font-size: 1rem;
         border-radius: 0.3rem;
-        transition: transform 0.5s ease-in-out;
+        transition: transform 0.3s ease-in-out;
 
         &:hover {
             transform: scale(1.05);
-            color: $blue-dark;
+            color: $blueDark;
             background-color: $blueLight;
+            border-color: $blueDark;
         }
     }
 .buttonOpenWarranty {
     border-radius: 0.3rem;
-    border-color: $blue-dark;
+    border-color: $blueDark;
     transition: transform 0.5s ease-in-out;
     background-color: $blueLight;
-    color: $blue-dark;
+    color: $blueDark;
 
     &:hover {
         transform: scale(1.05);
         color: $white;
-        background-color: $blue-dark;
+        background-color: $blueDark;
     }
 }
 }
@@ -117,7 +120,7 @@ $blue-dark: #162D46;
 
 
 .back-to-top {
-    color: $blue-dark;
+    color: $blueDark;
     font-size: 3rem;
 }
 // Right Content Image
@@ -167,7 +170,7 @@ $blue-dark: #162D46;
             }
 
             .featureTitle {
-                color: $blue-dark;
+                color: $blueDark;
                 background-color: $white;
             }
         }
@@ -175,7 +178,7 @@ $blue-dark: #162D46;
 
     .featureTitle {
         color: $white;
-        background-color: $blue-dark;
+        background-color: $blueDark;
     }
 }
 
@@ -189,14 +192,14 @@ $blue-dark: #162D46;
 
     .questionField {
         color: $white;
-        background-color: $blue-dark;
+        background-color: $blueDark;
         position: relative;
         /* Ensure proper stacking context */
         z-index: 2;
         /* Ensure it stays above the background */
 
         &:hover {
-            color: $blue-dark;
+            color: $blueDark;
             background-color: $blueLight;
         }
     }
@@ -204,7 +207,7 @@ $blue-dark: #162D46;
 
 // Footer Styles - Stick to the bottom of the main content
 footer {
-    background-color: $blue-dark;
+    background-color: $blueDark;
     color: $white;
     text-align: center;
     padding: 10px 0;
@@ -244,7 +247,7 @@ footer {
 // Dashboard
 .dashboard {
     background-color: $white;
-    background: linear-gradient(181deg, $blue-dark 45%, $white 45%);
+    background: linear-gradient(181deg, $blueDark 46%, $white 46%);
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
