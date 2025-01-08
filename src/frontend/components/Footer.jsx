@@ -13,10 +13,10 @@ function Footer() {
 
   return (
     <footer id="contact"  className="bg-gradient border-bottom border-dark py-2 d-flex justify-content-between align-items-center">
-      <p className="mb-0 col-lg-3">
+      <p className="mb-0 col-lg-4">
         &copy; Designed and Developed by Dejan Vitomirov
       </p>
-      <div>
+      <div className="pe-5">
         <span
           onClick={handleLinkedinClick}
           style={{ cursor: "pointer", margin: "0 10px" }}

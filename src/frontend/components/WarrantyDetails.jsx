@@ -149,7 +149,7 @@ const WarrantyDetails = () => {
   return (
     <div className="warrantyDetails container-fluid pt-1 ps-5">
       <div className="row col-lg-12 mt-5">
-        <h1 className="display-5 ps-4 d-flex align-items-center">{warranty.productName} - Warranty Details</h1>
+        <h1 className="display-5 ps-4 d-flex align-items-center montserrat">{warranty.productName} - Warranty Details</h1>
       </div>
       <div className="row align-items-center ps-3">
         <div className="col-lg-6 mb-0 ps-3">

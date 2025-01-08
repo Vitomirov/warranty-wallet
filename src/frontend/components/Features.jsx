@@ -12,8 +12,8 @@ const Features = () => {
                 Say goodbye to lost receipts and scattered documents. Warranty Wallet keeps all your warranties in one secure location, accessible anytime, anywhere.
               </span>
               <div className='bg-gradient featureTitle d-flex row align-items-center justify-content-center rounded'>
-                <i className="bi bi-arrow-down-left h3 d-flex justify-content-center"></i>
-                <h5 className="text-center rounded">Centralized Warranty Management</h5>
+                <i className="bi bi-arrow-down-left h3 d-flex justify-content-center pt-1"></i>
+                <h5 className="text-center rounded">Centralized Management</h5>
               </div>
             </div>
           <div className="individualFeature col-md-6 col-lg-4 p-4 d-flex flex-column justify-content-evenly rounded">
@@ -21,7 +21,7 @@ const Features = () => {
               Quickly report issues with your products using our predefined email templates. Just describe your issue, and the app will handle the rest, sending the email directly to the seller for you.
             </span>
             <div className='bg-gradient featureTitle d-flex row align-items-center justify-content-center rounded'>
-              <i className="bi bi-envelope-paper-fill h3 d-flex justify-content-center "></i>
+              <i className="bi bi-envelope-paper-fill h3 d-flex justify-content-center pt-1"></i>
               <h5 className="text-center rounded">Predefined Email Templates</h5>
             </div>
           </div>
@@ -36,7 +36,7 @@ const Features = () => {
         <div className="row d-flex justify-content-evenly pt-2 gy-3">
           <div className="individualFeature col-md-6 col-lg-4 p-4 d-flex flex-column justify-content-evenly rounded">
             <div className='bg-gradient featureTitle d-flex row align-items-center justify-content-center rounded'>
-              <i className="bi bi-upload h3 d-flex justify-content-center"></i>
+              <i className="bi bi-upload h3 d-flex justify-content-center pt-1"></i>
               <h5 className="text-center">Easy Warranty Uploads</h5>
             </div>
             <span className="hover-text pb-0 rounded">
@@ -45,7 +45,7 @@ const Features = () => {
           </div>
           <div className="individualFeature col-md-6 col-lg-4 p-4 d-flex flex-column justify-content-evenly rounded">
             <div className='bg-gradient featureTitle d-flex row align-items-center justify-content-center rounded'>
-              <i className="bi bi-person-fill-check h3 d-flex justify-content-center"></i>
+              <i className="bi bi-person-fill-check h3 d-flex justify-content-center pt-1"></i>
               <h5 className="text-center">User-Friendly Dashboard</h5>
             </div>
             <span className="hover-text rounded">

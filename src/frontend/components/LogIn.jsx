@@ -34,7 +34,7 @@ const Login = () => {
       <div className="row d-flex justify-content-center align-items-center">
         {/* Left Column - Form */}
         <div className="col-lg-4">
-          <h1 className="text-start mb-4">Log In</h1>
+          <h1 className="text-start mb-4 montserrat">Log In</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-3 form-floating">
               <input

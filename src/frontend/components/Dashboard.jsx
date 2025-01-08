@@ -18,7 +18,7 @@ function Dashboard() {
       {/* Navbar within Dashboard */}
       <nav className="bg-gradient navbar navbar-expand-lg shadow-lg mb-4 px-3">
         <div className="container py-3 d-flex justify-content-evenly align-items-center">
-          <h1 className="fs-2 mb-0 white">Welcome, {user.username}</h1>
+          <h1 className="fs-1 mb-0 white montserrat">Welcome, {user.username}</h1>
           <button 
             className="navbar-toggler" 
             type="button" 
