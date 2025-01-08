@@ -42,10 +42,10 @@ const MyWarranties = () => {
   return (
     <div className="myWarranties container-fluid"> 
       <div className="row col-lg-12 d-flex align-items-center mb-4 p-1">
-        <h1 className="fw-bold mt-5 col-lg-6 help ps-4"> {user.username}'s Warranties</h1> 
+        <h1 className="mt-5 col-lg-6 col-md-4 ps-4 display-4"> {user.username}'s Warranties</h1> 
       </div>
-      <div className="row align-items-center ps-4">
-        {/* Left Content */}
+      <div className="row align-items-center ps-3">
+        {/* Content Section */}
         <div className="col-lg-6 mb-0">
           {warranties.length === 0 ? (
             <p>No warranties found.</p>
@@ -60,29 +60,31 @@ const MyWarranties = () => {
                   </li>
                 ))}
               </ol>
-              <div className="mt-3 button d-flex justify-content-between">
-                <Link to="/newWarranty" className="btn btn-primary me-2">
-                  Add a new warranty
-                </Link>
-                <Link to="/dashboard" className="btn btn-secondary">
-                  Back
-                </Link>
-              </div>
-            </div>
+              </div>             
           )}
+
         </div>
-        {/* Right Content */}
+
+        {/* Image Section */}
         <div className="col-lg-5 d-flex justify-content-center align-items-center pt-1 mb-0">
-          <div className='d-flex justify-content-end'>
+          <div className='d-flex justify-content-end ms-5 ps-5'>
             <img
               className="img-fluid"
-              style={{ maxWidth: '80%', height: 'auto' }}  
-              src="src/frontend/images/MyWarranties.png" 
+              style={{ maxWidth: '90%', height: 'auto' }}  
+              src="src/frontend/images/MyWarranties3.png"  
               alt="LendingPage" 
             />
           </div>
         </div>
       </div>
+      <div className="col-lg-5 mt-3 button d-flex justify-content-between ps-4">
+              <Link to="/newWarranty" className="btn btn-primary me-2">
+                Add a new warranty
+              </Link>
+              <Link to="/dashboard" className="btn btn-secondary">
+                Back
+              </Link>
+          </div>
     </div>
   );
 };

@@ -149,7 +149,7 @@ const WarrantyDetails = () => {
   return (
     <div className="warrantyDetails container-fluid">
       <div className="row col-lg-12 mt-3">
-        <h1 className="fw-bold d-flex justify-content-center align-items-center ">{warranty.productName} - Warranty Details</h1>
+        <h1 className="display-4 d-flex justify-content-center align-items-center ">{warranty.productName} - Warranty Details</h1>
       </div>
       <div className="row align-items-center ps-4 mt-1">
         <div className="col-lg-6 mb-0 mt-4">

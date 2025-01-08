@@ -1,7 +1,7 @@
 // Define Color Scheme Variables
 $blueLight: #c2dfe3;
 $white: #f5f5f5;
-$pink: #e3c6c2;
+$pink: #fffc5f;
 $dark: #212121;
 $blue-dark: #162D46;
 
@@ -14,7 +14,6 @@ $blue-dark: #162D46;
 }
 
 .title {
-    font-weight: bold;
     letter-spacing: 0.85rem;
     font-size-adjust: 0.85;
     color: $blueLight;
@@ -98,7 +97,8 @@ $blue-dark: #162D46;
 
     .btn:hover {
         transform: scale(1.05);
-        background-color: $pink;
+        color: $blueLight;
+            background-color: $blue-dark;
     }
 }
 
@@ -230,17 +230,16 @@ footer {
 // Dashboard
 .dashboard {
     background-color: $white;
-    background: linear-gradient(165deg, $blueLight 50%, $white 50%);
+    background: linear-gradient(181deg, $blueLight 42%, $white 42%);
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
     background-attachment: fixed;
-
 }
 
 //New Warranty
 .newWarranty {
-    background: linear-gradient(208deg, $white 50%, $blueLight 50%);
+    background: linear-gradient(100deg, $blueLight 55%, $white 55%);
 
 }
 
@@ -248,9 +247,10 @@ footer {
     background-color: $white;
 }
 
+
 //My Warranties
 .myWarranties {
-    background: linear-gradient(200deg, $white 55%, $blueLight 50%);
+    background: linear-gradient(100deg, $blueLight 55%, $white 55%);
 }
 
 .list-style {

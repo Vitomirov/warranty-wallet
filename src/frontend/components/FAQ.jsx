@@ -34,14 +34,18 @@ const FAQ = () => {
       <div id='FAQ' className='container-fluid pt-3'>
         <div className="row py-5">
           
-          {/* First column for the image */}
+          {/* Image Section */}
           <div className='col-lg-6 col-md-6 text-center mb-4 mb-md-0'>
-            <img className="img-fluid" style={{ maxWidth: '50%', height: 'auto' }} src="src/frontend/images/FAQ.png" alt="FAQ-image" />
+            <img className="img-fluid"
+              style={{ maxWidth: 'auto', height: '450px' }}
+              src="src/frontend/images/FAQ.png"
+              alt="FAQ-image" />
           </div>
 
-          {/* Second column for the FAQ */}
-          <div className='col-lg-5 col-md-5 d-flex pt-5 flex-column justify-content-start'>
-            <h2 className="title display-3 text-start">FAQ</h2>
+          {/* Content Section */}
+          <div className='col-lg-5 col-md-5 d-flex flex-column justify-content-start'
+          style={{paddingTop: '8%'}}>
+            <h2 className="title display-3 text-start mb-4">FAQ</h2>
             {faqs.map((faq, index) => (
               <div key={index} className='bg-gradient questionField p-2 m-1 rounded'>
                 <h5 onClick={() => toggleAnswer(index)} style={{ cursor: 'pointer' }}>

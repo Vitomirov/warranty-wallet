@@ -49,13 +49,16 @@ function Dashboard() {
 
       {/* Main content */}
       <main className="flex-grow-1 container-fluid p-5"> 
+        <div className="row">
         <div className="text-center mb-5">
           <h2 className="text-muted">All your warranties in one place.
             Add, view, and manage with ease.</h2>
         </div>
+        </div>
 
-        <div className="row justify-content-center dashboardbutton">
-          <div className="col-lg-5 col-md-6 mb-4">
+
+        <div className="row justify-content-evenly gap-4 dashboardbutton mt-5">
+          <div className="col-lg-5 col-md-6">
             <Link to="/myWarranties" className="btn btn-lg border w-100 shadow" style={{
               padding: '8% 5%',
               fontSize: '1.5rem',

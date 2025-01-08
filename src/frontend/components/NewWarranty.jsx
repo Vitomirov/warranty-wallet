@@ -43,43 +43,58 @@ const NewWarranty = () => {
   };
 
   return (
-    <div className='newWarranty container-fluid pt-5'>
-      <h1 className='col-lg-6 ps-2'>Create New Warranty</h1>
-      <div className='row p-3'>
-        {/* Form Section */}
-        <div className=' col-lg-6 col-md-6 col-sm-12 mx-auto mt-2'>
+    <div className='newWarranty container-fluid pt-2 ps-5'>
+      <h1 className='col-lg-6 mx-4 display-5 mt-3'>Create New Warranty</h1>
+      <div className='row p-2'>
+        {/* Content Section */}
+        <div className='col-lg-5 col-md-5 col-sm-12 mx-3 mt-1'>
           <form>
-            <div className="mb-3">
+            <div className="mb-2">
               <label className="me-4">Product Name:</label>
-              <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} className="form-control form-control-sm form-style" />
+              <input type="text " value={productName} 
+              onChange={(e) => setProductName(e.target.value)} 
+              className="form-control form-control-md form-style" />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
               <label className="me-4">Purchase Date:</label>
-              <input type="date" value={dateOfPurchase} onChange={(e) => setDateOfPurchase(e.target.value)} className="form-control form-control-sm form-style" />
+              <input type="date" value={dateOfPurchase} 
+              onChange={(e) => setDateOfPurchase(e.target.value)} 
+              className="form-control form-control-md form-style" />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
               <label className="me-4">Expiry Date:</label>
-              <input type="date" value={warrantyExpireDate} onChange={(e) => setWarrantyExpireDate(e.target.value)} className="form-control form-control-sm form-style" />
+              <input type="date" value={warrantyExpireDate} 
+              onChange={(e) => setWarrantyExpireDate(e.target.value)} 
+              className="form-control form-control-md form-style" />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
               <label className="me-4">Seller's email:</label>
-              <input type="email" value={sellersEmail} onChange={(e) => setSellersEmail(e.target.value)} className="form-control form-control-sm form-style" />
+              <input type="email" value={sellersEmail} 
+              onChange={(e) => setSellersEmail(e.target.value)} 
+              className="form-control form-control-md form-style" />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
               <label className="me-4">Upload PDF File:</label>
-              <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} className="form-control form-control-sm form-style" />
+              <input type="file" accept="application/pdf" 
+              onChange={(e) => setFile(e.target.files[0])} 
+              className="form-control form-control-md form-style" />
             </div>
-            <div className="button mt-3 d-flex justify-content-between">
+            <div className="button mt-5 d-flex justify-content-between">
               {message && <p>{message}</p>}
-              <button type="button" onClick={handleAddWarranty} className="btn btn-primary me-2">Add Warranty</button>
+              <button type="button" onClick={handleAddWarranty} 
+              className="btn btn-primary me-2">Add Warranty</button>
               <Link to='/dashboard' className='btn btn-secondary'>Back</Link>
             </div>
           </form>
         </div>
 
         {/* Image Section */}
-        <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center align-items-center' >
-          <img className="img-fluid" style={{ maxWidth: 'auto', height: '400px', objectFit: 'contain' }} src="src/frontend/images/NewWarranty.png" alt="New Warranty" />
+        <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center align-items-center'
+        style={{paddingLeft: '140px'}}>
+          <img className="img-fluid"
+            style={{ maxWidth: 'auto', height: '450px', objectFit: 'contain' }}
+            src="src/frontend/images/NewWarranty2.png"
+            alt="New Warranty" />
         </div>
       </div>
     </div>
