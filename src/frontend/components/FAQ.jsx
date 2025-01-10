@@ -7,16 +7,16 @@ const FAQ = () => {
   // Sample FAQ data
   const faqs = [
     {
+      question: "How do I add a warranty?",
+      answer: "To add a warranty, navigate to the New Warranty form, fill it out, and remember to upload the PDF of your warranty for safekeeping."
+    },
+    {
       question: "What can I use Warranty Wallet for?",
       answer: "Warranty Wallet helps you organize and manage warranties for electronics, appliances, furniture, vehicles, and more"
     },
     {
       question: "Is my data secure?",
       answer: "Absolutely. We use industry-standard encryption to ensure your warranty details and personal data remain safe and private."
-    },
-    {
-      question: "How do I add a warranty?",
-      answer: "To add a warranty, navigate to the New Warranty form, fill it out, and remember to upload the PDF of your warranty for safekeeping."
     },
     {
       question: "How many warranties can I store in the app?",

@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
 function SignUp() {
-  const { signup } = useAuth();
+  const { login } = useAuth(); // Use login function from AuthContext
   const [username, setUsername] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +17,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Make the signup request
       const response = await axios.post('http://localhost:3000/signup', {
         username,
         userEmail,
@@ -25,16 +26,16 @@ function SignUp() {
         userAddress,
         userPhoneNumber,
       });
-      setMessage(response.data);
-      setUsername('');
-      setUserEmail('');
-      setPassword('');
-      setFullName('');
-      setUserAddress('');
-      setUserPhoneNumber('');
-      navigate('/login');
+
+      // Check if signup was successful
+      if (response.data) {
+        setMessage('Signup successful! Logging you in...');        
+        await login(username, password);
+        navigate('/dashboard');
+      }
     } catch (error) {
       setMessage('Failed to sign up');
+      console.error(error);
     }
   };
 
@@ -43,11 +44,11 @@ function SignUp() {
       <form onSubmit={handleSubmit}>
         <div className="d-flex flex-column align-items-center">
           <div className='col-lg-12'>
-          <div className="col-lg-3">
-            <h1 className='montserrat'>Sign Up</h1>
+            <div className="col-lg-3">
+              <h1 className='montserrat'>Sign Up</h1>
             </div>
           </div>
-          
+
           {/* Account Information */}
           <fieldset className="mb-1 col-lg-5">
             <legend>Account Information</legend>
@@ -151,9 +152,9 @@ function SignUp() {
               Home
             </Link>
           </div>
-
         </div>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
 }
