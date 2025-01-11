@@ -10,8 +10,9 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import path from 'path';
-import { sendWarrantyClaimEmail } from './routes/email.js';
+import { sendWarrantyClaimEmail, sendExpirationNotificationEmail } from './routes/email.js'; // Import both email functions
 import fs from 'fs';
+import cron from 'node-cron';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,7 +45,7 @@ app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes);
 app.use('/', authRoutes);
 app.use('/', userRoutes); 
 
-// Sending complaints mails
+// Sending warranty claims emails
 app.post('/warranty/claim', async (req, res) => {
   const { userId, productName, username, issueDescription, warrantyId } = req.body;
 
@@ -98,6 +99,46 @@ app.post('/warranty/claim', async (req, res) => {
     console.error('Error handling warranty claim:', error);
     res.status(500).send('Internal server error');
   }
+});
+
+// Function to check for nearly expired warranties
+const checkForNearlyExpiredWarranties = async () => {
+  const currentDate = new Date();
+  const fourteenDaysFromNow = new Date(currentDate);
+  fourteenDaysFromNow.setDate(currentDate.getDate() + 14);
+
+  try {
+    // Query to find warranties expiring in the next 14 days
+    const [warranties] = await db.promise().query(
+      'SELECT w.warrantyId, w.sellersEmail, u.userEmail, u.fullName, u.userAddress, u.userPhoneNumber, w.productName, w.pdfFilePath ' +
+      'FROM warranties w ' +
+      'JOIN users u ON w .userId = u.id ' +
+      'WHERE w.warrantyExpireDate BETWEEN ? AND ? AND w.notified = 0',
+      [currentDate.toISOString().split('T')[0], fourteenDaysFromNow.toISOString().split('T')[0]]
+    );
+
+    // Loop through each warranty and send email
+    for (const warranty of warranties) {
+      const { sellersEmail, userEmail, fullName, userAddress, userPhoneNumber, productName, pdfFilePath } = warranty;
+
+      // Send email notification
+      await sendExpirationNotificationEmail(sellersEmail, productName, userEmail, fullName); // Call the new function for expiration notifications
+
+      // Update the database to mark that a notification has been sent
+      await db.promise().query(
+        'UPDATE warranties SET notified = 1 WHERE warrantyId = ?',
+        [warranty.warrantyId]
+      );
+    }
+  } catch (error) {
+    console.error('Error checking for nearly expired warranties:', error);
+  }
+};
+
+// Schedule the cron job to run every day at 9:00 AM
+cron.schedule('* * * * *', async () => {
+  console.log('Checking for nearly expired warranties...');
+  await checkForNearlyExpiredWarranties();
 });
 
 app.listen(PORT, () => {

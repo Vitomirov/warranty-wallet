@@ -110,7 +110,7 @@ function MyAccount() {
             <div className="d-flex flex-column align-items-center">
               <div className='col-lg-12'>
                 <div className="col-lg-3">
-                  <h1 className='fw-bold'>My Account</h1>
+                  <h1 className='montserrat'>My Account</h1>
                 </div>
             </div>    
               {/* Account Information */}

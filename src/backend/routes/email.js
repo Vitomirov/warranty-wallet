@@ -81,3 +81,34 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
     throw error; // Rethrow the error for further handling
   }
 }
+
+// Function to send expiration notification email
+export async function sendExpirationNotificationEmail(sellersEmail, productName, userEmail, fullName) {
+  const subject = `Warranty Expiration Notification – ${productName}`;
+  const text = `
+  Hi there,
+
+  This is a reminder that your warranty for ${productName} is about to expire in 14 days.
+
+  Please take the necessary actions.
+
+  Best regards,
+  Warranty Wallet
+  `;
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: sellersEmail,
+    subject,
+    text,
+    replyTo: userEmail,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Expiration notification email sent successfully!');
+  } catch (error) {
+    console.error('Error sending expiration notification email:', error.response ? error.response.data : error);
+    throw error; // Rethrow the error for further handling
+  }
+}
