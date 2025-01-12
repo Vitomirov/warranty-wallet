@@ -136,7 +136,7 @@ const checkForNearlyExpiredWarranties = async () => {
 };
 
 // Schedule the cron job to run every day at 9:00 AM
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 9 * * *', async () => {
   console.log('Checking for nearly expired warranties...');
   await checkForNearlyExpiredWarranties();
 });

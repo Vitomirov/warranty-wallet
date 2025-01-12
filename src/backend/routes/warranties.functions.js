@@ -61,7 +61,7 @@ export const getWarranty = (req, res) => {
     warranty.warrantyExpireDate = formatDate(warranty.warrantyExpireDate);
 
     // Convert to URL path
-    warranty.pdfFilePath = `http://localhost:3000/${warranty.pdfFilePath}`;
+    warranty.pdfFilePath = `http://localhost:3000/${warranty.pdfFilePath.replace(/^\/+/, '')}`;
 
     res.json(warranty);
   });

@@ -11,25 +11,30 @@ const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
 // Function to verify JWT token
 export const verifyToken = (req, res, next) => {
   console.log('Verifying token...');
+
   const authHeader = req.headers['authorization'];
+  console.log('Auth Header:', authHeader); // Log the Authorization header
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.log('No token provided');
+    console.log('No token provided or invalid header format');
     return res.sendStatus(401); // Unauthorized if no token is provided
   }
 
   const token = authHeader.substring(7); // Extract the token from the Authorization header
+  console.log('Token:', token); // Log the extracted token
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
-      console.error('Error verifying token:', err);
-      return res.sendStatus(403); // Forbidden if token is invalid
+      console.log('Token verification failed:', err.message);
+      return res.status(403).json({ message: 'Invalid token' }); // Forbidden if token is invalid
     }
-    console.log('Token verified successfully');
-    req.user = user;
-    next();
+
+    console.log('Token successfully verified. User:', user); // Log the decoded user information
+    req.user = user; // Attach the user to the request object
+    next(); // Pass to the next middleware or route handler
   });
 };
+
 
 // Function to login and provide access and refresh tokens
 export const login = async (req, res) => {
