@@ -29,6 +29,8 @@ export const getWarranties = (req, res) => {
       return res.status(404).send({ message: 'No warranties found' });
     }
 
+    console.log(`Warranties found for user ${req.user.userId}:`, results);
+
     // Format dates
     const formattedWarranties = results.map(warranty => ({
       ...warranty,

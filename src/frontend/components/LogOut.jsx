@@ -10,7 +10,6 @@ function LogOut() {
     event.preventDefault(); // Prevent default link behavior
     await logout(); // Call the logout function
     console.log("User  is logged out");
-    navigate('/');
   };
 
   return (

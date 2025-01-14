@@ -5,9 +5,6 @@ import connection from '../db.js';
 
 dotenv.config();
 
-const SECRET_KEY = process.env.SECRET_KEY;
-const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
-
 // Function to verify JWT token
 export const verifyToken = (req, res, next) => {
   console.log('Verifying token...');
@@ -26,7 +23,7 @@ export const verifyToken = (req, res, next) => {
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
       console.log('Token verification failed:', err.message);
-      return res.status(403).json({ message: 'Invalid token' }); // Forbidden if token is invalid
+      return res.status(401); // Forbidden if token is invalid
     }
 
     console.log('Token successfully verified. User:', user); // Log the decoded user information
@@ -35,8 +32,7 @@ export const verifyToken = (req, res, next) => {
   });
 };
 
-
-// Function to login and provide access and refresh tokens
+// Log in function
 export const login = async (req, res) => {
   console.log('LogIn route reached');
 
@@ -62,9 +58,13 @@ export const login = async (req, res) => {
     if (match) {
       console.log('Password match, generating tokens');
 
-      const accessToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '15m' });
+      const accessToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '1m' });
       const refreshToken = jwt.sign({ userId: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: '7d' });
-      
+      console.log('Using REFRESH_SECRET_KEY:', process.env.REFRESH_SECRET_KEY);
+
+      console.log('Generated Access Token:', accessToken);
+      console.log('Generated Refresh Token:', refreshToken);
+
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: false, // Set to true in production
@@ -94,53 +94,37 @@ export const login = async (req, res) => {
 
 // Function to refresh access token using refresh token from cookie
 export const refreshToken = (req, res) => {
-  console.log('req:', req);
-  console.log('req.cookies:', req.cookies);
-  console.log('req.headers:', req.headers)
+  const refreshToken = req.cookies.refreshToken;
+  console.log('Received refresh token:', refreshToken); // Log the token
 
-  try {
-    console.log('req.cookies:', req.cookies);
-    console.log('req.cookies.refreshToken:', req.cookies.refreshToken);
-
-    if (!req.cookies) {
-      return res.status(401).json({ message: 'Unauthorized' }); // Unauthorized
-    }
-
-    const refreshToken = req.cookies.refreshToken;
-    console.log('Refresh token:', refreshToken);
-
-    if (!refreshToken) {
-      return res.status(401).json({ message: 'Unauthorized' }); // Unauthorized
-    }
-
-    jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY, (err, user) => {
-      if (err) {
-        console.error('Error verifying refresh token:', err);
-        return res.status(403).json({ message: 'Forbidden' }); // Forbidden
-      }
-
-      try {
-        const accessToken = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
-        res.json({ accessToken });
-      } catch (err) {
-        console.error('Error generating access token:', err);
-        console.log('Error refreshing token:', err); 
-        return res.status(500).json({ error: 'Error refreshing token' });
-      }
-    });
-  } catch (err) {
-    console.error('Error refreshing token:', err);
-    console.log('Error refreshing token:', err); 
-    return res.status(500).json({ error: 'Error refreshing token' });
+  if (!refreshToken) {
+    console.log('No refresh token provided');
+    return res.status(401).json({ message: 'Refresh token not provided' });
   }
-};
 
+  jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY, (err, user) => {
+    if (err) {
+      console.error('Error verifying refresh token:', err.message);
+      console.log('Token verification failed. Check if the token is expired or signed with the correct key.');
+      return res.status(403).json({ message: 'Invalid refresh token' });
+    }
+
+    console.log('Refresh token verified. User:', user);
+    const accessToken = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
+    console.log('New Access Token generated:', accessToken);
+    res.json({ accessToken });
+  });
+};
 // Function to signup a new user
 export const signup = async (req, res) => {
   const { username, userEmail, password, fullName, userAddress, userPhoneNumber } = req.body;
   
+  console.log('SignUp route reached with username:', username);
+  
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('Hashed password for user:', username);
+    
     const sql = 'INSERT INTO users (username, userEmail, password, fullName, userAddress, userPhoneNumber) VALUES (?, ?, ?, ?, ?, ?)';
     
     connection.query(sql, [username, userEmail, hashedPassword, fullName, userAddress, userPhoneNumber], (err, result) => {
@@ -149,6 +133,7 @@ export const signup = async (req, res) => {
         return res.status(500).send('Failed to sign up');
       }
       
+      console.log('User  signed up successfully:', username);
       return res.status(200).send('Signup successful');
     });
   } catch (error) {

@@ -6,9 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import ExpiredWarrantyImage from '../images/ExpiredWarranty.png';
 import NotExpiredWarrantyImage from '../images/NotExpiredWarranty.png';
 
-
 const WarrantyDetails = () => {
-  const { user, token, refreshToken } = useAuth(); 
+  const { user, token, refreshToken, setToken } = useAuth(); 
   const { id } = useParams();
   const [warranty, setWarranty] = useState(null);
   const [error, setError] = useState(null);
@@ -26,15 +25,21 @@ const WarrantyDetails = () => {
       setWarranty(response.data);
     } catch (err) {
       if (err.response && err.response.status === 401) {
-        const newToken = await refreshToken(); 
-        if (newToken) {
-          setToken(newToken); // Update the token state
-          fetchWarranty(); // Call fetchWarranty once after successful refresh
-        } else {
+        // Attempt to refresh the token
+        try {
+          const newToken = await refreshToken();
+          if (newToken) {
+            setToken(newToken.accessToken);
+            await fetchWarranty(); // Retry fetching warranty
+          } else {
+            setError('Session expired. Please log in again.');
+          }
+        } catch (refreshError) {
+          console.error('Error refreshing token:', refreshError);
           setError('Session expired. Please log in again.');
         }
       } else if (err.response && err.response.status === 404) {
-        setError('Warranty not found.'); 
+        setError('Warranty not found.');
       } else {
         setError('There was an error fetching the warranty details!');
       }
@@ -47,13 +52,12 @@ const WarrantyDetails = () => {
     const currentDate = new Date();
     const daysLeft = expiry - currentDate;
     const isExpired = daysLeft <= 0;
-    const days = isExpired ? 0 : Math.floor(daysLeft / (1000 * 60 * 60 * 24));
-    return { days, isExpired };
+    return { days: isExpired ? 0 : Math.floor(daysLeft / (1000 * 60 * 60 * 24)), isExpired };
   };
 
   useEffect(() => {
     fetchWarranty();
-  }, [id, token]); // Fetch warranty details and update on id or token change
+  }, [id]); // Only fetch warranty details when the ID changes
 
   useEffect(() => {
     if (warranty) {

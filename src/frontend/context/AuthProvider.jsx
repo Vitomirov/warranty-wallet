@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import AuthContext from './AuthContext';
+import { useNavigate } from 'react-router-dom'; // Import useHistory for navigation
 
 const instance = axios.create({
   baseURL: 'http://localhost:3000',
@@ -13,9 +14,10 @@ const AuthProvider = ({ children }) => {
     const savedUser  = localStorage.getItem('user');
     return savedUser  ? JSON.parse(savedUser ) : null;
   });
+  const navigate = useNavigate(); // Initialize useHistory
 
   useEffect(() => {
-    if (token && typeof token === 'string') {
+    if (token) {
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
       delete instance.defaults.headers.common.Authorization;
@@ -45,6 +47,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     setToken(null);
     setUser (null);
+    navigate('/'); // Redirect to login page
   };
 
   const refreshToken = async () => {
@@ -59,25 +62,25 @@ const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Refresh token error:', error.message || 'Unknown error');
+      logout(); // Log out if refresh token fails
       throw error;
     }
   };
 
-  // Method to update user data
   const updateUser  = (newUserData) => {
-    setUser ((prevUser ) => ({ 
-      ...prevUser ,  
-      ...newUserData, 
+    setUser ((prevUser ) => ({
+      ...prevUser ,
+      ...newUserData,
     }));
 
     localStorage.setItem('user', JSON.stringify({
       ...user,
-      ...newUserData, 
+      ...newUserData,
     }));
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, refreshToken, user, updateUser  }}>
+    <AuthContext.Provider value={{ token, login, logout, refreshToken, setToken, user, updateUser  }}>
       {children}
     </AuthContext.Provider>
   );
