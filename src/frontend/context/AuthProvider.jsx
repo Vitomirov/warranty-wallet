@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     setToken(null);
     setUser (null);
-    navigate('/'); // Redirect to login page
+    navigate('/'); 
   };
 
   const refreshToken = async () => {

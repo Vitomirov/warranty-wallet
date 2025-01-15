@@ -40,7 +40,7 @@ function Dashboard() {
                 <Link to="/" className="nav-link">Home</Link>
               </li>
               <li className="navbar-nav ">
-                <LogOut/>
+                <LogOut asLink={true} linkTo="/" className="nav-link btn btn-link text-white"/>
               </li>
             </ul>
           </div>

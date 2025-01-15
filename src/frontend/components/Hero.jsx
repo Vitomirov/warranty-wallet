@@ -4,13 +4,10 @@ import { useAuth } from '../context/AuthContext';
 import LogOut from './LogOut';
 
 
+
 const Hero = () => {
 
-    const { user, logout } = useAuth();
-
-    const handleLogout = () => {
-        logout();
-    }
+    const { user } = useAuth();
 
 return (
 <section className="hero-section min-vh-100">
@@ -24,7 +21,7 @@ return (
                         <div className="button d-flex justify-content-center justify-content-md-start gap-3 ms-4">
                             {user ? (
                                 <>
-                                    <button className="btn btn-lg" onClick={handleLogout}>Log Out</button>
+                                    <LogOut className="btn btn-primary btn-lg"/>
                                     <Link to="/dashboard" className="btn btn-primary btn-lg">Dashboard</Link>
                                 </>
                             ) : (
