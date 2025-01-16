@@ -14,7 +14,9 @@ export const verifyToken = (req, res, next) => {
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     console.log('No token provided or invalid header format');
-    return res.sendStatus(401); // Unauthorized if no token is provided
+    return res.sendStatus(401).json({
+      message: 'Invalid Token!'
+    }); // Unauthorized if no token is provided
   }
 
   const token = authHeader.substring(7); // Extract the token from the Authorization header
@@ -60,7 +62,6 @@ export const login = async (req, res) => {
 
       const accessToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '1m' });
       const refreshToken = jwt.sign({ userId: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: '7d' });
-      console.log('Using REFRESH_SECRET_KEY:', process.env.REFRESH_SECRET_KEY);
 
       console.log('Generated Access Token:', accessToken);
       console.log('Generated Refresh Token:', refreshToken);
@@ -110,7 +111,7 @@ export const refreshToken = (req, res) => {
     }
 
     console.log('Refresh token verified. User:', user);
-    const accessToken = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
+    const accessToken = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY, { expiresIn: '1m' });
     console.log('New Access Token generated:', accessToken);
     res.json({ accessToken });
   });

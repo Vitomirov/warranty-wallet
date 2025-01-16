@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import AuthContext from './AuthContext';
-import { useNavigate } from 'react-router-dom'; // Import useHistory for navigation
+import { useNavigate } from 'react-router-dom'; 
 
 const instance = axios.create({
   baseURL: 'http://localhost:3000',
@@ -14,16 +14,48 @@ const AuthProvider = ({ children }) => {
     const savedUser  = localStorage.getItem('user');
     return savedUser  ? JSON.parse(savedUser ) : null;
   });
-  const navigate = useNavigate(); // Initialize useHistory
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+      // Set up a timer to refresh the token before it expires
+      const tokenExpiration = JSON.parse(atob(token.split('.')[1])).exp * 1000; // Get expiration time
+      const refreshTime = tokenExpiration - Date.now() - 30000; // Refresh 30 seconds before expiration
+      const timer = setTimeout(() => {
+        refreshToken(); // Call refresh token function
+      }, refreshTime);
+      return () => clearTimeout(timer); // Clean up the timer on unmount
     } else {
       delete instance.defaults.headers.common.Authorization;
     }
   }, [token]);
 
+  // Axios interceptor for handling token refresh
+  instance.interceptors.response.use(
+    response => response,
+    async error => {
+      const originalRequest = error.config;
+
+      // If the error is due to an expired token (401), try to refresh it
+      if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true; // Prevent infinite loop
+
+        try {
+          const response = await refreshToken();
+          if (response.data && response.data.accessToken) {
+            setToken(response.data.accessToken);
+            originalRequest.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
+            return instance(originalRequest); // Retry the original request
+          }
+        } catch (refreshError) {
+          console.error('Refresh token error:', refreshError);
+          logout(); // Log out if refresh fails
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
   const login = async (username, password) => {
     try {
       const response = await instance.post('/login', { username, password });
@@ -85,5 +117,5 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
+export { instance };
 export default AuthProvider;

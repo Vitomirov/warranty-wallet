@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { instance } from '../context/AuthProvider'
 import { useParams, Link } from 'react-router-dom';
 import DeleteWarranty from './DeleteWarranty';
 import { useAuth } from '../context/AuthContext';
@@ -17,12 +18,8 @@ const WarrantyDetails = () => {
 
   const fetchWarranty = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/warranties/details/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      setWarranty(response.data);
+      const response = await instance.get(`/warranties/details/${id}`);
+        setWarranty(response.data);
     } catch (err) {
       if (err.response && err.response.status === 401) {
         // Attempt to refresh the token
@@ -73,10 +70,7 @@ const WarrantyDetails = () => {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:3000/warranties/pdf/${warranty.warrantyId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
+      const response = await instance.get(`/warranties/pdf/${warranty.warrantyId}`, {
         responseType: 'blob'
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -103,8 +97,8 @@ const WarrantyDetails = () => {
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:3000/warranty/claim',
+      const response = await instance.post(
+        'warranty/claim',
         {
           userId: user.id,
           productName: warranty.productName,
@@ -116,11 +110,6 @@ const WarrantyDetails = () => {
           userPhoneNumber: user.userPhoneNumber,
           issueDescription
         },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        }
       );
       alert("Email sent successfully!");
     } catch (err) {

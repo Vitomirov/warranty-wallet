@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { instance } from '../context/AuthProvider'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -22,15 +23,11 @@ const MyWarranties = () => {
   const fetchWarranties = async () => {
     if (isFetchingRef.current) return; // Prevent multiple fetches
     isFetchingRef.current = true; // Set fetching state
-
+  
     console.log('Fetching warranties...');
     try {
       cancelTokenSource.current = axios.CancelToken.source(); // Create a new cancel token
-      const response = await axios.get('http://localhost:3000/warranties/all', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+      const response = await instance.get('/warranties/all', {
         cancelToken: cancelTokenSource.current.token, // Attach the cancel token
       });
       console.log('Warranties fetched successfully:', response.data);
@@ -38,16 +35,20 @@ const MyWarranties = () => {
         setWarranties(response.data);
       }
     } catch (error) {
+      console.error('Error fetching warranties:', error); // Log the full error object
       if (axios.isCancel(error)) {
         console.log('Request canceled:', error.message);
       } else {
-        console.error('Error fetching warranties:', error);
+        // Check if error.response exists
+        let errorMessage;
         if (error.response) {
-          console.error('Server responded with:', error.response.data);
+          // If error.response exists, use the error message from the server
+          errorMessage = error.response.data || 'Failed to fetch warranties due to a server issue.';
+        } else {
+          // If error.response does not exist, it could be a network error
+          errorMessage = 'Failed to fetch warranties due to a network error or server issue.';
         }
-        if (isMounted.current) { // Check if component is still mounted
-          setError('Failed to fetch warranties.');
-        }
+        setError(errorMessage); // Set the error message
       }
     } finally {
       isFetchingRef.current = false; // Reset fetching state
@@ -62,10 +63,14 @@ const MyWarranties = () => {
       console.log('Access token expired, refreshing...');
       setIsRefreshing(true);
       try {
-        const response = await axios.post('http://localhost:3000/refresh-token', {}, { withCredentials: true });
+        const response = await instance.post('/refresh-token', {}, { withCredentials: true });
         if (response.data.accessToken) {
-          setToken(response.data.accessToken);
+          setToken(response.data.accessToken); // Update the token state
           console.log('Access token refreshed:', response.data.accessToken);
+          
+          // Update the instance's Authorization header
+          instance.defaults.headers.common.Authorization = `Bearer ${response.data.accessToken}`;
+          
           await fetchWarranties(); // Fetch warranties after refreshing token
         } else {
           throw new Error('No access token returned');
@@ -83,7 +88,6 @@ const MyWarranties = () => {
       fetchWarranties(); // Fetch warranties if token is still valid
     }
   };
-
   useEffect(() => {
     console.log('MyWarranties component mounted');
     isMounted.current = true; // Set mounted flag to true
@@ -110,6 +114,7 @@ const MyWarranties = () => {
           {user.username}'s Warranties
         </h1>
       </div>
+      {error && <div className="alert alert-danger">{error}</div>}
       <div className="row align-items-start ps-3">
         <div className="col-lg-6">
           {loading ? (
