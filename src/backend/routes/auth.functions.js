@@ -60,7 +60,7 @@ export const login = async (req, res) => {
     if (match) {
       console.log('Password match, generating tokens');
 
-      const accessToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '1m' });
+      const accessToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '15m' });
       const refreshToken = jwt.sign({ userId: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: '7d' });
 
       console.log('Generated Access Token:', accessToken);
@@ -111,7 +111,7 @@ export const refreshToken = (req, res) => {
     }
 
     console.log('Refresh token verified. User:', user);
-    const accessToken = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY, { expiresIn: '1m' });
+    const accessToken = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
     console.log('New Access Token generated:', accessToken);
     res.json({ accessToken });
   });
