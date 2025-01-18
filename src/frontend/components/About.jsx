@@ -9,7 +9,7 @@ function About() {
           {/* Column for the image */}
           <div className="col-md-5 d-flex justify-content-center">
             <img
-              src="src/frontend/images/About1.png"
+              src="src/frontend/images/About.png"
               alt="About"
               style={{ maxHeight: '450px', width: 'auto', paddingTop: '32%' }}
             />
