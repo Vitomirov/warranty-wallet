@@ -35,7 +35,7 @@ const FAQ = () => {
         <div className="row py-5">
           
           {/* Image Section */}
-          <div className='col-lg-6 col-md-6 text-center mb-4 mb-md-0'>
+          <div className='col-md-6 d-none d-md-flex text-center mb-4 mb-md-0'>
             <img className="img-fluid"
               style={{ maxWidth: 'auto', height: '450px' }}
               src="src/frontend/images/FAQ.png"

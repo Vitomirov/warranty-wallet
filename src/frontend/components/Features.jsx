@@ -4,7 +4,7 @@ const Features = () => {
   return (
     <section className="features-section min-vh-100">
       <div id="features" className="container-fluid">
-        <div className="col-lg-12 col-md-6 text-center text-md-start"
+        <div className="col-lg-12 col-md- text-center text-md-start"
           style={{
             paddingTop: '6%',
             paddingBottom: '6%',
@@ -36,8 +36,8 @@ const Features = () => {
          </div>
 
         {/*Section Title*/}
-            <div className="row col-lg-12 col-md-6 d-flex align-items-center">
-              <h1 className="title display-2 text-center">FEATURES</h1>
+            <div className="row col-md-12 d-flex align-items-center">
+              <h1 className="title display-3 text-center">FEATURES</h1>
         </div>
         
           {/* Second Row */}
