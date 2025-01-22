@@ -33,7 +33,7 @@ const Login = () => {
     <div className="login container-fluid pt-5">
       <div className="row d-flex justify-content-center align-items-center">
         {/* Left Column - Form */}
-        <div className="col-lg-4">
+        <div className="col-sm-5">
           <h1 className="text-start mb-4 montserrat">Log In</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-3 form-floating">
@@ -71,7 +71,7 @@ const Login = () => {
         </div>
 
         {/* Right Column - Image */}
-        <div className="col-md-6 d-flex justify-content-end">
+        <div className="col-md-6 d-none d-md-flex justify-content-end">
           <img
             src="src/frontend/images/SignUp.png"
             alt="Login Illustration"

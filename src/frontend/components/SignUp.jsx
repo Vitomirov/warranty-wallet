@@ -52,7 +52,7 @@ function SignUp() {
           {/* Account Information */}
           <fieldset className="mb-1 col-lg-5">
             <legend>Account Information</legend>
-            <div className=" d-flex mb-2 align-items-center">
+            <div className="d-flex mb-2 align-items-center">
               <label htmlFor="username" className="me-2" style={{ width: '35%' }}>
                 Username:
               </label>
@@ -144,7 +144,7 @@ function SignUp() {
           </fieldset>
 
           {/* Buttons */}
-          <div className="button col-lg-5 d-flex justify-content-between mt-3">
+          <div className="button col-sm-5 d-flex justify-content-between mt-3 gap-1">
             <button type="submit" className="btn btn-primary">
               Sign Up
             </button>
