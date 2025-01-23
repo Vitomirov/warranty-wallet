@@ -14,10 +14,11 @@ function Dashboard() {
   }, [user]);
 
   return (
-    <div className="dashboard help d-flex flex-column min-vh-100">
+    <div className="dashboard d-flex flex-column flex-grow-1"> 
       {/* Navbar within Dashboard */}
-      <nav className="bg-gradient navbar navbar-expand-lg shadow-lg mb-4">
-        <div className="container py-3 d-flex justify-content-between align-items-center">
+      <nav className="bg-gradient navbar navbar-expand-lg shadow-lg mb-4 w-100">
+        <div className="container-fluid py-3 d-flex justify-content-between align-items-center"
+        style={{padding: '9%'}}>
           <h1 className="fs-1 mb-0 white montserrat">Welcome, {user.username}</h1>
           <button
             className="navbar-toggler"
@@ -40,7 +41,7 @@ function Dashboard() {
                 <Link to="/" className="nav-link">Home</Link>
               </li>
               <li className="nav-item">
-                <LogOut asLink={true} linkTo="/" className="nav-link btn btn-link text-white" />
+                <LogOut asLink={true} linkTo="/" className="nav-link btn btn-link text-white text-end" />
               </li>
             </ul>
           </div>
@@ -48,34 +49,32 @@ function Dashboard() {
       </nav>
   
       {/* Main content */}
-      <main className="flex-grow-1 container-fluid p-5">
+      <main className="flex-grow-1 container-fluid p-5 d-flex flex-column justify-content-center"> 
         <div className="row">
           <div className="text-center mb-5">
             <h2 className="text-white fw-lighter">All your warranties in one place. Add and manage with ease.</h2>
           </div>
         </div>
   
-        <div className="row justify-content-center gap-4 dashboardbutton mt-5">
-          <div className="col-lg-5 col-md-6">
-            <Link to="/myWarranties" className="btn btn-lg border w-100 shadow" style={{
-              padding: '8% 5%',
-              fontSize: '1.5rem',
-            }}>
-              &gt;&gt;&gt;My Warranties &lt;&lt;&lt;
-            </Link>
-          </div>
-          <div className="col-lg-5 col-md-6 mb-4">
-            <Link to="/newWarranty" className="btn btn-lg border w-100 shadow" style={{
-              padding: '8% 5%',
-              fontSize: '1.5rem',
-            }}>
-              &gt;&gt;&gt;New Warranty&lt;&lt;&lt;
-            </Link>
-          </div>
-        </div>
+        <div className="row justify-content-center gap-4 dashboardbutton mt-2">
+  <div className="col-lg-5 col-md-6">
+    <Link to="/myWarranties" className="btn btn-lg btn-md btn-sm border w-100 shadow" style={{
+      padding: '4% 1%', // Adjust padding for larger screens
+      fontSize: '1.5rem', // Default font size
+    }}>
+      &gt;&gt;&gt;My Warranties &lt;&lt;&lt;
+    </Link>
+  </div>
+  <div className="col-lg-5 col-md-6 mb-1">
+    <Link to="/newWarranty" className="btn btn-lg btn-md btn-sm border w-100 shadow" style={{
+      padding: '4% 1%', // Adjust padding for larger screens
+      fontSize: '1.5rem', // Default font size
+    }}>
+      &gt;&gt;&gt;New Warranty&lt;&lt;&lt;
+    </Link>
+  </div>
+</div>
       </main>
-  
-      <Footer />
     </div>
   );
 }

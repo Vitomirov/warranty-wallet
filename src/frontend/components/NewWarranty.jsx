@@ -43,11 +43,11 @@ const NewWarranty = () => {
   };
 
   return (
-    <div className='newWarranty container-fluid pt-2 ps-5'>
-      <h1 className='col-lg-5 mx-4 display-5 mt-3 montserrat'>Create New Warranty</h1>
+    <div className='newWarranty container-fluid pt-2 ps-5 d-flex flex-column flex-grow-1'>
+      <h1 className='col-lg-6 mx-4 display-5 mt-3 montserrat'>Create New Warranty</h1>
       <div className='row p-2'>
         {/* Content Section */}
-        <div className='col-lg-5 col-md-5 col-sm-12 mx-3 mt-1'>
+        <div className='col-lg-6 col-md-5 col-sm-8 mx-3 mt-1'>
           <form>
             <div className="mb-2">
               <label className="me-4">Product Name:</label>
@@ -89,7 +89,7 @@ const NewWarranty = () => {
         </div>
 
         {/* Image Section */}
-        <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center align-items-center'
+        <div className='col-lg-5 col-md-6 d-none d-md-flex justify-content-center align-items-center'
         style={{paddingLeft: '140px'}}>
           <img className="img-fluid"
             style={{ maxWidth: 'auto', height: '450px', objectFit: 'contain' }}

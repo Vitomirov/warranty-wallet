@@ -122,7 +122,7 @@ const MyWarranties = () => {
           ) : warranties.length === 0 ? (
             <p>No warranties found.</p>
           ) : (
-            <div className="col-lg-10 col-md-12 col-sm-8 help">
+            <div className="col-lg-10 col-md-12 col-sm-8">
               <ol className="list-group list-group-numbered mt-2 overflow-auto" style={{ maxHeight: '55vh' }}>
                 {warranties.map((warranty) => (
                   <li key={warranty.warrantyId} className="list-style list-group-item mb-2 border">

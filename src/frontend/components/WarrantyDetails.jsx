@@ -140,7 +140,7 @@ const WarrantyDetails = () => {
     : NotExpiredWarrantyImage;
 
   return (
-    <div className="warrantyDetails container-fluid pt-1 ps-5">
+    <div className="warrantyDetails container-fluid d-flex flex-column flex-grow-1 pt-1 ps-5">
       <div className="row col-lg-12 mt-5">
         <h1 className="display-5 ps-4 d-flex align-items-center montserrat">{warranty.productName} - Warranty Details</h1>
       </div>
@@ -161,7 +161,7 @@ const WarrantyDetails = () => {
           <div className="button d-flex justify-content-between">
             <button className="btn buttonOpenWarranty ml-2" onClick={handleOpenPDF}>Open Warranty PDF</button>
           </div>
-          <div className="mb-3 mt-3">
+          <div className="mb-3 mt-3 col-lg-12 col-md-7">
             <textarea
               id="issueDescription"
               className="form-control"
@@ -172,7 +172,7 @@ const WarrantyDetails = () => {
               disabled={isExpired}
             />
           </div>
-          <div className="button d-flex justify-content-between mb-1">
+          <div className="col-lg-12 col-md-7 button d-flex justify-content-between mb-1 gap-1">
             <button className="btn btn-primary "
               onClick={handleSendEmail}
               disabled={isExpired}>Send Complaint</button>
@@ -182,7 +182,7 @@ const WarrantyDetails = () => {
         </div>
 
         {/* Image Section */}
-        <div className="col-lg-5 d-flex justify-content-end mb-5 align-items-start">
+        <div className="col-md-5 d-none d-lg-flex justify-content-end mb-5 align-items-start">
           <div className='d-flex align-items-start justify-content-end pb-3 mb-3'>
             <img
               className="img-fluid"
