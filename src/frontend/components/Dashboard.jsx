@@ -59,16 +59,16 @@ function Dashboard() {
         <div className="row justify-content-center gap-4 dashboardbutton mt-2">
   <div className="col-lg-5 col-md-6">
     <Link to="/myWarranties" className="btn btn-lg btn-md btn-sm border w-100 shadow" style={{
-      padding: '4% 1%', // Adjust padding for larger screens
-      fontSize: '1.5rem', // Default font size
+      padding: '4% 1%',
+      fontSize: '1.5rem',
     }}>
       &gt;&gt;&gt;My Warranties &lt;&lt;&lt;
     </Link>
   </div>
   <div className="col-lg-5 col-md-6 mb-1">
     <Link to="/newWarranty" className="btn btn-lg btn-md btn-sm border w-100 shadow" style={{
-      padding: '4% 1%', // Adjust padding for larger screens
-      fontSize: '1.5rem', // Default font size
+      padding: '4% 1%',
+      fontSize: '1.5rem',
     }}>
       &gt;&gt;&gt;New Warranty&lt;&lt;&lt;
     </Link>
