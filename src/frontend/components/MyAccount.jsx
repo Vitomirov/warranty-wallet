@@ -212,7 +212,7 @@ function MyAccount() {
               </fieldset>
     
               {/* Buttons */}
-              <div className="button col-5 d-flex justify-content-between mt-3">
+              <div className="button col-5 d-flex justify-content-between mt-3 gap-1">
                 <button type="submit" className="btn btn-primary">
                   Update Account
                 </button>

@@ -15,7 +15,9 @@ function About() {
             </div>
   
             {/* Column for the text */}
-            <div className="col-md-6">
+            <div className="col-md-6"
+            style={{paddingTop: '11%'}}
+            >
               <p className="lead text-box">
                 <span className="fw-bold">Warranty Wallet</span> is your ultimate tool for managing warranties with ease.
                 We understand how frustrating it can be to keep track of receipts, expiration dates,

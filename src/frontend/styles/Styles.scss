@@ -5,8 +5,14 @@ $yellow: #fffc5f;
 $dark: #212121;
 $blueDark: #162D46;
 
+html {
+    scroll-behavior: smooth;
+}
 body {
     font-family: 'Roboto Serif', 'Edu AU VIC WA NT Pre', serif;
+@media (max-width: '768px') {
+        font-size: 1rem;
+    }
 }
 
 .text-blueLight {
@@ -21,7 +27,7 @@ body {
     letter-spacing: 0.85rem;
     font-size-adjust: 0.85;
     color: $dark;
-        font-family: Montserrat;
+    font-family: Montserrat;
 }
 .montserrat {
     font-family: Montserrat;
@@ -83,13 +89,24 @@ body {
         border-radius: 0.3rem;
         transition: transform 0.3s ease-in-out;
 
+
         &:hover {
             transform: scale(1.05);
             color: $blueDark;
             background-color: $blueLight;
             border-color: $blueDark;
         }
-    }
+@media (max-width: 768px) {
+    padding: 0.3rem 1.1rem;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 576px) {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+}
+}
+}
 .buttonOpenWarranty {
     border-radius: 0.3rem;
     border-color: $blueDark;
@@ -103,7 +120,7 @@ body {
         background-color: $blueDark;
     }
 }
-}
+
 
 .dashboardbutton {
     padding: 1rem 2rem;
@@ -235,6 +252,7 @@ footer {
             $blueLight 25.5%,
             $blueLight 74.8%,
             $white 74.8%);
+
 }
 
 // Dashboard

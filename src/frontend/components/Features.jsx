@@ -10,7 +10,9 @@ const Features = () => {
             paddingBottom: '6%',
          }}>
                     {/* First Row */}
-          <div className="row d-flex justify-content-evenly pt-4 gy-5">
+          <div className="row d-flex justify-content-evenly gy-5"
+          style={{paddingTop: '2%'}}
+          >
             <div className="individualFeature col-md-6 col-lg-4 p-4 d-flex flex-column justify-content-evenly rounded">
               <span className="hover-text">
                 Say goodbye to lost receipts and scattered documents.
