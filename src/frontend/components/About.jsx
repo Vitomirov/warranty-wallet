@@ -37,7 +37,7 @@ function About() {
                 </button>
                 <div className="collapse" id="collapseContent">
                   <div className="card card-body mt-2">
-                    <p className="fs-5">
+                    <p className="fs-6">
                       With <span className="fw-bold">Warranty Wallet</span>, you can securely store, organize, and access
                       all your warranties in one place. Whether it’s a household appliance, an electronic
                       gadget, or even your car, Warranty Wallet helps you stay informed about warranty

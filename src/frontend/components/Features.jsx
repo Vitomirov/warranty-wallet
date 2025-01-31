@@ -39,7 +39,7 @@ const Features = () => {
 
         {/*Section Title*/}
             <div className="row col-md-12 d-flex align-items-center">
-              <h1 className="title display-3 text-center">FEATURES</h1>
+              <h1 className="title display-4 text-center">FEATURES</h1>
         </div>
         
           {/* Second Row */}

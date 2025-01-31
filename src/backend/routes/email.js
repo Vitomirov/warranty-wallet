@@ -93,7 +93,7 @@ export async function sendExpirationNotificationEmail(sellersEmail, productName,
   Please take the necessary actions.
 
   Best regards,
-  Warranty Wallet
+  Warranty Wallet Team
   `;
 
   const mailOptions = {

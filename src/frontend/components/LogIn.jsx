@@ -30,11 +30,11 @@ const Login = () => {
   };
 
   return (
-    <div className="login container-fluid pt-5">
-      <div className="row d-flex justify-content-center align-items-center">
+    <div className="login container-fluid pt-5" style={{ minHeight: '80vh' }}>
+      <div className="row d-flex justify-content-center align-items-center" style={{ height: '80%' }}>
         {/* Left Column - Form */}
-        <div className="col-sm-5">
-          <h1 className="text-start mb-4 montserrat">Log In</h1>
+        <div className="col-12 col-sm-8 col-md-5">
+          <h1 className="text-center mb-4 montserrat">Log In</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-3 form-floating">
               <input
@@ -69,7 +69,7 @@ const Login = () => {
             </div>
           </form>
         </div>
-
+  
         {/* Right Column - Image */}
         <div className="col-md-6 d-none d-md-flex justify-content-end">
           <img

@@ -112,7 +112,7 @@ function MyAccount() {
                   <h1 className='montserrat'>My Account</h1>
             </div>    
               {/* Account Information */}
-              <fieldset className="mb-1 col-5">
+              <fieldset className="mb-1 col-12 col-sm-10 col-md-8 col-lg-5">
                 <legend>Account Information</legend>
                 <div className="d-flex mb-2 align-items-center">
                   <label htmlFor="username" className="me-2" style={{ width: '35%' }}>
@@ -162,7 +162,7 @@ function MyAccount() {
               </fieldset>
     
               {/* Personal Information */}
-              <fieldset className="mt-5 col-5">
+              <fieldset className="mt-5 mb-3 col-12 col-sm-10 col-md-8 col-lg-5">
                 <legend>Personal Information</legend>
                 <div className="d-flex mb-2 align-items-center">
                   <label htmlFor="fullName" className="me-2" style={{ width: '35%' }}>
@@ -212,7 +212,7 @@ function MyAccount() {
               </fieldset>
     
               {/* Buttons */}
-              <div className="button col-5 d-flex justify-content-between mt-3 gap-1">
+              <div className="button col-12 col-sm-10 col-md-8 col-lg-5 d-flex justify-content-between mt-3 gap-1">
                 <button type="submit" className="btn btn-primary">
                   Update Account
                 </button>
