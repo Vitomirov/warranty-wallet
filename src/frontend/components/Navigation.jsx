@@ -27,7 +27,7 @@ function Navigation() {
       <div className="container">
         {/* Title on the left */}
         <a className="navbar-brand" href="#">
-          <img src="src/frontend/images/Logo.png" alt="WW logo" />
+          <img src="/images/Logo.png" alt="WW logo" />
         </a>
         {/* Button for toggling navbar */}
         <button

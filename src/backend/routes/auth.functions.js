@@ -68,7 +68,7 @@ export const login = async (req, res) => {
 
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: false, // Set to true in production
+        secure: process.env.NODE_ENV === 'production', // Set to true if in production
         sameSite: 'strict'
       })
         .header('Authorization', accessToken)

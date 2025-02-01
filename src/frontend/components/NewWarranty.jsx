@@ -93,7 +93,7 @@ const NewWarranty = () => {
         style={{paddingLeft: '140px'}}>
           <img className="img-fluid"
             style={{ maxWidth: 'auto', height: '450px', objectFit: 'contain' }}
-            src="src/frontend/images/NewWarranty.png"
+            src="/images/NewWarranty.png"
             alt="New Warranty" />
         </div>
       </div>
