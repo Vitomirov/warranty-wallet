@@ -1,19 +1,19 @@
 # Use official Node.js image
 FROM node:18
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY src/backend/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the entire backend source code
-COPY src/backend/ ./
+# Copy backend source code
+COPY . ./
 
-# Expose backend port (3000)
+# Expose backend port
 EXPOSE 3000
 
 # Start the backend server

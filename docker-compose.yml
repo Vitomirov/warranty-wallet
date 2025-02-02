@@ -1,69 +1,64 @@
 version: '3.8'
 
 services:
-  # MySQL database service
   mysql:
     image: mysql:8.0.39
     container_name: warranty_db
     restart: always
+    env_file:
+    - /home/devito/Projects/warranty-wallet/src/backend/.env
     environment:
-      MYSQL_ROOT_PASSWORD: mysqlrootpass321!  # Root password for MySQL
-      MYSQL_DATABASE: warranty_db            # Database name
-      MYSQL_USER: warranty_user              # Non-root user
-      MYSQL_PASSWORD: mysqlpass321!          # Password for the user
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - '3306:3306'  # Expose MySQL on port 3306
+      - '3307:3306'
     volumes:
-      - mysql_data:/var/lib/mysql  # Persist MySQL data
+      - mysql_data:/var/lib/mysql
     networks:
-      - warranty_network  # Connect to the shared network
+      - warranty_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
 
-  # Backend service (Node.js + Express)
   backend:
     build:
-      context: .  # Use the root directory as the build context
-      dockerfile: src/backend/Dockerfile  # Explicitly point to the backend Dockerfile
+      context: ./src/backend
+      dockerfile: Dockerfile
     container_name: warranty_backend
     restart: always
     depends_on:
-      - mysql  # Ensure MySQL starts before backend
-    environment:
-      DB_HOST: mysql          # MySQL service name in Docker network
-      DB_USER: warranty_user  # MySQL username
-      DB_PASSWORD: mysqlpass321!  # MySQL password
-      DB_NAME: warranty_db    # Database name
-      JWT_SECRET: WiPvWkxJtk  # Secret key for JWT authentication
-      PORT: 3000              # Backend runs on port 3000
+      mysql:
+        condition: service_healthy
+    env_file:
+    - /home/devito/Projects/warranty-wallet/src/backend/.env
     ports:
-      - '3000:3000'  # Map container port 3000 to host
+      - '3000:3000'
     volumes:
-      - ./src/backend:/app  # Sync backend files with container
+      - ./src/backend:/app
     networks:
-      - warranty_network  # Connect to the shared network
+      - warranty_network
 
-  # Frontend service (React + Nginx)
   frontend:
     build:
-      context: .  # Set the correct build context for frontend
-      dockerfile: src/frontend/Dockerfile  # Ensure the frontend has a Dockerfile
+      context: ./src/frontend
+      dockerfile: Dockerfile
     container_name: warranty_frontend
     restart: always
     depends_on:
-      - backend  # Ensure backend starts before frontend
+      - backend
     ports:
-      - '80:80'      # Map container port 80 to host (Nginx)
-      - '5173:5173'  # Optional for local development (Vite)
+      - '80:80'
     volumes:
-      - ./src/frontend:/app  # Sync frontend files with container
+      - ./src/frontend:/app
     networks:
-      - warranty_network  # Connect to the shared network
+      - warranty_network
 
-# Persistent volumes for storing MySQL data
 volumes:
   mysql_data:
-    driver: local
 
-# Network for service communication
 networks:
   warranty_network:
     driver: bridge
