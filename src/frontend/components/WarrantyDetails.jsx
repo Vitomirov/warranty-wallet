@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { instance } from '../context/AuthProvider'
 import { useParams, Link } from 'react-router-dom';
 import DeleteWarranty from './DeleteWarranty';

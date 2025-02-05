@@ -10,8 +10,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import path from 'path';
-import { sendWarrantyClaimEmail, sendExpirationNotificationEmail } from './routes/email.js'; // Import both email functions
-import fs from 'fs';
+import { sendWarrantyClaimEmail, sendExpirationNotificationEmail } from './routes/email.js';
 import cron from 'node-cron';
 
 const app = express();
@@ -19,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: ['http://localhost:8080'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Authorization', 'Set-Cookie'],

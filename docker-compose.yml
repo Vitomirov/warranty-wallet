@@ -2,57 +2,51 @@ version: '3.8'
 
 services:
   mysql:
-    image: mysql:8.0.39
+    image: mysql:8.0
     container_name: warranty_db
     restart: always
-    env_file:
-    - /home/devito/Projects/warranty-wallet/src/backend/.env
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - '3307:3306'
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
       - warranty_network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 10s
-      retries: 5
 
   backend:
     build:
       context: ./src/backend
-      dockerfile: Dockerfile
     container_name: warranty_backend
     restart: always
     depends_on:
-      mysql:
-        condition: service_healthy
-    env_file:
-    - /home/devito/Projects/warranty-wallet/src/backend/.env
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./src/backend:/app
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
     networks:
       - warranty_network
 
   frontend:
     build:
       context: ./src/frontend
-      dockerfile: Dockerfile
     container_name: warranty_frontend
     restart: always
-    depends_on:
-      - backend
+    networks:
+      - warranty_network
+
+  nginx:
+    build: ./nginx  # Build from the nginx directory
+    container_name: warranty_nginx
+    restart: always
     ports:
       - '80:80'
-    volumes:
-      - ./src/frontend:/app
+    depends_on:
+      - frontend
+      - backend
     networks:
       - warranty_network
 
