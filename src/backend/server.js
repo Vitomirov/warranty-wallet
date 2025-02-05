@@ -12,13 +12,14 @@ import multer from 'multer';
 import path from 'path';
 import { sendWarrantyClaimEmail, sendExpirationNotificationEmail } from './routes/email.js';
 import cron from 'node-cron';
+import fs from 'fs';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 app.use(cors({
-  origin: ['http://localhost:8080'],
+  origin: ['http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Authorization', 'Set-Cookie'],
