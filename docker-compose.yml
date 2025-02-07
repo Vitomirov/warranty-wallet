@@ -17,36 +17,28 @@ services:
 
   backend:
     build:
-      context: ./src/backend
+      context: ./src/backend  # Path to your backend Dockerfile
     container_name: warranty_backend
     restart: always
     depends_on:
       - mysql
     environment:
-      DB_HOST: mysql
+      DB_HOST: mysql  # Use container name for database connection
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${DB_DATABASE}
     networks:
       - warranty_network
 
-  frontend:
-    build:
-      context: ./src/frontend
-    container_name: warranty_frontend
-    restart: always
-    networks:
-      - warranty_network
-
   nginx:
-    build: ./nginx  # Build from the nginx directory
+    build:
+      context: ./src/frontend/nginx  # Path to the directory containing nginx.conf
     container_name: warranty_nginx
     restart: always
     ports:
       - '80:80'
     depends_on:
-      - frontend
-      - backend
+      - backend  # Nginx depends on the backend
     networks:
       - warranty_network
 
