@@ -26,7 +26,7 @@ export const getWarranties = (req, res) => {
 
     if (results.length === 0) {
       console.log(`No warranties found for user: ${req.user.userId}`);
-      return res.status(404).send({ message: 'No warranties found' });
+      return res.json([]);
     }
 
     console.log(`Warranties found for user ${req.user.userId}:`, results);

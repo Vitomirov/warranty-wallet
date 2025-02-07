@@ -28,15 +28,22 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
   const text = `
   Hi there,
 
-  I'm ${fullName}, and I recently purchased a ${productName}. 
-  I'm reaching out because I’m experiencing an issue: ${issueDescription}.
+  I hope this message finds you well! 
 
-  Could you please arrange to pick it up from my address: ${userAddress}? 
-  If you have any questions, feel free to call me at ${userPhoneNumber}.
+  My name is ${fullName}, and I recently purchased a ${productName} from you. Unfortunately, I've encountered an issue with it:
+  - ${issueDescription}
+  
+  I would really appreciate your assistance in resolving this issue. 
 
-  Thanks so much for your help!
+  Could you please arrange to pick up the product from my address: 
+  ${userAddress}? 
 
-  Best,
+  I’ve attached the warranty for your reference. If you need to discuss anything further, feel free to reach out to me at 
+  ${userPhoneNumber}.
+
+  Thank you so much for your help! I look forward to hearing from you soon.
+
+  Best regards,
   ${username}
 `;
 
