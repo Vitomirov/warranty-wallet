@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken } from './auth.functions.js';
-import connection from '../db.js';
+import db from '../db.js';
 import bcrypt from 'bcrypt'; 
 
 const router = express.Router();
@@ -11,7 +11,7 @@ router.get('/me', verifyToken, (req, res) => {
     console.log('User  ID from token:', userId);
     
     const sql = 'SELECT username, userEmail, password, fullName, userAddress, userPhoneNumber FROM users WHERE id = ?';
-    connection.query(sql, [userId], (err, result) => {
+    db.query(sql, [userId], (err, result) => {
         if (err) {
             console.error('Error fetching user data:', err);
             return res.status(500).json({ message: 'Error fetching user data' });
@@ -38,7 +38,7 @@ router.put('/me', verifyToken, async (req, res) => {
     
 
     const sql = 'UPDATE users SET username =  ?, userEmail = ?, password = ?, fullName = ?, userAddress = ?, userPhoneNumber = ? WHERE id = ? ';
-    connection.query(sql, [username, userEmail, hashedPassword,
+    db.query(sql, [username, userEmail, hashedPassword,
                            fullName, userAddress, userPhoneNumber, userId], (err, result) => {
         if (err) {
             console.error('Error updating user data:', err);

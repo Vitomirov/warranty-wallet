@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.8'  # Specify the version of Docker Compose
 
 services:
   mysql:
@@ -6,44 +6,61 @@ services:
     container_name: warranty_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - mysql_data:/var/lib/mysql
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # Use .env variable
+      MYSQL_DATABASE: ${DB_DATABASE}  # Use .env variable
+      MYSQL_USER: ${DB_USER}  # Use .env variable
+      MYSQL_PASSWORD: ${DB_PASSWORD}  # Use .env variable
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      test:
+        - CMD-SHELL
+        - mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}  # Use localhost for healthcheck
+      timeout: 5s
     networks:
       - warranty_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db_init:/docker-entrypoint-initdb.d  # Mount the init script directory
 
   backend:
     build:
-      context: ./src/backend  # Path to your backend Dockerfile
+      context: ./src/backend
     container_name: warranty_backend
     restart: always
+    ports:
+      - "3000:3000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy  # Wait for MySQL to be healthy
     environment:
-      DB_HOST: mysql  # Use container name for database connection
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_DATABASE: ${DB_DATABASE}
+      DB_DATABASE: ${DB_DATABASE}  # Use .env variable
+      DB_HOST: mysql  # Use the service name for the database host
+      DB_PASSWORD: ${DB_PASSWORD}  # Use .env variable
+      DB_USER: ${DB_USER}  # Use .env variable
+      NODE_ENV: ${NODE_ENV}  # Use .env variable
+      PORT: ${PORT}  # Use .env variable
+      REFRESH_SECRET_KEY: ${REFRESH_SECRET_KEY}  # Use .env variable
+      SECRET_KEY: ${SECRET_KEY}  # Use .env variable
     networks:
       - warranty_network
 
   nginx:
     build:
-      context: ./src/frontend/nginx  # Path to the directory containing nginx.conf
+      context: ./src/frontend
     container_name: warranty_nginx
     restart: always
-    ports:
-      - '80:80'
     depends_on:
-      - backend  # Nginx depends on the backend
+      backend:
+        condition: service_started
+    ports:
+      - "80:80"
     networks:
       - warranty_network
 
 volumes:
-  mysql_data:
+  mysql_data: {}
 
 networks:
   warranty_network:

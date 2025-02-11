@@ -4,7 +4,6 @@ import warrantiesRouter from './warranties.js';
 import { verifyToken, login, refreshToken, signup } from './auth.functions.js';
 
 const app = express();
-
 app.use(cookieParser());
 
 const router = express.Router();

@@ -1,4 +1,4 @@
-import connection from '../db.js';
+import db from '../db.js';
 import { format } from 'date-fns';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -14,16 +14,12 @@ const formatDate = (date) => {
 };
 
 // Function to get all warranties for the logged-in user
-export const getWarranties = (req, res) => {
+export const getWarranties = async (req, res) => {
   console.log(`Retrieving warranties for user: ${req.user.userId}`);
 
   const sql = 'SELECT * FROM warranties WHERE userId = ?';
-  connection.query(sql, [req.user.userId], (err, results) => {
-    if (err) {
-      console.error(`Error retrieving warranties for user ${req.user.userId}:`, err);
-      return res.status(500).send({ message: 'Error fetching warranties', error: err.message });
-    }
-
+  try {
+    const [results] = await db.query(sql, [req.user.userId]); // Use await for the query
     if (results.length === 0) {
       console.log(`No warranties found for user: ${req.user.userId}`);
       return res.json([]);
@@ -39,20 +35,20 @@ export const getWarranties = (req, res) => {
     }));
 
     res.json(formattedWarranties);
-  });
+  } catch (err) {
+    console.error(`Error retrieving warranties for user ${req.user.userId}:`, err);
+    return res.status(500).send({ message: 'Error fetching warranties', error: err.message });
+  }
 };
 
 // Function to get and display specific warranty by ID
-export const getWarranty = (req, res) => {
+export const getWarranty = async (req, res) => {
   const warrantyId = req.params.id;
   const userId = req.user.userId;
 
   const sql = 'SELECT * FROM warranties WHERE userId = ? AND warrantyId = ?';
-  connection.query(sql, [userId, warrantyId], (err, result) => {
-    if (err) {
-      console.error('Error fetching warranty:', err);
-      return res.status(500).send('Error fetching warranty');
-    }
+  try {
+    const [result] = await db.query(sql, [userId, warrantyId]); // Use await for the query
     if (result.length === 0) {
       return res.status(404).send('Warranty not found');
     }
@@ -66,20 +62,20 @@ export const getWarranty = (req, res) => {
     warranty.pdfFilePath = `http://localhost:3000/${warranty.pdfFilePath.replace(/^\/+/, '')}`;
 
     res.json(warranty);
-  });
+  } catch (err) {
+    console.error('Error fetching warranty:', err);
+    return res.status(500).send('Error fetching warranty');
+  }
 };
 
 // Function to get the PDF file path for a specific warranty
-export const getWarrantyPDF = (req, res) => {
+export const getWarrantyPDF = async (req, res) => {
   const warrantyId = req.params.id;
   const userId = req.user.userId;
 
   const sql = 'SELECT pdfFilePath FROM warranties WHERE userId = ? AND warrantyId = ?';
-  connection.query(sql, [userId, warrantyId], (err, result) => {
-    if (err) {
-      console.error('Error fetching warranty PDF path:', err);
-      return res.status(500).send('Error fetching warranty PDF path');
-    }
+  try {
+    const [result] = await db.query(sql, [userId, warrantyId]); // Use await for the query
     if (result.length === 0) {
       return res.status(404).send('Warranty not found');
     }
@@ -105,7 +101,10 @@ export const getWarrantyPDF = (req, res) => {
         console.log('PDF file sent successfully');
       }
     });
-  });
+  } catch (err) {
+    console.error('Error fetching warranty PDF path:', err);
+    return res.status(500).send('Error fetching warranty PDF path');
+  }
 };
 
 // Function to add a new warranty
@@ -124,15 +123,10 @@ export const addWarranty = async (req, res) => {
     const pdfFilePath = `uploads/${pdfFile.filename}`;
 
     // Insert warranty into the database
-    const sql = 'INSERT INTO warranties (warrantyId, productName, dateOfPurchase, warrantyExpireDate, sellersEmail, userId, pdfFilePath) VALUES (NULL, ?, ?, ?, ?, ?, ?)';
-    connection.query(sql, [productName, dateOfPurchase, warrantyExpireDate, sellersEmail, req.user.userId, pdfFile.path], (err, results) => {
-      if (err) {
-        console.error('Error adding warranty:', err);
-        return res.status(500).send({ message: 'Error adding warranty' });
-      }
+    const sql = 'INSERT INTO warranties (productName, dateOfPurchase, warrantyExpireDate, sellersEmail, userId, pdfFilePath) VALUES (?, ?, ?, ?, ?, ?)';
+    await db.query(sql, [productName, dateOfPurchase, warrantyExpireDate, sellersEmail, req.user.userId, pdfFile.path]); // Use await for the query
 
-      res.json({ message: 'Warranty added successfully' });
-    });
+    res.json({ message: 'Warranty added successfully' });
   } catch (error) {
     console.error('Error adding warranty:', error);
     res.status(500).send({ message: 'Error adding warranty' });
@@ -140,19 +134,19 @@ export const addWarranty = async (req, res) => {
 };
 
 // Function to delete a warranty
-export const deleteWarranty = (req, res) => {
+export const deleteWarranty = async (req, res) => {
   const warrantyId = req.params.id;
   const userId = req.user.userId;
 
   const sql = 'DELETE FROM warranties WHERE userId = ? AND warrantyId = ?';
-  connection.query(sql, [userId, warrantyId], (err, result) => {
-    if (err) {
-      console.error('Error deleting warranty:', err);
-      return res.status(500).send('Error deleting warranty');
-    }
+  try {
+    const result = await db.query(sql, [userId, warrantyId]); // Use await for the query
     if (result.affectedRows === 0) {
       return res.status(404).send('Warranty not found');
     }
     res.json({ message: 'Warranty deleted successfully' });
-  });
+  } catch (err) {
+    console.error('Error deleting warranty:', err);
+    return res.status(500).send('Error deleting warranty');
+  }
 };

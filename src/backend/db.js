@@ -1,33 +1,35 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
-import { dirname } from 'path';
+import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Define __dirname for use in ES modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-dotenv.config({ path: `${__dirname}/../../.env` });
+const __dirname = path.dirname(__filename);
 
-const connectWithRetry = () => {
-    const connection = mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE,
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+const createPoolWithRetry = async (attempt = 1) => {
+  try {
+    const pool = mysql.createPool({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      connectionLimit: 10,
     });
 
-    connection.connect((err) => {
-        if (err) {
-            console.error('Error connecting to MySQL:', err);
-            setTimeout(connectWithRetry, 5000); // Retry after 5 seconds
-        } else {
-            console.log('Connected to MySQL server');
-        }
-    });
-
-    return connection;
+    const connection = await pool.getConnection();
+    await connection.query('SELECT 1');
+    connection.release();
+    return pool;
+  } catch (error) {
+    if (attempt < 5) {
+      setTimeout(() => createPoolWithRetry(attempt + 1), 5000);
+    } else {
+      throw new Error('Failed to create MySQL pool');
+    }
+  }
 };
 
-const connection = connectWithRetry();
-
-export default connection;
+const db = await createPoolWithRetry();
+export default db;
