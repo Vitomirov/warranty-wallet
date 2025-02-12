@@ -1,7 +1,7 @@
 import express from 'express';
 import { verifyToken } from './auth.functions.js';
 import db from '../db.js';
-import bcrypt from 'bcrypt'; 
+import bcrypt from 'bcryptjs'; 
 
 const router = express.Router();
 
