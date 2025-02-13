@@ -45,6 +45,8 @@ services:
       SECRET_KEY: ${SECRET_KEY}
     networks:
       - warranty_network
+    volumes:
+      - ./src/backend/uploads:/app/uploads
 
   nginx:
     build:

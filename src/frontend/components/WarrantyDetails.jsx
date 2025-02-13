@@ -97,7 +97,7 @@ const WarrantyDetails = () => {
 
     try {
       const response = await instance.post(
-        'warranty/claim',
+        `http://backend:3000/warranty/claim`,
         {
           userId: user.id,
           productName: warranty.productName,

@@ -26,6 +26,15 @@ const __dirname = path.dirname(__filename);
 const uploadDirectory = path.join(__dirname, 'uploads');
 const upload = multer({ dest: uploadDirectory });
 
+
+// Ensure 'uploads' directory exists
+if (!fs.existsSync(uploadDirectory)) {
+  fs.mkdirSync(uploadDirectory, { recursive: true });
+  console.log("'uploads' folder created successfully.");
+} else {
+  console.log("'uploads' folder already exists.");
+}
+
 // Database connection function
 const connectToDatabase = async () => {
   const maxAttempts = 20;
@@ -96,16 +105,21 @@ app.use('/', userRoutes);
 app.post('/warranty/claim', async (req, res) => {
   const { userId, productName, username, issueDescription, warrantyId } = req.body;
 
+  console.log('Received request to /warranty/claim:', req.body); // Log the request body
+
   try {
-    const [warranties] = await db.promise().query('SELECT sellersEmail, pdfFilePath FROM warranties WHERE warrantyId = ?', [warrantyId]);
-    if (warranties.length === 0) return res.status(404).send('Warranty not found');
+    const [warranties] = await db.query('SELECT sellersEmail, pdfFilePath FROM warranties WHERE warrantyId = ?', [warrantyId]);
+    if (warranties.length === 0) {
+      console.error(`Warranty not found for ID: ${warrantyId}`);
+      return res.status(404).send('Warranty not found');
+    }
     const { sellersEmail, pdfFilePath } = warranties[0];
 
     if (!pdfFilePath) {
       console.error('pdfFilePath is undefined');
       return res.status(400).send('File path is undefined');
     }
-
+    console.log('Checking file existence at:', pdfFilePath);
     if (!fs.existsSync(pdfFilePath)) {
       console.error('File does not exist:', pdfFilePath);
       return res.status(400).send('File not found');
@@ -117,15 +131,18 @@ app.post('/warranty/claim', async (req, res) => {
       return res.status(400).send('File is empty');
     }
 
-    const [users] = await db.promise().query('SELECT userEmail, fullName, userAddress, userPhoneNumber FROM users WHERE id = ?', [userId]);
-    if (users.length === 0) return res.status(404).send('User  not found');
-    const { userEmail, fullName, userAddress, userPhoneNumber } = users[ 0];
+    const [users] = await db.query('SELECT userEmail, fullName, userAddress, userPhoneNumber FROM users WHERE id = ?', [userId]);
+    if (users.length === 0) {
+      console.error(`User  not found for ID: ${userId}`);
+      return res.status(404).send('User  not found');
+    }
+    const { userEmail, fullName, userAddress, userPhoneNumber } = users[0];
 
     await sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, { fullName, userAddress, userPhoneNumber }, issueDescription, pdfFilePath);
     res.status(200).send('Claim submitted successfully!');
   } catch (error) {
-    console.error('Error handling warranty claim:', error);
-    res.status(500).send('Internal server error');
+    console.error('Error handling warranty claim:', error); // Log the error
+    res.status(500).send('Internal server error: ' + error.message);
   }
 });
 

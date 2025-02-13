@@ -1,10 +1,13 @@
-import db from './db.js'; // Import the db object
+import db from './db.js'; // Adjust the path as necessary
 
-db.query('SELECT 1', (err, results) => { // Use db.query
-  if (err) {
+// Test the database connection
+const testConnection = async () => {
+  try {
+    const [results] = await db.query('SELECT 1');
+    console.log('Successfully connected to MySQL!', results);
+  } catch (err) {
     console.error('Error connecting to MySQL:', err);
-    return;
   }
-  console.log('Successfully connected to MySQL!');
-  // No need to close the connection if you are using db.js's connection logic.
-});
+};
+
+testConnection();
