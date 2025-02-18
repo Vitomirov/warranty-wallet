@@ -3,8 +3,7 @@ import { instance } from '../context/AuthProvider'
 import { useParams, Link } from 'react-router-dom';
 import DeleteWarranty from './DeleteWarranty';
 import { useAuth } from '../context/AuthContext';
-import ExpiredWarrantyImage from '../images/ExpiredWarranty.png';
-import NotExpiredWarrantyImage from '../images/NotExpiredWarranty.png';
+
 
 const WarrantyDetails = () => {
   const { user, token, refreshToken, setToken } = useAuth(); 
@@ -135,8 +134,8 @@ const WarrantyDetails = () => {
   }
 
   const imageSrc = isExpired 
-    ? ExpiredWarrantyImage 
-    : NotExpiredWarrantyImage;
+    ? "/ExpiredWarranty.png" 
+    : "/NotExpiredWarranty.png";
 
   return (
     <div className="warrantyDetails container-fluid d-flex flex-column flex-grow-1 pt-1 ps-5">

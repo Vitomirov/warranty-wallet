@@ -38,7 +38,7 @@ const FAQ = () => {
           <div className='col-md-6 d-none d-md-flex text-center ms-4 mb-4 mb-md-0'>
             <img className="img-fluid"
               style={{ maxWidth: '55%', height: 'auto' }}
-              src="/images/FAQ.png"
+              src="/FAQ.png"
               alt="FAQ-image" />
           </div>
 

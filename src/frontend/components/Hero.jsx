@@ -37,7 +37,7 @@ const Hero = () => {
                     <div className="col-lg-5 col-md-6 d-none d-md-flex justify-content-center">
                         <img className="img-fluid"
                             style={{ maxWidth: '80%', height: 'auto' }}
-                            src="src/frontend/images/LendingPage.png"
+                            src="/LendingPage.png"
                             alt="LendingPage" />
                     </div>
                 </div>

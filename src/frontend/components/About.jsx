@@ -8,7 +8,7 @@ function About() {
             {/* Column for the image */}
             <div className="col-lg-5 col-md-6 d-none d-md-flex justify-content-center">
               <img
-                src="/images/About.png"
+                src="/About.png"
                 alt="About"
                 style={{ maxHeight: '400px', width: 'auto', paddingTop: '32%' }}
               />

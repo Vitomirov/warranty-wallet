@@ -73,7 +73,7 @@ const Login = () => {
         {/* Right Column - Image */}
         <div className="col-md-6 d-none d-md-flex justify-content-end">
           <img
-            src="/images/SignUp.png"
+            src="/SignUp.png"
             alt="Login Illustration"
             className="img-fluid rounded"
           />
