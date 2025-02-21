@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 function MyAccount() {
     const { token, updateUser  } = useAuth(); // Get the token and updateUser from the AuthContext
+    console.log("Token being sent:", token);
     const [userData, setUser] = useState({
         username: '',
         userEmail: '',
@@ -29,7 +30,7 @@ function MyAccount() {
                 }
                 console.log("Token being sent:", token);
 
-                const response = await axios.get('http://localhost:3000/me', {
+                const response = await axios.get('/me', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -75,7 +76,7 @@ function MyAccount() {
             return;
         }
         try {
-            await axios.put('http://localhost:3000/me', userData, {
+            await axios.put('/me', userData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -84,7 +85,7 @@ function MyAccount() {
             setError(null);
             
             // Fetch updated user data
-            const response = await axios.get('http://localhost:3000/me', {
+            const response = await axios.get('/me', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

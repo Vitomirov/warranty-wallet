@@ -4,7 +4,6 @@ import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom'; 
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3000',
   withCredentials: true
 });
 
