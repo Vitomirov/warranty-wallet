@@ -4,9 +4,9 @@ const Features = () => {
   return (
     <section className="features-section min-vh-100">
       <div id="features" className="container-fluid">
-        <div className="col-lg-12 col-md- text-center text-md-start"
+        <div className="col-lg-12 text-center text-md-start"
           style={{
-            paddingTop: '6%',
+            paddingTop: '12%',
             paddingBottom: '6%',
          }}>
                     {/* First Row */}

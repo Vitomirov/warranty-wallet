@@ -11,7 +11,7 @@ const Hero = () => {
 
     return (
         <section className="hero-section min-vh-100">
-            <div className="container-fluid">
+            <div className="container-fluid px-5">
                 <div className="row align-items-center">
                     {/* Left Content */}
                     <div className="col-md-6 text-start pt-5">

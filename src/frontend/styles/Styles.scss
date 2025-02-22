@@ -215,8 +215,8 @@ body {
 footer {
     background-color: $blueDark;
     color: $white;
-    text-align: center;
-    padding: 10px 0;
+    text-align: start;
+    padding: 5px 0;
     width: 100%;
     box-sizing: border-box;
     margin-top: 0;
@@ -224,6 +224,7 @@ footer {
 
     p {
         margin: 0;
+        padding-left: 3%;
     }
 }
 

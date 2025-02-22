@@ -24,10 +24,10 @@ function Navigation() {
 
   return (
     <nav className="bg-gradient navbar navbar-expand-lg py-2 mb-0 sticky-top">
-      <div className="container">
+      <div className="container-fluid px-5">
         {/* Title on the left */}
         <a className="navbar-brand" href="#">
-          <img src="/images/Logo.png" alt="WW logo" />
+          <img src="/Logo.png" alt="WW logo" />
         </a>
         {/* Button for toggling navbar */}
         <button
