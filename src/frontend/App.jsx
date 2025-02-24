@@ -11,8 +11,9 @@ import MyWarranties from './components/MyWarranties';
 import LogOut from './components/LogOut';
 import PrivateRoute from './components/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
-import About from './components/About';
 import LandingPage from './components/LandingPage';
+import Navigation from './components/Navigation';
+import About from './components/About';
 import LayoutWithoutHeader from './components/LayoutWithoutHeader'; 
 
 
@@ -28,7 +29,7 @@ function App() {
         {/* Other Pages Wrapped in LayoutWithoutHeader */}
         <Route path="/login" element={<LayoutWithoutHeader><LogIn /></LayoutWithoutHeader>} />
         <Route path="/signup" element={<LayoutWithoutHeader><SignUp /></LayoutWithoutHeader>} />
-        {/* <Route path="/about" element={<LayoutWithoutHeader><About /></LayoutWithoutHeader>} /> */}
+        <Route path="/about" element={<LayoutWithoutHeader><About /></LayoutWithoutHeader>} />
         <Route path="/logout" element={<LayoutWithoutHeader><LogOut /></LayoutWithoutHeader>} />
         <Route path="/dashboard" element={<PrivateRoute><LayoutWithoutHeader><Dashboard /></LayoutWithoutHeader></PrivateRoute>} />
         <Route path="/myAccount" element={<PrivateRoute><LayoutWithoutHeader><MyAccount /></LayoutWithoutHeader></PrivateRoute>} />

@@ -35,7 +35,9 @@ body {
 
 // Navigation Bar
 .navbar {
-    background-color: $blueDark;
+    background-color: $blueDark;   
+    display: flex;
+    width: 95%;
 
     img {
         height: 70px;

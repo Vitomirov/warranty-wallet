@@ -106,7 +106,7 @@ function MyAccount() {
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
-        <div className="myAccount container-fluid p-4">
+        <div className="myAccount container-fluid p-4" style={{ minHeight: '80vh' }}>
           <form onSubmit={handleUpdate}>
             <div className="d-flex flex-column align-items-center">
               <div className='col-lg-12'>

@@ -8,6 +8,8 @@ import FAQ from './FAQ';
 import Footer from './Footer'
 import BackToTopButton from './BackToTopButton'; 
 
+console.log("Landing page is rendering")
+
 
 const LandingPage = () => {
   return (
