@@ -23,8 +23,9 @@ function Navigation() {
   };
 
   return (
-    <nav className="bg-gradient navbar navbar-expand-lg py-2 mb-0 sticky-top">
+    <nav className="bg-gradient navbar w-100 navbar-expand-lg py-2 mb-0 sticky-top">
       <div className="container-fluid px-5">
+      <div className="navbar-content w-100 d-flex justify-content-between align-items-center px-5">
         {/* Title on the left */}
         <a className="navbar-brand" href="#">
           <img src="/Logo.png" alt="WW logo" />
@@ -65,6 +66,7 @@ function Navigation() {
                 </li>
               </>
           </ul>
+        </div>
         </div>
       </div>
     </nav>
