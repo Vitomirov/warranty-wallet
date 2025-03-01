@@ -20,7 +20,7 @@ services:
       - warranty_network
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db_init:/docker-entrypoint-initdb.d  # Mount the init script directory
+      - ./db_init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
 
@@ -43,6 +43,10 @@ services:
       PORT: ${PORT}
       REFRESH_SECRET_KEY: ${REFRESH_SECRET_KEY}
       SECRET_KEY: ${SECRET_KEY}
+      MAILTRAP_HOST: ${MAILTRAP_HOST}
+      MAILTRAP_PORT: ${MAILTRAP_PORT}
+      MAILTRAP_USER: ${MAILTRAP_USER}
+      MAILTRAP_PASS: ${MAILTRAP_PASS}
     networks:
       - warranty_network
     volumes:

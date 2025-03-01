@@ -18,7 +18,7 @@ function SignUp() {
     e.preventDefault();
     try {
       // Make the signup request
-      const response = await axios.post('http://localhost:3000/signup', {
+      const response = await axios.post('http://backend:3000/signup', {
         username,
         userEmail,
         password,

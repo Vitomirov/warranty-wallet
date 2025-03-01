@@ -5,18 +5,27 @@ import { fileURLToPath } from 'url';
 import fs from 'fs'; 
 
 // Define __dirname for use in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+//const __filename = fileURLToPath(import.meta.url);
+//const __dirname = dirname(__filename);
 
 // Load .env variables
-dotenv.config({ path: `${__dirname}/../../../.env` });
+//dotenv.config({ path: `${__dirname}/../../../.env` });
+dotenv.config();
+console.log("Process.env log from email.js:",process.env)
+
+console.log('Mailtrap Host:', process.env.MAILTRAP_HOST);
+console.log('Mailtrap Port:', process.env.MAILTRAP_PORT);
+console.log('Mailtrap User:', process.env.MAILTRAP_USER);
+console.log('Mailtrap Pass:', process.env.MAILTRAP_PASS);
+console.log('User from email.js:', process.env.EMAIL_USER);
 
 // Create a nodemailer transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: process.env.MAILTRAP_HOST,
+  port: process.env.MAILTRAP_PORT,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+      user: process.env.MAILTRAP_USER,
+      pass: process.env.MAILTRAP_PASS,
   },
 });
 

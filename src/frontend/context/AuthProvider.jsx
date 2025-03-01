@@ -4,8 +4,10 @@ import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom'; 
 
 const instance = axios.create({
-  withCredentials: true
+  baseURL: 'http://backend:3000',
+  withCredentials: true,
 });
+console.log('Initial instance:', instance);
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('accessToken'));
@@ -116,5 +118,6 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 export { instance };
 export default AuthProvider;

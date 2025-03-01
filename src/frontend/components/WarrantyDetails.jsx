@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 
 
 const WarrantyDetails = () => {
+  console.log('BASE_URL:', import.meta.env.BASE_URL);
+
   const { user, token, refreshToken, setToken } = useAuth(); 
   const { id } = useParams();
   const [warranty, setWarranty] = useState(null);
@@ -88,15 +90,30 @@ const WarrantyDetails = () => {
     }
   };
 
+
   const handleSendEmail = async () => {
+    console.log('handleSendEmail called');
     if (!warranty || !user) {
       setError("Cannot send email: Warranty or user details not available");
       return;
     }
-
+    console.log("instance post:", instance);
+    console.log("instance baseURL:", instance.defaults.baseURL); // Dodaj ovaj log
+    console.log("instance headers:", instance.defaults.headers); // Dodaj ovaj log
+    console.log("Data to send:", { // Dodaj ovaj log
+      userId: user.id,
+      productName: warranty.productName,
+      warrantyId: warranty.warrantyId,
+      username: user.username,
+      fullName: user.fullName,
+      userAddress: user.userAddress,
+      sellersEmail: warranty.sellersEmail,
+      userPhoneNumber: user.userPhoneNumber,
+      issueDescription
+    });
     try {
       const response = await instance.post(
-        `http://backend:3000/warranty/claim`,
+        `/warranty/claim`,
         {
           userId: user.id,
           productName: warranty.productName,

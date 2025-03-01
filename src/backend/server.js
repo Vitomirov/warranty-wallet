@@ -15,6 +15,7 @@ import { sendWarrantyClaimEmail, sendExpirationNotificationEmail } from './route
 
 // Load environment variables
 dotenv.config();
+console.log("Process.env log from server.js:",process.env)
 
 // Initialize Express app
 const app = express();
@@ -73,7 +74,7 @@ const db = await connectToDatabase();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost'], // Allow requests from the frontend served on port 80
+  origin: true, // Allow requests from the frontend served on port 80
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Authorization', 'Set-Cookie'],

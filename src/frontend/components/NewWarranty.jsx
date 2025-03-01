@@ -22,7 +22,7 @@ const NewWarranty = () => {
     formData.append('sellersEmail', sellersEmail);
 
     try {
-      const response = await fetch('http://localhost:3000/warranties', {
+      const response = await fetch('http://backend:3000/warranties', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,
