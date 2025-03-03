@@ -56,4 +56,27 @@ router.put('/me', verifyToken, async (req, res) => {
     }
 });
 
+// Delete user account
+router.delete('/me', verifyToken, async (req, res) => {
+    const userId = req.user.userId; // Retrieved from the token
+
+    try {
+        // Delete user's warranties first (assuming you have a warranties table)
+        await db.query('DELETE FROM warranties WHERE userId = ?', [userId]);
+
+        // Now delete the user
+        const sql = 'DELETE FROM users WHERE id = ?';
+        const [result] = await db.query(sql, [userId]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'User  not found' });
+        }
+
+        res.json({ message: 'User  account deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting user account:', error);
+        return res.status(500).json({ message: 'Error deleting user account' });
+    }
+});
+
 export default router;

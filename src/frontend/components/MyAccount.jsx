@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { instance } from '../context/AuthProvider';
+
 
 function MyAccount() {
     const { token, updateUser  } = useAuth(); // Get the token and updateUser from the AuthContext
@@ -17,6 +19,7 @@ function MyAccount() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Fetch user data on component mount
     useEffect(() => {
@@ -30,7 +33,7 @@ function MyAccount() {
                 }
                 console.log("Token being sent:", token);
 
-                const response = await axios.get('/me', {
+                const response = await instance.post('/me', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -40,7 +43,7 @@ function MyAccount() {
                     setUser({
                         username: response.data.username || '',
                         userEmail: response.data.userEmail || '',
-                        password: response.data.pasword || '',
+                        password: '',
                         fullName: response.data.fullName || '',
                         userAddress: response.data.userAddress || '',
                         userPhoneNumber: response.data.userPhoneNumber || ''
@@ -76,7 +79,7 @@ function MyAccount() {
             return;
         }
         try {
-            await axios.put('/me', userData, {
+            await instance.put('/me', userData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -102,131 +105,167 @@ function MyAccount() {
         }
     };
 
+    const handleDeleteAccount = async () => {
+        if (!token) {
+            setError("No token found, please log in.");
+            return;
+        }
+        try {
+            await instance.delete('/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            updateUser (null); //clear the userdata from context
+            alert('Your account has been deleted successfully.');
+            navigate.push('/');
+        } catch (error) {
+            if (error.response) {
+                console.error('Error deleting account:', error.response.status);
+                setError(`Error: ${error.response.data.message || "An error occurred."}`);
+            } else {
+                console.error('Error deleting account:', error.message);
+                setError('Error deleting account.');
+            }
+        }
+    };
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
-      <div className="myAccount container-fluid p-4" style={{ minHeight: '80vh' }}>
-          <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
-              <form onSubmit={handleUpdate} className="w-100">
-                  <div className="d-flex flex-column align-items-center">
-                      <div className='col-lg-12'>
-                          <h1 className='montserrat'>My Account</h1>
-                      </div>
-  
-                      <fieldset className="mb-1 col-12 col-sm-10 col-md-8 col-lg-5">
-                          <legend>Account Information</legend>
-                          <div className="d-flex mb-2 align-items-center">
-                              <label htmlFor="username" className="me-2" style={{ width: '35%' }}>
-                                  Username:
-                              </label>
-                              <input
-                                  type="text"
-                                  id="username"
-                                  name="username"
-                                  value={userData.username}
-                                  onChange={handleInputChange}
-                                  className="form-control form-control-sm"
-                                  placeholder="Username"
-                                  required
-                              />
-                          </div>
-                          <div className="d-flex mb-2 align-items-center">
-                              <label htmlFor="userEmail" className="me-2" style={{ width: '35%' }}>
-                                  Email:
-                              </label>
-                              <input
-                                  type="email"
-                                  id="userEmail"
-                                  name="userEmail"
-                                  value={userData.userEmail}
-                                  onChange={handleInputChange}
-                                  className="form-control form-control-sm"
-                                  placeholder="Email"
-                                  required
-                              />
-                          </div>
-                          <div className="d-flex mb-2 align-items-center">
-                              <label htmlFor="password" className="me-2" style={{ width: '35%' }}>
-                                  Password:
-                              </label>
-                              <input
-                                  type="password"
-                                  id="password"
-                                  name="password"
-                                  value={userData.password}
-                                  onChange={handleInputChange}
-                                  className="form-control form-control-sm"
-                                  placeholder="Password"
-                                  required
-                              />
-                          </div>
-                      </fieldset>
-  
-                      <fieldset className="mt-5 mb-3 col-12 col-sm-10 col-md-8 col-lg-5">
-                          <legend>Personal Information</legend>
-                          <div className="d-flex mb-2 align-items-center">
-                              <label htmlFor="fullName" className="me-2" style={{ width: '35%' }}>
-                                  Full Name:
-                              </label>
-                              <input
-                                  type="text"
-                                  id="fullName"
-                                  name="fullName"
-                                  value={userData.fullName}
-                                  onChange={handleInputChange}
-                                  className="form-control form-control-sm"
-                                  placeholder="Full Name"
-                                  required
-                              />
-                          </div>
-                          <div className="d-flex mb-2 align-items-center">
-                              <label htmlFor="userAddress" className="me-2" style={{ width: '35%' }}>
-                                  Address:
-                              </label>
-                              <input
-                                  type="text"
-                                  id="userAddress"
-                                  name="userAddress"
-                                  value={userData.userAddress}
-                                  onChange={handleInputChange}
-                                  className="form-control form-control-sm"
-                                  placeholder="Address"
-                                  required
-                              />
-                          </div>
-                          <div className="d-flex mb-2 align-items-center">
-                              <label htmlFor="userPhoneNumber" className="me-2" style={{ width: '35%' }}>
-                                  Phone Number:
-                              </label>
-                              <input
-                                  type="text"
-                                  id="userPhoneNumber"
-                                  name="userPhoneNumber"
-                                  value={userData.userPhoneNumber}
-                                  onChange={handleInputChange}
-                                  className="form-control form-control-sm"
-                                  placeholder="Phone Number"
-                                  required
-                              />
-                          </div>
-                      </fieldset>
-  
-                      <div className="button col-12 col-sm-10 col-md-8 col-lg-5 d-flex justify-content-between mt-3 gap-1">
-                          <button type="submit" className="btn btn-primary">
-                              Update Account
-                          </button>
-                          <Link to="/dashboard" className="btn btn-secondary">
-                              Back
-                          </Link>
-                      </div>
-  
-                      {successMessage && <p className="text-success mt-2">{successMessage}</p>}
-                  </div>
-              </form>
-          </div>
-      </div>
-  );
+        <div className="myAccount container-fluid p-4" style={{ minHeight: '80vh' }}>
+          <form onSubmit={handleUpdate}>
+            <div className="d-flex flex-column align-items-center">
+              <div className='col-lg-12'>
+                  <h1 className='montserrat'>My Account</h1>
+            </div>    
+              {/* Account Information */}
+              <fieldset className="mb-1 col-12 col-sm-10 col-md-8 col-lg-5">
+                <legend>Account Information</legend>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="username" className="me-2" style={{ width: '35%' }}>
+                    Username:
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={userData.username}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Username"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="userEmail" className="me-2" style={{ width: '35%' }}>
+                    Email:
+                  </label>
+                  <input
+                    type="email"
+                    id="userEmail"
+                    name="userEmail"
+                    value={userData.userEmail}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="password" className="me-2" style={{ width: '35%' }}>
+                    Password:
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={userData.password}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+              </fieldset>
+    
+              {/* Personal Information */}
+              <fieldset className="mt-5 mb-3 col-12 col-sm-10 col-md-8 col-lg-5">
+                <legend>Personal Information</legend>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="fullName" className="me-2" style={{ width: '35%' }}>
+                    Full Name:
+                  </label>
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    value={userData.fullName}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Full Name"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="userAddress" className="me-2" style={{ width: '35%' }}>
+                    Address:
+                  </label>
+                  <input
+                    type="text"
+                    id="userAddress"
+                    name="userAddress"
+                    value={userData.userAddress}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Address"
+                    required
+                  />
+                </div>
+                <div className="d-flex mb-2 align-items-center">
+                  <label htmlFor="userPhoneNumber" className="me-2" style={{ width: '35%' }}>
+                    Phone Number:
+                  </label>
+                  <input
+                    type="text"
+                    id="userPhoneNumber"
+                    name="userPhoneNumber"
+                    value={userData.userPhoneNumber}
+                    onChange={handleInputChange}
+                    className="form-control form-control-sm"
+                    placeholder="Phone Number"
+                    required
+                  />
+                </div>
+              </fieldset>
+    
+              {/* Buttons */}
+              <div className="button col-12 col-sm-10 col-md-8 col-lg-5 d-flex justify-content-between mt-3 gap-1">
+                <button type="submit" className="btn btn-primary">
+                  Update Account
+                </button>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowDeleteConfirm(true)}>
+                    Delete Account
+                </button>
+                <Link to="/dashboard" className="btn btn-secondary">
+                  Back
+                </Link>
+              </div>
+
+                {showDeleteConfirm && (
+                <div className="alert alert-warning mt-3">
+                    <p>Are you sure you want to delete your account? This action cannot be undone and all your warranties will be deleted.</p>
+                    <button className="btn btn-danger" onClick={handleDeleteAccount}>Yes, delete my account</button>
+                    <button className="btn btn-secondary" onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
+                </div>
+            )}
+    
+              {successMessage && <p className="text-success mt-2">{successMessage}</p>}
+            </div>
+          </form>
+        </div>
+    );
 }
 
 export default MyAccount;

@@ -4,11 +4,23 @@ import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom'; 
 
 const instance = axios.create({
-  baseURL: 'http://backend:3000',
+  baseURL: '/',
   withCredentials: true,
 });
-console.log('Initial instance:', instance);
-
+// Dodaj interseptor ovde
+instance.interceptors.response.use(
+  response => response,
+  error => {
+    console.error('Axios error:', error); // Loguj ceo error objekat
+    if (error.response) {
+      console.error('Error response:', error.response);
+      console.error('Error status:', error.response.status);
+    } else {
+      console.error('Error without response:', error.message);
+    }
+    return Promise.reject(error);
+  }
+);
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('accessToken'));
   const [user, setUser ] = useState(() => {
@@ -30,7 +42,7 @@ const AuthProvider = ({ children }) => {
     } else {
       delete instance.defaults.headers.common.Authorization;
     }
-  }, [token]);
+  }, [token, user]);
 
   // Axios interceptor for handling token refresh
   instance.interceptors.response.use(

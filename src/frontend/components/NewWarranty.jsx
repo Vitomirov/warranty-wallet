@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { instance } from '../context/AuthProvider';
 
 const NewWarranty = () => {
   const [productName, setProductName] = useState('');
@@ -22,21 +23,17 @@ const NewWarranty = () => {
     formData.append('sellersEmail', sellersEmail);
 
     try {
-      const response = await fetch('http://backend:3000/warranties', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData,
+      const response = await instance.post('/warranties', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
       });
-
-      if (response.ok) {
-        console.log('Warranty created successfully');
-        setMessage('Warranty created successfully!!!');
-        
-        // Navigate to My Warranties page
-        navigate('/myWarranties');
-      } else {
-        console.error('Error creating warranty:', response.status);
-      }
+  
+      console.log('Warranty created successfully');
+      setMessage('Warranty created successfully!!!');
+      navigate('/myWarranties');
+  
     } catch (error) {
       console.error('Error creating warranty:', error);
     }

@@ -13,7 +13,7 @@ const DeleteWarranty = ({ id }) => {
     try {
       const token = localStorage.getItem('token');
       console.log('Token:', accessToken);
-      const response = await axios.delete(`http://backend:3000/warranties/delete/${id}`, {
+      const response = await axios.delete(`/warranties/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

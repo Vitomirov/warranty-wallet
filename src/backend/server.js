@@ -74,7 +74,7 @@ const db = await connectToDatabase();
 
 // Middleware
 app.use(cors({
-  origin: true, // Allow requests from the frontend served on port 80
+  origin: 'http://localhost',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Authorization', 'Set-Cookie'],
@@ -95,6 +95,10 @@ app.get('/testdb', async (req, res) => {
     console.error("Database query error:", error);
     res.status(500).send("Database query error");
   }
+});
+
+app.get('/test', (req, res) => {
+  res.send('Backend is working!');
 });
 
 // Routes
