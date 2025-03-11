@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { instance } from '../context/AuthProvider';
 
 const DeleteWarranty = ({ id }) => {
   const { token: accessToken } = useAuth();
@@ -13,7 +14,7 @@ const DeleteWarranty = ({ id }) => {
     try {
       const token = localStorage.getItem('token');
       console.log('Token:', accessToken);
-      const response = await axios.delete(`/warranties/delete/${id}`, {
+      const response = await instance.delete(`/warranties/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

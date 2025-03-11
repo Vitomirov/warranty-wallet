@@ -27,7 +27,7 @@ const MyWarranties = () => {
     console.log('Fetching warranties...');
     try {
       cancelTokenSource.current = axios.CancelToken.source();
-      const response = await instance.get('/warranties/all', {
+      const response = await instance.get('warranties/all', {
         cancelToken: cancelTokenSource.current.token,
       });
       console.log('Warranties fetched successfully:', response.data);

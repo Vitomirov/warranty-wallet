@@ -74,7 +74,7 @@ const db = await connectToDatabase();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Authorization', 'Set-Cookie'],

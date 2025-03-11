@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react';
 import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom'; 
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
+
 const instance = axios.create({
-  baseURL: '/',
+  baseURL: API_BASE_URL,
   withCredentials: true,
 });
+
 // Dodaj interseptor ovde
 instance.interceptors.response.use(
   response => response,
@@ -31,6 +34,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
+      console.log('Token set:', token);
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
       // Set up a timer to refresh the token before it expires
       const tokenExpiration = JSON.parse(atob(token.split('.')[1])).exp * 1000; // Get expiration time
@@ -70,6 +74,7 @@ const AuthProvider = ({ children }) => {
     }
   );
   const login = async (username, password) => {
+    console.log('Logging in with username:', username);
     try {
       const response = await instance.post('/login', { username, password });
       if (response.data && response.data.accessToken) {
@@ -96,6 +101,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const refreshToken = async () => {
+    console.log('Refreshing token...');
     try {
       const response = await instance.post('/refresh-token');
       if (response.data && response.data.accessToken) {

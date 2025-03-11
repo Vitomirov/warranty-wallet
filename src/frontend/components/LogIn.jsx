@@ -15,6 +15,7 @@ const Login = () => {
     if (loading) return;
     setLoading(true);
     try {
+      console.log('Calling login function with username:', username);
       const response = await login(username, password);
       if (response && response.accessToken) {
         console.log('Login successful:', response.accessToken);

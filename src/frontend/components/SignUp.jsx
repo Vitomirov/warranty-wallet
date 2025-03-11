@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { instance } from '../context/AuthProvider';
 
 function SignUp() {
   const { login } = useAuth(); // Use login function from AuthContext
@@ -18,7 +19,7 @@ function SignUp() {
     e.preventDefault();
     try {
       // Make the signup request
-      const response = await axios.post('/signup', {
+      const response = await instance.post('signup', {
         username,
         userEmail,
         password,

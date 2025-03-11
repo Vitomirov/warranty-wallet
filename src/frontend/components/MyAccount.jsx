@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { instance } from '../context/AuthProvider';
+import DeleteAccount from "./DeleteAccount";
 
 
 function MyAccount() {
@@ -33,7 +34,7 @@ function MyAccount() {
                 }
                 console.log("Token being sent:", token);
 
-                const response = await instance.post('/me', {
+                const response = await instance.get('/me', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -88,7 +89,7 @@ function MyAccount() {
             setError(null);
             
             // Fetch updated user data
-            const response = await axios.get('/me', {
+            const response = await instance.get('me', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -101,31 +102,6 @@ function MyAccount() {
             } else {
                 console.error('Error updating account information:', error.message);
                 setError('Error updating account information.');
-            }
-        }
-    };
-
-    const handleDeleteAccount = async () => {
-        if (!token) {
-            setError("No token found, please log in.");
-            return;
-        }
-        try {
-            await instance.delete('/me', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            updateUser (null); //clear the userdata from context
-            alert('Your account has been deleted successfully.');
-            navigate.push('/');
-        } catch (error) {
-            if (error.response) {
-                console.error('Error deleting account:', error.response.status);
-                setError(`Error: ${error.response.data.message || "An error occurred."}`);
-            } else {
-                console.error('Error deleting account:', error.message);
-                setError('Error deleting account.');
             }
         }
     };
@@ -245,22 +221,11 @@ function MyAccount() {
                 <button type="submit" className="btn btn-primary">
                   Update Account
                 </button>
-                <button type="button" className="btn btn-secondary" onClick={() => setShowDeleteConfirm(true)}>
-                    Delete Account
-                </button>
+                <DeleteAccount />
                 <Link to="/dashboard" className="btn btn-secondary">
                   Back
                 </Link>
-              </div>
-
-                {showDeleteConfirm && (
-                <div className="alert alert-warning mt-3">
-                    <p>Are you sure you want to delete your account? This action cannot be undone and all your warranties will be deleted.</p>
-                    <button className="btn btn-danger" onClick={handleDeleteAccount}>Yes, delete my account</button>
-                    <button className="btn btn-secondary" onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
-                </div>
-            )}
-    
+              </div>    
               {successMessage && <p className="text-success mt-2">{successMessage}</p>}
             </div>
           </form>

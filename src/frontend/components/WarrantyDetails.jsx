@@ -18,7 +18,7 @@ const WarrantyDetails = () => {
 
   const fetchWarranty = async () => {
     try {
-      const response = await instance.get(`/warranties/details/${id}`);
+      const response = await instance.get(`warranties/details/${id}`);
         setWarranty(response.data);
     } catch (err) {
       if (err.response && err.response.status === 401) {
