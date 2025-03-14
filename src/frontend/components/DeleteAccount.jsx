@@ -2,14 +2,25 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { instance } from '../context/AuthProvider';
+import ReactModal from 'react-modal';
 
 function DeleteAccount() {
+    console.log("delete account function called");
     const { token, updateUser } = useAuth();
     const navigate = useNavigate();
     const [error, setError] = useState(null);
-    const [showConfirmation, setShowConfirmation] = useState(false); // Dodajte stanje za prikaz potvrde
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    const openDeleteModal = () => {
+        setShowDeleteModal(true);
+    };
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+    };
 
     const handleDeleteAccount = async () => {
+        console.log("Delete Account called");
         if (!token) {
             setError("No token found, please log in.");
             return;
@@ -20,6 +31,16 @@ function DeleteAccount() {
                     'Authorization': `Bearer ${token}`
                 }
             });
+
+            // Clear tokens from localStorage
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+
+            // Clear tokens from cookies
+            document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+
             updateUser(null);
             alert('Your account has been deleted successfully.');
             navigate('/');
@@ -34,22 +55,49 @@ function DeleteAccount() {
         }
     };
 
-    const handleDeleteClick = () => {
-        setShowConfirmation(true); 
-    };
-
     return (
         <>
-            <button type="button" className="btn btn-secondary" onClick={handleDeleteClick}>Delete Account</button>
-            
-            {showConfirmation && (
-                <div className="alert alert-warning mt-3">
-                    <p>Are you sure you want to delete your account? This action cannot be undone and all your warranties will be deleted.</p>
-                    <button className="btn btn-danger" onClick={handleDeleteAccount}>Yes, delete my account</button>
-                    <button className="btn btn-secondary" onClick={() => setShowConfirmation(false)}>Cancel</button>
-                    {error && <p className="text-danger mt-2">{error}</p>}
+            <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                    console.log("Button clicked!");
+                    openDeleteModal();
+                }}
+            >
+                Delete Account
+            </button>
+
+            <ReactModal
+                isOpen={showDeleteModal}
+                onRequestClose={closeDeleteModal}
+                contentLabel="Delete Account Confirmation"
+                className="modalWindow"
+                overlayClassName="modalWindow-overlay"
+                ariaHideApp={false} // Add this line
+            >
+                <div className="container-fluid">
+                    <div className="row justify-content-center">
+                        <div className="col-12 col-md-10 col-lg-8">
+                            <h4 className="text-center mb-3">
+                                Are you sure you want to delete your account?
+                            </h4>
+                            <p className="text-center">
+                                This action cannot be undone and all your warranties will be deleted.
+                            </p>
+                            <div className="d-flex justify-content-center gap-3">
+                                <button className="btn btn-danger" onClick={handleDeleteAccount}>
+                                    Yes, delete my account
+                                </button>
+                                <button className="btn btn-secondary" onClick={closeDeleteModal}>
+                                    Cancel
+                                </button>
+                            </div>
+                            {error && <p className="text-danger mt-2 text-center">{error}</p>}
+                        </div>
+                    </div>
                 </div>
-            )}
+            </ReactModal>
         </>
     );
 }

@@ -4,6 +4,7 @@ $white: #f5f5f5;
 $yellow: #fffc5f;
 $dark: #212121;
 $blueDark: #162D46;
+$modal: #c3c3d7;
 
 html {
     scroll-behavior: smooth;
@@ -33,7 +34,34 @@ body {
     font-family: Montserrat;
 }
 
-// Navigation Bar
+// MODAL POPUP WINDOW
+.modalWindow-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Added for correct positioning */
+    top: 0;          /* Added */
+    left: 0;         /* Added */
+    width: 100%;     /* Added */
+    height: 100%;    /* Added */
+    z-index: 1000;
+}
+
+.modalWindow {
+    background-color: $modal;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 1000px;
+    width: 90%; /* Changed to be responsive */
+    max-height: 80vh; /* Optional: Limit height */
+    overflow-y: auto; /* Optional: Add scroll */
+    outline: none;   
+    z-index: 1001;
+}
+
+
+// NAVIGATION BAR
 .navbar {
     background-color: $blueDark;   
     display: flex;
@@ -46,7 +74,7 @@ body {
     }
 }
 
-// Navigation Links
+// NAVIGATION LINKS
 .nav-link {
     color: $white;
 
@@ -64,7 +92,7 @@ body {
     z-index: 1;
 }
 
-// Hero Left
+// HERO LEFT
 .hero-left {
     margin-bottom: 40%;
 
@@ -80,7 +108,7 @@ body {
     }
 }
 
-// Buttons
+// BUTTONS
 .button {
     .btn {
         background-color: $blueDark;
@@ -139,7 +167,7 @@ body {
     font-size: 3rem;
 }
 
-// About Section
+// ABOUT SECTION
 .about-section {
     background: $blueLight;
     background-attachment: fixed;
@@ -157,7 +185,7 @@ body {
     border: none;
 }
 
-// Features Section
+// FEATURES SECTION
 .features-section {
     background: $white;
 
@@ -190,7 +218,7 @@ body {
     }
 }
 
-// FAQ-Section
+// FAQ-SECTION
 .faq-section {
     background: linear-gradient(206deg, $white 65%, $blueLight 65%);
     background-attachment: fixed;
@@ -213,7 +241,7 @@ body {
     }
 }
 
-// Footer Styles - Stick to the bottom of the main content
+// FOOTER - Stick to the bottom of the main content
 footer {
     background-color: $blueDark;
     color: $white;
@@ -254,7 +282,7 @@ footer {
 
 }
 
-// Dashboard
+// DASHBOARD
 .dashboard {
     background-color: $white;
     background: linear-gradient(181deg, $blueDark 46%, $white 46%);
@@ -264,7 +292,7 @@ footer {
     background-attachment: fixed;
 }
 
-//New Warranty
+//NEW WARRANTY
 .newWarranty {
     background: linear-gradient(100deg, $blueLight 55%, $white 55%);
 
@@ -275,7 +303,7 @@ footer {
 }
 
 
-//My Warranties
+//MY WARRANTIES
 .myWarranties {
     background: linear-gradient(100deg, $blueLight 55%, $white 55%);
 }
@@ -294,7 +322,7 @@ footer {
         background-color: $yellow;
     }
 }
-// Warranty Details
+// WARRANTY DETAILS
 .warrantyDetails {
     background: linear-gradient(85deg, $blueLight 55%, $white 55%);
     background-size: cover;

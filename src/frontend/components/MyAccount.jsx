@@ -20,7 +20,6 @@ function MyAccount() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Fetch user data on component mount
     useEffect(() => {
@@ -111,11 +110,15 @@ function MyAccount() {
 
     return (
         <div className="myAccount container-fluid p-4" style={{ minHeight: '80vh' }}>
-          <form onSubmit={handleUpdate}>
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+                <form onSubmit={handleUpdate} className="w-100">
             <div className="d-flex flex-column align-items-center">
               <div className='col-lg-12'>
-                  <h1 className='montserrat'>My Account</h1>
+                <div className="col lg 12 mb-1">
+                <h1 className='montserrat'>My Account</h1>
+                </div>
             </div>    
+
               {/* Account Information */}
               <fieldset className="mb-1 col-12 col-sm-10 col-md-8 col-lg-5">
                 <legend>Account Information</legend>
@@ -229,6 +232,7 @@ function MyAccount() {
               {successMessage && <p className="text-success mt-2">{successMessage}</p>}
             </div>
           </form>
+          </div>
         </div>
     );
 }
