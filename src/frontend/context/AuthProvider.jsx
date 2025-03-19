@@ -10,11 +10,25 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-// Dodaj interseptor ovde
+// Interceptor for setting Authorization header before sending requests
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('accessToken'); // Changed from 'token' to 'accessToken'
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Interceptor for handling responses and errors
 instance.interceptors.response.use(
   response => response,
   error => {
-    console.error('Axios error:', error); // Loguj ceo error objekat
+    console.error('Axios error:', error);
     if (error.response) {
       console.error('Error response:', error.response);
       console.error('Error status:', error.response.status);
@@ -24,8 +38,9 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('accessToken'));
+  const [token, setToken] = useState(localStorage.getItem('accessToken')); // Ensure we get the correct token
   const [user, setUser ] = useState(() => {
     const savedUser  = localStorage.getItem('user');
     return savedUser  ? JSON.parse(savedUser ) : null;
@@ -36,6 +51,7 @@ const AuthProvider = ({ children }) => {
     if (token) {
       console.log('Token set:', token);
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+      console.log(instance.defaults.headers.common.Authorization);
       // Set up a timer to refresh the token before it expires
       const tokenExpiration = JSON.parse(atob(token.split('.')[1])).exp * 1000; // Get expiration time
       const refreshTime = tokenExpiration - Date.now() - 30000; // Refresh 30 seconds before expiration
@@ -73,6 +89,7 @@ const AuthProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
+
   const login = async (username, password) => {
     console.log('Logging in with username:', username);
     try {
@@ -101,19 +118,23 @@ const AuthProvider = ({ children }) => {
   };
 
   const refreshToken = async () => {
-    console.log('Refreshing token...');
+    console.log('AuthProvider: Refreshing token...');
     try {
       const response = await instance.post('/refresh-token');
       if (response.data && response.data.accessToken) {
         localStorage.setItem('accessToken', response.data.accessToken);
         setToken(response.data.accessToken);
+        console.log("AuthProvider: New token set, updating Authorization header.");
+        instance.defaults.headers.common.Authorization = `Bearer ${response.data.accessToken}`;
+        console.log('AuthProvider: Authorization header set:', instance.defaults.headers.common.Authorization);
+        console.log('AuthProvider: New token:', response.data.accessToken);
         return response.data;
       } else {
         throw new Error('Access token not found in response');
       }
     } catch (error) {
-      console.error('Refresh token error:', error.message || 'Unknown error');
-      logout(); // Log out if refresh token fails
+      console.error('AuthProvider: Refresh token error:', error.message || 'Unknown error');
+      logout();
       throw error;
     }
   };

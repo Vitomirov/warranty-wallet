@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { instance } from '../context/AuthProvider'
+import { instance } from '../context/AuthProvider';
 import { useParams, Link } from 'react-router-dom';
 import DeleteWarranty from './DeleteWarranty';
 import { useAuth } from '../context/AuthContext';
 
-
 const WarrantyDetails = () => {
-  console.log('BASE_URL:', import.meta.env.BASE_URL);
-
   const { user, token, refreshToken, setToken } = useAuth(); 
   const { id } = useParams();
   const [warranty, setWarranty] = useState(null);
@@ -18,9 +15,11 @@ const WarrantyDetails = () => {
 
   const fetchWarranty = async () => {
     try {
+      console.log('Fetching warranty with token:', token); // Log the token
       const response = await instance.get(`warranties/details/${id}`);
-        setWarranty(response.data);
+      setWarranty(response.data);
     } catch (err) {
+      console.error('Error fetching warranty:', err); // Log the error
       if (err.response && err.response.status === 401) {
         // Attempt to refresh the token
         try {
@@ -90,27 +89,11 @@ const WarrantyDetails = () => {
     }
   };
 
-
   const handleSendEmail = async () => {
-    console.log('handleSendEmail called');
     if (!warranty || !user) {
       setError("Cannot send email: Warranty or user details not available");
       return;
     }
-    console.log("instance post:", instance);
-    console.log("instance baseURL:", instance.defaults.baseURL); // Dodaj ovaj log
-    console.log("instance headers:", instance.defaults.headers); // Dodaj ovaj log
-    console.log("Data to send:", { // Dodaj ovaj log
-      userId: user.id,
-      productName: warranty.productName,
-      warrantyId: warranty.warrantyId,
-      username: user.username,
-      fullName: user.fullName,
-      userAddress: user.userAddress,
-      sellersEmail: warranty.sellersEmail,
-      userPhoneNumber: user.userPhoneNumber,
-      issueDescription
-    });
     try {
       const response = await instance.post(
         `/warranty/claim`,
@@ -203,7 +186,7 @@ const WarrantyDetails = () => {
               className="img-fluid"
               style={{
                 maxWidth: '400px', height: 'auto'}}
-              src= {imageSrc} 
+              src={imageSrc} 
               alt={isExpired ? "Expired Warranty" : "Not Expired Warranty"} 
             />
           </div>

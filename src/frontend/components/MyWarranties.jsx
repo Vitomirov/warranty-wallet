@@ -5,104 +5,134 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const MyWarranties = () => {
-  const { user, token, setToken, logout } = useAuth();
-  const [warranties, setWarranties] = useState([]);
-  const [error, setError] = useState(null);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const isFetchingRef = useRef(false);
-  const cancelTokenSource = useRef(null);
-  const isMounted = useRef(true);
+    const { user, token, setToken, logout, refreshToken } = useAuth();
+    const [warranties, setWarranties] = useState([]);
+    const [error, setError] = useState(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const isFetchingRef = useRef(false);
+    const cancelTokenSource = useRef(null);
+    const isMounted = useRef(true);
 
-  const isTokenExpired = (token) => {
-    if (!token) return true;
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.exp * 1000 < Date.now();
-  };
+    const fetchWarranties = async () => {
+        if (isFetchingRef.current) return;
+        isFetchingRef.current = true;
 
-  const fetchWarranties = async () => {
-    if (isFetchingRef.current) return;
-    isFetchingRef.current = true;
-
-    console.log('Fetching warranties...');
-    try {
-      cancelTokenSource.current = axios.CancelToken.source();
-      const response = await instance.get('warranties/all', {
-        cancelToken: cancelTokenSource.current.token,
-      });
-      console.log('Warranties fetched successfully:', response.data);
-      if (isMounted.current) {
-        setWarranties(response.data);
-      }
-    } catch (error) {
-      console.error('Error fetching warranties:', error);
-      if (axios.isCancel(error)) {
-        console.log('Request canceled:', error.message);
-      } else {
-        let errorMessage;
-        if (error.response) {
-          errorMessage = error.response.data || 'Failed to fetch warranties due to a server issue.';
-        } else {
-          errorMessage = 'Failed to fetch warranties due to a network error or server issue.';
+        console.log('Fetching warranties...');
+        try {
+            if (!instance.defaults.headers.common.Authorization) {
+                console.log('Authorization header not set!');
+            } else {
+                console.log('Authorization header:', instance.defaults.headers.common.Authorization);
+            }
+            cancelTokenSource.current = axios.CancelToken.source();
+            const response = await instance.get('warranties/all', {
+                cancelToken: cancelTokenSource.current.token,
+            });
+            console.log('Warranties fetched successfully:', response.data);
+            if (isMounted.current) {
+                setWarranties(response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching warranties:', error);
+            if (axios.isCancel(error)) {
+                console.log('Request canceled:', error.message);
+            } else {
+                let errorMessage = 'Failed to fetch warranties due to a server issue.';
+                if (error.response) {
+                    if (typeof error.response.data === 'string') {
+                        errorMessage = error.response.data;
+                    } else if (error.response.data && error.response.data.message) {
+                        errorMessage = error.response.data.message;
+                    }
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+                if (isMounted.current) {
+                    setError(errorMessage);
+                }
+            }
+        } finally {
+            isFetchingRef.current = false;
+            if (isMounted.current) {
+                setLoading(false);
+            }
         }
-        setError(errorMessage);
-      }
-    } finally {
-      isFetchingRef.current = false;
-      if (isMounted.current) {
-        setLoading(false);
-      }
-    }
-  };
-
-  const handleFetchWarranties = async () => {
-    if (isTokenExpired(token)) {
-      console.log('Access token expired, refreshing...');
-      setIsRefreshing(true);
-      try {
-        const response = await instance.post('/refresh-token', {}, { withCredentials: true });
-        if (response.data.accessToken) {
-          setToken(response.data.accessToken);
-          console.log('Access token refreshed:', response.data.accessToken);
-
-          instance.defaults.headers.common.Authorization = `Bearer ${response.data.accessToken}`;
-
-          await fetchWarranties();
-        } else {
-          throw new Error('No access token returned');
-        }
-      } catch (error) {
-        console.error('Error refreshing token:', error);
-        if (isMounted.current) {
-          setError('Failed to refresh token.');
-        }
-        logout();
-      } finally {
-        setIsRefreshing(false);
-      }
-    } else {
-      fetchWarranties();
-    }
-  };
-
-  useEffect(() => {
-    console.log('MyWarranties component mounted');
-    isMounted.current = true;
-    setLoading(true);
-    handleFetchWarranties();
-
-    return () => {
-      console.log('MyWarranties component unmounted');
-      isMounted.current = false;
-      if (cancelTokenSource.current) {
-        cancelTokenSource.current.cancel('Operation canceled by the user.');
-      }
     };
-  }, [token]);
 
-  useEffect(() => {
-    console.log('Warranties state updated:', warranties);
-  }, [warranties]);
+    const handleFetchWarranties = async () => {
+        try {
+            await fetchWarranties();
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                console.log('Access token expired, refreshing...');
+                setIsRefreshing(true);
+                try {
+                    await refreshToken();
+                    console.log("Token refreshed, refetching warranties.");
+                    console.log(instance.defaults.headers.common.Authorization);
+                    console.log("New Token:", token);
+                    await fetchWarranties();
+                } catch (refreshError) {
+                    console.error('Error refreshing token:', refreshError);
+                    if (isMounted.current) {
+                        setError('Session expired. Please log in again.');
+                    }
+                    logout();
+                } finally {
+                    setIsRefreshing(false);
+                }
+            } else {
+                console.error('Error fetching warranties:', error);
+                let errorMessage = 'Failed to fetch warranties due to a server issue.';
+                if (error.response) {
+                    if (typeof error.response.data === 'string') {
+                        errorMessage = error.response.data;
+                    } else if (error.response.data && error.response.data.message) {
+                        errorMessage = error.response.data.message;
+                    }
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+                if (isMounted.current) {
+                    setError(errorMessage);
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        console.log('MyWarranties component mounted');
+        isMounted.current = true;
+        setLoading(true);
+
+        // Postavite header sinhrono
+        if (token) {
+            instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+            console.log('Authorization header set (mounting):', instance.defaults.headers.common.Authorization);
+        }
+
+        const fetchData = async () => {
+            if (cancelTokenSource.current) {
+                cancelTokenSource.current.cancel('Operation canceled by the user.');
+            }
+            await handleFetchWarranties();
+        };
+
+        fetchData();
+
+        return () => {
+            console.log('MyWarranties component unmounted');
+            isMounted.current = false;
+            if (cancelTokenSource.current) {
+                cancelTokenSource.current.cancel('Operation canceled by the user.');
+            }
+        };
+    }, [refreshToken, logout, token]);
+
+    useEffect(() => {
+        console.log('Warranties state updated:', warranties);
+    }, [warranties]);
 
   return (
     <div className="myWarranties container-fluid pt-1 ps-5 d-flex flex-column min-vh-80">
