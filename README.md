@@ -1,59 +1,125 @@
-Warranty Wallet
+# Warranty Wallet
 
-Warranty Wallet is an application designed to help users manage and track warranty information for their purchased products.
-Features
+Warranty Wallet is a warranty management application.
 
-    Authentication: Users can register or sign in to access and manage their warranties.
-    Dashboard: Provides an overview of all warranties, with options to add new ones and view detailed information.
-    Add Warranty: Users can add a new warranty by entering basic details, including uploading warranty-related files.
-    Warranty Details: Users can view the full details of each warranty, such as purchase and expiration dates.
-    My Warranties: Displays a list of all warranties belonging to the logged-in user.
-    Delete Warranty: Users can remove unwanted warranties from their account.
-    Private Routes: Certain pages, like the dashboard and warranty management, are protected and only accessible to logged-in users.
-    Logout: Users can log out from the app, securely ending their session.
+## Technologies
 
-Current Status
+* Backend: Node.js, Express.js, MySQL
+* Frontend: Nginx, (JavaScript framework)
+* Database: MySQL 8.0
+* Containerization: Docker, Docker Compose
 
-The project is under active development. So far, the following functionalities have been implemented:
+## Features
 
-    Core frontend components, including login, registration, dashboard, warranty addition, warranty details, and warranty deletion.
-    Backend functionalities for managing user accounts, warranty storage, and authentication.
-    Integration of protected routes using JWT authentication to secure user data.
-    Basic file upload functionality using Multer for warranty-related images.
+* Warranty management
+* Database for warranty information
+* API for interaction
+* User interface
+* Email sending
+* File upload
+* User authentication
 
-Planned Enhancements
+## Getting Started
 
-    Automatic Expiry Notifications: Users will receive email notifications when warranties are about to expire.
+Follow these steps to run the application:
 
-Technologies Used
-Frontend:
+### Prerequisites
 
-    React: Main framework for the user interface.
-    React Router: Handles routing between various pages (login, dashboard, warranty details, etc.).
-    Vite: Used as the development environment for fast builds and hot reloading.
-    HTML/CSS: Provides the structure and styling for the application.
+* Docker and Docker Compose must be installed on your system.
 
-Backend:
+### Configuration
 
-    Node.js & Express: Powers the API for managing users, warranties, and data.
-    MySQL2: Used for database management, storing user data and warranties.
-    Multer: Manages file uploads (e.g., warranty images).
+1.  **Clone the repository:**
 
-Authentication & Security:
+    ```bash
+    git clone <repository_url>
+    cd <repository_directory>
+    ```
 
-    JWT: Used for secure user authentication and route protection.
-    bcrypt: Ensures secure password hashing for user data protection.
+2.  **Create the `.env` file:**
 
-Additional Tools:
+    * In the root directory of the project, create a file named `.env`.
 
-    Axios: Handles API requests from the frontend to the backend.
-    dotenv: Manages environment variables for secure configuration.
-    ESLint: Ensures code quality and consistency.
+3.  **Populate the `.env` file:**
 
-How to Run the Project
+    * Open the `.env` file in a text editor and add the following environment variables:
 
-    Clone the repository to your local machine.
-    Install all necessary dependencies.
-    Start the backend server to handle API requests and data management.
-    Start the frontend application to interact with the user interface and manage warranties.
+        ```
+        SECRET_KEY=<your_secret_key>
+        REFRESH_SECRET_KEY=<your_refresh_secret_key>
 
+        # Email Credentials (For Sending Emails)
+        MAILTRAP_HOST=sandbox.smtp.mailtrap.io
+        MAILTRAP_PORT=2525
+        MAILTRAP_USER=<your_mailtrap_user>
+        MAILTRAP_PASS=<your_mailtrap_password>
+
+        # Database Configuration - localhost for development, mysql for Docker
+        DB_HOST=mysql
+        DB_USER=<your_database_user>
+        DB_PASSWORD=<your_database_password>
+        DB_DATABASE=<your_database_name>
+        MYSQL_ROOT_PASSWORD=<your_mysql_root_password>
+
+        # Redis Configuration
+        REDIS_HOST=redis
+        REDIS_PORT=6379
+
+        # Backend Configuration
+        PORT=3000
+        NODE_ENV=production
+        ```
+
+    * Replace the placeholder values (`<your_...>`) with your actual values.
+    * **Mailtrap:**
+        * If you want to test email functionality, you can use my Mailtrap account details:
+            * `MAILTRAP_USER=7abe50222732bf`
+            * `MAILTRAP_PASS=0f5cf0f7f4faa8`
+        * Otherwise, provide your own Mailtrap credentials or remove the Mailtrap-related lines from the `.env` file.
+        * If you want to check sent mails, you can log in to Mailtrap with this details:
+            * email address: `dejan.vitomirov@gmail.com`
+            * password: `DeVito123!@#`
+    * **Database:**
+        * `DB_HOST=mysql` must remain as it is, as it refers to the MySQL service within the Docker network.
+        * Choose your own values for `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`, and `MYSQL_ROOT_PASSWORD`.
+    * **Secret keys:**
+        * Generate random, strong strings for `SECRET_KEY` and `REFRESH_SECRET_KEY`.
+    * **Redis:**
+        * `REDIS_HOST=redis` must remain.
+    * **Port:**
+        * You can change the `PORT` if needed.
+    * **Node Environment:**
+        * `NODE_ENV=production` is recommended for production environments.
+
+### Running the Application
+
+1.  **Start the application:**
+
+    * In the terminal, navigate to the project's root directory and run:
+
+        ```bash
+        docker-compose up -d
+        ```
+
+2.  **Access the application:**
+
+    * Frontend: `http://localhost`
+    * Backend: `http://localhost:3000`
+
+## Project Structure
+
+* `src/backend`: Contains the backend code.
+* `src/frontend`: Contains the frontend code.
+* `db_init`: Contains SQL scripts for database initialization.
+* `docker-compose.yml`: Defines the Docker services.
+* `.env`: Stores environment variables (not included in the repository).
+
+## Important Notes
+
+* Never commit the `.env` file to a public repository, as it contains sensitive information.
+* Ensure that Docker and Docker Compose are running before executing `docker-compose up -d`.
+* If you encounter any issues, check the Docker logs for error messages. You can view the logs using `docker-compose logs <service_name>`.
+
+## Author
+
+Vitomirov Dejan

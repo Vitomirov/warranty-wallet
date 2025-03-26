@@ -23,8 +23,7 @@ services:
       - "3306:3306"
 
   backend:
-    build:
-      context: ./src/backend
+    image: vitomirov/warranty-backend:latest
     container_name: warranty_backend
     restart: always
     ports:
@@ -51,8 +50,7 @@ services:
       - ./src/backend/uploads:/app/uploads
 
   nginx:
-    build:
-      context: ./src/frontend
+    image: vitomirov/warranty-frontend:latest
     container_name: warranty_nginx
     restart: always
     depends_on:
