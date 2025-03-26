@@ -187,8 +187,8 @@ cron.schedule('0 9 * * *', async () => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error("Global error handler caught an error:", err);
-  res.status(500).send("Internal Server Error");
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error', message: err.message });
 });
 
 // Start the server

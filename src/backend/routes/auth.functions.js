@@ -8,21 +8,22 @@ dotenv.config();
 // Function to verify JWT token
 export const verifyToken = (req, res, next) => {
   console.log('Verifying token...');
-  console.log('Authorization Header:', req.headers['authorization']);
-  
+
   const authHeader = req.headers['authorization'];
+  console.log('Authorization Header:', req.headers['authorization']);
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Invalid Token!' });
+      return res.status(401).json({ message: 'Invalid Token!' });
   }
 
   const token = authHeader.substring(7);
   console.log("Token from verifyToken:", token);
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Token is invalid or expired' });
-    }
-    req.user = user;
-    next();
+      if (err) {
+          return res.status(403).json({ message: 'Token is invalid or expired' });
+      }
+      req.user = user;
+      next();
   });
 };
 
