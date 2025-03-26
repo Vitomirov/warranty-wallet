@@ -1,3 +1,5 @@
+console.log("db.js called!"); // Dodato logovanje na početak fajla
+
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -7,11 +9,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env file
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+try {
+  dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+} catch (error) {
+  console.error('Error loading .env file:', error);
+  // Handle the error appropriately, e.g., exit the application
+  process.exit(1);
+}
 
 // Function to create a MySQL connection pool with retry logic
 const createPoolWithRetry = async (attempt = 1) => {
   try {
+    console.log("DB_PASSWORD before pool creation:", process.env.DB_PASSWORD); // Log lozinku pre kreiranja pool-a
+
+    if (!process.env.DB_PASSWORD) {
+      console.error("DB_PASSWORD is undefined or not set.");
+      throw new Error("DB_PASSWORD is undefined or not set.");
+    }
+
     const pool = mysql.createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,

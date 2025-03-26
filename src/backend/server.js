@@ -12,6 +12,7 @@ import authRoutes from './routes/auth.js';
 import warrantiesRoutes from './routes/warranties.js';
 import userRoutes from './routes/user.js';
 import { sendWarrantyClaimEmail, sendExpirationNotificationEmail } from './routes/email.js';
+import db from './db.js';
 
 // Load environment variables
 dotenv.config();
@@ -35,42 +36,6 @@ if (!fs.existsSync(uploadDirectory)) {
 } else {
   console.log("'uploads' folder already exists.");
 }
-
-// Database connection function
-const connectToDatabase = async () => {
-  const maxAttempts = 20;
-  const delay = 10000;
-  let attempts = 0;
-
-  while (attempts < maxAttempts) {
-    try {
-      const pool = mysql.createPool({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE,
-        waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0,
-      });
-      console.log('MySQL pool created successfully.');
-      return pool; // Return the pool directly
-    } catch (error) {
-      attempts++;
-      console.error(`Error getting connection from pool (attempt ${attempts}):`, error.message);
-      if (attempts < maxAttempts) {
-        console.log(`Retrying in ${delay / 1000} seconds...`);
-        await new Promise(res => setTimeout(res, delay));
-      } else {
-        console.error('Could not connect to MySQL after several attempts. Exiting...');
-        process.exit(1); // Exit the process if unable to connect
-      }
-    }
-  }
-};
-
-// Initialize the database connection
-const db = await connectToDatabase();
 
 // Middleware
 app.use(cors({
