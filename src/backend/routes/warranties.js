@@ -2,12 +2,18 @@ import express from 'express';
 import { verifyToken } from './auth.functions.js';
 import { getWarranties, getWarranty, addWarranty, deleteWarranty, getWarrantyPDF } from './warranties.functions.js'; // Import getWarrantyPDF
 import multer from 'multer';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 import path from 'path';
 
-const __filename = new URL(import.meta.url).pathname;
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const uploadDirectory = path.join(__dirname, 'uploads'); // Custom upload directory
-const upload = multer({ dest: uploadDirectory });
+const uploadDirectory = path.resolve(__dirname, 'uploads');
+
+// Proveri i kreiraj folder ako ne postoji
+if (!fs.existsSync(uploadDirectory)) {
+    fs.mkdirSync(uploadDirectory, { recursive: true });
+}
 
 const router = express.Router();
 

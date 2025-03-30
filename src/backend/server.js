@@ -25,11 +25,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+console.log("__dirname (server.js):", __dirname); // Dodato logovanje
 const uploadDirectory = path.join(__dirname, 'uploads');
 const upload = multer({ dest: uploadDirectory });
 
 
 // Ensure 'uploads' directory exists
+console.log("uploadDirectory (server.js):", uploadDirectory); // Dodato logovanje
+
 if (!fs.existsSync(uploadDirectory)) {
   fs.mkdirSync(uploadDirectory, { recursive: true });
   console.log("'uploads' folder created successfully.");
