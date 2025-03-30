@@ -50,7 +50,7 @@ function Dashboard() {
       {/* Main content */}
       <main className="flex-grow-1 container-fluid p-5 d-flex flex-column justify-content-center"> 
         <div className="row">
-          <div className="text-center mb-5">
+          <div className="text-center mb-5 pb-5">
             <h2 className="text-white fw-lighter">All your warranties in one place. Add and manage with ease.</h2>
           </div>
         </div>

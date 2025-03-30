@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
 
+//Set withCredentials to true on dockerizing production
 const instance = axios.create({
     baseURL: API_BASE_URL,
-    withCredentials: true,
+    withCredentials: false,
 });
 
 // Interceptor for setting Authorization header before sending requests

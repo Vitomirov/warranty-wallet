@@ -14,10 +14,10 @@ const Hero = () => {
             <div className="container-fluid px-5">
                 <div className="row align-items-center">
                     {/* Left Content */}
-                    <div className="col-md-6 text-start pt-5">
-                        <div className="hero-left mt-5">
-                            <h2 className='mb-3 display-4 d-flex justify-content-center text-md-center'>Warranty Wallet</h2>
-                            <p className='mb-4 ms-1 d-flex justify-content-center text-md-center fs-5'>All warranties in one place.</p>
+                    <div className="col-md-6 text-start mt-5 pt-5 pt-3">
+                        <div className="hero-left mt-5 pt-4">
+                            <h1 className='mb-3 display-4 d-flex justify-content-center text-md-center'>Warranty Wallet</h1>
+                            <h2 className='mb-4 ms-1 d-flex justify-content-center text-md-center fs-5'>All warranties in one place.</h2>
                             <div className="button d-flex justify-content-center gap-3 ms-3">
                                 {user ? (
                                     <>

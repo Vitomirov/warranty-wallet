@@ -137,7 +137,7 @@ const MyWarranties = () => {
   return (
     <div className="myWarranties container-fluid pt-1 ps-5 d-flex flex-column min-vh-80">
       <div className="row col-lg-12 d-flex align-items-center mb-4 p-1">
-        <h1 className="col-md-8 mt-5 ps-4 display-4 $blue-dark montserrat">
+        <h1 className="col-md-8 mt-5 pt-3 ps-4 display-4 $blue-dark montserrat">
           {user.username}'s Warranties
         </h1>
       </div>
