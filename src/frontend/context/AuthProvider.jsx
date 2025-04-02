@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost';
 
 const initialToken = localStorage.getItem('accessToken');
 const instance = axios.create({
