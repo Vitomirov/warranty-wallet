@@ -1,17 +1,20 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
 
-//Set withCredentials to true on dockerizing production
+const initialToken = localStorage.getItem('accessToken');
 const instance = axios.create({
     baseURL: API_BASE_URL,
     withCredentials: false,
+    headers: {
+        Authorization: initialToken ? `Bearer ${initialToken}` : undefined,
+    }
 });
 
-// Interceptor for setting Authorization header before sending requests
+// Request interceptor (ONLY place to set Authorization header)
 instance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
@@ -29,7 +32,7 @@ instance.interceptors.request.use(
     }
 );
 
-// Axios interceptor for handling responses and errors
+// Response interceptor
 instance.interceptors.response.use(
     response => response,
     async error => {
@@ -41,13 +44,11 @@ instance.interceptors.response.use(
 
             try {
                 const response = await refreshToken();
-                console.log('AuthProvider: Refresh token response:', response); // Dodat log
+                console.log('AuthProvider: Refresh token response:', response);
                 if (response.data && response.data.accessToken) {
                     setToken(response.data.accessToken);
-                    instance.defaults.headers.common.Authorization = `Bearer ${response.data.accessToken}`;
-                    console.log('AuthProvider: Token refreshed, retrying request.');
-                    console.log('AuthProvider: Authorization header before retry:', instance.defaults.headers.common.Authorization);
                     originalRequest.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
+                    console.log('AuthProvider: Token refreshed, retrying request.');
                     return instance(originalRequest);
                 } else {
                     console.error('AuthProvider: Refresh token failed, logging out.');
@@ -73,8 +74,6 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (token) {
             console.log('AuthProvider: Token set:', token);
-            instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-            console.log('AuthProvider: Default Authorization header set:', instance.defaults.headers.common.Authorization);
 
             const tokenExpiration = JSON.parse(atob(token.split('.')[1])).exp * 1000;
             const refreshTime = tokenExpiration - Date.now() - 30000;
@@ -85,41 +84,8 @@ const AuthProvider = ({ children }) => {
             }, refreshTime);
 
             return () => clearTimeout(timer);
-        } else {
-            delete instance.defaults.headers.common.Authorization;
-            console.log('AuthProvider: Token removed, Authorization header cleared.');
         }
-    }, [token, user]);
-
-    // Axios interceptor for handling token refresh
-    instance.interceptors.response.use(
-        response => response,
-        async error => {
-            const originalRequest = error.config;
-
-            if (error.response?.status === 401 && !originalRequest._retry) {
-                originalRequest._retry = true;
-                console.log('AuthProvider: 401 error, attempting to refresh token.');
-
-                try {
-                    const response = await refreshToken();
-                    if (response.data && response.data.accessToken) {
-                        setToken(response.data.accessToken);
-                        originalRequest.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
-                        console.log('AuthProvider: Token refreshed, retrying request.');
-                        return instance(originalRequest);
-                    } else {
-                        console.error('AuthProvider: Refresh token failed, logging out.');
-                        logout();
-                    }
-                } catch (refreshError) {
-                    console.error('AuthProvider: Refresh token error:', refreshError);
-                    logout();
-                }
-            }
-            return Promise.reject(error);
-        }
-    );
+    }, [token]);
 
     const login = async (username, password) => {
         console.log('AuthProvider: Logging in with username:', username);
@@ -155,13 +121,11 @@ const AuthProvider = ({ children }) => {
         console.log('AuthProvider: Refreshing token...');
         try {
             const response = await instance.post('/refresh-token');
-            console.log('AuthProvider: Refresh token response:', response); // Dodat log
+            console.log('AuthProvider: Refresh token response:', response);
             if (response.data && response.data.accessToken) {
                 localStorage.setItem('accessToken', response.data.accessToken);
                 setToken(response.data.accessToken);
-                instance.defaults.headers.common.Authorization = `Bearer ${response.data.accessToken}`;
-                console.log('AuthProvider: New token set, updating Authorization header.');
-                console.log('AuthProvider: Authorization header set:', instance.defaults.headers.common.Authorization);
+                console.log('AuthProvider: New token set.');
                 console.log('AuthProvider: New token:', response.data.accessToken);
                 console.log('AuthProvider: Local token:', localStorage.getItem('accessToken'));
                 return response.data;

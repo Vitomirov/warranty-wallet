@@ -20,59 +20,56 @@ const WarrantyDetails = () => {
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     useEffect(() => {
+        console.log('WarrantyDetails: useEffect [token] - Token changed:', token);
         if (token) {
             instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-            console.log('WarrantyDetails: useEffect (token set) - Authorization header set:', instance.defaults.headers.common.Authorization);
+            console.log('WarrantyDetails: useEffect [token] - Authorization header set:', instance.defaults.headers.common.Authorization);
         } else {
             delete instance.defaults.headers.common.Authorization;
-            console.log('WarrantyDetails: useEffect (token cleared) - Authorization header cleared.');
+            console.log('WarrantyDetails: useEffect [token] - Authorization header cleared.');
         }
     }, [token]);
 
     const fetchWarranty = async () => {
-        if (isFetchingRef.current) return;
+        console.log('WarrantyDetails: fetchWarranty - Fetching warranty details, id:', id, 'token:', token);
+        if (isFetchingRef.current) {
+            console.log('WarrantyDetails: fetchWarranty - Already fetching, returning.');
+            return;
+        }
         isFetchingRef.current = true;
-    
+
         try {
-            console.log('WarrantyDetails: Fetching warranty with token:', token);
             if (!token) {
-                console.error('WarrantyDetails: No token available for fetching warranty.');
+                console.error('WarrantyDetails: fetchWarranty - No token available.');
                 setError('No token available. Please log in again.');
                 return;
             }
-    
-            instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-            console.log('WarrantyDetails: fetchWarranty - Authorization header:', instance.defaults.headers.common.Authorization);
-    
+
             cancelTokenSource.current = axios.CancelToken.source();
             const response = await instance.get(`warranties/details/${id}`, {
                 cancelToken: cancelTokenSource.current.token,
             });
-            console.log('WarrantyDetails: Response from /warranties/details/' + id, response);
-    
+            console.log('WarrantyDetails: fetchWarranty - Response:', response);
+
             if (typeof response.data === 'object' && response.data !== null) {
-                console.log('Warranty details fetched:', response.data);
+                console.log('WarrantyDetails: fetchWarranty - Warranty details fetched:', response.data);
                 if (isMounted.current) {
                     setWarranty(response.data);
                 }
             } else {
-                console.error('Backend returned HTML instead of JSON:', response.data);
+                console.error('WarrantyDetails: fetchWarranty - Backend returned non-JSON data:', response.data);
                 if (isMounted.current) {
-                    setError('Backend returned HTML instead of JSON. Please check backend logs.');
+                    setError('Backend returned invalid data. Please check backend logs.');
                 }
             }
         } catch (err) {
-            console.error('Error fetching warranty:', err);
+            console.error('WarrantyDetails: fetchWarranty - Error fetching warranty:', err);
             if (axios.isCancel(err)) {
-                console.log('Request canceled:', err.message);
+                console.log('WarrantyDetails: fetchWarranty - Request canceled:', err.message);
             } else {
                 let errorMessage = 'Failed to fetch warranty details.';
                 if (err.response) {
-                    if (typeof err.response.data === 'string') {
-                        errorMessage = err.response.data;
-                    } else if (err.response.data && err.response.data.message) {
-                        errorMessage = err.response.data.message;
-                    }
+                    errorMessage = typeof err.response.data === 'string' ? err.response.data : err.response.data?.message || errorMessage;
                 } else if (err.message) {
                     errorMessage = err.message;
                 }
@@ -89,44 +86,39 @@ const WarrantyDetails = () => {
     };
 
     const handleFetchWarranty = async () => {
+        console.log('WarrantyDetails: handleFetchWarranty - Called, token:', token);
         try {
-            console.log('handleFetchWarranty: Calling fetchWarranty...');
-            console.log('handleFetchWarranty: Token before fetchWarranty:', token);
             await fetchWarranty();
         } catch (error) {
             if (error.response && error.response.status === 401) {
-                console.log('Access token expired, refreshing...');
+                console.log('WarrantyDetails: handleFetchWarranty - Access token expired, refreshing...');
                 setIsRefreshing(true);
                 try {
                     const newToken = await refreshToken();
                     if (newToken) {
                         setToken(newToken);
-                        console.log("Token refreshed, refetching warranty details.");
-                        
-                        // Očekuj ažuriranje stanja pre ponovnog pozivanja API-ja
+                        console.log('WarrantyDetails: handleFetchWarranty - Token refreshed, new token:', newToken);
                         setTimeout(async () => {
-                            console.log('handleFetchWarranty: New token before refetch:', newToken);
+                            console.log('WarrantyDetails: handleFetchWarranty - Refetching warranty with new token:', newToken);
                             await fetchWarranty();
                         }, 100);
-                        
                     } else {
-                        console.error("Token refresh failed.");
+                        console.error('WarrantyDetails: handleFetchWarranty - Token refresh failed.');
                         setError('Session expired. Please log in again.');
                         logout();
                     }
                 } catch (refreshError) {
-                    console.error('Error refreshing token:', refreshError);
+                    console.error('WarrantyDetails: handleFetchWarranty - Error refreshing token:', refreshError);
                     setError('Session expired. Please log in again.');
                     logout();
                 } finally {
                     setIsRefreshing(false);
                 }
             } else {
-                console.error('Error fetching warranty:', error);
+                console.error('WarrantyDetails: handleFetchWarranty - Error fetching warranty:', error);
             }
         }
     };
-    
 
     const calculateDaysLeft = (expiryDate) => {
         if (!expiryDate || typeof expiryDate !== 'string') {
@@ -149,26 +141,25 @@ const WarrantyDetails = () => {
     };
 
     useEffect(() => {
-        console.log('WarrantyDetails: useEffect - Component mounted, id:', id);
-        console.log('WarrantyDetails: useEffect - Token from context:', token);
-    
+        console.log('WarrantyDetails: useEffect [id, token] - Component mounted/updated, id:', id, 'token:', token);
         const fetchData = async () => {
-            if (id && token) {
-                console.log('WarrantyDetails: useEffect - Calling handleFetchWarranty with id and token.');
+             if (id && token) {
+                console.log('WarrantyDetails: useEffect [id, token] - Calling handleFetchWarranty.');
                 await handleFetchWarranty();
             } else {
-                console.log('WarrantyDetails: useEffect - Id or token not available.');
-                if (!id) setError("Id not available.");
-                if (!token) setError("Token not available.");
+                console.log('WarrantyDetails: useEffect [id, token] - Id or token not available.');
+                if (!id) console.log('WarrantyDetails: useEffect [id, token] - Id not available.');
+                if (!token) console.log('WarrantyDetails: useEffect [id, token] - Token not available.');
+                if (!id) setError("ID is missing");
+                if (!token) setError("Token is missing");
+                setLoading(false);
             }
         };
-    
         fetchData();
-    
         return () => {
             isMounted.current = false;
             if (cancelTokenSource.current) {
-                cancelTokenSource.current.cancel('Operation canceled by the user.');
+                cancelTokenSource.current.cancel('Operation canceled.');
             }
         };
     }, [id, token]);
@@ -262,12 +253,15 @@ const WarrantyDetails = () => {
         return <div className="alert alert-danger">{error}</div>;
     }
 
-    if (!warranty) {
+    if (!warranty && loading) {
         return <div className="alert alert-info">Loading...</div>;
     }
 
-    const imageSrc = isExpired ? '/ExpiredWarranty.png' : '/NotExpiredWarranty.png';
+    if (!warranty && !loading){
+        return <div className='alert alert-info'>Warranty details not found.</div>
+    }
 
+    const imageSrc = isExpired ? '/ExpiredWarranty.png' : '/NotExpiredWarranty.png';
   return (
     <div className="warrantyDetails container-fluid d-flex flex-column flex-grow-1 pt-1 ps-5">
       <div className="row col-lg-12 mt-5 pt-4">
