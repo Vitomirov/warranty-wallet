@@ -123,7 +123,7 @@ docker-compose logs mysql
 docker-compose logs <service_name>
 ```
 
-Replace `<service_name>` with `backend`, `nginx`, or `mysql`.
+Replace `<service_name>` with `warranty_backend`, `warranty_nginx`, or `warranty_mysql`.
 
 ## **Author**
 
