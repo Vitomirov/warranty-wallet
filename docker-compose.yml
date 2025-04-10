@@ -48,6 +48,7 @@ services:
     networks:
       - warranty_network
     volumes:
+      - ./src/backend/certs:/app/certs 
       - ./src/backend/uploads:/app/uploads
 
   nginx:
