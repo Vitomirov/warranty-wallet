@@ -90,7 +90,7 @@ const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         console.log('AuthProvider: Logging in with username:', username);
         try {
-            const response = await instance.post('/login', { username, password });
+            const response = await instance.post('/api/login', { username, password });
             if (response.data && response.data.accessToken) {
                 localStorage.setItem('accessToken', response.data.accessToken);
                 localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -120,7 +120,7 @@ const AuthProvider = ({ children }) => {
     const refreshToken = async () => {
         console.log('AuthProvider: Refreshing token...');
         try {
-            const response = await instance.post('/refresh-token');
+            const response = await instance.post('/api/refresh-token');
             console.log('AuthProvider: Refresh token response:', response);
             if (response.data && response.data.accessToken) {
                 localStorage.setItem('accessToken', response.data.accessToken);

@@ -33,7 +33,7 @@ function MyAccount() {
                 }
                 console.log("Token being sent:", token);
 
-                const response = await instance.get('/me', {
+                const response = await instance.get('/api/me', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -79,7 +79,7 @@ function MyAccount() {
             return;
         }
         try {
-            await instance.put('/me', userData, {
+            await instance.put('/api/me', userData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -88,7 +88,7 @@ function MyAccount() {
             setError(null);
             
             // Fetch updated user data
-            const response = await instance.get('me', {
+            const response = await instance.get('/api/me', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

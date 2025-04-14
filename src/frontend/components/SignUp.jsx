@@ -19,7 +19,7 @@ function SignUp() {
     e.preventDefault();
     try {
       // Make the signup request
-      const response = await instance.post('signup', {
+      const response = await instance.post('/api/signup', {
         username,
         userEmail,
         password,

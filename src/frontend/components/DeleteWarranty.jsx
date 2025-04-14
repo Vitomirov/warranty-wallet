@@ -24,7 +24,7 @@ const DeleteWarranty = ({ id }) => {
     try {
       const token = localStorage.getItem('token');
       console.log('Token:', accessToken);
-      const response = await instance.delete(`/warranties/delete/${id}`, {
+      const response = await instance.delete(`/api/warranties/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

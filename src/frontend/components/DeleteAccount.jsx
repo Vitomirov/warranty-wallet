@@ -26,7 +26,7 @@ function DeleteAccount() {
             return;
         }
         try {
-            await instance.delete('/me', {
+            await instance.delete('/api/me', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

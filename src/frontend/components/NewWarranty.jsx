@@ -23,7 +23,7 @@ const NewWarranty = () => {
     formData.append('sellersEmail', sellersEmail);
 
     try {
-      const response = await instance.post('warranties', formData, {
+      const response = await instance.post('/api/warranties', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

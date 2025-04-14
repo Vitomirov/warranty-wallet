@@ -10,11 +10,12 @@ router.post('/login', login);
 router.post('/refresh-token', refreshToken);
 router.post('/signup', signup);
 
+// Middleware function to verify JWT token
+router.use(verifyToken);
+
 // Dodavanje zasticenih ruta
 router.use('/warranties', warrantiesRouter);
 
-// Middleware function to verify JWT token
-router.use(verifyToken);
 
 // Koriscenje routera
 export default router;

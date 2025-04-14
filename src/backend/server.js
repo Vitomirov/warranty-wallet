@@ -55,7 +55,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadDirectory));
 
 // Test Database Connection Route
-app.get('/testdb', async (req, res) => {
+app.get('/api/testdb', async (req, res) => {
   try {
     const [results] = await db.query('SELECT 1');
     res.send(`Database connection successful: ${JSON.stringify(results)}`);
@@ -65,17 +65,17 @@ app.get('/testdb', async (req, res) => {
   }
 });
 
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
   res.send('Backend is working!');
 });
 
 // Routes
-app.use('/warranties', upload.single('pdfFile'), warrantiesRoutes);
-app.use('/', authRoutes);
-app.use('/', userRoutes);
+app.use('/api/warranties', upload.single('pdfFile'), warrantiesRoutes);
+app.use('/api', authRoutes);
+app.use('/api', userRoutes);
 
 // Email Sending Route
-app.post('/warranty/claim', async (req, res) => {
+app.post('/api/warranty/claim', async (req, res) => {
   const { userId, productName, username, issueDescription, warrantyId } = req.body;
 
   console.log('Received request to /warranty/claim:', req.body); // Log the request body
