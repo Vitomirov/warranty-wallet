@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { instance } from '../context/AuthProvider';
 import DeleteAccount from "./DeleteAccount";
+import useSecureRequest from '../hooks/useSecureRequest';
 
 
 function MyAccount() {
-    const { token, updateUser  } = useAuth(); // Get the token and updateUser from the AuthContext
+    const { secureRequest } = useSecureRequest();
+    const { token, updateUser } = useAuth(); // Get the token and updateUser from the AuthContext
     console.log("Token being sent:", token);
     const [userData, setUser] = useState({
         username: '',
@@ -33,12 +33,7 @@ function MyAccount() {
                 }
                 console.log("Token being sent:", token);
 
-                const response = await instance.get('/api/me', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                console.log("Fetched user data:", response.data);
+                const response = await secureRequest('get', '/api/me')
                 if (response.data) {
                     setUser({
                         username: response.data.username || '',
@@ -79,20 +74,12 @@ function MyAccount() {
             return;
         }
         try {
-            await instance.put('/api/me', userData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            await secureRequest('put', '/api/me', userData);
             setSuccessMessage('Account information updated successfully.');
             setError(null);
             
             // Fetch updated user data
-            const response = await instance.get('/api/me', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await secureRequest('get', '/api/me');
             updateUser (response.data); // Call updateUser  to update context with new user data
         } catch (error) {
             if (error.response) {

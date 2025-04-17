@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
-import { instance } from '../context/AuthProvider';
+import useSecureRequest from '../hooks/useSecureRequest';
 
 function SignUp() {
   const { login } = useAuth(); // Use login function from AuthContext
@@ -14,12 +13,13 @@ function SignUp() {
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const { secureRequest } = useSecureRequest();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Make the signup request
-      const response = await instance.post('/api/signup', {
+      const response = await secureRequest('post','/api/signup', {
         username,
         userEmail,
         password,

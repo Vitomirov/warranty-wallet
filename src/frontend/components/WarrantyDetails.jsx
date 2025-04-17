@@ -1,70 +1,40 @@
+// React and library imports
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { instance } from '../context/AuthProvider';
 import { useParams, Link } from 'react-router-dom';
 import DeleteWarranty from './DeleteWarranty';
 import { useAuth } from '../context/AuthContext';
+import useSecureRequest from '../hooks/useSecureRequest';
 import axios from 'axios';
 
 const WarrantyDetails = () => {
-    const { user, token, setToken, logout, refreshToken: refreshAuthToken } = useAuth();
+    const { user } = useAuth();
     const { id } = useParams();
+
+    const { secureRequest } = useSecureRequest();
+
     const [warranty, setWarranty] = useState(null);
     const [error, setError] = useState(null);
     const [issueDescription, setIssueDescription] = useState('');
     const [daysLeft, setDaysLeft] = useState(0);
     const [isExpired, setIsExpired] = useState(false);
-    const isMounted = useRef(true);
-    const cancelTokenSource = useRef(null);
-    const isFetchingRef = useRef(false);
     const [loading, setLoading] = useState(true);
-    const [isRefreshing, setIsRefreshing] = useState(false);
 
-    // Funkcija za slanje HTTP zahteva sa automatskim osvežavanjem tokena
-    const safeAxios = useCallback(async (method, url, data = {}, options = {}) => {
-        try {
-            const config = { ...options, method, url, ...(data ? { data } : {}) };
-            if (token) {
-                config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
-            }
-            return await instance(config);
-        } catch (error) {
-            if (error.response?.status === 401 && !options._retry) {
-                console.log(`safeAxios: 401 error on ${url}, attempting refresh.`);
-                try {
-                    setIsRefreshing(true);
-                    const newToken = await refreshAuthToken();
-                    if (newToken) {
-                        setToken(newToken);
-                        console.log(`safeAxios: Token refreshed, retrying ${url}.`);
-                        return safeAxios(method, url, data, { ...options, _retry: true }); // Ponovi zahtev jednom
-                    } else {
-                        console.error('safeAxios: Token refresh failed.');
-                        setError('Session expired. Please log in again.');
-                        logout();
-                        throw new Error('Token refresh failed');
-                    }
-                } catch (refreshError) {
-                    console.error('safeAxios: Error refreshing token:', refreshError);
-                    setError('Session expired. Please log in again.');
-                    logout();
-                    throw refreshError;
-                } finally {
-                    setIsRefreshing(false);
-                }
-            }
-            console.error(`safeAxios: Error on ${url}:`, error);
-            throw error;
-        }
-    }, [token, setToken, logout, refreshAuthToken, instance]);
+    const isMounted = useRef(true);
+    const cancelTokenSource = useRef(axios.CancelToken.source());
+    const isFetchingRef = useRef(false);
 
     const fetchWarranty = useCallback(async () => {
-        console.log('WarrantyDetails: fetchWarranty - Fetching warranty details, id:', id);
         if (isFetchingRef.current) return;
         isFetchingRef.current = true;
         setLoading(true);
         setError(null);
         try {
-            const response = await safeAxios('get', `/api/warranties/details/${id}`, {}, { cancelToken: cancelTokenSource.current?.token });
+            const response = await secureRequest(
+                'get',
+                `/api/warranties/details/${id}`,
+                {},
+                { cancelToken: cancelTokenSource.current.token }
+            );
             if (isMounted.current) {
                 setWarranty(response.data);
             }
@@ -78,13 +48,21 @@ const WarrantyDetails = () => {
                 isFetchingRef.current = false;
             }
         }
-    }, [id, safeAxios, isMounted, cancelTokenSource]);
+    }, [id, secureRequest]);
 
     const handleOpenPDF = useCallback(async () => {
         if (!warranty?.warrantyId) return;
         setError(null);
         try {
-            const response = await safeAxios('get', `/api/warranties/pdf/${warranty.warrantyId}`, {}, { responseType: 'blob', cancelToken: cancelTokenSource.current?.token });
+            const response = await secureRequest(
+                'get',
+                `/api/warranties/pdf/${warranty.warrantyId}`,
+                {},
+                {
+                    responseType: 'blob',
+                    cancelToken: cancelTokenSource.current.token
+                }
+            );
             const url = window.URL.createObjectURL(new Blob([response.data]));
             window.open(url, '_blank');
         } catch (error) {
@@ -92,7 +70,7 @@ const WarrantyDetails = () => {
                 setError(error.response?.data?.message || error.message || 'Error fetching warranty PDF.');
             }
         }
-    }, [warranty?.warrantyId, safeAxios, cancelTokenSource]);
+    }, [warranty?.warrantyId, secureRequest]);
 
     const handleSendEmail = useCallback(async () => {
         if (!warranty || !user) {
@@ -101,7 +79,7 @@ const WarrantyDetails = () => {
         }
         setError(null);
         try {
-            await safeAxios('post', `/api/warranty/claim`, {
+            await secureRequest('post', `/api/warranty/claim`, {
                 userId: user.id,
                 productName: warranty.productName,
                 warrantyId: warranty.warrantyId,
@@ -116,24 +94,21 @@ const WarrantyDetails = () => {
         } catch (error) {
             setError(error.response?.data?.message || error.message || 'Error sending email. Please try again.');
         }
-    }, [user, warranty, issueDescription, safeAxios]);
+    }, [user, warranty, issueDescription, secureRequest]);
 
     const calculateDaysLeft = useCallback((expiryDate) => {
-        if (!expiryDate || typeof expiryDate !== 'string') {
-            console.error('Invalid expiry date:', expiryDate);
-            return { days: 0, isExpired: true };
-        }
+        if (!expiryDate || typeof expiryDate !== 'string') return { days: 0, isExpired: true };
         const dateParts = expiryDate.split('-');
-        if (dateParts.length !== 3) {
-            console.error('Invalid date format:', expiryDate);
-            return { days: 0, isExpired: true };
-        }
+        if (dateParts.length !== 3) return { days: 0, isExpired: true };
         const [day, month, year] = dateParts.map(Number);
         const expiry = new Date(year, month - 1, day);
         const currentDate = new Date();
         const timeLeft = expiry - currentDate;
         const isExpiredResult = timeLeft <= 0;
-        return { days: isExpiredResult ? 0 : Math.floor(timeLeft / (1000 * 60 * 60 * 24)), isExpired: isExpiredResult };
+        return {
+            days: isExpiredResult ? 0 : Math.floor(timeLeft / (1000 * 60 * 60 * 24)),
+            isExpired: isExpiredResult
+        };
     }, []);
 
     useEffect(() => {
@@ -145,13 +120,13 @@ const WarrantyDetails = () => {
     }, [warranty, calculateDaysLeft]);
 
     useEffect(() => {
-        console.log('WarrantyDetails: useEffect [id] - Component mounted/updated, id:', id);
         if (id) {
             fetchWarranty();
         } else {
             setError("ID is missing");
             setLoading(false);
         }
+
         return () => {
             isMounted.current = false;
             if (cancelTokenSource.current) {
@@ -162,17 +137,9 @@ const WarrantyDetails = () => {
 
     const imageSrc = isExpired ? '/ExpiredWarranty.png' : '/NotExpiredWarranty.png';
 
-    if (error) {
-        return <div className="alert alert-danger">{error}</div>;
-    }
-
-    if (!warranty && loading) {
-        return <div className="alert alert-info">Loading...</div>;
-    }
-
-    if (!warranty && !loading) {
-        return <div className='alert alert-info'>Warranty details not found.</div>;
-    }
+    if (error) return <div className="alert alert-danger">{error}</div>;
+    if (!warranty && loading) return <div className="alert alert-info">Loading...</div>;
+    if (!warranty && !loading) return <div className='alert alert-info'>Warranty details not found.</div>;
 
     return (
         <div className="warrantyDetails container-fluid d-flex flex-column flex-grow-1 pt-1 ps-5">
@@ -208,22 +175,18 @@ const WarrantyDetails = () => {
                         />
                     </div>
                     <div className="col-lg-12 col-md-7 button d-flex justify-content-between mb-1 gap-1">
-                        <button className="btn btn-primary "
-                            onClick={handleSendEmail}
-                            disabled={isExpired}>Send Complaint</button>
+                        <button className="btn btn-primary" onClick={handleSendEmail} disabled={isExpired}>
+                            Send Complaint
+                        </button>
                         <DeleteWarranty id={warranty.warrantyId} />
                         <Link to='/myWarranties' className="btn btn-primary">Back</Link>
                     </div>
                 </div>
-
-                {/* Image Section */}
                 <div className="col-md-5 d-none d-lg-flex justify-content-end mb-5 align-items-start">
                     <div className='d-flex align-items-start justify-content-end pb-3 mb-3'>
                         <img
                             className="img-fluid"
-                            style={{
-                                maxWidth: '400px', height: 'auto'
-                            }}
+                            style={{ maxWidth: '400px', height: 'auto' }}
                             src={imageSrc}
                             alt={isExpired ? "Expired Warranty" : "Not Expired Warranty"}
                         />

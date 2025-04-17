@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { instance } from '../context/AuthProvider';
 import ReactModal from 'react-modal';
+import useSecureRequest from '../hooks/useSecureRequest';
+
 
 function DeleteAccount() {
     console.log("delete account function called");
@@ -10,6 +11,8 @@ function DeleteAccount() {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { secureRequest } = useSecureRequest();
+
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);
@@ -26,11 +29,7 @@ function DeleteAccount() {
             return;
         }
         try {
-            await instance.delete('/api/me', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            await secureRequest('delete', '/api/me');
 
             // Clear tokens from localStorage
             localStorage.removeItem('accessToken');
