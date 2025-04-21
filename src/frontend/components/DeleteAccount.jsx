@@ -23,7 +23,7 @@ function DeleteAccount() {
     };
 
     const handleDeleteAccount = async () => {
-        console.log("Delete Account called");
+        console.log("Delete Account component called");
         if (!token) {
             setError("No token found, please log in.");
             return;
@@ -36,8 +36,10 @@ function DeleteAccount() {
             localStorage.removeItem('refreshToken');
 
             // Clear tokens from cookies
-            document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            ['accessToken', 'refreshToken'].forEach(tokenName => {
+                document.cookie = `${tokenName}=; Max-Age=0; path=/;`;
+                document.cookie = `${tokenName}=; Max-Age=0; path=/; domain=${window.location.hostname};`;
+            });
 
 
             updateUser(null);
@@ -60,7 +62,6 @@ function DeleteAccount() {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
-                    console.log("Button clicked!");
                     openDeleteModal();
                 }}
             >

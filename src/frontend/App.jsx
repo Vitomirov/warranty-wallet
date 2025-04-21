@@ -12,8 +12,8 @@ import LogOut from './components/LogOut';
 import PrivateRoute from './components/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
 import LandingPage from './components/LandingPage';
-import Navigation from './components/Navigation';
 import About from './components/About';
+
 import LayoutWithoutHeader from './components/LayoutWithoutHeader'; 
 
 
@@ -37,7 +37,6 @@ function App() {
         <Route path="/warranties/details/:id" element={<PrivateRoute><LayoutWithoutHeader><WarrantyDetails /></LayoutWithoutHeader></PrivateRoute>} />
         <Route path="/myWarranties" element={<PrivateRoute><LayoutWithoutHeader><MyWarranties /></LayoutWithoutHeader></PrivateRoute>} />
         <Route path="/warranties/delete/:id" element={<PrivateRoute><LayoutWithoutHeader><DeleteWarranty /></LayoutWithoutHeader></PrivateRoute>} />
-
         {/* Default route */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

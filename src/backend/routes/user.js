@@ -61,7 +61,7 @@ router.delete('/me', verifyToken, async (req, res) => {
     const userId = req.user.userId; // Retrieved from the token
 
     try {
-        // Delete user's warranties first (assuming you have a warranties table)
+        // Delete user's warranties
         await db.query('DELETE FROM warranties WHERE userId = ?', [userId]);
 
         // Now delete the user
@@ -71,6 +71,21 @@ router.delete('/me', verifyToken, async (req, res) => {
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'User  not found' });
         }
+
+                // Clear tokens from cookies
+                res.clearCookie('refreshToken', {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'Strict',
+                    path: '/',
+                });
+        
+                res.clearCookie('accessToken', {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'Strict',
+                    path: '/',
+                });
 
         res.json({ message: 'User  account deleted successfully' });
     } catch (error) {
