@@ -40,11 +40,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed; /* Added for correct positioning */
-    top: 0;          /* Added */
-    left: 0;         /* Added */
-    width: 100%;     /* Added */
-    height: 100%;    /* Added */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1000;
 }
 
@@ -53,9 +53,9 @@ body {
     padding: 20px;
     border-radius: 5px;
     max-width: 1000px;
-    width: 90%; /* Changed to be responsive */
-    max-height: 80vh; /* Optional: Limit height */
-    overflow-y: auto; /* Optional: Add scroll */
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
     outline: none;   
     z-index: 1001;
 }
@@ -302,6 +302,9 @@ footer {
     background-color: $white;
 }
 
+.datepickerFullWidth{
+    width: 100%;
+}
 
 //MY WARRANTIES
 .myWarranties {

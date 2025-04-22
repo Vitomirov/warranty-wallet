@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSecureRequest from '../hooks/useSecureRequest';
+import { format } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const NewWarranty = () => {
+  const formatedDate = (date) => {
+    return format(new Date(date), 'dd-MM-yyyy');
+  };
+
   const [productName, setProductName] = useState('');
-  const [dateOfPurchase, setDateOfPurchase] = useState('');
-  const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
+  const [dateOfPurchase, setDateOfPurchase] = useState(null);
+  const [warrantyExpireDate, setWarrantyExpireDate] = useState(null);
   const [file, setFile] = useState(null);
   const [sellersEmail, setSellersEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -15,9 +22,13 @@ const NewWarranty = () => {
 
   const handleAddWarranty = async () => {
     const formData = new FormData();
+
+    const formatedPurchaseDate = formatedDate(dateOfPurchase);
+    const formatedExpireDate = formatedDate(warrantyExpireDate);
+
     formData.append('productName', productName);
-    formData.append('dateOfPurchase', dateOfPurchase);
-    formData.append('warrantyExpireDate', warrantyExpireDate);
+    formData.append('dateOfPurchase', formatedPurchaseDate);
+    formData.append('warrantyExpireDate', formatedExpireDate);
     formData.append('pdfFile', file);
     formData.append('sellersEmail', sellersEmail);
 
@@ -49,7 +60,7 @@ const NewWarranty = () => {
         <div className='col-lg-6 col-md-5 col-sm-8 mx-3 mt-1'>
           <form>
             <div className="mb-2">
-              <label className="me-4">Product Name:</label>
+              <label>Product Name:</label>
               <input
                 type="text"
                 value={productName}
@@ -57,24 +68,31 @@ const NewWarranty = () => {
                 className="form-control form-control-md form-style"
               />
             </div>
+
             <div className="mb-2">
-              <label className="me-4">Purchase Date:</label>
-              <input
-                type="date"
-                value={dateOfPurchase}
-                onChange={(e) => setDateOfPurchase(e.target.value)}
+              <label>Purchase Date:</label>
+              <DatePicker
+                selected={dateOfPurchase}
+                onChange={(date) => setDateOfPurchase(date)}
+                dateFormat="dd/MM/yyyy"
                 className="form-control form-control-md form-style"
+                wrapperClassName='datepickerFullWidth'
+                placeholderText="Select purchase date"
               />
             </div>
+
             <div className="mb-2">
-              <label className="me-4">Expiry Date:</label>
-              <input
-                type="date"
-                value={warrantyExpireDate}
-                onChange={(e) => setWarrantyExpireDate(e.target.value)}
+              <label>Expiry Date:</label>
+              <DatePicker
+                selected={warrantyExpireDate}
+                onChange={(date) => setWarrantyExpireDate(date)}
+                dateFormat="dd/MM/yyyy"
                 className="form-control form-control-md form-style"
+                wrapperClassName='datepickerFullWidth'
+                placeholderText="Select expiry date"
               />
             </div>
+
             <div className="mb-2">
               <label className="me-4">Seller's email:</label>
               <input
@@ -84,6 +102,7 @@ const NewWarranty = () => {
                 className="form-control form-control-md form-style"
               />
             </div>
+
             <div className="mb-2">
               <label className="me-4">Upload PDF File:</label>
               <input
@@ -93,6 +112,7 @@ const NewWarranty = () => {
                 className="form-control form-control-md form-style"
               />
             </div>
+
             <div className="button mt-5 d-flex justify-content-between">
               {message && <p>{message}</p>}
               <button

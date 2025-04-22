@@ -1,5 +1,5 @@
 import db from '../db.js';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -10,7 +10,23 @@ const __dirname = dirname(__filename);
 
 // Function to format date to "dd-MM-yyyy"
 const formatDate = (date) => {
-    return format(new Date(date), 'dd-MM-yyyy');
+    if (!date) return null;
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return null; 
+    return format(d, 'dd-MM-yyyy');
+};
+
+const parseAndFormatDateForDB = (dateString) => {
+    if (!dateString) return null;
+
+    const parsedDate = parse(dateString, 'dd-MM-yyyy', new Date());
+
+
+    if (isNaN(parsedDate.getTime())) {
+        console.error(`Failed to parse date string: ${dateString}`);
+        return null;
+    }
+    return format(parsedDate, 'yyyy-MM-dd');
 };
 
 // Function to get and display specific warranty by ID
@@ -114,7 +130,7 @@ export const getWarrantyPDF = async (req, res) => { // Dodat export
 };
 
 // Function to add a new warranty
-export const addWarranty = async (req, res) => { // Dodat export
+export const addWarranty = async (req, res) => {
     console.log("Data:", req.body);
     console.log("File:", req.file);
     try {
@@ -124,23 +140,30 @@ export const addWarranty = async (req, res) => { // Dodat export
         if (!pdfFile) {
             return res.status(400).send({ message: 'PDF file is required' });
         }
+        
+        const dbPurchaseDate = parseAndFormatDateForDB(dateOfPurchase);
+        const dbExpireDate = parseAndFormatDateForDB(warrantyExpireDate);
+       
+        if (dbPurchaseDate === null || dbExpireDate === null) {
+             return res.status(400).send({ message: 'Invalid date format received.' });
+        }
 
-        // Use relative path for the PDF file
-        const pdfFilePath = `uploads/${pdfFile.filename}`;
+        const pdfFilePathForDB = pdfFile.path;
+
 
         // Insert warranty into the database
         const sql = 'INSERT INTO warranties (productName, dateOfPurchase, warrantyExpireDate, sellersEmail, userId, pdfFilePath) VALUES (?, ?, ?, ?, ?, ?)';
-        await db.query(sql, [productName, dateOfPurchase, warrantyExpireDate, sellersEmail, req.user.userId, pdfFile.path]); // Use await for the query
+        await db.query(sql, [productName, dbPurchaseDate, dbExpireDate, sellersEmail, req.user.userId, pdfFilePathForDB]);
 
         res.json({ message: 'Warranty added successfully' });
     } catch (error) {
         console.error('Error adding warranty:', error);
-        res.status(500).send({ message: 'Error adding warranty' });
+        res.status(500).send({ message: 'Error adding warranty', error: error.message });
     }
 };
 
 // Function to delete a warranty
-export const deleteWarranty = async (req, res) => { // Dodat export
+export const deleteWarranty = async (req, res) => { 
     const warrantyId = req.params.id;
     const userId = req.user.userId;
 
