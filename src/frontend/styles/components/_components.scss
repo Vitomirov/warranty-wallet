@@ -1,0 +1,99 @@
+// MODAL POPUP WINDOW
+.modalWindow-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+.modalWindow {
+    background-color: $modal;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 1000px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    outline: none;
+    z-index: 1001;
+}
+
+// BUTTONS
+.button {
+    .btn { 
+        background-color: $blueDark; 
+        color: $white;
+        border-color: $blueDark;
+        padding: 0.3rem 2rem;
+        font-size: 1rem;
+        border-radius: 0.3rem;
+        transition: transform 0.3s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+            color: $blueDark;
+            background-color: $blueLight;
+            border-color: $blueDark;
+        }
+
+        @media (max-width: 768px) {
+            padding: 0.3rem 1.1rem;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+.buttonOpenWarranty {
+    border-radius: 0.3rem;
+    border-color: $blueDark; 
+    transition: transform 0.5s ease-in-out;
+    background-color: $blueLight;
+    color: $blueDark;
+
+    &:hover {
+        transform: scale(1.05);
+        color: $white;
+        background-color: $blueDark;
+    }
+}
+
+.dashboardbutton {
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    border-radius: 0.3rem;
+    transition: transform 5s ease-in-out; 
+
+    .btn:hover {
+        transform: scale(1.05);
+        color: $dark;
+        background-color: $blueLight;
+    }
+}
+
+
+// Dropdown Menu
+.dropdown-menu {
+    background-color: transparent;
+    border: none;
+}
+
+// List Style
+.list-style {
+    background-color: $white;
+    color: $dark;
+
+    .link-text {
+        color: $dark;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background-color: $yellow;
+    }
+}

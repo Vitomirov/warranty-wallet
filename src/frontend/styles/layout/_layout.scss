@@ -1,0 +1,44 @@
+// NAVIGATION BAR
+.navbar {
+    background-color: $blueDark;
+    display: flex;
+    width: 95%;
+
+    img {
+        height: 70px;
+        width: auto;
+        padding-top: 7px;
+    }
+}
+
+// NAVIGATION LINKS
+.nav-link {
+    color: $white;
+
+    &:hover {
+        color: $yellow;
+    }
+}
+
+// FOOTER - Stick to the bottom of the main content
+footer {
+    background-color: $blueDark;
+    color: $white;
+    text-align: start;
+    padding: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0;
+    /* No margin-top to avoid extra space */
+
+    p {
+        margin: 0;
+        padding-left: 3%;
+    }
+}
+
+// BACK TO TOP
+.back-to-top {
+    color: $blueDark;
+    font-size: 3rem;
+}

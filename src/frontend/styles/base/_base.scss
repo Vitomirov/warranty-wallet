@@ -1,0 +1,22 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Roboto Serif', 'Edu AU VIC WA NT Pre', serif;
+
+    @media (max-width: 768px) { // Ispravljen string '768px' u broj 768px ako Sass to zahteva, mada SCSS obično prihvata string literal
+        font-size: 1rem;
+    }
+}
+
+.title {
+    letter-spacing: 0.85rem;
+    font-size-adjust: 0.85;
+    color: $dark;
+    font-family: Montserrat;
+}
+
+.montserrat {
+    font-family: Montserrat;
+}

@@ -1,0 +1,123 @@
+// HERO SECTION
+.hero-section {
+    @extend %section-background-styles;
+    background: linear-gradient(156deg, $white 50%, $blueLight 50%);
+}
+
+// HERO LEFT
+.hero-left {
+    margin-bottom: 40%;
+
+    h2 { 
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        color: $dark;
+    }
+
+    p {
+        font-size: 1.5rem;
+        color: $dark;
+    }
+}
+
+// ABOUT SECTION
+.about-section {
+    @extend %section-background-styles;
+    background: $blueLight;
+}
+
+// FEATURES SECTION
+.features-section {
+    background: $white;
+
+    .hover-text {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    .individualFeature {
+        &:hover {
+            background-color: $blueLight;
+            min-height: 100%;
+
+            .hover-text {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            .featureTitle {
+                color: $blueDark;
+                background-color: $white;
+            }
+        }
+    }
+
+    .featureTitle {
+        color: $white;
+        background-color: $blueDark;
+    }
+}
+
+// FAQ-SECTION
+.faq-section {
+    @extend %section-background-styles;
+    background: linear-gradient(206deg, $white 65%, $blueLight 65%);
+
+    .questionField {
+        color: $white;
+        background-color: $blueDark;
+        position: relative;
+        z-index: 2;
+
+        &:hover {
+            color: $blueDark;
+            background-color: $blueLight;
+        }
+    }
+}
+
+// Styles for specific pages (Login, Signup, MyAccount, Dashboard, NewWarranty, MyWarranties, WarrantyDetails)
+.login {
+    background: linear-gradient(155deg, $white 60%, $blueLight 60%);
+}
+
+.signup {
+    background: linear-gradient(125deg,
+        $blueLight 26.5%,
+        $white 25.5%,
+        $white 74.8%,
+        $blueLight 74.8%);
+}
+
+.myAccount {
+    background: linear-gradient(120deg,
+        $white 26.5%,
+        $blueLight 25.5%,
+        $blueLight 74.8%,
+        $white 74.8%);
+}
+
+.dashboard {
+    background-color: $white;
+    background: linear-gradient(181deg, $blueDark 46%, $white 46%);
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.newWarranty {
+    background: linear-gradient(100deg, $blueLight 55%, $white 55%); 
+}
+
+.myWarranties {
+    background: linear-gradient(100deg, $blueLight 55%, $white 55%);
+}
+
+.warrantyDetails {
+    @extend %section-background-styles;
+    background: linear-gradient(85deg, $blueLight 55%, $white 55%); 
+    background-position: right;
+    background-repeat: no-repeat;
+}
