@@ -34,6 +34,13 @@ body {
     font-family: Montserrat;
 }
 
+%section-background-styles {
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+  }
+
 // MODAL POPUP WINDOW
 .modalWindow-overlay {
     background-color: rgba(0, 0, 0, 0.5);
@@ -85,11 +92,8 @@ body {
 
 // HERO SECTION
 .hero-section {
+    @extend %section-background-styles;
     background: linear-gradient(156deg, $white 50%, $blueLight 50%);
-    background-attachment: fixed;
-    background-size: cover;
-    position: relative;
-    z-index: 1;
 }
 
 // HERO LEFT
@@ -169,11 +173,9 @@ body {
 
 // ABOUT SECTION
 .about-section {
+    @extend %section-background-styles;
     background: $blueLight;
-    background-attachment: fixed;
-    background-size: cover;
-    position: relative;
-    z-index: 1;
+    
 }
 
 .load {
@@ -220,11 +222,8 @@ body {
 
 // FAQ-SECTION
 .faq-section {
+    @extend %section-background-styles;
     background: linear-gradient(206deg, $white 65%, $blueLight 65%);
-    background-attachment: fixed;
-    background-size: cover;
-    position: relative;
-    z-index: 1;
 
     .questionField {
         color: $white;
@@ -327,12 +326,12 @@ footer {
 }
 // WARRANTY DETAILS
 .warrantyDetails {
+    @extend %section-background-styles;
     background: linear-gradient(85deg, $blueLight 55%, $white 55%);
-    background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
-    background-attachment: fixed;
 }
+
 // HELPERS - TO BE REMOVED
 .help {
     border: red 2px solid;
