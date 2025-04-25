@@ -1,17 +1,19 @@
+@use '../variables';
+
 .text-blueLight {
-    color: $blueLight;
+    color: variables.$blueLight;
 }
 
 .white {
-    color: $white;
+    color: variables.$white;
 }
 
 .load {
-    background-color: $dark;
+    background-color: variables.$dark;
 }
 
 .form-style {
-    background-color: $white;
+    background-color: variables.$white;
 }
 
 .datepickerFullWidth {

@@ -1,3 +1,5 @@
+@use '../variables';
+
 html {
     scroll-behavior: smooth;
 }
@@ -13,7 +15,7 @@ body {
 .title {
     letter-spacing: 0.85rem;
     font-size-adjust: 0.85;
-    color: $dark;
+    color: variables.$dark;
     font-family: Montserrat;
 }
 

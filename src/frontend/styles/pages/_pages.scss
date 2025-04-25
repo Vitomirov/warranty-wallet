@@ -1,7 +1,10 @@
+@use '../variables';
+@use '../abstracts/abstracts';
+
 // HERO SECTION
 .hero-section {
     @extend %section-background-styles;
-    background: linear-gradient(156deg, $white 50%, $blueLight 50%);
+    background: linear-gradient(156deg, variables.$white 50%, variables.$blueLight 50%);
 }
 
 // HERO LEFT
@@ -11,24 +14,24 @@
     h2 { 
         font-size: 3rem;
         margin-bottom: 0.5rem;
-        color: $dark;
+        color: variables.$dark;
     }
 
     p {
         font-size: 1.5rem;
-        color: $dark;
+        color: variables.$dark;
     }
 }
 
 // ABOUT SECTION
 .about-section {
     @extend %section-background-styles;
-    background: $blueLight;
+    background: variables.$blueLight;
 }
 
 // FEATURES SECTION
 .features-section {
-    background: $white;
+    background: variables.$white;
 
     .hover-text {
         visibility: hidden;
@@ -38,7 +41,7 @@
 
     .individualFeature {
         &:hover {
-            background-color: $blueLight;
+            background-color: variables.$blueLight;
             min-height: 100%;
 
             .hover-text {
@@ -47,60 +50,60 @@
             }
 
             .featureTitle {
-                color: $blueDark;
-                background-color: $white;
+                color: variables.$blueDark;
+                background-color: variables.$white;
             }
         }
     }
 
     .featureTitle {
-        color: $white;
-        background-color: $blueDark;
+        color: variables.$white;
+        background-color: variables.$blueDark;
     }
 }
 
 // FAQ-SECTION
 .faq-section {
     @extend %section-background-styles;
-    background: linear-gradient(206deg, $white 65%, $blueLight 65%);
+    background: linear-gradient(206deg, variables.$white 65%, variables.$blueLight 65%);
 
     .questionField {
-        color: $white;
-        background-color: $blueDark;
+        color: variables.$white;
+        background-color: variables.$blueDark;
         position: relative;
         z-index: 2;
 
         &:hover {
-            color: $blueDark;
-            background-color: $blueLight;
+            color: variables.$blueDark;
+            background-color: variables.$blueLight;
         }
     }
 }
 
 // Styles for specific pages (Login, Signup, MyAccount, Dashboard, NewWarranty, MyWarranties, WarrantyDetails)
 .login {
-    background: linear-gradient(155deg, $white 60%, $blueLight 60%);
+    background: linear-gradient(155deg, variables.$white 60%, variables.$blueLight 60%);
 }
 
 .signup {
     background: linear-gradient(125deg,
-        $blueLight 26.5%,
-        $white 25.5%,
-        $white 74.8%,
-        $blueLight 74.8%);
+    variables.$blueLight 26.5%,
+    variables.$white 25.5%,
+    variables.$white 74.8%,
+    variables.$blueLight 74.8%);
 }
 
 .myAccount {
     background: linear-gradient(120deg,
-        $white 26.5%,
-        $blueLight 25.5%,
-        $blueLight 74.8%,
-        $white 74.8%);
+    variables.$white 26.5%,
+    variables.$blueLight 25.5%,
+    variables.$blueLight 74.8%,
+    variables.$white 74.8%);
 }
 
 .dashboard {
-    background-color: $white;
-    background: linear-gradient(181deg, $blueDark 46%, $white 46%);
+    background-color: variables.$white;
+    background: linear-gradient(181deg, variables.$blueDark 46%, variables.$white 46%);
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
@@ -108,16 +111,16 @@
 }
 
 .newWarranty {
-    background: linear-gradient(100deg, $blueLight 55%, $white 55%); 
+    background: linear-gradient(100deg, variables.$blueLight 55%, variables.$white 55%); 
 }
 
 .myWarranties {
-    background: linear-gradient(100deg, $blueLight 55%, $white 55%);
+    background: linear-gradient(100deg, variables.$blueLight 55%, variables.$white 55%);
 }
 
 .warrantyDetails {
     @extend %section-background-styles;
-    background: linear-gradient(85deg, $blueLight 55%, $white 55%); 
+    background: linear-gradient(85deg, variables.$blueLight 55%, variables.$white 55%); 
     background-position: right;
     background-repeat: no-repeat;
 }

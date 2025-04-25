@@ -1,6 +1,8 @@
+@use '../variables';
+
 // NAVIGATION BAR
 .navbar {
-    background-color: $blueDark;
+    background-color: variables.$blueDark;
     display: flex;
     width: 95%;
 
@@ -13,17 +15,17 @@
 
 // NAVIGATION LINKS
 .nav-link {
-    color: $white;
+    color: variables.$white;
 
     &:hover {
-        color: $yellow;
+        color: variables.$yellow;
     }
 }
 
 // FOOTER - Stick to the bottom of the main content
 footer {
-    background-color: $blueDark;
-    color: $white;
+    background-color: variables.$blueDark;
+    color: variables.$white;
     text-align: start;
     padding: 5px 0;
     width: 100%;
@@ -39,6 +41,6 @@ footer {
 
 // BACK TO TOP
 .back-to-top {
-    color: $blueDark;
+    color: variables.$blueDark;
     font-size: 3rem;
 }

@@ -1,3 +1,5 @@
+@use '../variables';
+
 // MODAL POPUP WINDOW
 .modalWindow-overlay {
     background-color: rgba(0, 0, 0, 0.5);
@@ -13,7 +15,7 @@
 }
 
 .modalWindow {
-    background-color: $modal;
+    background-color: variables.$modal;
     padding: 20px;
     border-radius: 5px;
     max-width: 1000px;
@@ -27,9 +29,9 @@
 // BUTTONS
 .button {
     .btn { 
-        background-color: $blueDark; 
-        color: $white;
-        border-color: $blueDark;
+        background-color: variables.$blueDark; 
+        color: variables.$white;
+        border-color: variables.$blueDark;
         padding: 0.3rem 2rem;
         font-size: 1rem;
         border-radius: 0.3rem;
@@ -37,9 +39,9 @@
 
         &:hover {
             transform: scale(1.05);
-            color: $blueDark;
-            background-color: $blueLight;
-            border-color: $blueDark;
+            color: variables.$blueDark;
+            background-color: variables.$blueLight;
+            border-color: variables.$blueDark;
         }
 
         @media (max-width: 768px) {
@@ -51,15 +53,15 @@
 
 .buttonOpenWarranty {
     border-radius: 0.3rem;
-    border-color: $blueDark; 
+    border-color: variables.$blueDark; 
     transition: transform 0.5s ease-in-out;
-    background-color: $blueLight;
-    color: $blueDark;
+    background-color: variables.$blueLight;
+    color: variables.$blueDark;
 
     &:hover {
         transform: scale(1.05);
-        color: $white;
-        background-color: $blueDark;
+        color: variables.$white;
+        background-color: variables.$blueDark;
     }
 }
 
@@ -71,8 +73,8 @@
 
     .btn:hover {
         transform: scale(1.05);
-        color: $dark;
-        background-color: $blueLight;
+        color: variables.$dark;
+        background-color: variables.$blueLight;
     }
 }
 
@@ -85,15 +87,15 @@
 
 // List Style
 .list-style {
-    background-color: $white;
-    color: $dark;
+    background-color: variables.$white;
+    color: variables.$dark;
 
     .link-text {
-        color: $dark;
+        color: variables.$dark;
         text-decoration: none;
     }
 
     &:hover {
-        background-color: $yellow;
+        background-color: variables.$yellow;
     }
 }
