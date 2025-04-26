@@ -21,11 +21,9 @@ services:
       - ./db_init:/docker-entrypoint-initdb.d
 
   backend:
-    image: vitomirov/warranty-backend:latest
+    build: ./src/backend # Koristimo BUILD instrukciju
     container_name: warranty_backend
     restart: always
-    ports:
-      - "3000:3000"
     depends_on:
       mysql:
         condition: service_healthy
@@ -35,9 +33,9 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_USER: ${DB_USER}
       NODE_ENV: ${NODE_ENV}
-      PORT: ${PORT}
-      REFRESH_SECRET_KEY: ${REFRESH_SECRET_KEY}
+      PORT: 3000
       SECRET_KEY: ${SECRET_KEY}
+      REFRESH_SECRET_KEY: ${REFRESH_SECRET_KEY}
       MAILTRAP_HOST: ${MAILTRAP_HOST}
       MAILTRAP_PORT: ${MAILTRAP_PORT}
       MAILTRAP_USER: ${MAILTRAP_USER}
@@ -48,7 +46,7 @@ services:
       - ./src/backend/uploads:/app/uploads
 
   nginx:
-    image: vitomirov/warranty-frontend:latest
+    build: ./src/frontend/
     container_name: warranty_nginx
     restart: always
     depends_on:
