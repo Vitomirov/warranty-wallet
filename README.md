@@ -94,7 +94,7 @@ This command will:
 
 #### 2. Access the application:
 
-- [http://localhost](https://localhost)
+- [https://localhost](https://localhost)
 
 ### **Checking Database Logs (Optional)**
 
