@@ -94,8 +94,7 @@ This command will:
 
 #### 2. Access the application:
 
-- **Frontend:** [http://localhost](http://localhost)
-- **Backend API:** [http://localhost:3000](http://localhost:3000)
+- [https://localhost](https://localhost)
 
 ### **Checking Database Logs (Optional)**
 
