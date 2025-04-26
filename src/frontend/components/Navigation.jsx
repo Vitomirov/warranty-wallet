@@ -24,7 +24,7 @@ function Navigation() {
 
   return (
     <nav
-      className="bg-gradient navbar navbar-expand-lg shadow-lg mb-4 w-100 sticky-top"
+      className="bg-gradient navbar navbar-expand-lg shadow-lg w-100 sticky-top"
       style={{ minHeight: "100px" }}
     >
       <div
