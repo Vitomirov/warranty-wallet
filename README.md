@@ -83,10 +83,11 @@ NODE_ENV=production
 #### 1. Start the application:
 
 ```bash
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 This command will:
+
 - Download necessary Docker images.
 - Create and start Docker containers.
 - Initialize the MySQL database (if an `init.sql` file exists).
@@ -127,4 +128,3 @@ Replace `<service_name>` with `warranty_backend`, `warranty_nginx`, or `warranty
 ## **Author**
 
 Vitomirov Dejan
-
