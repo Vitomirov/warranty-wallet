@@ -83,7 +83,7 @@ NODE_ENV=production
 #### 1. Start the application:
 
 ```bash
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 This command will:
