@@ -1,18 +1,18 @@
 console.log("db.js called!"); // Dodato logovanje na početak fajla
 
-import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import mysql from "mysql2/promise";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env file
 try {
-  dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 } catch (error) {
-  console.error('Error loading .env file:', error);
+  console.error("Error loading .env file:", error);
   // Handle the error appropriately, e.g., exit the application
   process.exit(1);
 }
@@ -20,7 +20,7 @@ try {
 // Function to create a MySQL connection pool with retry logic
 const createPoolWithRetry = async (attempt = 1) => {
   try {
-    console.log("DB_PASSWORD before pool creation:", process.env.DB_PASSWORD); // Log lozinku pre kreiranja pool-a
+    console.log("DB_PASSWORD before pool creation:", process.env.DB_PASSWORD); // Log password before pool creation
 
     if (!process.env.DB_PASSWORD) {
       console.error("DB_PASSWORD is undefined or not set.");
@@ -37,17 +37,19 @@ const createPoolWithRetry = async (attempt = 1) => {
 
     // Test the connection
     const connection = await pool.getConnection();
-    await connection.query('SELECT 1');
+    await connection.query("SELECT 1");
     connection.release(); // Release the connection back to the pool
     return pool; // Return the pool
   } catch (error) {
-    console.error(`Attempt ${attempt}: Failed to create MySQL pool. Error: ${error.message}`);
+    console.error(
+      `Attempt ${attempt}: Failed to create MySQL pool. Error: ${error.message}`
+    );
     if (attempt < 5) {
       // Retry after a delay
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       return createPoolWithRetry(attempt + 1); // Retry creating the pool
     } else {
-      throw new Error('Failed to create MySQL pool after multiple attempts');
+      throw new Error("Failed to create MySQL pool after multiple attempts");
     }
   }
 };

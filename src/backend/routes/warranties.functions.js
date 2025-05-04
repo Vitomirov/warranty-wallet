@@ -2,13 +2,15 @@ import db from "../db.js";
 import { format, parse } from "date-fns";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 import fs from "fs";
 import {
   sendSuccess,
   sendError,
   sendNotFound,
   sendBadRequest,
-} from "./utilities.js";
+} from "./utils/utilities.js";
+import { logActivity } from "./utils/logActivity.js";
 
 // Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -41,10 +43,10 @@ const formatWarrantyForResponse = (warranty) => {
     dateOfPurchase: formatDate(warranty.dateOfPurchase),
     warrantyExpireDate: formatDate(warranty.warrantyExpireDate),
   };
+  const BASE_URL = process.env.BACKEND_BASE_URL || "http://localhost:3000";
   // Convert PDF path to URL if it exists
   if (formatted.pdfFilePath) {
-    // Adjust http://localhost:3000 to your actual base URL if needed
-    formatted.pdfFilePath = `http://localhost:3000/${formatted.pdfFilePath.replace(
+    formatted.pdfFilePath = `${BASE_URL}/${formatted.pdfFilePath.replace(
       /^\/+/,
       ""
     )}`;
@@ -167,6 +169,13 @@ export const addWarranty = async (req, res) => {
       pdfFilePathForDB,
     ]);
 
+    // INSERT log entry
+    await logActivity(
+      req.user,
+      "Created warranty",
+      `Product: ${productName}, Expires: ${warrantyExpireDate}`
+    );
+
     sendSuccess(res, { message: "Warranty added successfully" }, 201);
   } catch (error) {
     sendError(res, "Error adding warranty", 500, error);
@@ -178,6 +187,19 @@ export const deleteWarranty = async (req, res) => {
   const warrantyId = req.params.id;
   const userId = req.user.userId;
 
+  // First, fetch warranty details before deleting it
+  const [existingWarranty] = await db.query(
+    "SELECT productName, warrantyExpireDate FROM warranties WHERE userId = ? AND warrantyId = ?",
+    [userId, warrantyId]
+  );
+
+  if (existingWarranty.length === 0) {
+    return sendNotFound(res, "Warranty not found");
+  }
+
+  const { productName, warrantyExpireDate } = existingWarranty[0]; // Extract relevant data
+
+  // SQL query for deleting the warranty
   const sql = "DELETE FROM warranties WHERE userId = ? AND warrantyId = ?";
   try {
     const result = await db.query(sql, [userId, warrantyId]);
@@ -185,7 +207,16 @@ export const deleteWarranty = async (req, res) => {
     if (result.affectedRows === 0) {
       return sendNotFound(res, "Warranty not found");
     }
+
+    // Send success response after deletion
     sendSuccess(res, { message: "Warranty deleted successfully" });
+
+    // Log the activity after deletion
+    await logActivity(
+      req.user,
+      "Deleted warranty",
+      `Product: ${productName}, Expires: ${warrantyExpireDate}`
+    );
   } catch (err) {
     sendError(res, "Error deleting warranty", 500, err);
   }

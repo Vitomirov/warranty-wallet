@@ -21,7 +21,7 @@ services:
       - ./db_init:/docker-entrypoint-initdb.d
 
   backend:
-    build: ./src/backend # Koristimo BUILD instrukciju
+    build: ./src/backend
     container_name: warranty_backend
     restart: always
     depends_on:

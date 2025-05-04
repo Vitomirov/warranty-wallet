@@ -7,7 +7,7 @@ import {
   sendError,
   sendUnauthorized,
   sendForbidden,
-} from "./utilities.js";
+} from "./utils/utilities.js";
 
 dotenv.config();
 

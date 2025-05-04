@@ -32,3 +32,14 @@ CREATE TABLE IF NOT EXISTS warranties (
     KEY fk_user (userId),
     CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Create the logs table
+CREATE TABLE IF NOT EXISTS logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  username VARCHAR(255),
+  fullName VARCHAR(255),
+  action VARCHAR(255),
+  details TEXT,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
