@@ -8,6 +8,7 @@ import {
   sendUnauthorized,
   sendForbidden,
 } from "./utils/httpResponses.js";
+import { logActivity } from "./utils/logActivity.js";
 
 dotenv.config();
 
@@ -118,12 +119,13 @@ export const signup = async (req, res) => {
     userAddress,
     userPhoneNumber,
   } = req.body;
+
   try {
     // Hash the password before storing
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new user into the database
-    await db.query(
+    const [result] = await db.query(
       "INSERT INTO users (username, userEmail, password, fullName, userAddress, userPhoneNumber) VALUES (?, ?, ?, ?, ?, ?)",
       [
         username,
@@ -135,9 +137,27 @@ export const signup = async (req, res) => {
       ]
     );
 
+    const userId = result.insertId;
+
+    // Manually construct user object for logging
+    const newUser = {
+      userId,
+      username,
+      fullName,
+    };
+
+    // Get current date and time
+    const timestamp = new Date().toISOString();
+
+    // Log activity
+    await logActivity(
+      newUser,
+      "Created account",
+      `User registered at ${timestamp}`
+    );
+
     return sendSuccess(res, { message: "Signup successful" }, 201);
   } catch (error) {
-    // Handle server errors during signup (e.g., unique constraint violation)
     sendError(res, "Failed to sign up", 500, error);
   }
 };
