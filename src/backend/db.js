@@ -1,4 +1,4 @@
-console.log("db.js called!"); // Dodato logovanje na početak fajla
+console.log("db.js called!");
 
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";

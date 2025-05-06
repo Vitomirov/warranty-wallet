@@ -1,12 +1,12 @@
-import db from './db.js'; // Adjust the path as necessary
+import db from "./db.js";
 
 // Test the database connection
 const testConnection = async () => {
   try {
-    const [results] = await db.query('SELECT 1');
-    console.log('Successfully connected to MySQL!', results);
+    const [results] = await db.query("SELECT 1");
+    console.log("Successfully connected to MySQL!", results);
   } catch (err) {
-    console.error('Error connecting to MySQL:', err);
+    console.error("Error connecting to MySQL:", err);
   }
 };
 

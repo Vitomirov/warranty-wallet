@@ -1,36 +1,36 @@
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs'; 
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+import fs from "fs";
 
-// Define __dirname for use in ES modules
-//const __filename = fileURLToPath(import.meta.url);
-//const __dirname = dirname(__filename);
-
-// Load .env variables
-//dotenv.config({ path: `${__dirname}/../../../.env` });
 dotenv.config();
-console.log("Process.env log from email.js:",process.env)
+console.log("Process.env log from email.js:", process.env);
 
-console.log('Mailtrap Host:', process.env.MAILTRAP_HOST);
-console.log('Mailtrap Port:', process.env.MAILTRAP_PORT);
-console.log('Mailtrap User:', process.env.MAILTRAP_USER);
-console.log('Mailtrap Pass:', process.env.MAILTRAP_PASS);
-console.log('User from email.js:', process.env.EMAIL_USER);
+console.log("Mailtrap Host:", process.env.MAILTRAP_HOST);
+console.log("Mailtrap Port:", process.env.MAILTRAP_PORT);
+console.log("Mailtrap User:", process.env.MAILTRAP_USER);
+console.log("Mailtrap Pass:", process.env.MAILTRAP_PASS);
+console.log("User from email.js:", process.env.EMAIL_USER);
 
 // Create a nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: process.env.MAILTRAP_HOST,
   port: process.env.MAILTRAP_PORT,
   auth: {
-      user: process.env.MAILTRAP_USER,
-      pass: process.env.MAILTRAP_PASS,
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS,
   },
 });
 
 // Function to send warranty claim email
-export async function sendWarrantyClaimEmail(sellersEmail, productName, username, userEmail, userData, issueDescription, pdfFilePath) {
+export async function sendWarrantyClaimEmail(
+  sellersEmail,
+  productName,
+  username,
+  userEmail,
+  userData,
+  issueDescription,
+  pdfFilePath
+) {
   const { fullName, userAddress, userPhoneNumber } = userData; // Destructure user data
 
   const subject = `Customer Warranty Claim – ${productName}`;
@@ -57,22 +57,22 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
 `;
 
   // Validate the PDF file path
-  if (!pdfFilePath || typeof pdfFilePath !== 'string') {
-    console.error('Invalid PDF file path:', pdfFilePath);
-    throw new Error('Invalid PDF file path');
+  if (!pdfFilePath || typeof pdfFilePath !== "string") {
+    console.error("Invalid PDF file path:", pdfFilePath);
+    throw new Error("Invalid PDF file path");
   }
 
   // Check if the PDF file exists
   if (!fs.existsSync(pdfFilePath)) {
-    console.error('File does not exist:', pdfFilePath);
-    throw new Error('File does not exist');
+    console.error("File does not exist:", pdfFilePath);
+    throw new Error("File does not exist");
   }
 
   // Check if the file is empty
   const stats = fs.statSync(pdfFilePath);
   if (stats.size === 0) {
-    console.error('File is empty:', pdfFilePath);
-    throw new Error('File is empty');
+    console.error("File is empty:", pdfFilePath);
+    throw new Error("File is empty");
   }
 
   const mailOptions = {
@@ -83,7 +83,7 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
     replyTo: userEmail,
     attachments: [
       {
-        filename: 'warranty.pdf',
+        filename: "warranty.pdf",
         path: pdfFilePath,
       },
     ],
@@ -91,15 +91,23 @@ export async function sendWarrantyClaimEmail(sellersEmail, productName, username
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully with attachment!');
+    console.log("Email sent successfully with attachment!");
   } catch (error) {
-    console.error('Error sending email:', error.response ? error.response.data : error);
+    console.error(
+      "Error sending email:",
+      error.response ? error.response.data : error
+    );
     throw error; // Rethrow the error for further handling
   }
 }
 
 // Function to send expiration notification email
-export async function sendExpirationNotificationEmail(sellersEmail, productName, userEmail, fullName) {
+export async function sendExpirationNotificationEmail(
+  sellersEmail,
+  productName,
+  userEmail,
+  fullName
+) {
   const subject = `Warranty Expiration Notification – ${productName}`;
   const text = `
   Hi there,
@@ -122,9 +130,12 @@ export async function sendExpirationNotificationEmail(sellersEmail, productName,
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Expiration notification email sent successfully!');
+    console.log("Expiration notification email sent successfully!");
   } catch (error) {
-    console.error('Error sending expiration notification email:', error.response ? error.response.data : error);
+    console.error(
+      "Error sending expiration notification email:",
+      error.response ? error.response.data : error
+    );
     throw error; // Rethrow the error for further handling
   }
 }
