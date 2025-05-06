@@ -188,7 +188,7 @@ export const deleteWarranty = async (req, res) => {
 
   // First, fetch warranty details before deleting it
   const [existingWarranty] = await db.query(
-    "SELECT productName, warrantyExpireDate FROM warranties WHERE userId = ? AND warrantyId = ?",
+    "SELECT productName, warrantyExpireDate, pdfFilePath FROM warranties WHERE userId = ? AND warrantyId = ?",
     [userId, warrantyId]
   );
 
@@ -196,7 +196,17 @@ export const deleteWarranty = async (req, res) => {
     return sendNotFound(res, "Warranty not found");
   }
 
-  const { productName, warrantyExpireDate } = existingWarranty[0]; // Extract relevant data
+  const { productName, warrantyExpireDate, pdfFilePath } = existingWarranty[0]; // Extract relevant data
+
+  // Delete PDF file from disk
+  if (pdfFilePath && fs.existsSync(pdfFilePath)) {
+    try {
+      fs.unlinkSync(pdfFilePath);
+      console.log("PDF file deleted:", pdfFilePath);
+    } catch (fileErr) {
+      console.error("Failed to delete PDF file:", fileErr);
+    }
+  }
 
   // SQL query for deleting the warranty
   const sql = "DELETE FROM warranties WHERE userId = ? AND warrantyId = ?";

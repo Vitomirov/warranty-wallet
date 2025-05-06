@@ -3,6 +3,7 @@ import { verifyToken } from "./auth.functions.js";
 import db from "../db.js";
 import bcrypt from "bcryptjs";
 import { logActivity } from "./utils/logActivity.js";
+import fs from "fs";
 
 const router = express.Router();
 
@@ -82,24 +83,43 @@ router.delete("/me", verifyToken, async (req, res) => {
   const userId = req.user.userId;
 
   try {
-    // Log activity BEFORE deletion
+    // Log user activity before deletion
     await logActivity(
       req.user,
       "Deleted account",
       `User deleted their account.`
     );
 
-    // Delete user's warranties
+    // Step 1: Fetch all warranty file paths for the user
+    const [warranties] = await db.query(
+      "SELECT pdfFilePath FROM warranties WHERE userId = ?",
+      [userId]
+    );
+
+    // Step 2: Delete each file from the disk
+    warranties.forEach((warranty) => {
+      const filePath = warranty.pdfFilePath;
+      if (filePath && fs.existsSync(filePath)) {
+        try {
+          fs.unlinkSync(filePath); // Delete file synchronously
+          console.log("Deleted file:", filePath);
+        } catch (err) {
+          console.error("Failed to delete file:", filePath, err);
+        }
+      }
+    });
+
+    // Step 3: Delete user's warranties from the database
     await db.query("DELETE FROM warranties WHERE userId = ?", [userId]);
 
-    // Delete user
+    // Step 4: Delete the user from the database
     const [result] = await db.query("DELETE FROM users WHERE id = ?", [userId]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Clear auth cookies
+    // Step 5: Clear authentication cookies
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: true,
@@ -114,6 +134,7 @@ router.delete("/me", verifyToken, async (req, res) => {
       path: "/",
     });
 
+    // Step 6: Respond with success
     res.json({ message: "User account deleted successfully" });
   } catch (error) {
     console.error("Error deleting user account:", error);
