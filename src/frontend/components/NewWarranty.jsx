@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import useSecureRequest from '../hooks/useSecureRequest';
-import { format } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useSecureRequest from "../hooks/useSecureRequest";
+import { format } from "date-fns";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const NewWarranty = () => {
   const formatedDate = (date) => {
-    return format(new Date(date), 'dd-MM-yyyy');
+    return format(new Date(date), "dd-MM-yyyy");
   };
 
-  const [productName, setProductName] = useState('');
+  const [productName, setProductName] = useState("");
   const [dateOfPurchase, setDateOfPurchase] = useState(null);
   const [warrantyExpireDate, setWarrantyExpireDate] = useState(null);
   const [file, setFile] = useState(null);
-  const [sellersEmail, setSellersEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [sellersEmail, setSellersEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
   const { secureRequest } = useSecureRequest();
@@ -26,38 +26,40 @@ const NewWarranty = () => {
     const formatedPurchaseDate = formatedDate(dateOfPurchase);
     const formatedExpireDate = formatedDate(warrantyExpireDate);
 
-    formData.append('productName', productName);
-    formData.append('dateOfPurchase', formatedPurchaseDate);
-    formData.append('warrantyExpireDate', formatedExpireDate);
-    formData.append('pdfFile', file);
-    formData.append('sellersEmail', sellersEmail);
+    formData.append("productName", productName);
+    formData.append("dateOfPurchase", formatedPurchaseDate);
+    formData.append("warrantyExpireDate", formatedExpireDate);
+    formData.append("pdfFile", file);
+    formData.append("sellersEmail", sellersEmail);
 
     try {
       const response = await secureRequest(
-        'post',
-        '/api/warranties',
+        "post",
+        "/api/warranties",
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      console.log('Warranty created successfully');
-      setMessage('Warranty created successfully!!!');
-      navigate('/myWarranties');
+      console.log("Warranty created successfully");
+      setMessage("Warranty created successfully!!!");
+      navigate("/myWarranties");
     } catch (error) {
-      console.error('Error creating warranty:', error);
-      setMessage('Error creating warranty.');
+      console.error("Error creating warranty:", error);
+      setMessage("Error creating warranty.");
     }
   };
 
   return (
-    <div className='newWarranty container-fluid pt-2 ps-5 d-flex flex-column flex-grow-1'>
-      <h1 className='col-lg-6 mx-4 display-5 mt-5 pt-3 montserrat'>Create New Warranty</h1>
-      <div className='row p-2'>
-        <div className='col-lg-6 col-md-5 col-sm-8 mx-3 mt-1'>
+    <div className="newWarranty container-fluid pt-2 ps-4 pe-5 d-flex flex-column flex-grow-1">
+      <div className="row p-2">
+        <h1 className="col-lg-6 mx-3 display-5 mt-5 pt-3 montserrat">
+          Create New Warranty
+        </h1>
+        <div className="col-lg-6 col-md-5 col-sm-8 pt-3 mx-3 mt-1">
           <form>
             <div className="mb-2">
               <label>Product Name:</label>
@@ -76,7 +78,7 @@ const NewWarranty = () => {
                 onChange={(date) => setDateOfPurchase(date)}
                 dateFormat="dd/MM/yyyy"
                 className="form-control form-control-md form-style"
-                wrapperClassName='datepickerFullWidth'
+                wrapperClassName="datepickerFullWidth"
                 placeholderText="Select purchase date"
               />
             </div>
@@ -88,7 +90,7 @@ const NewWarranty = () => {
                 onChange={(date) => setWarrantyExpireDate(date)}
                 dateFormat="dd/MM/yyyy"
                 className="form-control form-control-md form-style"
-                wrapperClassName='datepickerFullWidth'
+                wrapperClassName="datepickerFullWidth"
                 placeholderText="Select expiry date"
               />
             </div>
@@ -122,18 +124,20 @@ const NewWarranty = () => {
               >
                 Add Warranty
               </button>
-              <Link to='/dashboard' className='btn btn-secondary'>Back</Link>
+              <Link to="/dashboard" className="btn btn-secondary">
+                Back
+              </Link>
             </div>
           </form>
         </div>
 
         <div
-          className='col-lg-5 col-md-6 d-none d-md-flex justify-content-center align-items-center'
-          style={{ paddingLeft: '140px' }}
+          className="col-lg-5 col-md-6 d-none d-md-flex justify-content-center align-items-center"
+          style={{ paddingLeft: "140px" }}
         >
           <img
             className="img-fluid"
-            style={{ maxWidth: 'auto', height: '450px', objectFit: 'contain' }}
+            style={{ maxWidth: "auto", height: "450px", objectFit: "contain" }}
             src="/NewWarranty.png"
             alt="New Warranty"
           />
