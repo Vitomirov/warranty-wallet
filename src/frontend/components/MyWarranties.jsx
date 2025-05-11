@@ -24,7 +24,7 @@ const MyWarranties = () => {
       cancelTokenSource.current = axios.CancelToken.source();
       const response = await secureRequest(
         'get',
-        '/api/warranties/all',
+        '/warranties/all',
         null,
         {
           cancelToken: cancelTokenSource.current.token,

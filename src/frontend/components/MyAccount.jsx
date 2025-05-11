@@ -33,7 +33,7 @@ function MyAccount() {
                 }
                 console.log("Token being sent:", token);
 
-                const response = await secureRequest('get', '/api/me')
+                const response = await secureRequest('get', '/me')
                 if (response.data) {
                     setUser({
                         username: response.data.username || '',
@@ -74,12 +74,12 @@ function MyAccount() {
             return;
         }
         try {
-            await secureRequest('put', '/api/me', userData);
+            await secureRequest('put', '/me', userData);
             setSuccessMessage('Account information updated successfully.');
             setError(null);
             
             // Fetch updated user data
-            const response = await secureRequest('get', '/api/me');
+            const response = await secureRequest('get', '/me');
             updateUser (response.data); // Call updateUser  to update context with new user data
         } catch (error) {
             if (error.response) {

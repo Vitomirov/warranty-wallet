@@ -120,6 +120,18 @@ export const signup = async (req, res) => {
     userPhoneNumber,
   } = req.body;
 
+  // Check if all required fields are provided
+  if (!username || !userEmail || !password || !fullName || !userAddress || !userPhoneNumber) {
+    // Use your sendError function to return a missing fields error
+    // Added check for sendError function existence
+    if (typeof sendError === 'function') {
+        return sendError(res, "All fields are required.", 400);
+    } else {
+        console.error("sendError function not found. Cannot send 400 response.");
+        return res.status(400).json({ error: "All fields are required." });
+    }
+  }
+
   try {
     // Hash the password before storing
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -150,14 +162,70 @@ export const signup = async (req, res) => {
     const timestamp = new Date().toISOString();
 
     // Log activity
-    await logActivity(
-      newUser,
-      "Created account",
-      `User registered at ${timestamp}`
-    );
+    // Added check for logActivity function existence
+    if (typeof logActivity === 'function') {
+        await logActivity(
+            newUser,
+            "Created account",
+            `User registered at ${timestamp}`
+        );
+    } else {
+        console.warn("logActivity function not found, skipping activity logging.");
+    }
 
-    return sendSuccess(res, { message: "Signup successful" }, 201);
-  } catch (error) {
-    sendError(res, "Failed to sign up", 500, error);
+
+    // Successful registration - use your sendSuccess function
+    // Added check for sendSuccess function existence
+    if (typeof sendSuccess === 'function') {
+        return sendSuccess(res, { message: "Signup successful" }, 201);
+    } else {
+        console.warn("sendSuccess function not found. Cannot send 201 response.");
+        return res.status(201).json({ message: "Signup successful" });
+    }
+
+
+  } catch (error) { // <--- Single, correctly connected catch block
+    console.error('API Error: Failed to sign up', error); // Log the error on the backend
+
+    // CHECK FOR SPECIFIC DATABASE ERROR (DUPLICATE ENTRY)
+    // Error code 'ER_DUP_ENTRY' (1062) indicates a UNIQUE constraint violation
+    if (error.code === 'ER_DUP_ENTRY') {
+      // Check if the duplicate is username or email based on the database error message
+      if (error.sqlMessage.includes('users.username')) {
+        // Return 409 Conflict for duplicate username - use your sendError function
+         if (typeof sendError === 'function') {
+            return sendError(res, 'Username already exists.', 409);
+         } else {
+            console.error("sendError function not found. Cannot send 409 response.");
+            return res.status(409).json({ error: 'Username already exists.' });
+         }
+      }
+      if (error.sqlMessage.includes('users.email')) {
+         // Return 409 Conflict for duplicate email - use your sendError function
+         if (typeof sendError === 'function') {
+            return sendError(res, 'Email already registered.', 409);
+         } else {
+            console.error("sendError function not found. Cannot send 409 response.");
+            return res.status(409).json({ error: 'Email already registered.' });
+         }
+      }
+      // If it's a duplicate, but not username or email (less likely, e.g., another unique constraint)
+      // Return a generic 409 for unknown duplicate - use your sendError function
+       if (typeof sendError === 'function') {
+            return sendError(res, 'Duplicate entry in database.', 409);
+         } else {
+            console.error("sendError function not found. Cannot send 409 response.");
+            return res.status(409).json({ error: 'Duplicate entry in database.' });
+         }
+    }
+
+    // If the error is not a duplicate entry error (e.g., connection error, SQL syntax error, etc.)
+    // Return a generic 500 Internal Server Error - use your sendError function
+     if (typeof sendError === 'function') {
+        sendError(res, "Failed to sign up", 500, error);
+     } else {
+        console.error("sendError function not found. Cannot send 500 response.");
+        res.status(500).json({ error: "Failed to sign up", details: error.message });
+     }
   }
 };

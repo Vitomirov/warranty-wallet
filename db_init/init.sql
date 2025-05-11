@@ -1,6 +1,11 @@
 -- Create the database if it does not exist
 CREATE DATABASE IF NOT EXISTS warranty_db;
 
+-- Create a new user and grant privileges (if not exists)
+CREATE USER IF NOT EXISTS 'devito'@'%' IDENTIFIED BY 'devito';
+GRANT ALL PRIVILEGES ON warranty_db.* TO 'devito'@'%';
+FLUSH PRIVILEGES;
+
 -- Use the newly created database
 USE warranty_db;
 

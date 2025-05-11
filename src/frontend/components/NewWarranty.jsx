@@ -35,7 +35,7 @@ const NewWarranty = () => {
     try {
       const response = await secureRequest(
         'post',
-        '/api/warranties',
+        '/warranties',
         formData,
         {
           headers: {

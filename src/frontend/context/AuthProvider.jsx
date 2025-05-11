@@ -36,7 +36,7 @@ const AuthProvider = ({ children }) => {
   // Login user with username and password
   const login = async (username, password) => {
     try {
-      const response = await axiosInstance.post('/api/login', { username, password });
+      const response = await axiosInstance.post('/login', { username, password });
 
       // Save token and user info if login is successful
       if (response.data?.accessToken) {
@@ -66,7 +66,7 @@ const AuthProvider = ({ children }) => {
   // Refresh access token using backend endpoint
   const refreshToken = async () => {
     try {
-      const response = await axiosInstance.post('/api/refresh-token');
+      const response = await axiosInstance.post('/refresh-token');
 
       // Update stored token if successful
       if (response.data?.accessToken) {
@@ -111,3 +111,4 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
+

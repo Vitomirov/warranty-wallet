@@ -19,7 +19,7 @@ function About() {
             style={{paddingTop: '11%'}}
             >
               <p className="lead text-box">
-                <span className="fw-bold">Warranty Walleeeet</span> is your ultimate tool for managing warranties with ease.
+                <span className="fw-bold">Warranty Wallet</span> is your ultimate tool for managing warranties with ease.
                 We understand how frustrating it can be to keep track of receipts, expiration dates,
                 and warranty details. That’s why we designed an app that simplifies the process,
                 ensuring your valuable products are always protected.
