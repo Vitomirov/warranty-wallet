@@ -12,7 +12,10 @@ function Footer() {
   };
 
   return (
-    <footer id="contact"  className="bg-gradient border-bottom border-dark py-2 d-flex justify-content-between align-items-center d-none d-md-flex">
+    <footer
+      id="contact"
+      className="bg-gradient border-bottom border-dark py-2 d-flex justify-content-between align-items-center d-none d-md-flex"
+    >
       <p className="mb-0 col-lg-5">
         &copy; Designed and Developed by Dejan Vitomirov
       </p>
