@@ -60,10 +60,24 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:ro
       - /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro
 
+  adminer:
+    image: adminer:latest
+    container_name: warranty_adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - warranty_network
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+      ADMINER_DEFAULT_DATABASE: ${DB_DATABASE}
+
 volumes:
   mysql_data: {}
 
 networks:
   warranty_network:
     driver: bridge
-
