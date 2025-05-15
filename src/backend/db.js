@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env file
 try {
-  dotenv.config({ path: path.resolve(__dirname, "../../.env.production") });
+  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 } catch (error) {
   console.error("Error loading .env file:", error);
   // Handle the error appropriately, e.g., exit the application

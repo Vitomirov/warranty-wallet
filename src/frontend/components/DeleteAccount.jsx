@@ -26,7 +26,7 @@ function DeleteAccount() {
       return;
     }
     try {
-      await secureRequest("delete", "/me");
+      await secureRequest("delete", "/api/me");
 
       // Clear tokens from localStorage
       localStorage.removeItem("accessToken");

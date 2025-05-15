@@ -2,13 +2,14 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import fs from "fs";
 
-dotenv.config({ path: ".env.production" });
+dotenv.config();
 console.log("Process.env log from email.js:", process.env);
 
 console.log("Mailtrap Host:", process.env.MAILTRAP_HOST);
 console.log("Mailtrap Port:", process.env.MAILTRAP_PORT);
 console.log("Mailtrap User:", process.env.MAILTRAP_USER);
 console.log("Mailtrap Pass:", process.env.MAILTRAP_PASS);
+console.log("User from email.js:", process.env.EMAIL_USER);
 
 // Create a nodemailer transporter
 const transporter = nodemailer.createTransport({

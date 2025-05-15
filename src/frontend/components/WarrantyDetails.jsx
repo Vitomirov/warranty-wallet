@@ -31,7 +31,7 @@ const WarrantyDetails = () => {
     try {
       const response = await secureRequest(
         "get",
-        `/warranties/details/${id}`,
+        `/api/warranties/details/${id}`,
         {},
         { cancelToken: cancelTokenSource.current.token }
       );
@@ -60,7 +60,7 @@ const WarrantyDetails = () => {
     try {
       const response = await secureRequest(
         "get",
-        `/warranties/pdf/${warranty.warrantyId}`,
+        `/api/warranties/pdf/${warranty.warrantyId}`,
         {},
         {
           responseType: "blob",
@@ -87,7 +87,7 @@ const WarrantyDetails = () => {
     }
     setError(null);
     try {
-      await secureRequest("post", `/warranty/claim`, {
+      await secureRequest("post", `/api/warranty/claim`, {
         userId: user.id,
         productName: warranty.productName,
         warrantyId: warranty.warrantyId,
