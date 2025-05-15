@@ -1,12 +1,12 @@
 import axios from "axios";
 
-// Define base URL for API from environment variable or fallback to localhost
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://localhost";
+// Define base URL
+const API_BASE_URL = "https://devitowarranty.xyz/api";
 
 // Create an Axios instance with default settings
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: false, // No cookies sent with requests
+  withCredentials: true,
 });
 
 // Interceptor for requests - adds Authorization header if token exists

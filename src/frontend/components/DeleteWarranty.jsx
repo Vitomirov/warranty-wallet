@@ -23,7 +23,7 @@ const DeleteWarranty = ({ id }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await secureRequest('delete', `/api/warranties/delete/${id}`);
+      const response = await secureRequest('delete', `/warranties/delete/${id}`);
       console.log("Delete response:", response);
       setSuccess(response.data.message);
       navigate('/myWarranties', { replace: true });

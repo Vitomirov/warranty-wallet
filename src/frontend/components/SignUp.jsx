@@ -19,7 +19,7 @@ function SignUp() {
     e.preventDefault();
     try {
       // Make the signup request
-      const response = await secureRequest('post','/api/signup', {
+      const response = await secureRequest('post','/signup', {
         username,
         userEmail,
         password,
