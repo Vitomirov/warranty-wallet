@@ -2,21 +2,30 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import fs from "fs";
 
-dotenv.config({ path: ".env.production" });
-console.log("Process.env log from email.js:", process.env);
+// Load environment variables from the .env file
+// Ensure the path is correct on the VPS inside the container
+// If the file is just .env in the same directory, dotenv.config() without arguments is sufficient
+dotenv.config({ path: ".env" });
 
-console.log("Mailtrap Host:", process.env.MAILTRAP_HOST);
-console.log("Mailtrap Port:", process.env.MAILTRAP_PORT);
-console.log("Mailtrap User:", process.env.MAILTRAP_USER);
-console.log("Mailtrap Pass:", process.env.MAILTRAP_PASS);
+// Log environment variables for debugging (can be removed later)
+console.log("Process.env log from email.js:", process.env);
+console.log("Mailgun SMTP Host:", process.env.MAILGUN_SMTP_HOST);
+console.log("Mailgun SMTP Port:", process.env.MAILGUN_SMTP_PORT);
+console.log("Mailgun SMTP User:", process.env.MAILGUN_SMTP_USER);
+console.log("Mailgun SMTP Pass:", process.env.MAILGUN_SMTP_PASSWORD);
+console.log("Mail From Address:", process.env.MAIL_FROM_ADDRESS);
+
 
 // Create a nodemailer transporter
+// Now uses Mailgun SMTP data from environment variables
 const transporter = nodemailer.createTransport({
-  host: process.env.MAILTRAP_HOST,
-  port: process.env.MAILTRAP_PORT,
+  host: process.env.MAILGUN_SMTP_HOST,
+  port: process.env.MAILGUN_SMTP_PORT,
+  // Set 'secure' to true if using port 465 (SSL), otherwise false (STARTTLS)
+  secure: false,
   auth: {
-    user: process.env.MAILTRAP_USER,
-    pass: process.env.MAILTRAP_PASS,
+    user: process.env.MAILGUN_SMTP_USER,
+    pass: process.env.MAILGUN_SMTP_PASSWORD,
   },
 });
 
@@ -34,25 +43,25 @@ export async function sendWarrantyClaimEmail(
 
   const subject = `Customer Warranty Claim – ${productName}`;
   const text = `
-  Hi there,
+Hi there,
 
-  I hope this message finds you well! 
+I hope this message finds you well!
 
-  My name is ${fullName}, and I recently purchased a ${productName} from you. Unfortunately, I've encountered an issue with it:
-  - ${issueDescription}
-  
-  I would really appreciate your assistance in resolving this issue. 
+My name is ${fullName}, and I recently purchased a ${productName} from you. Unfortunately, I've encountered an issue with it:
+- ${issueDescription}
 
-  Could you please arrange to pick up the product from my address: 
-  ${userAddress}? 
+I would really appreciate your assistance in resolving this issue.
 
-  I’ve attached the warranty for your reference. If you need to discuss anything further, feel free to reach out to me at 
-  ${userPhoneNumber}.
+Could you please arrange to pick up the product from my address:
+${userAddress}?
 
-  Thank you so much for your help! I look forward to hearing from you soon.
+I’ve attached the warranty for your reference. If you need to discuss anything further, feel free to reach out to me at
+${userPhoneNumber}.
 
-  Best regards,
-  ${username}
+Thank you so much for your help! I look forward to hearing from you soon.
+
+Best regards,
+${username}
 `;
 
   // Validate the PDF file path
@@ -75,11 +84,11 @@ export async function sendWarrantyClaimEmail(
   }
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: userEmail, // Use variable for 'From' address
     to: sellersEmail,
     subject,
     text,
-    replyTo: userEmail,
+    replyTo: userEmail, // Reply-To address remains user's email
     attachments: [
       {
         filename: "warranty.pdf",
@@ -89,12 +98,13 @@ export async function sendWarrantyClaimEmail(
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully with attachment!");
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully with attachment:", info.messageId);
+    // You can log other details from the 'info' object if you need them
   } catch (error) {
     console.error(
       "Error sending email:",
-      error.response ? error.response.data : error
+      error.response ? error.response.data : error.message // Log the error message
     );
     throw error; // Rethrow the error for further handling
   }
@@ -102,39 +112,41 @@ export async function sendWarrantyClaimEmail(
 
 // Function to send expiration notification email
 export async function sendExpirationNotificationEmail(
-  sellersEmail,
+  sellersEmail, // Check application logic, this should probably be userEmail
   productName,
-  userEmail,
+  userEmail, // If sending to the user, this should be the 'to' address.
   fullName
 ) {
   const subject = `Warranty Expiration Notification – ${productName}`;
   const text = `
-  Hi there,
+Hi there,
 
-  This is a reminder that your warranty for ${productName} is about to expire in 14 days.
+This is a reminder that your warranty for ${productName} is about to expire in 14 days.
 
-  Please take the necessary actions.
+Please take the necessary actions.
 
-  Best regards,
-  Warranty Wallet Team
-  `;
+Best regards,
+Warranty Wallet Team
+`;
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: sellersEmail,
+    from: process.env.MAIL_FROM_ADDRESS, // Use variable for 'From' address
+    to: userEmail, // Assuming you are sending to the user, so 'to' is userEmail
     subject,
     text,
-    replyTo: userEmail,
+    replyTo: process.env.MAIL_FROM_ADDRESS, // Reply-To can be your 'From' address
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log("Expiration notification email sent successfully!");
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Expiration notification email sent successfully:", info.messageId);
+    // You can log other details from the 'info' object if you need them
   } catch (error) {
     console.error(
       "Error sending expiration notification email:",
-      error.response ? error.response.data : error
+      error.response ? error.response.data : error.message // Log the error message
     );
     throw error; // Rethrow the error for further handling
   }
 }
+

@@ -17,6 +17,19 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+if (
+  !username ||
+  !userEmail ||
+  !password ||
+  !fullName ||
+  !userAddress ||
+  !userPhoneNumber
+) {
+  setMessage("Please populate all fields.");
+  return;
+}
+
+
     try {
       // Make the signup request
       const response = await secureRequest('post','/signup', {

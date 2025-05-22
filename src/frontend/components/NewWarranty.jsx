@@ -20,7 +20,20 @@ const NewWarranty = () => {
   const navigate = useNavigate();
   const { secureRequest } = useSecureRequest();
 
-  const handleAddWarranty = async () => {
+  const handleAddWarranty = async (e) => {
+  
+  e.preventDefault();
+
+  if (!dateOfPurchase || !warrantyExpireDate) {
+    alert("Please select both purchase and expiry dates.");
+    return;
+  }
+
+ if(!file){
+   alert("Please upload the warranty receipt as a PDF file.");
+   return;
+}
+
     const formData = new FormData();
 
     const formatedPurchaseDate = formatedDate(dateOfPurchase);
@@ -60,7 +73,7 @@ const NewWarranty = () => {
           Create New Warranty
         </h1>
         <div className="col-lg-6 col-md-5 col-sm-8 pt-3 mx-3 mt-1">
-          <form>
+          <form onSubmit ={handleAddWarranty}>
             <div className="mb-2">
               <label>Product Name:</label>
               <input
@@ -68,6 +81,7 @@ const NewWarranty = () => {
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
                 className="form-control form-control-md form-style"
+                required
               />
             </div>
 
@@ -102,6 +116,7 @@ const NewWarranty = () => {
                 value={sellersEmail}
                 onChange={(e) => setSellersEmail(e.target.value)}
                 className="form-control form-control-md form-style"
+                required
               />
             </div>
 
@@ -112,14 +127,14 @@ const NewWarranty = () => {
                 accept="application/pdf"
                 onChange={(e) => setFile(e.target.files[0])}
                 className="form-control form-control-md form-style"
-              />
+                required             
+             />
             </div>
 
             <div className="button mt-5 d-flex justify-content-between">
               {message && <p>{message}</p>}
               <button
-                type="button"
-                onClick={handleAddWarranty}
+                type="submit"
                 className="btn btn-primary me-2"
               >
                 Add Warranty
