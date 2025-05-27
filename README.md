@@ -31,3 +31,5 @@
 
 📧 dejan.vitomirov@gmail.com
 
+Developed by Dejan Vitomirov.
+
