@@ -32,11 +32,7 @@ function Navigation() {
         style={{ padding: "9%" }}
       >
         <a className="navbar-brand" href="#">
-          <img
-            src="\LogoHeader.png"
-            alt="WW logo"
-            style={{ maxHeight: "55px" }}
-          />
+          <img src="\Logo.png" alt="WW logo" style={{ maxHeight: "55px" }} />
         </a>
 
         <button
