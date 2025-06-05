@@ -8,14 +8,17 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Izaberi env fajl na osnovu NODE_ENV
+const envFile =
+  process.env.NODE_ENV === "production"
+    ? ".env.production"
+    : ".env.development";
+
 // Load environment variables from .env file
-try {
-  dotenv.config({ path: path.resolve(__dirname, "../../.env.production") });
-} catch (error) {
-  console.error("Error loading .env file:", error);
-  // Handle the error appropriately, e.g., exit the application
-  process.exit(1);
-}
+dotenv.config({ path: path.resolve(__dirname, "../../" + envFile) });
+
+console.log("Loaded env file:", envFile);
+console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
 
 // Function to create a MySQL connection pool with retry logic
 const createPoolWithRetry = async (attempt = 1) => {
@@ -28,7 +31,7 @@ const createPoolWithRetry = async (attempt = 1) => {
     }
 
     const pool = mysql.createPool({
-      host: process.env.DB_HOST,
+      host: process.env.DB_HOST || "localhost",
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,

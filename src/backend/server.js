@@ -18,7 +18,10 @@ import {
 import db from "./db.js";
 
 // Load environment variables
-dotenv.config({ path: ".env.production" });
+dotenv.config({
+  path: process.env.NODE_ENV === "production" ? ".env.production" : ".env",
+});
+
 console.log("Process.env log from server.js:", process.env);
 
 // Initialize Express app
@@ -42,10 +45,14 @@ if (!fs.existsSync(uploadDirectory)) {
   console.log("'uploads' folder already exists.");
 }
 
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://devitowarranty.xyz", "https://www.devitowarranty.xyz"]
+    : ["http://localhost:5173"];
 // Middleware
 app.use(
   cors({
-    origin: ["https://devitowarranty.xyz", "https://www.devitowarranty.xyz"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Authorization", "Set-Cookie"],
@@ -189,97 +196,92 @@ cron.schedule("0 9 * * *", async () => {
   await checkForNearlyExpiredWarranties();
 });
 
-
 // Global Error Handler (Express) - OVO JE POČETAK DELA KOJI ZAMENJUJETE ODAVDE NANIŽE
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res
-    .status(500)
-    .json({ error: "Internal Server Error", message: err.message });
+  console.error(err.stack);
+  res
+    .status(500)
+    .json({ error: "Internal Server Error", message: err.message });
 });
 
-// KOD ZA ČEKANJE BAZE I POKRETANJE SERVERA - ZAMENJUJE app.listen BLOK
 // Funkcija za proveru konekcije na bazu
 const checkDbConnection = async () => {
-    try {
-        await db.query("SELECT 1"); // Pokušaj jednostavan query
-        console.log("Database connection successful!");
-        return true;
-    } catch (error) {
-        // Logujemo grešku konekcije, ali ne izlazimo odmah
-        console.error("Database connection failed:", error.message);
-        return false;
-    }
+  try {
+    await db.query("SELECT 1"); // Pokušaj jednostavan query
+    console.log("Database connection successful!");
+    return true;
+  } catch (error) {
+    // Logujemo grešku konekcije, ali ne izlazimo odmah
+    console.error("Database connection failed:", error.message);
+    return false;
+  }
 };
 
 // Funkcija koja čeka na bazu i onda pokreće server
 const startServer = async () => {
-    console.log("Attempting to connect to database...");
-    let dbConnected = false;
-    const maxRetries = 30; // Maksimalan broj pokušaja (oko 30*5=150 sekundi)
-    let retryCount = 0;
+  console.log("Attempting to connect to database...");
+  let dbConnected = false;
+  const maxRetries = 30; // Maksimalan broj pokušaja (oko 30*5=150 sekundi)
+  let retryCount = 0;
 
-    while (!dbConnected && retryCount < maxRetries) {
-        dbConnected = await checkDbConnection();
-        if (!dbConnected) {
-            retryCount++;
-            console.log(`Retrying database connection in 5 seconds... Attempt ${retryCount}/${maxRetries}`);
-            await new Promise(resolve => setTimeout(resolve, 5000)); // Sačekaj 5 sekundi pre ponovnog pokušaja
-        }
-    }
+  while (!dbConnected && retryCount < maxRetries) {
+    dbConnected = await checkDbConnection();
+    if (!dbConnected) {
+      retryCount++;
+      console.log(
+        `Retrying database connection in 5 seconds... Attempt ${retryCount}/${maxRetries}`
+      );
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // Sačekaj 5 sekundi pre ponovnog pokušaja
+    }
+  }
 
-    if (!dbConnected) {
-        console.error("Failed to connect to database after multiple retries. Exiting.");
-       // process.exit(1); // Izlazak sa greškom ako konekcija ne uspe
-    }
+  if (!dbConnected) {
+    console.error(
+      "Failed to connect to database after multiple retries. Exiting."
+    ); // process.exit(1); // Izlazak sa greškom ako konekcija ne uspe
+  } // Start the server SAMO nakon što je konekcija na bazu uspešna
 
-    // Start the server SAMO nakon što je konekcija na bazu uspešna
-    const server = app.listen(PORT, '0.0.0.0',  () => { // Uhvatite instancu servera
-        console.log(`Server running on port ${PORT} and binding to 0.0.0.0`);
-        console.log(`Express app.listen callback executed.`); // Dodajte novi log ovde
-    });
+  const server = app.listen(PORT, "0.0.0.0", () => {
+    // Uhvatite instancu servera
+    console.log(`Server running on port ${PORT} and binding to 0.0.0.0`);
+    console.log(`Express app.listen callback executed.`); // Dodajte novi log ovde
+  });
 
-    // DODAJTE OVE HANDLERE OVDE, UNUTAR startServer FUNKCIJE
-    server.on('error', (err) => {
-        console.error('FATAL ERROR: Express Server emitted an error:');
-        console.error(err.message);
-        console.error(err.stack || err);
-       //process.exit(1); // Izlaz sa greškom ako server emituje grešku
-    });
+  // DODAJTE OVE HANDLERE OVDE, UNUTAR startServer FUNKCIJE
+  server.on("error", (err) => {
+    console.error("FATAL ERROR: Express Server emitted an error:");
+    console.error(err.message);
+    console.error(err.stack || err); //process.exit(1); // Izlaz sa greškom ako server emituje grešku
+  }); // Handler za close event (manje verovatno na crash, ali dobra praksa)
 
-    // Handler za close event (manje verovatno na crash, ali dobra praksa)
-    server.on('close', () => {
-        console.log('Express Server closed.');
-    });
+  server.on("close", () => {
+    console.log("Express Server closed.");
+  });
 
-    console.log('app.listen called and listeners attached. Setting up alive check...'); // Novi log
-    setInterval(() => {
-        console.log('Backend process is still alive...');
-    }, 30000); // Loguj svakih 30 sekundi
+  console.log(
+    "app.listen called and listeners attached. Setting up alive check..."
+  ); // Novi log
+  setInterval(() => {
+    console.log("Backend process is still alive...");
+  }, 30000); // Loguj svakih 30 sekundi
 
-    console.log('startServer function completed its setup.'); // OVAJ LOG TREBA DA BUDE OVDE
-
-}; // ZAGRADA KOJA ZATVARA startServer FUNKCIJU
-
+  console.log("startServer function completed its setup."); // OVAJ LOG TREBA DA BUDE OVDE
+};
 
 // POZIV FUNKCIJE ZA POKRETANJE STARTUP PROCESA
-startServer().catch(err => {
-    console.error("Error during server startup process:", err.stack || err);
-    //process.exit(1); // Izlazak ako dođe do greške u startup procesu
+startServer().catch((err) => {
+  console.error("Error during server startup process:", err.stack || err); //process.exit(1); // Izlazak ako dođe do greške u startup procesu
 });
 
 // GLOBALNI HANDLERI ZA NEUHVAĆENE GREŠKE - Postavite ih ovde, nakon startServer() poziva
-process.on('uncaughtException', (err) => {
-  console.error('FATAL ERROR: Uncaught Exception');
-  console.error(err.stack || err);
-  //process.exit(1); // ODkomentarisano: Izlazak kako bi kontejner izašao sa greškom
+process.on("uncaughtException", (err) => {
+  console.error("FATAL ERROR: Uncaught Exception");
+  console.error(err.stack || err); //process.exit(1); // ODkomentarisano: Izlazak kako bi kontejner izašao sa greškom
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('FATAL ERROR: Unhandled Rejection at:');
-  console.error(promise);
-  console.error('Reason:');
-  console.error(reason.stack || reason);
- // process.exit(1); // ODkomentarisano: Izlazak
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("FATAL ERROR: Unhandled Rejection at:");
+  console.error(promise);
+  console.error("Reason:");
+  console.error(reason.stack || reason); // process.exit(1); // ODkomentarisano: Izlazak
 });
-
