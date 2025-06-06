@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Izaberi env fajl na osnovu NODE_ENV
+// Chose env file on NODE_ENV
 const envFile =
   process.env.NODE_ENV === "production"
     ? ".env.production"
