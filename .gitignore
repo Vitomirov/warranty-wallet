@@ -26,3 +26,8 @@ dist-ssr
 # Environment files
 .env
 .env.*
+
+# Deploy files
+cicd_deploy_key
+cicd_deploy_key.pub
+
