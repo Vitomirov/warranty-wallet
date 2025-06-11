@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: warranty_db_dev
+    restart: always
+    env_file:
+      - .env.development
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data_dev:/var/lib/mysql
+      - ./db_init:/docker-entrypoint-initdb.d
+    networks:
+      - warranty_network
+
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile.dev
+    container_name: warranty_backend_dev
+    restart: always
+    depends_on:
+      - mysql
+    env_file:
+      - .env.development
+    volumes:
+      - ./src/backend:/app
+      - ./src/backend/uploads:/app/uploads
+    ports:
+      - "3000:3000"
+    networks:
+      - warranty_network
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile.dev
+    container_name: warranty_frontend_dev
+    restart: always
+    depends_on:
+      - backend
+    env_file:
+      - .env.development
+    volumes:
+      - ./src/frontend:/app
+    ports:
+      - "5173:5173"
+    networks:
+      - warranty_network
+
+volumes:
+  mysql_data_dev:
+
+networks:
+  warranty_network:
+    driver: bridge

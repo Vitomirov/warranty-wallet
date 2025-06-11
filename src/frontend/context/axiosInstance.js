@@ -1,7 +1,10 @@
 import axios from "axios";
 
 // Define base URL
-const API_BASE_URL = "https://devitowarranty.xyz/api";
+const API_BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000/api"
+    : "https://devitowarranty.xyz/api";
 
 // Create an Axios instance with default settings
 const axiosInstance = axios.create({

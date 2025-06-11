@@ -23,5 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# env file
+# Environment variables
 .env
+.env.*
+
+# CI/CD Deploy Keys
+cicd_deploy_key
+cicd_deploy_key.pub
