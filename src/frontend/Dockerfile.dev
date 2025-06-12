@@ -8,8 +8,4 @@ RUN npm install
 
 COPY . .
 
-<<<<<<< HEAD
 CMD ["npm", "run", "dev", "--", "--host", "--port", "5173", "--mode", "development"]
-=======
-CMD ["npm", "run", "dev", "--", "--host", "--port", "5173", "--mode", "development"]
->>>>>>> origin/main
