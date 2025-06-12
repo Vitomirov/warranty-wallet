@@ -1,13 +1,13 @@
-import { useCallback, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import axiosInstance from '../context/axiosInstance';
+import { useCallback, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import axiosInstance from "../context/axiosInstance";
 
-// Custom hook koji vraća secureRequest funkciju
+// Custom hook that returns the secureRequest function
 const useSecureRequest = () => {
   const { token, setToken, logout, refreshToken } = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // secureRequest automatski dodaje token i osvežava ga ako je istekao
+  // secureRequest automatically adds the token and refreshes it if it has expired
   const secureRequest = useCallback(
     async (method, url, data = {}, options = {}) => {
       try {
@@ -35,7 +35,7 @@ const useSecureRequest = () => {
               });
             } else {
               logout();
-              throw new Error('Token refresh failed');
+              throw new Error("Token refresh failed");
             }
           } catch (refreshError) {
             logout();
