@@ -124,3 +124,122 @@
     background-position: right;
     background-repeat: no-repeat;
 }
+
+// ============== AI CHAT STYLES ==================
+
+// Main AI Chatbot container
+.ai-chat-container {
+  position: fixed;
+  bottom: 40px; // Increased offset from bottom edge
+  right: 40px;  // Increased offset from right edge
+  width: 350px;
+  max-height: 80vh;
+  z-index: 1000;
+  overflow: hidden; // Hides content that overflows the container
+  font-family: 'Inter', Arial, sans-serif; // Using Inter font or Arial
+  background-color: variables.$blueDark; // Set container background to $blueDark
+  color: variables.$white; // Set default text color for container
+}
+
+// Toggle button for AI Chatbot
+.ai-chat-toggle-btn {
+  position: fixed;
+  bottom: 40px; // Positioned slightly higher from the bottom
+  right: 40px;  // Positioned slightly more to the left from the right edge
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1001; // Ensures it's above the chat container
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: variables.$blueDark; // Set to $blueDark color as requested
+  border: none; // Remove default button border
+  color: variables.$white; // White color for the icon for contrast with $blueDark
+
+  &:hover {
+    transform: scale(1.05); // Slight scale effect on hover
+  }
+}
+
+// AI Chat window header
+.ai-chat-header {
+  border-bottom: 1px solid variables.$blueLight; // Border bottom with $blueLight
+  border-radius: 12px 12px 0 0;
+  h2 {
+    font-size: 1.1em;
+    color: variables.$white; // Text color for header title
+  }
+  .btn-close-chat {
+    font-size: 1.5em;
+    cursor: pointer;
+    color: variables.$white; // White color for the close icon
+    transition: color 0.2s ease;
+    &:hover {
+        color: variables.$blueLight; // Lighter color on hover
+    }
+  }
+}
+
+// Message display area
+.ai-chat-messages {
+  overflow-y: auto;
+  word-wrap: break-word;
+  font-size: 0.95em;
+  line-height: 1.5;
+  background-color: variables.$blueLight; // Set background to $blueLight
+  color: variables.$dark; // Dark text for messages
+}
+
+// Individual AI response bubble
+.ai-chat-response {
+  background-color: variables.$white; // Use white for the response bubble for contrast
+  border-left: 3px solid variables.$blueDark; // Dark blue border for response
+  strong {
+    display: block; // Ensures "AI Response:" is on its own line
+    margin-bottom: 5px;
+    color: variables.$dark;
+  }
+  p {
+    margin: 0;
+  }
+}
+
+// Error, loading, or empty state messages
+.ai-chat-message-info {
+  color: variables.$dark; // Dark color for information messages
+  font-size: 0.9em;
+}
+
+// Message input form
+.ai-chat-form {
+  border-top: 1px solid variables.$blueLight; // Border top with $blueLight
+  border-radius: 0 0 12px 12px;
+  background-color: variables.$blueDark; // Form background to $blueDark
+
+  textarea { // Bootstrap's form-control class will handle most styling
+    resize: vertical;
+    min-height: 60px;
+    max-height: 120px;
+    background-color: variables.$white; // White background for textarea
+    color: variables.$dark; // Dark text for textarea
+    border: 1px solid variables.$blueLight; // Border color for textarea
+  }
+
+  // Submit button
+  .btn-submit-chat {
+    transition: opacity 0.3s ease;
+    background-color: variables.$blueDark; // Set button background to $blueDark
+    color: variables.$white; // Set button text color to white
+    border: 1px solid variables.$blueLight; // Add a light blue border to the button
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6; // Slightly dim disabled button
+    }
+    &:hover:not(:disabled) {
+      background-color: darken(variables.$blueDark, 10%); // Slightly darker on hover
+    }
+  }
+}

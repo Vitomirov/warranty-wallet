@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import warrantiesRoutes from "./routes/warranties.js";
 import userRoutes from "./routes/user.js";
+import aiRoutes from "./routes/ai.js";
 import {
   sendWarrantyClaimEmail,
   sendExpirationNotificationEmail,
@@ -84,6 +85,7 @@ app.get("/api/test", (req, res) => {
 app.use("/api/warranties", upload.single("pdfFile"), warrantiesRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Email Sending Route
 app.post("/api/warranty/claim", async (req, res) => {
