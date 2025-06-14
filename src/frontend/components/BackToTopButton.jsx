@@ -32,7 +32,7 @@ const BackToTopButton = () => {
             onClick={scrollToTop}
             style={{
                 position: 'fixed',
-                bottom: '35px',
+                bottom: '55px',
                 right: '20px',
                 zIndex: 1000,
                 border: 'none',

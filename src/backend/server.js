@@ -20,7 +20,10 @@ import db from "./db.js";
 
 // Load environment variables
 dotenv.config({
-  path: process.env.NODE_ENV === "production" ? ".env.production" : ".env",
+  path:
+    process.env.NODE_ENV === "production"
+      ? ".env.production"
+      : ".env.development",
 });
 
 console.log("Process.env log from server.js:", process.env);

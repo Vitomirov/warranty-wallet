@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from "../context/axiosInstance";
+import axiosPublic from "../context/axiosPublic";
 
 function AIChat() {
   const [prompt, setPrompt] = useState("");
@@ -17,7 +17,7 @@ function AIChat() {
     // setResponse("");
 
     try {
-      const res = await axiosInstance.post("/ai", { prompt });
+      const res = await axiosPublic.post("/ai", { prompt });
       // Možete ovde dodavati odgovore u niz da bi se prikazala istorija chata
       setResponse(res.data.response); // Za sada, samo poslednji odgovor
       setPrompt(""); // Obriši prompt nakon slanja
