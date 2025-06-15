@@ -7,7 +7,7 @@ html {
 body {
     font-family: 'Roboto Serif', 'Edu AU VIC WA NT Pre', serif;
 
-    @media (max-width: 768px) { // Ispravljen string '768px' u broj 768px ako Sass to zahteva, mada SCSS obično prihvata string literal
+    @media (max-width: 768px) {
         font-size: 1rem;
     }
 }
