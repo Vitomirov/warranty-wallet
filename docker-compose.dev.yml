@@ -14,7 +14,13 @@ services:
       - ./db_init:/docker-entrypoint-initdb.d
     networks:
       - warranty_network
-
+    healthcheck: # <-- DODAJ OVU SEKCIJU
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s # Daj mu dovoljno vremena za inicijalizaciju
+  
   backend:
     build:
       context: ./src/backend
@@ -22,11 +28,13 @@ services:
     container_name: warranty_backend_dev
     restart: always
     depends_on:
-      - mysql
+      mysql: # <-- PROMENI OVO U healthcheck
+        condition: service_healthy # < -- DODAJ OVU LINIJU
     env_file:
       - .env.development
     volumes:
       - ./src/backend:/app
+      - /app/node_modules
       - ./src/backend/uploads:/app/uploads
     ports:
       - "3000:3000"
@@ -45,8 +53,13 @@ services:
       - .env.development
     volumes:
       - ./src/frontend:/app
+      - /app/node_modules
     ports:
       - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - VITE_APP_API_URL=http://localhost:3000 # Dodaj ako tvoj frontend koristi ovu promenljivu za API URL
+    command: npm run dev -- --host --port 5173 --mode development
     networks:
       - warranty_network
 

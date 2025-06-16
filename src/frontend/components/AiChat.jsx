@@ -39,7 +39,7 @@ function AIChat() {
         <button
           onClick={() => setIsChatOpen(true)}
           // bg-blueDark i text-white su sada iz tvojih predefinisanih boja
-          className="ai-chat-toggle-btn btn btn-blueDark text-white d-flex align-items-center justify-content-center mb-5"
+          className="ai-chat-toggle-btn btn btn-blueDark text-white d-flex align-items-center justify-content-center mb-5 me-4"
         >
           💬
         </button>
@@ -48,7 +48,7 @@ function AIChat() {
       {/* Sam chat prozor, prikazuje se samo ako je isChatOpen true */}
       {isChatOpen && (
         // bg-blueDark za pozadinu, text-white za tekst, border-blueLight za ivicu
-        <div className="ai-chat-container bg-blueDark text-white border border-blueLight rounded-3 shadow-lg d-flex flex-column">
+        <div className="ai-chat-container bg-blueDark text-white border border-blueLight rounded-3 shadow-lg d-flex flex-column me-4">
           {/* Zaglavlje chata */}
           <div className="ai-chat-header p-3 d-flex justify-content-between align-items-center border-bottom border-blueDark">
             <h2 className="m-0 text-white">AI Assistant</h2>{" "}

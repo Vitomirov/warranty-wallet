@@ -1,3 +1,5 @@
+# src/frontend/Dockerfile.dev
+
 FROM node:18
 
 WORKDIR /app
@@ -6,6 +8,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY . .  
 
+# CMD komanda će biti nadjačana od strane docker-compose.dev.yml, ali neka ostane za konzistentnost
+# sa build-om ako se nekad Dockerfile koristi samostalno.
 CMD ["npm", "run", "dev", "--", "--host", "--port", "5173", "--mode", "development"]
