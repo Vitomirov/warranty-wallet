@@ -9,12 +9,11 @@ $modal: #c3c3d7;
 
 // Override Bootstrap's default theme colors
 $theme-colors: (
-  "blueDark": $blueDark,    // Možeš mapirati $blueDark na 'primary'
-  "blueLight": $blueLight,  // Možeš mapirati $blueLight na 'secondary'
-  "yeloww": $yellow,          // Možeš mapirati $yellow na 'info'
-  "white": $white,          // Možeš mapirati $white na 'light'
-  "dark": $dark,            // Možeš mapirati $dark na 'dark'
-  // Možeš dodati i druge boje po potrebi, npr. "modal-bg": $modal
+  "blueDark": $blueDark,
+  "blueLight": $blueLight,
+  "yeloww": $yellow,
+  "white": $white,
+  "dark": $dark,
 );
 
 @import "bootstrap/scss/bootstrap";
