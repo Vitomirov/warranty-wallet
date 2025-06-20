@@ -60,6 +60,20 @@ function AIChat() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isChatOpen]);
 
+  // Close chat by pressing Escape key
+  useEffect(() => {
+    const handleKeydown = (e) => {
+      if (e.key === "Escape") {
+        setIsChatOpen(false);
+      }
+    };
+
+    if (isChatOpen) {
+      document.addEventListener("keydown", handleKeydown);
+    }
+    return () => document.removeEventListener("keydown", handleKeydown);
+  }, [isChatOpen]);
+
   // Slanje poruke AI-u
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,6 +99,15 @@ function AIChat() {
       setMessages((prev) => prev.slice(0, prev.length - 1));
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handle Enter key press
+  const handleKeyDown = (e) => {
+    // Check if Enter key is pressed AND it's not Shift + Enter (for new line)
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Prevent default behavior (e.g., new line in textarea)
+      handleSubmit(e); // Call your submit function
     }
   };
 
@@ -139,6 +162,7 @@ function AIChat() {
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               rows={3}
               className="form-control mb-2"

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -15,24 +15,27 @@ const Login = () => {
     if (loading) return;
     setLoading(true);
     try {
-      console.log('Calling login function with username:', username);
+      console.log("Calling login function with username:", username);
       const response = await login(username, password);
       if (response && response.accessToken) {
-        console.log('Login successful:', response.accessToken);
-        navigate('/dashboard');
+        console.log("Login successful:", response.accessToken);
+        navigate("/dashboard");
       } else {
-        setError('Login failed');
+        setError("Login failed");
       }
     } catch (error) {
-      setError('Login failed: ' + error.message);
+      setError("Login failed: Wrong username or password");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="login container-fluid pt-5" style={{ minHeight: '80vh' }}>
-      <div className="row d-flex justify-content-center align-items-center" style={{ height: '80%' }}>
+    <div className="login container-fluid pt-5" style={{ minHeight: "80vh" }}>
+      <div
+        className="row d-flex justify-content-center align-items-center"
+        style={{ height: "80%" }}
+      >
         {/* Left Column - Form */}
         <div className="col-12 col-sm-8 col-md-5">
           <h1 className="text-center mb-4 montserrat">Log In</h1>
@@ -61,16 +64,30 @@ const Login = () => {
               />
               <label htmlFor="password">Password</label>
             </div>
-            {error && <div className="alert alert-danger" role="alert" aria-live="assertive">{error}</div>}
+            {error && (
+              <div
+                className="alert alert-danger"
+                role="alert"
+                aria-live="assertive"
+              >
+                {error}
+              </div>
+            )}
             <div className="button d-flex justify-content-between">
-              <button type="submit" className="btn btn-primary" disabled={loading}>
-                {loading ? 'Logging In...' : 'Log In'}
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={loading}
+              >
+                {loading ? "Logging In..." : "Log In"}
               </button>
-              <Link className="btn btn-secondary" to='/'>Back</Link>
+              <Link className="btn btn-secondary" to="/">
+                Back
+              </Link>
             </div>
           </form>
         </div>
-  
+
         {/* Right Column - Image */}
         <div className="col-md-6 d-none d-md-flex justify-content-end">
           <img
