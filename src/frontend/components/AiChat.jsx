@@ -35,8 +35,8 @@ function AIChat() {
       } else {
         // Ostali slučajevi
         setButtonStyle({
-          bottom: isMobile ? "90px" : "120px",
-          right: isMobile ? "65px" : "40px",
+          bottom: isMobile ? "110px" : "120px",
+          right: isMobile ? "35px" : "40px",
           zIndex: 10015,
         });
       }

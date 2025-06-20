@@ -36,6 +36,8 @@
         font-size: 1rem;
         border-radius: 0.3rem;
         transition: transform 0.3s ease-in-out;
+        display: flex;
+        align-items: center;
 
         &:hover {
             transform: scale(1.05);
@@ -85,20 +87,32 @@
     border: none;
 }
 
-
-
 // List Style
 .list-style {
     background-color: variables.$white;
     color: variables.$dark;
+    cursor: pointer;
+    position: relative;
 
-    .link-text {
-        color: variables.$dark;
+    &.list-group-item {
+        display: flex;
+        align-items: center;
+    }
+
+    // The Link component inside the list item
+    a {
+        display: block; // Make the link fill the parent <li>'s content area
+        flex-grow: 1; // Allow the link to take up all available space
         text-decoration: none;
+        color: inherit;
+        padding: 0.1rem 1rem; // Apply padding to the link for clickable area
     }
 
     &:hover {
         background-color: variables.$yellow;
+        a {
+            color: variables.$dark;
+        }
     }
 }
 

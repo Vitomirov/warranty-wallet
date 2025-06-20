@@ -102,11 +102,19 @@ const MyWarranties = () => {
                   {warranties.map((warranty) => (
                     <li
                       key={warranty.warrantyId}
-                      className="list-style list-group-item mb-2 border"
+                      className="list-style list-group-item ps-4 mb-2 help border"
                     >
                       <Link
                         to={`/warranties/details/${warranty.warrantyId}`}
-                        className="link-text"
+                        // Remove 'link-text' class from here
+                        // Add inline styles or create a new CSS class for the Link itself
+                        // to make it fill the <li> and inherit styles
+                        style={{
+                          display: "block", // Make the link fill the parent <li>
+                          textDecoration: "none", // Remove underline
+                          color: "inherit", // Inherit text color from .list-style
+                          //padding: "0.5rem 1rem", // Add padding to the link itself for a larger clickable area
+                        }}
                       >
                         {warranty.productName}
                       </Link>
