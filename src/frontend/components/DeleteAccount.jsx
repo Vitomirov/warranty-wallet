@@ -86,13 +86,13 @@ function DeleteAccount() {
               </p>
               <div className="d-flex justify-content-center gap-3">
                 <button
-                  className="btn btn-danger"
+                  className="btn btn-danger border-danger"
                   onClick={handleDeleteAccount}
                 >
                   Yes, delete my account
                 </button>
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-secondary border-secondary"
                   onClick={closeDeleteModal}
                 >
                   Cancel

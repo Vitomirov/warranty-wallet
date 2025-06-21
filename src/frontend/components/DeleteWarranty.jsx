@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import ReactModal from 'react-modal';
-import useSecureRequest from '../hooks/useSecureRequest';
-
-
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import ReactModal from "react-modal";
+import useSecureRequest from "../hooks/useSecureRequest";
 
 const DeleteWarranty = ({ id }) => {
   const [error, setError] = useState(null);
@@ -11,7 +9,6 @@ const DeleteWarranty = ({ id }) => {
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { secureRequest } = useSecureRequest();
-
 
   const openDeleteModal = () => {
     setShowDeleteModal(true);
@@ -23,16 +20,18 @@ const DeleteWarranty = ({ id }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await secureRequest('delete', `/warranties/delete/${id}`);
+      const response = await secureRequest(
+        "delete",
+        `/warranties/delete/${id}`
+      );
       console.log("Delete response:", response);
       setSuccess(response.data.message);
-      navigate('/myWarranties', { replace: true });
+      navigate("/myWarranties", { replace: true });
     } catch (error) {
       console.error("Delete error:", error);
-      setError(error.message || 'Failed to delete warranty.');
+      setError(error.message || "Failed to delete warranty.");
     }
   };
-  
 
   return (
     <>
@@ -58,14 +57,18 @@ const DeleteWarranty = ({ id }) => {
               <h4 className="text-center mb-3">
                 Are you sure you want to delete this warranty?
               </h4>
-              <p className="text-center">
-                This action cannot be undone.
-              </p>
+              <p className="text-center">This action cannot be undone.</p>
               <div className="d-flex justify-content-center gap-3">
-                <button className="btn btn-danger" onClick={handleDelete}>
+                <button
+                  className="btn btn-danger border-danger"
+                  onClick={handleDelete}
+                >
                   Yes, delete warranty
                 </button>
-                <button className="btn btn-secondary" onClick={closeDeleteModal}>
+                <button
+                  className="btn btn-secondary border-secondary"
+                  onClick={closeDeleteModal}
+                >
                   Cancel
                 </button>
               </div>
