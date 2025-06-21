@@ -22,6 +22,33 @@
     }
 }
 
+// DASHBOARD
+
+/* Custom Navbar Padding for Dashboard */
+/* This will replace the inline style you had */
+.dashboard-navbar-inner {
+  padding: 9%; /* Default for larger screens */
+}
+
+@media (max-width: 575.98px) {
+  .dashboard-navbar-inner {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 0.75rem !important; /* Smaller top/bottom padding for mobile */
+    padding-bottom: 0.75rem !important;
+  }
+
+  .dashboard-main-content {
+    padding-top: 1rem !important; /* Reduce top padding on main content */
+    padding-bottom: 1rem !important; /* Reduce bottom padding on main content */
+  }
+
+  .dashboard-btn-size {
+    padding: 2.5% 1% !important; /* Smaller padding for buttons on mobile */
+    font-size: 1.2rem !important; /* Smaller font size for button text */
+  }
+}
+
 // FOOTER - Stick to the bottom of the main content
 footer {
     background-color: variables.$blueDark;
@@ -37,6 +64,26 @@ footer {
         margin: 0;
         padding-left: 3%;
     }
+}
+
+.footer-copy {
+  font-size: 1rem;
+}
+
+@media (max-width: 575.98px) {
+  .footer-copy {
+    font-size: 0.8rem;
+  }
+}
+
+.social-icon {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 575.98px) {
+  .social-icon {
+    font-size: 1.2rem;
+  }
 }
 
 // BACK TO TOP

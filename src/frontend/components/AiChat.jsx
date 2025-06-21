@@ -14,26 +14,26 @@ function AIChat() {
   const { token } = useAuth();
   const location = useLocation();
 
-  // Responsivno pozicioniranje dugmeta
+  // Responsive button positioning
   useEffect(() => {
     const updateButtonPosition = () => {
       const isMobile = window.innerWidth <= 768;
       if (location.pathname === "/") {
-        // Landing page - dugme je više od dna da je odmah vidljivo
+        // Landing page
         setButtonStyle({
           bottom: isMobile ? "90px" : "120px",
           right: isMobile ? "65px" : "40px",
           zIndex: 10015,
         });
       } else if (token) {
-        // Logovan korisnik - pomeri dugme više udesno
+        // Logged-in user
         setButtonStyle({
           bottom: isMobile ? "155px" : "90px",
           right: isMobile ? "20px" : "80px",
           zIndex: 10015,
         });
       } else {
-        // Ostali slučajevi
+        // Other cases
         setButtonStyle({
           bottom: isMobile ? "110px" : "120px",
           right: isMobile ? "35px" : "40px",
@@ -47,7 +47,7 @@ function AIChat() {
     return () => window.removeEventListener("resize", updateButtonPosition);
   }, [location.pathname, token]);
 
-  // Zatvaranje chata klikom izvan chata
+  // Closing chat by clicking outside the chat
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (chatRef.current && !chatRef.current.contains(e.target)) {
@@ -74,7 +74,7 @@ function AIChat() {
     return () => document.removeEventListener("keydown", handleKeydown);
   }, [isChatOpen]);
 
-  // Slanje poruke AI-u
+  // Sending message to AI
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!prompt.trim()) return;
@@ -104,10 +104,9 @@ function AIChat() {
 
   // Handle Enter key press
   const handleKeyDown = (e) => {
-    // Check if Enter key is pressed AND it's not Shift + Enter (for new line)
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevent default behavior (e.g., new line in textarea)
-      handleSubmit(e); // Call your submit function
+      e.preventDefault();
+      handleSubmit(e);
     }
   };
 

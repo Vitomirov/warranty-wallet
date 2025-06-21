@@ -12,10 +12,10 @@ function Footer() {
   };
 
   return (
-        <footer className="bg-gradient border-top border-dark py-3">
+    <footer className="bg-gradient border-top border-dark py-3">
       <div className="container-fluid">
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
-          <p className="mb-2 mb-md-0">
+          <p className="footer-copy mb-2 mb-md-0">
             &copy; Designed and Developed by Dejan Vitomirov
           </p>
           <div className="me-lg-5">
@@ -23,19 +23,19 @@ function Footer() {
               onClick={handleLinkedinClick}
               style={{ cursor: "pointer", margin: "0 10px" }}
             >
-              <i className="bi bi-linkedin" style={{ fontSize: "1.5rem" }}></i>
+              <i className="bi bi-linkedin social-icon"></i>
             </span>
             <span
               onClick={handleGitHubClick}
               style={{ cursor: "pointer", margin: "0 10px" }}
             >
-              <i className="bi bi-github" style={{ fontSize: "1.5rem" }}></i>
+              <i className="bi bi-github social-icon"></i>
             </span>
             <span
               onClick={handleMailClick}
               style={{ cursor: "pointer", margin: "0 10px" }}
             >
-              <i className="bi bi-envelope" style={{ fontSize: "1.5rem" }}></i>
+              <i className="bi bi-envelope social-icon"></i>
             </span>
           </div>
         </div>
