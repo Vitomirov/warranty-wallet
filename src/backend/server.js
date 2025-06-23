@@ -27,7 +27,7 @@ dotenv.config({
 });
 
 console.log("Process.env log from server.js:", process.env);
-
+console.log("Backend test endpoint called successfully! (Production");
 // Initialize Express app
 const app = express();
 

@@ -6,7 +6,7 @@ services:
     container_name: warranty_db
     restart: always
     env_file:
-      - .env
+      - .env.production
     environment:
       MYSQL_ROOT_PASSWORD: Vitomirov1989
       DB_DATABASE: warranty_db
@@ -38,7 +38,7 @@ services:
       retries: 10
       start_period: 120s
     env_file:
-      - .env
+      - .env.production
     networks:
       - warranty_network
     volumes:
