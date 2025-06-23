@@ -37,6 +37,8 @@ services:
       - warranty_network
     volumes:
       - ./src/backend/uploads:/app/uploads
+    environment:
+     NODE_ENV: production  
 
   nginx:
     build: ./src/frontend/
