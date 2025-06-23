@@ -31,6 +31,12 @@ jobs:
           ssh root@206.189.59.75 << 'EOF'
             cd /home/root/projects/warranty-wallet
             echo "$PROD_ENV_VARS" > .env.production
+
+            # Dodate linije za proveru sadržaja:
+            echo "--- Contents of .env.production on VPS ---"
+            cat .env.production
+            echo "------------------------------------------"
+
             git pull origin main
             docker compose -f docker-compose.yml down
             docker compose -f docker-compose.yml up -d --build
