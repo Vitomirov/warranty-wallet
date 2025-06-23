@@ -30,7 +30,7 @@ jobs:
         run: |
           ssh root@206.189.59.75 << 'EOF'
             cd /home/root/projects/warranty-wallet
-            echo "$PROD_ENV_VARS" > .env.production # I OVA LINIJA JE DODATA
+            echo "$PROD_ENV_VARS" > .env.production
             git pull origin main
             docker compose -f docker-compose.yml down
             docker compose -f docker-compose.yml up -d --build
