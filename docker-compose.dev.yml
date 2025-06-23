@@ -1,12 +1,10 @@
-version: '3.9'
-
 services:
   mysql:
     image: mysql:8.0
     container_name: warranty_db_dev
     restart: always
     env_file:
-      - .env.development
+      - ./.env.development
     ports:
       - "3306:3306"
     volumes:
@@ -20,7 +18,7 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-  
+
   backend:
     build:
       context: ./src/backend
@@ -31,11 +29,12 @@ services:
       mysql:
         condition: service_healthy
     env_file:
-      - .env.development
+      - ./.env.development
     volumes:
       - ./src/backend:/app
       - /app/node_modules
       - ./src/backend/uploads:/app/uploads
+      - ./.env.development:/app/.env
     ports:
       - "3000:3000"
     networks:
@@ -50,7 +49,7 @@ services:
     depends_on:
       - backend
     env_file:
-      - .env.development
+      - ./.env.development
     volumes:
       - ./src/frontend:/app
       - /app/node_modules
@@ -58,13 +57,13 @@ services:
       - "5173:5173"
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - VITE_APP_API_URL=http://localhost:3000 
+      - VITE_APP_API_URL=http://localhost:3000
     command: npm run dev -- --host --port 5173 --mode development
     networks:
       - warranty_network
 
 volumes:
-  mysql_data_dev:
+  mysql_data_dev: {}
 
 networks:
   warranty_network:
