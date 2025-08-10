@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy app to VPS
+    name: Deploy warranty-wallet to VPS
     runs-on: ubuntu-latest
 
     steps:
@@ -24,24 +24,26 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 206.189.59.75 >> ~/.ssh/known_hosts
 
-      - name: Deploy via SSH
+      - name: Deploy warranty-wallet via SSH
         env:
           PROD_ENV_VARS: ${{ secrets.PROD_ENV_FILE }}
         run: |
-          ssh root@206.189.59.75 <<EOF
+          ssh root@206.189.59.75 << EOF
             cd /home/root/projects/warranty-wallet
 
-            # Update .env.production with new values from GitHub Secrets
+            # Update .env.production with new secrets
             echo "${PROD_ENV_VARS}" > .env.production
 
-            # Force update latest code from main branch
+            # Reset local repo to latest origin/main
             git fetch --all
             git reset --hard origin/main
 
-            # Pull updated images for services like MySQL and Adminer
+            # Pull new images for base services (MySQL, Adminer)
             docker compose -f docker-compose.yml pull
 
-            # Restart containers with the latest code and images
+            # Rebuild backend (custom build in compose)
             docker compose -f docker-compose.yml down
+
+            # Start containers (backend, mysql, adminer)
             docker compose -f docker-compose.yml up -d --build
           EOF
