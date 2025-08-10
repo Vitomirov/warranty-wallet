@@ -26,12 +26,21 @@ jobs:
 
       - name: Deploy via SSH
         env:
-          PROD_ENV_VARS: ${{ secrets.PROD_ENV_FILE }} # Ova linija ostaje, ali je neće koristiti za ispis
+          PROD_ENV_VARS: ${{ secrets.PROD_ENV_FILE }}
         run: |
-          ssh root@206.189.59.75 << 'EOF'
+          ssh root@206.189.59.75 <<EOF
             cd /home/root/projects/warranty-wallet
-            # Ovdje nije bilo direktnog kreiranja .env.production iz secreta
+
+            # Update .env.production with new values from GitHub Secrets
+            echo "${PROD_ENV_VARS}" > .env.production
+
+            # Pull the latest code
             git pull origin main
+
+            # Pull updated images for services like MySQL and Adminer
+            docker compose -f docker-compose.yml pull
+
+            # Restart containers with the latest code and images
             docker compose -f docker-compose.yml down
             docker compose -f docker-compose.yml up -d --build
           EOF
