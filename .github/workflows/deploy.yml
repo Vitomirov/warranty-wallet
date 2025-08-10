@@ -34,8 +34,9 @@ jobs:
             # Update .env.production with new values from GitHub Secrets
             echo "${PROD_ENV_VARS}" > .env.production
 
-            # Pull the latest code
-            git pull origin main
+            # Force update latest code from main branch
+            git fetch --all
+            git reset --hard origin/main
 
             # Pull updated images for services like MySQL and Adminer
             docker compose -f docker-compose.yml pull
