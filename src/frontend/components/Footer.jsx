@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient py-3">
+    <footer className="bg-gradient py-4">
       <div className="d-flex justify-content-center align-items-center w-100">
         <p className="footer-copy mb-2 mb-md-0 text-center">
           &copy; Designed and Developed by{" "}
