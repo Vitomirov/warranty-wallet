@@ -1,27 +1,8 @@
 @use '../variables';
 @use '../abstracts/abstracts';
 
-// HERO SECTION
-.hero-section {
-    @extend %section-background-styles;
-    background: linear-gradient(156deg, variables.$white 50%, variables.$blueLight 50%);
-}
 
-// HERO LEFT
-.hero-left {
-    margin-bottom: 40%;
 
-    h2 { 
-        font-size: 3rem;
-        margin-bottom: 0.5rem;
-        color: variables.$dark;
-    }
-
-    p {
-        font-size: 1.5rem;
-        color: variables.$dark;
-    }
-}
 
 // ABOUT SECTION
 .about-section {

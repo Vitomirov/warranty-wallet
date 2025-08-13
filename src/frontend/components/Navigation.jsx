@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import LogOut from "./LogOut";
 
 function Navigation() {
   const { user } = useAuth();
   const location = useLocation();
-  const isLandingPage = location.pathname === "/";
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -15,28 +13,25 @@ function Navigation() {
 
   const handleLinkClick = () => {
     const navbarCollapseElement = document.getElementById("navbarNav");
-    if (navbarCollapseElement) {
-      if (navbarCollapseElement.classList.contains("show")) {
-        navbarCollapseElement.classList.remove("show");
-      }
+    if (
+      navbarCollapseElement &&
+      navbarCollapseElement.classList.contains("show")
+    ) {
+      navbarCollapseElement.classList.remove("show");
     }
   };
 
   return (
-    <nav
-      className="bg-gradient navbar navbar-expand-lg shadow-lg w-100 sticky-top"
-      style={{ minHeight: "100px" }}
-    >
-      <div
-        className="container-fluid py-1 d-flex justify-content-between align-items-center"
-        style={{ padding: "9%" }}
-      >
+    <nav className="text-black navbar shadow-lg w-100 fixed-top">
+      <div className="d-flex justify-content-between align-items-center help container-fluid conent-layout">
+        {/* Brand logo is the first flex item */}
         <a className="navbar-brand" href="#">
-          <img src="\Logo.png" alt="WW logo" style={{ maxHeight: "55px" }} />
+          <img src="\Logo.png" alt="WW logo" />
         </a>
 
+        {/* This button is only visible on medium and small screens */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler d-lg-none"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -47,7 +42,8 @@ function Navigation() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
+        {/* This div is the dropdown menu, only visible on medium and small screens */}
+        <div className="collapse navbar-collapse d-lg-none" id="navbarNav">
           <ul className="navbar-nav ms-auto text-end">
             <li className="nav-item">
               <a className="nav-link" href="#about" onClick={handleLinkClick}>
@@ -65,6 +61,27 @@ function Navigation() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#FAQ" onClick={handleLinkClick}>
+                FAQ
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* This is the correct way to space the links on large screens */}
+        <div className="d-none d-lg-flex">
+          <ul className="navbar-nav d-flex flex-row gap-3">
+            <li className="nav-item">
+              <a className="nav-link" href="#about">
+                About
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#features">
+                Features
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#FAQ">
                 FAQ
               </a>
             </li>

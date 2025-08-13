@@ -46,9 +46,17 @@
             border-color: variables.$blueDark;
         }
 
+        @media (max-width: 1200px) {
+            padding: 0.3rem 1.5rem;
+            font-size: 1.1rem;
+        }
         @media (max-width: 768px) {
             padding: 0.3rem 1.1rem;
             font-size: 0.9rem;
+        }
+        @media (max-width: 576px) {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
         }
     }
 }
