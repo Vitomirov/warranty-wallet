@@ -161,72 +161,81 @@ const WarrantyDetails = () => {
     return <div className="alert alert-info">Warranty details not found.</div>;
 
   return (
-    <div className="warrantyDetails container-fluid d-flex flex-column flex-grow-1 pt-1 ps-5">
-      <div className="row col-lg-12 mt-5 pt-4">
-        <h1 className="display-5 mx-1 d-flex align-items-center montserrat">
+    // The main section to center content vertically on the screen.
+    <section
+      id="warrantyDetails"
+      className="d-flex justify-content-center align-items-center flex-grow-1"
+    >
+      {/* This container defines the central content area, similar to the My Account layout. */}
+      <div className="content-layout w-100">
+        <h1 className="text-center mb-5 montserrat">
           {warranty.productName} - Warranty Details
         </h1>
-      </div>
-      <div className="row align-items-center pe-3 mt-3">
-        <div className="col-lg-6 ps-3">
-          <div className="mb-3">
-            <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
-          </div>
-          <div className="mb-3">
-            <strong>Warranty Expiry Date:</strong> {warranty.warrantyExpireDate}
-          </div>
-          <div className="mb-3">
-            <strong>Days Left Till Expiry:</strong>{" "}
-            {isExpired ? "Warranty has expired" : `${daysLeft} days left`}
-          </div>
-          <div className="mb-3">
-            <strong>Seller's Email:</strong> {warranty.sellersEmail}
-          </div>
-          <div className="button d-flex justify-content-between">
-            <button
-              className="btn buttonOpenWarranty ml-2"
-              onClick={handleOpenPDF}
-            >
-              Open Warranty PDF
-            </button>
-          </div>
-          <div className="mb-3 mt-3 col-lg-12 col-md-7">
-            <textarea
-              id="issueDescription"
-              className="form-control"
-              placeholder="Describe your issue here..."
-              value={issueDescription}
-              onChange={(e) => setIssueDescription(e.target.value)}
-              rows="4"
-              disabled={isExpired}
-            />
-          </div>
-          <div className="col-lg-12 col-md-7 button d-flex justify-content-between mb-1 gap-1">
-            <button
-              className="btn btn-primary"
-              onClick={handleSendEmail}
-              disabled={isExpired}
-            >
-              Send Complaint
-            </button>
-            <DeleteWarranty id={warranty.warrantyId} />
-            <Link to="/myWarranties" className="btn btn-primary">
-              Back
-            </Link>
+
+        {/* The main details section now spans the full width of the content-layout div. */}
+        <div className="row g-4">
+          <div className="col-12">
+            <fieldset className="border rounded h-100 p-0">
+              <legend className="float-none w-auto px-2">
+                Warranty Information
+              </legend>
+              <div className="px-3">
+                <div className="mb-3">
+                  <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
+                </div>
+                <div className="mb-3">
+                  <strong>Warranty Expiry Date:</strong>{" "}
+                  {warranty.warrantyExpireDate}
+                </div>
+                <div className="mb-3">
+                  <strong>Days Left Till Expiry:</strong>{" "}
+                  {isExpired ? "Warranty has expired" : `${daysLeft} days left`}
+                </div>
+                <div className="mb-3">
+                  <strong>Seller's Email:</strong> {warranty.sellersEmail}
+                </div>
+
+                {/* The button to open the warranty PDF, styled to match the layout. */}
+                <div className="mb-3">
+                  <button className="btn btn-info" onClick={handleOpenPDF}>
+                    Open Warranty PDF
+                  </button>
+                </div>
+
+                {/* The complaint description and buttons section. */}
+                <div className="mb-3">
+                  <textarea
+                    id="issueDescription"
+                    className="form-control"
+                    placeholder="Describe your issue here..."
+                    value={issueDescription}
+                    onChange={(e) => setIssueDescription(e.target.value)}
+                    rows="4"
+                    disabled={isExpired}
+                  />
+                </div>
+
+                <div className="d-flex justify-content-between gap-2">
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleSendEmail}
+                    disabled={isExpired}
+                  >
+                    Send Complaint
+                  </button>
+                  <DeleteWarranty id={warranty.warrantyId} />
+                </div>
+              </div>
+            </fieldset>
+            <div className="button-container mt-4 help d-flex justify-content-end">
+              <Link to="/dashboard" className="btn btn-secondary help">
+                Back
+              </Link>
+            </div>
           </div>
         </div>
-        <div className="col-md-5 d-none d-lg-flex justify-content-end mb-5 align-items-start">
-          <div className="d-flex align-items-start justify-content-end pb-3 mb-3">
-            <img
-              className="img-fluid"
-              style={{ maxWidth: "400px", height: "auto" }}
-              src={imageSrc}
-              alt={isExpired ? "Expired Warranty" : "Not Expired Warranty"}
-            />
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

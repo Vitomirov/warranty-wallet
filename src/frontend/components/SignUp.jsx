@@ -1,38 +1,37 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import useSecureRequest from '../hooks/useSecureRequest';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import useSecureRequest from "../hooks/useSecureRequest";
 
 function SignUp() {
   const { login } = useAuth(); // Use login function from AuthContext
-  const [username, setUsername] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [userAddress, setUserAddress] = useState('');
-  const [userPhoneNumber, setUserPhoneNumber] = useState('');
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [userAddress, setUserAddress] = useState("");
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const { secureRequest } = useSecureRequest();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-if (
-  !username ||
-  !userEmail ||
-  !password ||
-  !fullName ||
-  !userAddress ||
-  !userPhoneNumber
-) {
-  setMessage("Please populate all fields.");
-  return;
-}
-
+    if (
+      !username ||
+      !userEmail ||
+      !password ||
+      !fullName ||
+      !userAddress ||
+      !userPhoneNumber
+    ) {
+      setMessage("Please populate all fields.");
+      return;
+    }
 
     try {
       // Make the signup request
-      const response = await secureRequest('post','/signup', {
+      const response = await secureRequest("post", "/signup", {
         username,
         userEmail,
         password,
@@ -43,135 +42,135 @@ if (
 
       // Check if signup was successful
       if (response.data) {
-        setMessage('Signup successful! Logging you in...');        
+        setMessage("Signup successful! Logging you in...");
         await login(username, password);
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     } catch (error) {
-      setMessage('Failed to sign up');
+      setMessage("Failed to sign up");
       console.error(error);
     }
   };
 
   return (
-    <div className="signup container-fluid p-4" style={{ minHeight: '80vh' }}>
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
-        <form onSubmit={handleSubmit} className="w-100">
-          <div className="d-flex flex-column align-items-center">
-            <div className='col-lg-12'>
-              <div className="col-lg-3 mb-1">
-                <h1 className='montserrat'>Sign Up</h1>
+    <section
+      id="signup"
+      className="d-flex justify-content-center align-items-center flex-grow-1 py-5"
+    >
+      <div className="content-layout w-100 d-flex justify-content-center align-items-center help">
+        <div className="w-100">
+          <h1 className="text-center mb-5 montserrat">Sign Up</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="row g-4">
+              {/* Account Information */}
+              <div className="col-12 col-md-6">
+                <fieldset className="border p-3 rounded">
+                  <legend className="float-none w-auto px-2">
+                    Account Information
+                  </legend>
+                  <div className="mb-3 form-floating">
+                    <input
+                      id="username"
+                      type="text"
+                      className="form-control"
+                      placeholder="Username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                    />
+                    <label htmlFor="username">Username</label>
+                  </div>
+                  <div className="mb-3 form-floating">
+                    <input
+                      id="email"
+                      type="email"
+                      className="form-control"
+                      placeholder="Email"
+                      value={userEmail}
+                      onChange={(e) => setUserEmail(e.target.value)}
+                      required
+                    />
+                    <label htmlFor="email">Email</label>
+                  </div>
+                  <div className="mb-3 form-floating">
+                    <input
+                      id="password"
+                      type="password"
+                      className="form-control"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <label htmlFor="password">Password</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              {/* Personal Information */}
+              <div className="col-12 col-md-6">
+                <fieldset className="border p-3 rounded">
+                  <legend className="float-none w-auto px-2">
+                    Personal Information
+                  </legend>
+                  <div className="mb-3 form-floating">
+                    <input
+                      id="fullName"
+                      type="text"
+                      className="form-control"
+                      placeholder="Full Name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      required
+                    />
+                    <label htmlFor="fullName">Full Name</label>
+                  </div>
+                  <div className="mb-3 form-floating">
+                    <input
+                      id="address"
+                      type="text"
+                      className="form-control"
+                      placeholder="Address"
+                      value={userAddress}
+                      onChange={(e) => setUserAddress(e.target.value)}
+                      required
+                    />
+                    <label htmlFor="address">Address</label>
+                  </div>
+                  <div className="mb-3 form-floating">
+                    <input
+                      id="phoneNumber"
+                      type="tel"
+                      className="form-control"
+                      placeholder="Phone"
+                      value={userPhoneNumber}
+                      onChange={(e) => setUserPhoneNumber(e.target.value)}
+                      required
+                    />
+                    <label htmlFor="phoneNumber">Phone</label>
+                  </div>
+                </fieldset>
               </div>
             </div>
-  
-            {/* Account Information */}
-            <fieldset className="mb-1 col-12 col-sm-10 col-md-8 col-lg-5">
-              <legend>Account Information</legend>
-              <div className="d-flex mb-2 align-items-center">
-                <label htmlFor="username" className="me-2" style={{ width: '35%' }}>
-                  Username:
-                </label>
-                <input
-                  id="username"
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Username"
-                  required
-                />
+
+            {message && (
+              <div className="alert alert-info mt-4" role="alert">
+                {message}
               </div>
-              <div className="d-flex mb-2 align-items-center">
-                <label htmlFor="email" className="me-2" style={{ width: '35%' }}>
-                  Email:
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  className="form-control form-control-sm"
-                  value={userEmail}
-                  onChange={(e) => setUserEmail(e.target.value)}
-                  placeholder="Email"
-                  required
-                />
-              </div>
-              <div className="d-flex mb-2 align-items-center">
-                <label htmlFor="password" className="me-2" style={{ width: '35%' }}>
-                  Password:
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  className="form-control form-control-sm"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  required
-                />
-              </div>
-            </fieldset>
-  
-            {/* Personal Information */}
-            <fieldset className="mt-5 mb-3 col-12 col-sm-10 col-md-8 col-lg-5">
-              <legend>Personal Information</legend>
-              <div className="d-flex mb-2 align-items-center">
-                <label htmlFor="fullName" className="me-2" style={{ width: '35%' }}>
-                  Full Name:
-                </label>
-                <input
-                  id="fullName"
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Full Name"
-                  required
-                />
-              </div>
-              <div className="d-flex mb-2 align-items-center">
-                <label htmlFor="address" className="me-2" style={{ width: '35%' }}>
-                  Address:
-                </label>
-                <input
-                  id="address"
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={userAddress}
-                  onChange={(e) => setUserAddress(e.target.value)}
-                  placeholder="Address"
-                  required
-                />
-              </div>
-              <div className="d-flex mb-2 align-items-center">
-                <label htmlFor="phoneNumber" className="me-2" style={{ width: '35%' }}>
-                  Phone:
-                </label>
-                <input
-                  id="phoneNumber"
-                  type="tel"
-                  className="form-control form-control-sm"
-                  value={userPhoneNumber}
-                  onChange={(e) => setUserPhoneNumber(e.target.value)}
-                  placeholder="Phone"
-                  required
-                />
-              </div>
-            </fieldset>
-  
-            {/* Buttons */}
-            <div className="button col-12 col-sm-10 col-md-8 col-lg-5 d-flex justify-content-between mt-3 gap-1">
-              < button type="submit" className="btn btn-primary mb-2 mb-sm-0">
+            )}
+
+            <div className="d-flex justify-content-between mt-4">
+              <button type="submit" className="btn btn-primary">
                 Sign Up
               </button>
-              <Link to="/" className="btn btn-primary mb-2 mb-sm-0">
+              <Link to="/" className="btn btn-secondary">
                 Home
               </Link>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-      {message && <p>{message}</p>}
-    </div>
+    </section>
   );
 }
 

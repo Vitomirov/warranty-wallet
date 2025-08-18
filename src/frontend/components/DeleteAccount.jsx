@@ -55,7 +55,7 @@ function DeleteAccount() {
   };
 
   return (
-    <>
+    <div className="ps-5">
       <button
         type="button"
         className="btn btn-secondary"
@@ -72,9 +72,9 @@ function DeleteAccount() {
         contentLabel="Delete Account Confirmation"
         className="modalWindow"
         overlayClassName="modalWindow-overlay"
-        ariaHideApp={false} // Add this line
+        ariaHideApp={false}
       >
-        <div className="container-fluid">
+        <div className="container-fluid help">
           <div className="row justify-content-center">
             <div className="col-12 col-md-10 col-lg-8">
               <h4 className="text-center mb-3">
@@ -103,7 +103,7 @@ function DeleteAccount() {
           </div>
         </div>
       </ReactModal>
-    </>
+    </div>
   );
 }
 

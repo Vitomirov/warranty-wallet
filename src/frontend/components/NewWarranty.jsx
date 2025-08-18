@@ -21,18 +21,17 @@ const NewWarranty = () => {
   const { secureRequest } = useSecureRequest();
 
   const handleAddWarranty = async (e) => {
-  
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!dateOfPurchase || !warrantyExpireDate) {
-    alert("Please select both purchase and expiry dates.");
-    return;
-  }
+    if (!dateOfPurchase || !warrantyExpireDate) {
+      alert("Please select both purchase and expiry dates.");
+      return;
+    }
 
- if(!file){
-   alert("Please upload the warranty receipt as a PDF file.");
-   return;
-}
+    if (!file) {
+      alert("Please upload the warranty receipt as a PDF file.");
+      return;
+    }
 
     const formData = new FormData();
 
@@ -46,16 +45,11 @@ const NewWarranty = () => {
     formData.append("sellersEmail", sellersEmail);
 
     try {
-      const response = await secureRequest(
-        "post",
-        "/warranties",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await secureRequest("post", "/warranties", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       console.log("Warranty created successfully");
       setMessage("Warranty created successfully!!!");
@@ -67,14 +61,15 @@ const NewWarranty = () => {
   };
 
   return (
-    <div className="newWarranty container-fluid pt-2 ps-4 pe-5 d-flex flex-column flex-grow-1">
-      <div className="row p-2">
-        <h1 className="col-lg-6 mx-3 display-5 mt-5 pt-3 montserrat">
+    <div className="help container-fluid d-flex flex-column justify-content-center align-itmes-center flex-grow-1">
+      <div className="row content-layout help">
+        <h1 className="col-12 display-5 mt-5 pt-3 montserrat text-center">
           Create New Warranty
         </h1>
-        <div className="col-lg-6 col-md-5 col-sm-8 pt-3 mx-3 mt-1">
-          <form onSubmit ={handleAddWarranty}>
-            <div className="mb-2">
+
+        <div className="col-lg-6 col-md-8 col-sm-10 mx-auto mt-4">
+          <form onSubmit={handleAddWarranty}>
+            <div className="mb-3">
               <label>Product Name:</label>
               <input
                 type="text"
@@ -85,7 +80,7 @@ const NewWarranty = () => {
               />
             </div>
 
-            <div className="mb-2">
+            <div className="mb-3">
               <label>Purchase Date:</label>
               <DatePicker
                 selected={dateOfPurchase}
@@ -97,7 +92,7 @@ const NewWarranty = () => {
               />
             </div>
 
-            <div className="mb-2">
+            <div className="mb-3">
               <label>Expiry Date:</label>
               <DatePicker
                 selected={warrantyExpireDate}
@@ -109,8 +104,8 @@ const NewWarranty = () => {
               />
             </div>
 
-            <div className="mb-2">
-              <label className="me-4">Seller's email:</label>
+            <div className="mb-3">
+              <label>Seller's email:</label>
               <input
                 type="email"
                 value={sellersEmail}
@@ -120,23 +115,20 @@ const NewWarranty = () => {
               />
             </div>
 
-            <div className="mb-2">
-              <label className="me-4">Upload PDF File:</label>
+            <div className="mb-3">
+              <label>Upload PDF File:</label>
               <input
                 type="file"
                 accept="application/pdf"
                 onChange={(e) => setFile(e.target.files[0])}
                 className="form-control form-control-md form-style"
-                required             
-             />
+                required
+              />
             </div>
 
-            <div className="button mt-5 d-flex justify-content-between">
-              {message && <p>{message}</p>}
-              <button
-                type="submit"
-                className="btn btn-primary me-2"
-              >
+            <div className="button mt-4 d-flex justify-content-between">
+              {message && <p className="text-success mb-0">{message}</p>}
+              <button type="submit" className="btn btn-primary me-2">
                 Add Warranty
               </button>
               <Link to="/dashboard" className="btn btn-secondary">
@@ -144,18 +136,6 @@ const NewWarranty = () => {
               </Link>
             </div>
           </form>
-        </div>
-
-        <div
-          className="col-lg-5 col-md-6 d-none d-md-flex justify-content-center align-items-center"
-          style={{ paddingLeft: "140px" }}
-        >
-          <img
-            className="img-fluid"
-            style={{ maxWidth: "auto", height: "450px", objectFit: "contain" }}
-            src="/NewWarranty.png"
-            alt="New Warranty"
-          />
         </div>
       </div>
     </div>

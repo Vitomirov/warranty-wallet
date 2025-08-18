@@ -23,10 +23,10 @@ function Navigation() {
 
   return (
     <nav className="text-black navbar shadow-lg w-100 fixed-top">
-      <div className="d-flex justify-content-between align-items-center help container-fluid conent-layout">
+      <div className="d-flex justify-content-between align-items-center help container-fluid content-layout">
         {/* Brand logo is the first flex item */}
         <a className="navbar-brand" href="#">
-          <img src="\Logo.png" alt="WW logo" />
+          <h2 className="text-white">Warranty Wallet</h2>
         </a>
 
         {/* This button is only visible on medium and small screens */}

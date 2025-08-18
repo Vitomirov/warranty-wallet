@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Features = () => {
-  // State to manage which card is currently active/open
-  const [activeFeature, setActiveFeature] = useState(null);
-
-  // Data for the features
   const featuresData = [
     {
       id: "feature-1",
       title: "Centralized Management",
       icon: "bi bi-arrow-down-left",
       description:
-        "Say goodbye to lost receipts and scattered documents. Warranty Wallet keeps all your warranties in one secure location, accessible anytime, anywhere.",
+        "Say goodbye to lost receipts and scattered documents. Warranty Wallet keeps all your warranties in one place and makes managing them effortless.",
     },
     {
       id: "feature-2",
       title: "Predefined Email Template",
       icon: "bi bi-envelope-paper-fill",
       description:
-        "Quickly report issues with your products using our predefined email template. Just describe your issue, and the app will handle the rest, sending the email directly to the seller for you.",
+        "Quickly report product issues using our ready-to-send email template. The app will handle the sending automatically.",
     },
     {
       id: "feature-3",
@@ -36,47 +32,35 @@ const Features = () => {
     },
   ];
 
-  // Function to toggle the active feature card
-  const toggleFeature = (featureId) => {
-    setActiveFeature(activeFeature === featureId ? null : featureId);
-  };
-
   return (
     <section
       id="features"
-      className="features-section min-vh-100 d-flex flex-column justify-content-center"
+      className="global-container d-flex justify-content-center align-items-center"
     >
-      <div className="conent-layout help">
-        <div className="text-center text-md-start mb-5 help">
-          <h1 className=" display-4 text-center">FEATURES</h1>
-        </div>
+      <div className="row content-layout help">
+        <h1 className="display-4 text-center">FEATURES</h1>
 
-        <div className="features-card-container">
-          {/* Map through the features data to render each card */}
-          {featuresData.map((feature, index) => (
+        <div className="row g-5 justify-content-center">
+          {featuresData.map((feature) => (
             <div
               key={feature.id}
-              className={`individualFeature card p-0 rounded clickable-card 
-                ${activeFeature === feature.id ? "active" : ""}`}
-              onClick={() => toggleFeature(feature.id)}
-              style={{
-                "--i": index,
-                "--total": featuresData.length,
-              }}
+              className="col-12 col-md-6 col-lg-3 d-flex justify-content-center"
             >
-              <div className="p-4 d-flex align-items-center bg-gradient featureTitle rounded-top">
-                <i className={`${feature.icon} h3 me-3`}></i>
-                <h5 className="mb-0">{feature.title}</h5>
-              </div>
+              {/* Bootstrap card */}
+              <div className="feature-card h-100 pb-3">
+                <div className="card-body text-center d-flex flex-column justify-content-start">
+                  {/* Icon */}
+                  <i className={`${feature.icon} display-4 mb-3`} />
 
-              {/* The content is conditionally rendered */}
-              {activeFeature === feature.id && (
-                <div className="pt-2 ps-2">
-                  <p className="lead paragraph-justify">
+                  {/* Title */}
+                  <h5 className="card-title">{feature.title}</h5>
+
+                  {/* Description (hidden by default, shown on hover with CSS) */}
+                  <p className="card-text text-justify feature-description mt-2">
                     {feature.description}
                   </p>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>

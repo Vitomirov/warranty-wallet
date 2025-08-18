@@ -1,12 +1,11 @@
-import React from 'react';
-import Footer from './Footer';
+import Footer from "./Footer";
 
 const LayoutWithoutHeader = ({ children }) => {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <main className="d-flex flex-grow-1">
+    <div className=" vh-100 d-flex justify-content-center flex-column">
+      <main className="d-flex flex-grow-1 justify-content-center">
         {children}
-          </main>
+      </main>
       {/* Reuse Footer Component */}
       <Footer />
     </div>

@@ -77,76 +77,66 @@ const MyWarranties = () => {
   }, []);
 
   return (
-    <div className="myWarranties container-fluid pt-1 ps-4 pe-5 d-flex flex-column min-vh-80">
-      <div className="row col-lg-12 my-2 d-flex align-items-center mb-4 p-1">
-        <h1 className="col-lg-6 mx-3 display-5 mt-5 pt-3 montserrat">
+    // The main section centers the content vertically on the screen.
+    <section
+      id="myWarranties"
+      className="d-flex justify-content-center align-items-center flex-grow-1"
+    >
+      {/* This container defines the central content area, similar to the My Account layout. */}
+      <div className="content-layout w-100 help">
+        <h1 className="text-center mb-5 montserrat">
           {user.username}'s Warranties
         </h1>
-      </div>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <div className="row align-items-start ps-3 pe-3 flex-grow-1">
-        <div className="col-md-6">
-          {loading ? (
-            <p>Loading warranties...</p>
-          ) : (
-            <div className="col-lg-10 col-md-12 col-sm-8">
-              {warranties.length === 0 ? (
-                <div className="d-flex flex-column">
-                  <p>No warranties yet. You can add one below.</p>
-                </div>
-              ) : (
-                <ol
-                  className="list-group list-group-numbered mt-2 overflow-auto"
-                  style={{ maxHeight: "55vh" }}
-                >
-                  {warranties.map((warranty) => (
-                    <li
-                      key={warranty.warrantyId}
-                      className="list-style list-group-item ps-4 mb-2 help border"
-                    >
-                      <Link
-                        to={`/warranties/details/${warranty.warrantyId}`}
-                        // Remove 'link-text' class from here
-                        // Add inline styles or create a new CSS class for the Link itself
-                        // to make it fill the <li> and inherit styles
-                        style={{
-                          display: "block", // Make the link fill the parent <li>
-                          textDecoration: "none", // Remove underline
-                          color: "inherit", // Inherit text color from .list-style
-                          //padding: "0.5rem 1rem", // Add padding to the link itself for a larger clickable area
-                        }}
+        {error && <div className="alert alert-danger text-center">{error}</div>}
+
+        {/* Main content container with responsive columns for centering. */}
+        <div className="d-flex justify-content-center help">
+          <div className="col-12 col-md-8 col-lg-6">
+            {loading ? (
+              <p className="text-center">Loading warranties...</p>
+            ) : (
+              <div>
+                {warranties.length === 0 ? (
+                  <div className="d-flex flex-column text-center">
+                    <p>No warranties yet. You can add one below.</p>
+                  </div>
+                ) : (
+                  <ol className="list-group list-group-numbered mt-2">
+                    {warranties.map((warranty) => (
+                      <li
+                        key={warranty.warrantyId}
+                        className="list-style list-group-item ps-4 mb-2 help border"
                       >
-                        {warranty.productName}
-                      </Link>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </div>
-          )}
-        </div>
-        <div className="col-md-5 d-flex justify-content-center align-items-center pt-1 mb-0">
-          <div className="d-none d-md-flex justify-content-end ms-5 ps-5">
-            <img
-              className="img-fluid"
-              style={{ maxWidth: "90%", height: "auto" }}
-              src="/MyWarranties.png"
-              alt="My Warranties"
-            />
+                        <Link
+                          to={`/warranties/details/${warranty.warrantyId}`}
+                          style={{
+                            display: "block",
+                            textDecoration: "none",
+                            color: "inherit",
+                          }}
+                        >
+                          {warranty.productName}
+                        </Link>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+                <div className="button-container mt-4 text-center d-flex justify-content-between help">
+                  <Link to="/newWarranty" className="btn btn-primary border">
+                    Add a new warranty
+                  </Link>
+                  <Link to="/dashboard" className="btn btn-secondary border">
+                    Back
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Buttons section, styled to match the My Account layout. */}
       </div>
-      <div className="row d-flex align-items-center mb-3 mt-auto">
-        <div className="col-lg-5 col-md-6 col-sm-8 mt-3 button d-flex justify-content-between ps-4">
-          <Link to="/newWarranty" className="btn btn-primary me-2">
-            Add a new warranty
-          </Link>
-          <Link to="/dashboard" className="btn btn-secondary">
-            Back
-          </Link>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 };
 
