@@ -13,52 +13,6 @@ function Dashboard() {
 
   return (
     <div className="dashboard d-flex flex-column flex-grow-1">
-      {/* Navbar within Dashboard */}
-      <nav className="bg-gradient navbar navbar-expand-lg shadow-lg mb-4 w-100">
-        {/* Adjusted padding on mobile, using Bootstrap's default p-3 (or custom class) */}
-        <div
-          className="container-fluid py-3 d-flex justify-content-between align-items-center dashboard-navbar-inner" // Added dashboard-navbar-inner
-        >
-          {/* Made h1 font smaller on mobile with fs-sm-4 */}
-          <h1 className="fs-1 mb-0 white montserrat fs-sm-4">
-            Welcome, {user.username}
-          </h1>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto text-end">
-              <li className="nav-item">
-                <Link to="/myAccount" className="nav-link">
-                  My Account
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <LogOut
-                  asLink={true}
-                  linkTo="/"
-                  className="nav-link btn btn-link text-white text-end"
-                />
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
       {/* Reduced padding on mobile (p-sm-3) and added custom class for height management */}
       <main className="flex-grow-1 container-fluid p-5 d-flex flex-column justify-content-center dashboard-main-content p-sm-3">
         <div className="row">

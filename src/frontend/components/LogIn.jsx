@@ -1,14 +1,23 @@
+// src/pages/LogIn.jsx
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ReactModal from "react-modal";
 
-const Login = () => {
+function LogIn() {
   const { login } = useAuth();
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(true);
+
+  const closeLoginModal = () => {
+    setShowLoginModal(false);
+    navigate("/"); // ili navigate(-1) ako želiš da vrati nazad
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,62 +40,73 @@ const Login = () => {
   };
 
   return (
-    <section
-      id="login"
-      className="d-flex justify-content-center align-items-center flex-grow-1 help "
+    <ReactModal
+      isOpen={showLoginModal}
+      onRequestClose={closeLoginModal}
+      contentLabel="Log In"
+      className="modalWindow"
+      overlayClassName="modalWindow-overlay"
+      ariaHideApp={false}
     >
-      <div className="content-layout w-100 d-flex justify-content-center align-items-center help">
-        <div className="w-100" style={{ maxWidth: "600px" }}>
-          <h1 className="text-center mb-5 montserrat">Log In</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3 form-floating">
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-              <label htmlFor="username">Username</label>
-            </div>
-            <div className="mb-4 form-floating">
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <label htmlFor="password">Password</label>
-            </div>
-
-            {error && (
-              <div className="alert alert-danger" role="alert">
-                {error}
+      <div className="container-fluid help">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-8 col-lg-6">
+            <h2 className="text-center mb-4">Log In</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3 form-floating">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="username"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+                <label htmlFor="username">Username</label>
               </div>
-            )}
+              <div className="mb-4 form-floating">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <label htmlFor="password">Password</label>
+              </div>
 
-            <div className="d-flex justify-content-between">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={loading}
-              >
-                {loading ? "Logging In..." : "Log In"}
-              </button>
-              <Link className="btn btn-secondary" to="/">
-                Back
-              </Link>
-            </div>
-          </form>
+              {error && (
+                <div className="alert alert-danger text-center" role="alert">
+                  {error}
+                </div>
+              )}
+
+              <div className="d-flex justify-content-between gap-3">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={loading}
+                >
+                  {loading ? "Logging In..." : "Log In"}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={closeLoginModal}
+                  disabled={loading}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </section>
+    </ReactModal>
   );
-};
+}
 
-export default Login;
+export default LogIn;

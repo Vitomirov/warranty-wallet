@@ -31,9 +31,6 @@ const LandingPage = () => {
         </section>
       </main>
 
-      <footer>
-        <Footer />
-      </footer>
       <BackToTopButton />
     </div>
   );

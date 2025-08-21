@@ -13,115 +13,81 @@ import PrivateRoute from "./components/PrivateRoute";
 import AuthProvider from "./context/AuthProvider";
 import LandingPage from "./components/LandingPage";
 import About from "./components/About";
+import Features from "./components/Features";
+import FAQ from "./components/FAQ";
 import AIChat from "./components/AiChat";
-
-import LayoutWithoutHeader from "./components/LayoutWithoutHeader";
+import Layout from "./components/Layout";
 
 function App() {
   console.log("Rendering App component");
 
   return (
     <AuthProvider>
-      <Routes>
-        {/* Landing Page */}
-        <Route path="/" element={<LandingPage />} />
+      <Layout>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/logout" element={<LogOut />} />
 
-        {/* Other Pages Wrapped in LayoutWithoutHeader */}
-        <Route
-          path="/login"
-          element={
-            <LayoutWithoutHeader>
-              <LogIn />
-            </LayoutWithoutHeader>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <LayoutWithoutHeader>
-              <SignUp />
-            </LayoutWithoutHeader>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <LayoutWithoutHeader>
-              <About />
-            </LayoutWithoutHeader>
-          }
-        />
-        <Route
-          path="/logout"
-          element={
-            <LayoutWithoutHeader>
-              <LogOut />
-            </LayoutWithoutHeader>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <LayoutWithoutHeader>
+          {/* Private routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
                 <Dashboard />
-              </LayoutWithoutHeader>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/myAccount"
-          element={
-            <PrivateRoute>
-              <LayoutWithoutHeader>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/myAccount"
+            element={
+              <PrivateRoute>
                 <MyAccount />
-              </LayoutWithoutHeader>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/newWarranty"
-          element={
-            <PrivateRoute>
-              <LayoutWithoutHeader>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/newWarranty"
+            element={
+              <PrivateRoute>
                 <NewWarranty />
-              </LayoutWithoutHeader>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/warranties/details/:id"
-          element={
-            <PrivateRoute>
-              <LayoutWithoutHeader>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/warranties/details/:id"
+            element={
+              <PrivateRoute>
                 <WarrantyDetails />
-              </LayoutWithoutHeader>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/myWarranties"
-          element={
-            <PrivateRoute>
-              <LayoutWithoutHeader>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/myWarranties"
+            element={
+              <PrivateRoute>
                 <MyWarranties />
-              </LayoutWithoutHeader>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/warranties/delete/:id"
-          element={
-            <PrivateRoute>
-              <LayoutWithoutHeader>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/warranties/delete/:id"
+            element={
+              <PrivateRoute>
                 <DeleteWarranty />
-              </LayoutWithoutHeader>
-            </PrivateRoute>
-          }
-        />
-        {/* Default route */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+              </PrivateRoute>
+            }
+          />
+
+          {/* Default catch-all route */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Layout>
       <AIChat />
     </AuthProvider>
   );

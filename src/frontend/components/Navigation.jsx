@@ -1,94 +1,144 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 
 function Navigation() {
-  const { user } = useAuth();
-  const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, logout } = useAuth();
+  const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
+  const isLoggedIn = !!user;
+  const navRef = useRef(null);
 
+  // close on scroll
   useEffect(() => {
-    setIsLoggedIn(!!(user || localStorage.getItem("token")));
-  }, [user]);
+    function handleScroll() {
+      setExpanded(false);
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-  const handleLinkClick = () => {
-    const navbarCollapseElement = document.getElementById("navbarNav");
-    if (
-      navbarCollapseElement &&
-      navbarCollapseElement.classList.contains("show")
-    ) {
-      navbarCollapseElement.classList.remove("show");
+  // close on click outside or on empty space inside navbar
+  useEffect(() => {
+    function handleClick(event) {
+      if (!navRef.current) return;
+
+      // close on click outside the navbar
+      if (!navRef.current.contains(event.target)) {
+        setExpanded(false);
+        return;
+      }
+
+      // close on click in navbar, but not on link
+      if (
+        navRef.current.contains(event.target) &&
+        !event.target.closest(".nav-link")
+      ) {
+        setExpanded(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClick);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to log out:", error);
     }
   };
 
   return (
-    <nav className="text-black navbar shadow-lg w-100 fixed-top">
-      <div className="d-flex justify-content-between align-items-center help container-fluid content-layout">
-        {/* Brand logo is the first flex item */}
-        <a className="navbar-brand" href="#">
-          <h2 className="text-white">Warranty Wallet</h2>
-        </a>
+    <Navbar
+      ref={navRef}
+      expand="lg"
+      expanded={expanded}
+      onToggle={() => setExpanded(!expanded)}
+      collapseOnSelect
+      className="shadow-lg w-100 fixed-top"
+    >
+      <Container fluid className="content-layout help">
+        <Navbar.Brand href="#">
+          <h1 className="text-white">Warranty Wallet</h1>
+        </Navbar.Brand>
 
-        {/* This button is only visible on medium and small screens */}
-        <button
-          className="navbar-toggler d-lg-none"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        {/* This div is the dropdown menu, only visible on medium and small screens */}
-        <div className="collapse navbar-collapse d-lg-none" id="navbarNav">
-          <ul className="navbar-nav ms-auto text-end">
-            <li className="nav-item">
-              <a className="nav-link" href="#about" onClick={handleLinkClick}>
-                About
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                href="#features"
-                onClick={handleLinkClick}
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          {isLoggedIn ? (
+            <Nav className="ms-lg-auto" onSelect={() => setExpanded(false)}>
+              <Nav.Link
+                as={Link}
+                to="/myWarranties"
+                onClick={() => setExpanded(false)}
               >
-                Features
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#FAQ" onClick={handleLinkClick}>
-                FAQ
-              </a>
-            </li>
-          </ul>
-        </div>
+                My Warranties
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/newWarranty"
+                onClick={() => setExpanded(false)}
+              >
+                New Warranty
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/myAccount"
+                onClick={() => setExpanded(false)}
+              >
+                My Account
+              </Nav.Link>
+              <Nav.Link
+                as="button"
+                className="btn ms-lg-3"
+                onClick={() => {
+                  handleLogout();
+                  setExpanded(false);
+                }}
+              >
+                Log Out
+              </Nav.Link>
+            </Nav>
+          ) : (
+            <>
+              <Nav
+                className="ms-auto text-start text-lg-center help"
+                onSelect={() => setExpanded(false)}
+              >
+                <Nav.Link href="#about" className="nav-link help">
+                  About
+                </Nav.Link>
+                <Nav.Link href="#features" className="nav-link">
+                  Features
+                </Nav.Link>
+                <Nav.Link href="#faq" className="nav-link">
+                  FAQ
+                </Nav.Link>
+              </Nav>
 
-        {/* This is the correct way to space the links on large screens */}
-        <div className="d-none d-lg-flex">
-          <ul className="navbar-nav d-flex flex-row gap-3">
-            <li className="nav-item">
-              <a className="nav-link" href="#about">
-                About
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#features">
-                Features
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#FAQ">
-                FAQ
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+              <Nav
+                className="ms-0 ms-lg-auto text-end text-lg-end"
+                onSelect={() => setExpanded(false)}
+              >
+                <Nav.Link as={Link} to="/login">
+                  Log In
+                </Nav.Link>
+                <Nav.Link as={Link} to="/signup">
+                  Sign Up
+                </Nav.Link>
+              </Nav>
+            </>
+          )}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 

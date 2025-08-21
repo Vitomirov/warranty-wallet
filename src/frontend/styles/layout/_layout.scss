@@ -72,13 +72,20 @@
 
 
 // NAVIGATION LINKS
-.nav-link {
-    color: variables.$white;
+.navbar .nav-link {
+  color: variables.$white;
 
-    &:hover {
-        color: variables.$yellow;
-    }
+  &:hover,
+  &:focus,
+  &:active {
+    color: variables.$yellow;
+  }
+
+  &.active {
+    color: variables.$white;
+  }
 }
+
 
 // BACK TO TOP
 .back-to-top {
