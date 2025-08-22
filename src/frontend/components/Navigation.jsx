@@ -66,8 +66,16 @@ function Navigation() {
       className="shadow-lg w-100 fixed-top"
     >
       <Container fluid className="content-layout help">
-        <Navbar.Brand href="#">
-          <h1 className="text-white">Warranty Wallet</h1>
+        <Navbar.Brand>
+          {isLoggedIn ? (
+            <Link to="/dashboard" className="text-decoration-none">
+              <h1 className="text-white">Warranty Wallet</h1>
+            </Link>
+          ) : (
+            <a href="#" className="text-decoration-none">
+              <h1 className="text-white">Warranty Wallet</h1>
+            </a>
+          )}
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

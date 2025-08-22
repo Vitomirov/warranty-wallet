@@ -1,6 +1,6 @@
 // React and library imports
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import DeleteWarranty from "./DeleteWarranty";
 import { useAuth } from "../context/AuthContext";
 import useSecureRequest from "../hooks/useSecureRequest";
@@ -9,6 +9,7 @@ import axios from "axios";
 const WarrantyDetails = () => {
   const { user } = useAuth();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { secureRequest } = useSecureRequest();
 
@@ -150,6 +151,10 @@ const WarrantyDetails = () => {
     };
   }, [id, fetchWarranty]);
 
+  const handleDeleteSuccess = () => {
+    navigate("/dashboard");
+  };
+
   const imageSrc = isExpired
     ? "/ExpiredWarranty.png"
     : "/NotExpiredWarranty.png";
@@ -223,7 +228,10 @@ const WarrantyDetails = () => {
                   >
                     Send Complaint
                   </button>
-                  <DeleteWarranty id={warranty.warrantyId} />
+                  <DeleteWarranty
+                    id={warranty.warrantyId}
+                    onDeleteSuccess={handleDeleteSuccess}
+                  />
                 </div>
               </div>
             </fieldset>

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import useSecureRequest from "../hooks/useSecureRequest";
 
-const DeleteWarranty = ({ id }) => {
+// Receive onDeleteSuccess as a prop from the parent component
+const DeleteWarranty = ({ id, onDeleteSuccess }) => {
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { secureRequest } = useSecureRequest();
 
@@ -20,13 +18,15 @@ const DeleteWarranty = ({ id }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await secureRequest(
-        "delete",
-        `/warranties/delete/${id}`
-      );
-      console.log("Delete response:", response);
-      setSuccess(response.data.message);
-      navigate("/myWarranties", { replace: true });
+      await secureRequest("delete", `/warranties/delete/${id}`);
+
+      // Call the parent's success callback to trigger a list update
+      if (onDeleteSuccess) {
+        onDeleteSuccess();
+      }
+
+      // Close the modal after a successful deletion
+      closeDeleteModal();
     } catch (error) {
       console.error("Delete error:", error);
       setError(error.message || "Failed to delete warranty.");

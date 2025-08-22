@@ -1,53 +1,96 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import LogOut from "./LogOut";
+import axiosInstance from "../context/axiosInstance";
+import DeleteWarranty from "./DeleteWarranty"; // Import the DeleteWarranty component
 
 function Dashboard() {
   const { user } = useAuth();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [warranties, setWarranties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
+  // Function to fetch the list of warranties
+  const fetchWarranties = async () => {
+    try {
+      const response = await axiosInstance.get("/warranties/all");
+      setWarranties(response.data || []);
+    } catch (err) {
+      console.error("Failed to fetch warranties:", err);
+      setError("Failed to load warranties. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch warranties on initial component mount
   useEffect(() => {
-    setIsLoggedIn(!!(user || localStorage.getItem("token")));
-  }, [user]);
+    fetchWarranties();
+  }, []);
+
+  // Handler for navigating to warranty details
+  const handleWarrantyClick = (id) => {
+    navigate(`/warranties/details/${id}`);
+  };
+
+  if (loading) {
+    return <div className="alert alert-info">Loading warranties...</div>;
+  }
+
+  if (error) {
+    return <div className="alert alert-danger">{error}</div>;
+  }
 
   return (
-    <div className="dashboard d-flex flex-column flex-grow-1">
-      {/* Reduced padding on mobile (p-sm-3) and added custom class for height management */}
-      <main className="flex-grow-1 container-fluid p-5 d-flex flex-column justify-content-center dashboard-main-content p-sm-3">
-        <div className="row">
-          <div className="text-center mb-5 pb-5 mb-sm-3 pb-sm-3">
-            {/* Reduced bottom margin/padding on mobile */}
-            {/* Made h2 font smaller on mobile with fs-sm-6 */}
-            <h2 className="text-white fw-lighter fs-sm-6 pb-3">
-              All your warranties in one place. Add and manage with ease.
-            </h2>
-          </div>
-        </div>
+    <div className="container py-5">
+      <h1 className="text-center mb-4">Welcome back, {user?.username}!</h1>
 
-        {/* Adjusted column classes and reduced gap on mobile */}
-        <div className="row justify-content-center dashboardbutton g-3 g-md-4 mt-2 mt-sm-0">
-          {/* Reduced top margin on mobile */}
-          <div className="col-12 col-md-6 col-lg-5">
-            <Link
-              to="/myWarranties"
-              className="btn btn-lg border w-100 shadow dashboard-btn-size"
+      <div className="mb-4">
+        <h4>Your Warranties:</h4>
+      </div>
+
+      {warranties.length === 0 ? (
+        <div className="alert alert-warning">No warranties found.</div>
+      ) : (
+        <ul className="list-group">
+          {warranties.map((warranty) => (
+            <li
+              key={warranty.warrantyId}
+              className="list-group-item d-flex justify-content-between align-items-center"
             >
-              {/* Added dashboard-btn-size */}
-              &gt;&gt;&gt;My Warranties &lt;&lt;&lt;
-            </Link>
-          </div>
-          <div className="col-12 col-md-6 col-lg-5 mb-1">
-            <Link
-              to="/newWarranty"
-              className="btn btn-lg border w-100 shadow dashboard-btn-size"
-            >
-              {/* Added dashboard-btn-size */}
-              &gt;&gt;&gt;New Warranty&lt;&lt;&lt;
-            </Link>
-          </div>
-        </div>
-      </main>
+              <div className="flex-grow-1">
+                <span className="fw-bold">{warranty.productName}</span>
+                <small className="text-muted ms-3">
+                  (Expires: {warranty.warrantyExpireDate})
+                </small>
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary btn-sm me-2"
+                  onClick={() => handleWarrantyClick(warranty.warrantyId)}
+                >
+                  View Details
+                </button>
+                {/* Pass the fetchWarranties function as a prop */}
+                <DeleteWarranty
+                  id={warranty.warrantyId}
+                  onDeleteSuccess={fetchWarranties}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="text-center mt-5">
+        <button
+          className="btn btn-success btn-lg"
+          onClick={() => navigate("/newWarranty")}
+        >
+          + Add New Warranty
+        </button>
+      </div>
     </div>
   );
 }
