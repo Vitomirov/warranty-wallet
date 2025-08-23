@@ -26,16 +26,15 @@ function Navigation() {
     function handleClick(event) {
       if (!navRef.current) return;
 
-      // close on click outside the navbar
       if (!navRef.current.contains(event.target)) {
         setExpanded(false);
         return;
       }
 
-      // close on click in navbar, but not on link
       if (
         navRef.current.contains(event.target) &&
-        !event.target.closest(".nav-link")
+        !event.target.closest(".nav-link") &&
+        !event.target.closest(".navbar-toggler")
       ) {
         setExpanded(false);
       }
@@ -61,7 +60,6 @@ function Navigation() {
       ref={navRef}
       expand="lg"
       expanded={expanded}
-      onToggle={() => setExpanded(!expanded)}
       collapseOnSelect
       className="shadow-lg w-100 fixed-top"
     >
@@ -73,15 +71,38 @@ function Navigation() {
             </Link>
           ) : (
             <a href="#" className="text-decoration-none">
-              <h1 className="text-white">Warranty Wallet</h1>
+              <h1 className="text-white help">Warranty Wallet</h1>
             </a>
           )}
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        {/* Marketing links next to logo (desktop only, when logged out) */}
+        {!isLoggedIn && (
+          <Nav className="d-none d-lg-flex">
+            <Nav.Link href="#about" className="nav-link">
+              About
+            </Nav.Link>
+            <Nav.Link href="#features" className="nav-link">
+              Features
+            </Nav.Link>
+            <Nav.Link href="#faq" className="nav-link">
+              FAQ
+            </Nav.Link>
+          </Nav>
+        )}
+
+        {/* Hamburger toggle */}
+        <Navbar.Toggle
+          aria-controls="responsive-navbar-nav"
+          onClick={() => setExpanded((prev) => !prev)}
+        />
+
         <Navbar.Collapse id="responsive-navbar-nav">
           {isLoggedIn ? (
-            <Nav className="ms-lg-auto" onSelect={() => setExpanded(false)}>
+            <Nav
+              className="ms-lg-auto text-start"
+              onSelect={() => setExpanded(false)}
+            >
               <Nav.Link
                 as={Link}
                 to="/myWarranties"
@@ -105,7 +126,7 @@ function Navigation() {
               </Nav.Link>
               <Nav.Link
                 as="button"
-                className="btn ms-lg-3"
+                className="btn ms-lg-3 text-start"
                 onClick={() => {
                   handleLogout();
                   setExpanded(false);
@@ -116,17 +137,18 @@ function Navigation() {
             </Nav>
           ) : (
             <>
+              {/* Collapsible marketing links for mobile */}
               <Nav
-                className="ms-auto text-start text-lg-center help"
+                className="text-lg-start d-lg-none"
                 onSelect={() => setExpanded(false)}
               >
-                <Nav.Link href="#about" className="nav-link help">
+                <Nav.Link href="#about" className="nav-link text-center">
                   About
                 </Nav.Link>
-                <Nav.Link href="#features" className="nav-link">
+                <Nav.Link href="#features" className="nav-link text-center">
                   Features
                 </Nav.Link>
-                <Nav.Link href="#faq" className="nav-link">
+                <Nav.Link href="#faq" className="nav-link text-center">
                   FAQ
                 </Nav.Link>
               </Nav>

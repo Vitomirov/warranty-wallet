@@ -234,12 +234,12 @@ const WarrantyDetails = () => {
                   />
                 </div>
               </div>
+              <div className="button-container mt-4 help d-flex justify-content-end">
+                <Link to="/dashboard" className="btn btn-secondary help">
+                  Back
+                </Link>
+              </div>
             </fieldset>
-            <div className="button-container mt-4 help d-flex justify-content-end">
-              <Link to="/dashboard" className="btn btn-secondary help">
-                Back
-              </Link>
-            </div>
           </div>
         </div>
       </div>

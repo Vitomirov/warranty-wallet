@@ -57,22 +57,23 @@ function Dashboard() {
           {warranties.map((warranty) => (
             <li
               key={warranty.warrantyId}
-              className="list-group-item d-flex justify-content-between align-items-center"
+              className="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-sm-center"
             >
-              <div className="flex-grow-1">
-                <span className="fw-bold">{warranty.productName}</span>
-                <small className="text-muted ms-3">
+              <div className="flex-grow-1 mb-2 mb-sm-0">
+                <span className="fw-bold d-block d-sm-inline-block">
+                  {warranty.productName}
+                </span>
+                <small className="text-muted ms-sm-3 d-block d-sm-inline-block">
                   (Expires: {warranty.warrantyExpireDate})
                 </small>
               </div>
-              <div>
+              <div className="d-flex flex-column flex-sm-row gap-2">
                 <button
-                  className="btn btn-primary btn-sm me-2"
+                  className="btn btn-primary btn-sm"
                   onClick={() => handleWarrantyClick(warranty.warrantyId)}
                 >
                   View Details
                 </button>
-                {/* Pass the fetchWarranties function as a prop */}
                 <DeleteWarranty
                   id={warranty.warrantyId}
                   onDeleteSuccess={fetchWarranties}

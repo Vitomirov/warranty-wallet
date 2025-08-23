@@ -104,22 +104,22 @@ function MyAccount() {
   return (
     <section
       id="myAccount"
-      className="d-flex justify-content-center align-items-center flex-grow-1"
+      className="d-flex justify-content-center align-items-end flex-grow-1"
     >
-      <div className="content-layout w-100">
-        <h1 className="text-center mb-5 montserrat">My Account</h1>
-        <form onSubmit={handleUpdate}>
-          <div className="row g-4">
-            {/* Account Information fieldset */}
+      <div className="container">
+        <h2 className="text-center mb-3 montserrat fs-4">My Account</h2>
+
+        <form onSubmit={handleUpdate} className="card shadow-sm p-3 border-0">
+          <div className="row g-3">
+            {/* Account Information */}
             <div className="col-12 col-md-6">
-              <fieldset className="border p-3 rounded h-100">
-                <legend className="float-none w-auto px-2">
-                  Account Information
-                </legend>
-                <div className="mb-3 form-floating">
+              <fieldset className="border p-2 rounded h-100">
+                <legend className="fs-6 px-2">Account</legend>
+
+                <div className="mb-2">
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     id="username"
                     name="username"
                     value={userData.username}
@@ -127,12 +127,12 @@ function MyAccount() {
                     placeholder="Username"
                     required
                   />
-                  <label htmlFor="username">Username</label>
                 </div>
-                <div className="mb-3 form-floating">
+
+                <div className="mb-2">
                   <input
                     type="email"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     id="userEmail"
                     name="userEmail"
                     value={userData.userEmail}
@@ -140,12 +140,12 @@ function MyAccount() {
                     placeholder="Email"
                     required
                   />
-                  <label htmlFor="userEmail">Email</label>
                 </div>
-                <div className="mb-3 form-floating">
+
+                <div className="mb-2">
                   <input
                     type="password"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     id="password"
                     name="password"
                     value={userData.password}
@@ -153,21 +153,19 @@ function MyAccount() {
                     placeholder="Password"
                     required
                   />
-                  <label htmlFor="password">Password</label>
                 </div>
               </fieldset>
             </div>
 
-            {/* Personal Information fieldset */}
+            {/* Personal Information */}
             <div className="col-12 col-md-6">
-              <fieldset className="border p-3 rounded h-100">
-                <legend className="float-none w-auto px-2">
-                  Personal Information
-                </legend>
-                <div className="mb-3 form-floating">
+              <fieldset className="border p-2 rounded h-100">
+                <legend className="fs-6 px-2">Personal</legend>
+
+                <div className="mb-2">
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     id="fullName"
                     name="fullName"
                     value={userData.fullName}
@@ -175,12 +173,12 @@ function MyAccount() {
                     placeholder="Full Name"
                     required
                   />
-                  <label htmlFor="fullName">Full Name</label>
                 </div>
-                <div className="mb-3 form-floating">
+
+                <div className="mb-2">
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     id="userAddress"
                     name="userAddress"
                     value={userData.userAddress}
@@ -188,12 +186,12 @@ function MyAccount() {
                     placeholder="Address"
                     required
                   />
-                  <label htmlFor="userAddress">Address</label>
                 </div>
-                <div className="mb-3 form-floating">
+
+                <div className="mb-2">
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     id="userPhoneNumber"
                     name="userPhoneNumber"
                     value={userData.userPhoneNumber}
@@ -201,29 +199,29 @@ function MyAccount() {
                     placeholder="Phone Number"
                     required
                   />
-                  <label htmlFor="userPhoneNumber">Phone Number</label>
                 </div>
               </fieldset>
             </div>
           </div>
 
           {/* Buttons */}
-          <div className="button-container mt-4 help">
-            <button type="submit" className="btn btn-primary">
+          <div className="d-flex flex-column gap-2 mt-3">
+            <button type="submit" className="btn btn-primary btn-sm w-100">
               Update Account
             </button>
-            <div className="d-flex gap-2">
-              <DeleteAccount />
-            </div>
-          </div>
-          <div className="button-container mt-4 help d-flex justify-content-end">
-            <Link to="/dashboard" className="btn btn-secondary help">
+            <DeleteAccount />
+            <Link
+              to="/dashboard"
+              className="btn btn-outline-secondary btn-sm w-100"
+            >
               Back
             </Link>
           </div>
 
           {successMessage && (
-            <p className="text-success mt-2">{successMessage}</p>
+            <p className="text-success mt-2 text-center small">
+              {successMessage}
+            </p>
           )}
         </form>
       </div>
