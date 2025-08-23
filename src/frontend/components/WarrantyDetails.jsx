@@ -173,7 +173,7 @@ const WarrantyDetails = () => {
     >
       {/* This container defines the central content area, similar to the My Account layout. */}
       <div className="content-layout w-100">
-        <h1 className="text-center mb-5 montserrat">
+        <h1 className="text-center mb-1 montserrat">
           {warranty.productName} - Warranty Details
         </h1>
 
@@ -222,7 +222,7 @@ const WarrantyDetails = () => {
 
                 <div className="d-flex justify-content-between gap-2">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-primary help"
                     onClick={handleSendEmail}
                     disabled={isExpired}
                   >
