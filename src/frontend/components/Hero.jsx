@@ -18,7 +18,7 @@ const Hero = () => {
                 <>
                   <LogOut className="btn btn-primary btn-lg" />
                   <Link to="/dashboard" className="btn btn-primary btn-lg">
-                    Dashboard
+                    My Warranties
                   </Link>
                 </>
               ) : (

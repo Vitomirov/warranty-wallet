@@ -30,8 +30,11 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="min-vh-75 d-flex justify-content-center py-5">
-      <div className="content-layout w-100">
+    <section
+      id="faq"
+      className="min-vh-75 d-flex justify-content-center py-5 help"
+    >
+      <div className="content-layout w-100 help">
         <h2 className="display-4 text-center mb-5">FAQ</h2>
 
         <div className="accordion" id="faqAccordion">
