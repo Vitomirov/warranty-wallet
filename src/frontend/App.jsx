@@ -7,7 +7,6 @@ import Dashboard from "./components/Dashboard";
 import NewWarranty from "./components/NewWarranty";
 import WarrantyDetails from "./components/WarrantyDetails";
 import DeleteWarranty from "./components/DeleteWarranty";
-import MyWarranties from "./components/MyWarranties";
 import LogOut from "./components/LogOut";
 import PrivateRoute from "./components/PrivateRoute";
 import AuthProvider from "./context/AuthProvider";
@@ -64,14 +63,6 @@ function App() {
             element={
               <PrivateRoute>
                 <WarrantyDetails />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/myWarranties"
-            element={
-              <PrivateRoute>
-                <MyWarranties />
               </PrivateRoute>
             }
           />

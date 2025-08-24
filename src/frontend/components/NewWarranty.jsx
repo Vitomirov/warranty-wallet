@@ -53,7 +53,7 @@ const NewWarranty = () => {
 
       console.log("Warranty created successfully");
       setMessage("Warranty created successfully!!!");
-      navigate("/myWarranties");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error creating warranty:", error);
       setMessage("Error creating warranty.");

@@ -100,16 +100,9 @@ function Navigation() {
         <Navbar.Collapse id="responsive-navbar-nav">
           {isLoggedIn ? (
             <Nav
-              className="ms-lg-auto text-start"
+              className="ms-lg-auto text-end"
               onSelect={() => setExpanded(false)}
             >
-              <Nav.Link
-                as={Link}
-                to="/myWarranties"
-                onClick={() => setExpanded(false)}
-              >
-                My Warranties
-              </Nav.Link>
               <Nav.Link
                 as={Link}
                 to="/newWarranty"
@@ -126,7 +119,7 @@ function Navigation() {
               </Nav.Link>
               <Nav.Link
                 as="button"
-                className="btn ms-lg-3 text-start"
+                className="btn ms-lg-3 text-end"
                 onClick={() => {
                   handleLogout();
                   setExpanded(false);
@@ -139,16 +132,16 @@ function Navigation() {
             <>
               {/* Collapsible marketing links for mobile */}
               <Nav
-                className="text-lg-start d-lg-none"
+                className="text-lg-start d-lg-none text-end"
                 onSelect={() => setExpanded(false)}
               >
-                <Nav.Link href="#about" className="nav-link text-center">
+                <Nav.Link href="#about" className="nav-link ">
                   About
                 </Nav.Link>
-                <Nav.Link href="#features" className="nav-link text-center">
+                <Nav.Link href="#features" className="nav-link">
                   Features
                 </Nav.Link>
-                <Nav.Link href="#faq" className="nav-link text-center">
+                <Nav.Link href="#faq" className="nav-link">
                   FAQ
                 </Nav.Link>
               </Nav>

@@ -41,17 +41,7 @@
 
 
 
-
-//FAQ
-.faq-container {
-  max-height: 60vh; /* maksimalna visina FAQ sekcije */
-  overflow-y: auto;  /* scroll samo unutar FAQ-a */
-  padding-right: 1rem; /* da scrollbar ne preklapa tekst */
-}
-
-
-
-// Styles for specific pages (Login, Signup, MyAccount, Dashboard, NewWarranty, MyWarranties, WarrantyDetails)
+// Styles for specific pages (Login, Signup, MyAccount, Dashboard, NewWarranty, WarrantyDetails)
 .login {
     background: linear-gradient(155deg, variables.$white 60%, variables.$blueLight 60%);
 }
@@ -82,10 +72,6 @@
 }
 
 
-
-.myWarranties {
-    background: linear-gradient(100deg, variables.$blueLight 55%, variables.$white 55%);
-}
 
 .warrantyDetails {
     @extend %section-background-styles;
