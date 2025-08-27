@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import axiosInstance from "../context/axiosInstance";
+import { useAuth } from "../context/auth/AuthContext";
+import axiosInstance from "../context/api/axiosInstance";
 
 // Custom hook that returns the secureRequest function
 const useSecureRequest = () => {

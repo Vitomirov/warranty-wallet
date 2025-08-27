@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./styles/Styles.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import App from "./App";
+import App from "./App.jsx";
 
 console.log("Rendering main.jsx");
 
