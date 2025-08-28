@@ -1,70 +1,21 @@
-import React, { useState } from "react";
-import { useAuth } from "../../context/auth/AuthContext";
-import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
-import useSecureRequest from "../../hooks/useSecureRequest";
+import Button from "../../ui/Button";
+import useDeleteAccount from "../../hooks/useDeleteAccount";
 
 function DeleteAccount() {
-  const { token, updateUser } = useAuth();
-  const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { secureRequest } = useSecureRequest();
-
-  const openDeleteModal = () => {
-    setShowDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => {
-    setShowDeleteModal(false);
-  };
-
-  const handleDeleteAccount = async () => {
-    console.log("Delete Account component called");
-    if (!token) {
-      setError("No token found, please log in.");
-      return;
-    }
-    try {
-      await secureRequest("delete", "/me");
-
-      // Clear tokens from localStorage
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-
-      // Clear tokens from cookies
-      ["accessToken", "refreshToken"].forEach((tokenName) => {
-        document.cookie = `${tokenName}=; Max-Age=0; path=/;`;
-        document.cookie = `${tokenName}=; Max-Age=0; path=/; domain=${window.location.hostname};`;
-      });
-
-      updateUser(null);
-      alert("Your account has been deleted successfully.");
-      navigate("/");
-    } catch (error) {
-      if (error.response) {
-        console.error("Error deleting account:", error.response.status);
-        setError(
-          `Error: ${error.response.data.message || "An error occurred."}`
-        );
-      } else {
-        console.error("Error deleting account:", error.message);
-        setError("Error deleting account.");
-      }
-    }
-  };
+  const {
+    showDeleteModal,
+    error,
+    openDeleteModal,
+    closeDeleteModal,
+    handleDeleteAccount,
+  } = useDeleteAccount();
 
   return (
     <div className="ps-5">
-      <button
-        type="button"
-        className="btn btn-secondary"
-        onClick={() => {
-          openDeleteModal();
-        }}
-      >
+      <Button type="button" variant="danger" onClick={openDeleteModal}>
         Delete Account
-      </button>
+      </Button>
 
       <ReactModal
         isOpen={showDeleteModal}
@@ -85,18 +36,12 @@ function DeleteAccount() {
                 deleted.
               </p>
               <div className="d-flex justify-content-center gap-3">
-                <button
-                  className="btn btn-danger border-danger"
-                  onClick={handleDeleteAccount}
-                >
+                <Button variant="danger" onClick={handleDeleteAccount}>
                   Yes, delete my account
-                </button>
-                <button
-                  className="btn btn-secondary border-secondary"
-                  onClick={closeDeleteModal}
-                >
+                </Button>
+                <Button variant="secondary" onClick={closeDeleteModal}>
                   Cancel
-                </button>
+                </Button>
               </div>
               {error && <p className="text-danger mt-2 text-center">{error}</p>}
             </div>

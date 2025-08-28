@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
 import useSecureRequest from "../../hooks/useSecureRequest";
+import Button from "../../ui/Button";
 
 // Receive onDeleteSuccess as a prop from the parent component
 const DeleteWarranty = ({ id, onDeleteSuccess }) => {
@@ -35,13 +36,9 @@ const DeleteWarranty = ({ id, onDeleteSuccess }) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-danger"
-        onClick={openDeleteModal}
-      >
+      <Button type="button" variant="danger" onClick={openDeleteModal}>
         Delete Warranty
-      </button>
+      </Button>
 
       <ReactModal
         isOpen={showDeleteModal}

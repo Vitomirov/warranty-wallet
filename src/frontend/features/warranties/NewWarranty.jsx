@@ -1,67 +1,23 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import useSecureRequest from "../../hooks/useSecureRequest";
-import { format } from "date-fns";
+import React from "react";
+import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Button from "../../ui/Button";
+import useNewWarranty from "../../hooks/useNewWarranty";
 
 const NewWarranty = () => {
-  const formatedDate = (date) => {
-    return format(new Date(date), "dd-MM-yyyy");
-  };
-
-  const [productName, setProductName] = useState("");
-  const [dateOfPurchase, setDateOfPurchase] = useState(null);
-  const [warrantyExpireDate, setWarrantyExpireDate] = useState(null);
-  const [file, setFile] = useState(null);
-  const [sellersEmail, setSellersEmail] = useState("");
-  const [message, setMessage] = useState("");
-
-  const navigate = useNavigate();
-  const { secureRequest } = useSecureRequest();
-
-  const handleAddWarranty = async (e) => {
-    e.preventDefault();
-
-    if (!dateOfPurchase || !warrantyExpireDate) {
-      alert("Please select both purchase and expiry dates.");
-      return;
-    }
-
-    if (!file) {
-      alert("Please upload the warranty receipt as a PDF file.");
-      return;
-    }
-
-    const formData = new FormData();
-
-    const formatedPurchaseDate = formatedDate(dateOfPurchase);
-    const formatedExpireDate = formatedDate(warrantyExpireDate);
-
-    formData.append("productName", productName);
-    formData.append("dateOfPurchase", formatedPurchaseDate);
-    formData.append("warrantyExpireDate", formatedExpireDate);
-    formData.append("pdfFile", file);
-    formData.append("sellersEmail", sellersEmail);
-
-    try {
-      const response = await secureRequest("post", "/warranties", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log("Warranty created successfully");
-      setMessage("Warranty created successfully!!!");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error creating warranty:", error);
-      setMessage("Error creating warranty.");
-    }
-  };
+  // Call the custom hook to get all necessary functions and state
+  const {
+    formData,
+    handleInputChange,
+    handleDateChange,
+    handleAddWarranty,
+    message,
+    loading,
+  } = useNewWarranty();
 
   return (
-    <div className="help container-fluid d-flex flex-column justify-content-center align-itmes-center flex-grow-1">
+    <div className="help container-fluid d-flex flex-column justify-content-center align-items-center flex-grow-1">
       <div className="row content-layout help">
         <h1 className="col-12 display-5 mt-5 pt-3 montserrat text-center">
           Create New Warranty
@@ -70,21 +26,24 @@ const NewWarranty = () => {
         <div className="col-lg-6 col-md-8 col-sm-10 mx-auto mt-4">
           <form onSubmit={handleAddWarranty}>
             <div className="mb-3">
-              <label>Product Name:</label>
+              <label htmlFor="productName">Product Name:</label>
               <input
+                id="productName"
+                name="productName"
                 type="text"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                value={formData.productName}
+                onChange={handleInputChange}
                 className="form-control form-control-md form-style"
                 required
               />
             </div>
 
             <div className="mb-3">
-              <label>Purchase Date:</label>
+              <label htmlFor="dateOfPurchase">Purchase Date:</label>
               <DatePicker
-                selected={dateOfPurchase}
-                onChange={(date) => setDateOfPurchase(date)}
+                id="dateOfPurchase"
+                selected={formData.dateOfPurchase}
+                onChange={(date) => handleDateChange(date, "dateOfPurchase")}
                 dateFormat="dd/MM/yyyy"
                 className="form-control form-control-md form-style"
                 wrapperClassName="datepickerFullWidth"
@@ -93,10 +52,13 @@ const NewWarranty = () => {
             </div>
 
             <div className="mb-3">
-              <label>Expiry Date:</label>
+              <label htmlFor="warrantyExpireDate">Expiry Date:</label>
               <DatePicker
-                selected={warrantyExpireDate}
-                onChange={(date) => setWarrantyExpireDate(date)}
+                id="warrantyExpireDate"
+                selected={formData.warrantyExpireDate}
+                onChange={(date) =>
+                  handleDateChange(date, "warrantyExpireDate")
+                }
                 dateFormat="dd/MM/yyyy"
                 className="form-control form-control-md form-style"
                 wrapperClassName="datepickerFullWidth"
@@ -105,32 +67,37 @@ const NewWarranty = () => {
             </div>
 
             <div className="mb-3">
-              <label>Seller's email:</label>
+              <label htmlFor="sellersEmail">Seller's email:</label>
               <input
+                id="sellersEmail"
+                name="sellersEmail"
                 type="email"
-                value={sellersEmail}
-                onChange={(e) => setSellersEmail(e.target.value)}
+                value={formData.sellersEmail}
+                onChange={handleInputChange}
                 className="form-control form-control-md form-style"
                 required
               />
             </div>
 
             <div className="mb-3">
-              <label>Upload PDF File:</label>
+              <label htmlFor="file">Upload PDF File:</label>
               <input
+                id="file"
+                name="file"
                 type="file"
                 accept="application/pdf"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={handleInputChange}
                 className="form-control form-control-md form-style"
                 required
               />
             </div>
 
+            {message && <div className="alert alert-info mt-4">{message}</div>}
+
             <div className="button mt-4 d-flex justify-content-between">
-              {message && <p className="text-success mb-0">{message}</p>}
-              <button type="submit" className="btn btn-primary me-2">
-                Add Warranty
-              </button>
+              <Button type="submit" variant="primary" disabled={loading}>
+                {loading ? "Adding..." : "Add Warranty"}
+              </Button>
               <Link to="/dashboard" className="btn btn-secondary">
                 Back
               </Link>

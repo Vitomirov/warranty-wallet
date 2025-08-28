@@ -1,6 +1,6 @@
-import React from "react";
 import { useAuth } from "../../context/auth/AuthContext";
 import { Link } from "react-router-dom";
+import Button from "../../ui/Button";
 
 const LogOut = ({ className, asLink, linkTo }) => {
   const { logout } = useAuth();
@@ -20,9 +20,9 @@ const LogOut = ({ className, asLink, linkTo }) => {
 
   // Render as a button by default
   return (
-    <button onClick={handleLogout} className={className}>
+    <Button variant="secondary" onClick={handleLogout}>
       Log Out
-    </button>
+    </Button>
   );
 };
 

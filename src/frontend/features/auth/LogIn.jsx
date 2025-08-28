@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
+import Button from "../../ui/Button";
 
 function LogIn() {
   const { login } = useAuth();
@@ -84,21 +85,17 @@ function LogIn() {
               )}
 
               <div className="d-flex justify-content-between gap-3">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={loading}
-                >
+                <Button type="submit" variant="primary" disabled={loading}>
                   {loading ? "Logging In..." : "Log In"}
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
-                  className="btn btn-secondary"
+                  variant="secondary"
                   onClick={closeLoginModal}
                   disabled={loading}
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </form>
           </div>

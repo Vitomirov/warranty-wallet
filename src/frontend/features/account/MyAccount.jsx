@@ -3,6 +3,7 @@ import { useAuth } from "../../context/auth/AuthContext";
 import { Link } from "react-router-dom";
 import DeleteAccount from "./DeleteAccount";
 import useSecureRequest from "../../hooks/useSecureRequest";
+import Button from "../../ui/Button";
 
 function MyAccount() {
   const { secureRequest } = useSecureRequest();
@@ -205,16 +206,16 @@ function MyAccount() {
           </div>
 
           {/* Buttons */}
-          <div className="d-flex flex-column gap-2 mt-3">
-            <button type="submit" className="btn btn-primary btn-sm w-100">
+          <div className="gap-2 mt-3 help d-flex justify-content-between">
+            <Button type="submit" variant="primary">
               Update Account
-            </button>
+            </Button>
             <DeleteAccount />
-            <Link
-              to="/dashboard"
-              className="btn btn-outline-secondary btn-sm w-100"
-            >
-              Back
+          </div>
+          <div className="help d-flex justify-content-end mt-2">
+            {" "}
+            <Link to="/dashboard">
+              <Button variant="secondary">Back</Button>
             </Link>
           </div>
 

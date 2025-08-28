@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
-import LogOut from "../features/auth/LogOut";
+import Button from "./Button";
 
 const Hero = () => {
   const { user } = useAuth();
@@ -14,23 +13,14 @@ const Hero = () => {
             <h1 className="mb-3 display-4">Warranty Wallet</h1>
             <h2 className="mb-4 fs-5">All warranties in one place.</h2>
             <div className="button d-flex justify-content-center gap-3">
-              {user ? (
-                <>
-                  <LogOut className="btn btn-primary btn-lg" />
-                  <Link to="/dashboard" className="btn btn-primary btn-lg">
-                    My Warranties
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="btn btn-lg">
-                    Log In
-                  </Link>
-                  <Link to="/signup" className="btn btn-secondary btn-lg">
-                    Sign Up
-                  </Link>
-                </>
-              )}
+              <>
+                <Link to="/login">
+                  <Button variant="primary">Log In</Button>
+                </Link>
+                <Link to="/signup">
+                  <Button variant="secondary">Sign Up</Button>
+                </Link>
+              </>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@
     z-index: 1001;
 }
 
-// BUTTONS
+/* // BUTTONS
 .button {
     .btn { 
         background-color: variables.$blueDark; 
@@ -86,8 +86,73 @@
         color: variables.$dark;
         background-color: variables.$blueLight;
     }
+} */
+
+/* src/components/ui/Button.css */
+
+/* Base styles for the button block */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none; /* In case it's used as a link */
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  user-select: none;
 }
 
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Modifier styles for different variants */
+
+/* Primary button variant */
+.button--primary {
+  background-color: variables.$blueDark;
+  color: #fff;
+}
+
+.button--primary:hover {
+  background-color: #0056b3;
+}
+
+/* Secondary button variant */
+.button--secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.button--secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Danger button variant */
+.button--danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.button--danger:hover {
+  background-color: #c82333;
+}
 
 // Dropdown Menu
 .dropdown-menu {
