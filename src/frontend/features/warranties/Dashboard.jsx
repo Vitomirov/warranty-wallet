@@ -9,7 +9,9 @@ function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Custom hooks for data fetching and UI measurement
+  // Fetches user warranties and calculates list item height for dynamic scrolling.
+  // The 'useWarranties' hook provides data, while 'useMeasure' ensures the list
+  // container size adapts automatically to the content.
   const { warranties, loading, error, fetchWarranties } = useWarranties();
   const { ref: listRef, height: rowHeight } = useMeasure(warranties);
 

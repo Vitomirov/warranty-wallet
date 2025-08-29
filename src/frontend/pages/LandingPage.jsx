@@ -1,4 +1,4 @@
-import Navigation from "../layout/Navigation";
+import Header from "../layout/Header";
 import Hero from "../ui/Hero";
 import About from "./About";
 import Features from "./Features";
@@ -11,7 +11,7 @@ const LandingPage = () => {
   return (
     <div className="global-container">
       <header>
-        <Navigation />
+        <Header />
       </header>
 
       <main>

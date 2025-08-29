@@ -1,43 +1,22 @@
-import React, { useState } from "react";
-import { useAuth } from "../../context/auth/AuthContext";
-import { useNavigate } from "react-router-dom";
+// src/components/auth/LogIn.jsx
+
+import React from "react";
 import ReactModal from "react-modal";
 import Button from "../../ui/Button";
+import useLogin from "../../hooks/useLogin";
 
 function LogIn() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(true);
-
-  const closeLoginModal = () => {
-    setShowLoginModal(false);
-    navigate("/");
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (loading) return;
-    setLoading(true);
-    try {
-      console.log("Calling login function with username:", username);
-      const response = await login(username, password);
-      if (response && response.accessToken) {
-        console.log("Login successful:", response.accessToken);
-        navigate("/dashboard");
-      } else {
-        setError("Login failed");
-      }
-    } catch (error) {
-      setError("Login failed: Wrong username or password");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    username,
+    password,
+    error,
+    loading,
+    showLoginModal,
+    closeLoginModal,
+    handleSubmit,
+    handleUsernameChange,
+    handlePasswordChange,
+  } = useLogin();
 
   return (
     <ReactModal
@@ -60,7 +39,7 @@ function LogIn() {
                   id="username"
                   placeholder="Username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={handleUsernameChange}
                   required
                 />
                 <label htmlFor="username">Username</label>
@@ -72,7 +51,7 @@ function LogIn() {
                   id="password"
                   placeholder="Password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handlePasswordChange}
                   required
                 />
                 <label htmlFor="password">Password</label>
