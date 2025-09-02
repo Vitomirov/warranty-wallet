@@ -1,5 +1,5 @@
 import fs from "fs";
-import db from "../db.js";
+import db from "../config/db.js";
 import { sendWarrantyClaimEmail } from "../routes/email.js";
 
 /**

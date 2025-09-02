@@ -1,7 +1,7 @@
 // src/backend/server.js
 import dotenv from "dotenv";
 import app from "./app.js";
-import db from "./db.js";
+import db from "./config/db.js";
 import { scheduleCronJobs } from "./cronJobs.js";
 
 // Load environment variables

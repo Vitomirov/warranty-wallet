@@ -1,4 +1,4 @@
-import db from "../db.js";
+import db from "../config/db.js";
 import { format, parse } from "date-fns";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -8,8 +8,8 @@ import {
   sendError,
   sendNotFound,
   sendBadRequest,
-} from "./utils/httpResponses.js";
-import { logActivity } from "./utils/logActivity.js";
+} from "../utils/httpResponses.js";
+import { logActivity } from "../utils/logActivity.js";
 
 // Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);

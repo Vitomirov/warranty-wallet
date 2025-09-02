@@ -11,7 +11,7 @@ import authRoutes from "./routes/auth.js";
 import warrantiesRoutes from "./routes/warranties.js";
 import userRoutes from "./routes/user.js";
 import aiRoutes from "./routes/ai.js";
-import db from "./db.js";
+import db from "./config/db.js";
 import warrantyClaimHandler from "./handlers/warrantyClaimHandler.js";
 
 // Setup __dirname in ES modules
