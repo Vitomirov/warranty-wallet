@@ -8,8 +8,8 @@ import {
   sendError,
   sendNotFound,
   sendBadRequest,
-} from "../utils/httpResponses.js";
-import { logActivity } from "../utils/logActivity.js";
+} from "../core/httpResponses.js";
+import { logActivity } from "../core/logActivity.js";
 
 // Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);

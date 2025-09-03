@@ -7,7 +7,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
-import authRoutes from "./routes/auth.js";
+import authRoutes from "./auth/auth.route.js";
 import warrantiesRoutes from "./routes/warranties.js";
 import userRoutes from "./routes/user.js";
 import aiRoutes from "./routes/ai.js";

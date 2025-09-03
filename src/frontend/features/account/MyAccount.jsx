@@ -121,11 +121,9 @@ function MyAccount() {
 
           {/* Buttons */}
           <div className="gap-2 mt-3 help d-flex justify-content-between">
-            <Link to="/dashboard">
-              <Button type="submit" variant="primary">
-                Update Account
-              </Button>
-            </Link>
+            <Button type="submit" variant="primary">
+              Update Account
+            </Button>
 
             <DeleteAccount />
           </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
 import useSecureRequest from "./useSecureRequest";
+import { isAxiosError } from "axios";
 
 const useSignUp = () => {
   const { login } = useAuth();
@@ -38,8 +39,14 @@ const useSignUp = () => {
         navigate("/dashboard");
       }
     } catch (error) {
-      setMessage("Failed to sign up");
-      console.error(error);
+      if (isAxiosError(error) && error.response) {
+        const backendMessage = error.response.data.message;
+        setMessage(backendMessage);
+        console.error("Backend Error:", backendMessage);
+      } else {
+        setMessage("An unexpected error occurred. Please try again.");
+        console.error("Unknown Error:", error);
+      }
     } finally {
       setLoading(false);
     }

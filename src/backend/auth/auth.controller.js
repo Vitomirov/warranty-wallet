@@ -1,28 +1,24 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import db from "../config/db.js"; // ovde ide tvoja db konekcija
 import {
   sendSuccess,
   sendError,
   sendUnauthorized,
   sendForbidden,
-} from "../utils/httpResponses.js";
-import { logActivity } from "../utils/logActivity.js";
-
-const generateToken = (payload, secret, expiresIn) =>
-  jwt.sign(payload, secret, { expiresIn });
+} from "../core/httpResponses.js";
+import { authService, generateToken } from "./auth.service.js";
 
 export const login = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const [result] = await db.query("SELECT * FROM users WHERE username = ?", [
-      username,
-    ]);
-    const user = result[0];
-    if (!user) return sendUnauthorized(res, "Invalid username or password");
+    const user = await authService.login(username);
 
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) return sendUnauthorized(res, "Invalid username or password");
+    if (!user) {
+      return sendUnauthorized(res, "Invalid username or password");
+    }
+
+    const match = await authService.comparePassword(password, user.password);
+    if (!match) {
+      return sendUnauthorized(res, "Invalid username or password");
+    }
 
     const accessToken = generateToken(
       { userId: user.id },
@@ -51,19 +47,23 @@ export const login = async (req, res) => {
   }
 };
 
-export const refreshToken = (req, res) => {
+export const refreshToken = async (req, res) => {
   const token = req.cookies.refreshToken;
-  if (!token) return sendUnauthorized(res, "Refresh token not provided");
+  if (!token) {
+    return sendUnauthorized(res, "Refresh token not provided");
+  }
 
-  jwt.verify(token, process.env.REFRESH_SECRET_KEY, (err, user) => {
-    if (err) return sendForbidden(res, "Invalid refresh token");
+  try {
+    const user = await authService.verifyRefreshToken(token);
     const accessToken = generateToken(
       { userId: user.userId },
       process.env.SECRET_KEY,
       "15m"
     );
     sendSuccess(res, { accessToken });
-  });
+  } catch (err) {
+    return sendForbidden(res, "Invalid refresh token");
+  }
 };
 
 export const signup = async (req, res) => {
@@ -85,28 +85,15 @@ export const signup = async (req, res) => {
   ) {
     return sendError(res, "All fields are required.", 400);
   }
-
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const [result] = await db.query(
-      "INSERT INTO users (username, userEmail, password, fullName, userAddress, userPhoneNumber) VALUES (?, ?, ?, ?, ?, ?)",
-      [
-        username,
-        userEmail,
-        hashedPassword,
-        fullName,
-        userAddress,
-        userPhoneNumber,
-      ]
-    );
-
-    const newUser = { userId: result.insertId, username, fullName };
-    await logActivity(
-      newUser,
-      "Created account",
-      `User registered at ${new Date().toISOString()}`
-    );
-
+    const newUser = await authService.signup({
+      username,
+      userEmail,
+      password,
+      fullName,
+      userAddress,
+      userPhoneNumber,
+    });
     sendSuccess(res, { message: "Signup successful" }, 201);
   } catch (err) {
     if (err.code === "ER_DUP_ENTRY") {

@@ -1,8 +1,8 @@
 import express from "express";
-import { verifyToken } from "./auth.functions.js";
+import { verifyToken } from "../auth/auth.middleware.js";
 import db from "../config/db.js";
 import bcrypt from "bcryptjs";
-import { logActivity } from "../utils/logActivity.js";
+import { logActivity } from "../core/logActivity.js";
 import fs from "fs";
 
 const router = express.Router();
