@@ -9,7 +9,7 @@ const useWarranties = () => {
   const fetchWarranties = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get("/warranties/all");
+      const response = await axiosInstance.get("/warranties");
       setWarranties(response.data || []);
     } catch (err) {
       console.error("Failed to fetch warranties:", err);
@@ -20,14 +20,23 @@ const useWarranties = () => {
   };
 
   const deleteWarranty = async (id) => {
-    // Implement delete logic here if needed, and then call fetchWarranties()
+    try {
+      setLoading(true); // Optional: Set loading state during deletion
+      await axiosInstance.delete(`/warranties/${id}`);
+      fetchWarranties();
+    } catch (err) {
+      console.error("Failed to delete warranty:", err);
+      setError("Failed to delete warranty. Please try again.");
+    } finally {
+      setLoading(false); // Make sure to turn off loading state
+    }
   };
 
   useEffect(() => {
     fetchWarranties();
   }, []);
 
-  return { warranties, loading, error, fetchWarranties };
+  return { warranties, loading, error, fetchWarranties, deleteWarranty };
 };
 
 export default useWarranties;

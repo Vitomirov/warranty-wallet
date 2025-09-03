@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useSecureRequest from "./useSecureRequest";
@@ -38,7 +37,7 @@ const useWarrantyDetails = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await secureRequest("get", `/warranties/details/${id}`);
+      const response = await secureRequest("get", `/warranties/${id}`);
       setWarranty(response.data);
       const { days, isExpired: expired } = calculateDaysLeft(
         response.data.warrantyExpireDate

@@ -19,7 +19,7 @@ const DeleteWarranty = ({ id, onDeleteSuccess }) => {
 
   const handleDelete = async () => {
     try {
-      await secureRequest("delete", `/warranties/delete/${id}`);
+      await secureRequest("delete", `/warranties/${id}`);
 
       // Call the parent's success callback to trigger a list update
       if (onDeleteSuccess) {

@@ -2,13 +2,13 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
+// Import your application routers
 import authRoutes from "./auth/auth.route.js";
-import warrantiesRoutes from "./routes/warranties.js";
+import warrantiesRoutes from "./warranty/warranty.route.js";
 import userRoutes from "./routes/user.js";
 import aiRoutes from "./routes/ai.js";
 import db from "./config/db.js";
@@ -23,7 +23,6 @@ const uploadDirectory = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDirectory)) {
   fs.mkdirSync(uploadDirectory, { recursive: true });
 }
-const upload = multer({ dest: uploadDirectory });
 
 // Create Express app
 const app = express();
@@ -65,7 +64,7 @@ app.get("/api/test", (req, res) => {
 });
 
 // Routes
-app.use("/api/warranties", upload.single("pdfFile"), warrantiesRoutes);
+app.use("/api/warranties", warrantiesRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api/ai", aiRoutes);
