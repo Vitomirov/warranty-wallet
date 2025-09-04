@@ -1,7 +1,6 @@
 import fs from "fs";
 import db from "../config/db.js";
-import { sendWarrantyClaimEmail } from "../routes/email.js";
-
+import { sendWarrantyClaimEmail } from "../email/email.service.js";
 /**
  * Handles warranty claim email sending
  */

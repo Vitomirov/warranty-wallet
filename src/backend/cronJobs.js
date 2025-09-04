@@ -1,6 +1,6 @@
 import cron from "node-cron";
 import db from "./config/db.js";
-import { sendExpirationNotificationEmail } from "./routes/email.js";
+import { sendExpirationNotificationEmail } from "./email/email.service.js";
 
 /**
  * Check for warranties expiring within 14 days
