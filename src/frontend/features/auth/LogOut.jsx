@@ -20,7 +20,7 @@ const LogOut = ({ className, asLink, linkTo }) => {
 
   // Render as a button by default
   return (
-    <Button variant="secondary" onClick={handleLogout}>
+    <Button variant="logout" onClick={handleLogout}>
       Log Out
     </Button>
   );

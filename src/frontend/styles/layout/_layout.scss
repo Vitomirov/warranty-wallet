@@ -86,13 +86,7 @@
   }
 }
 
-// NAVIGATION DROPDOWNS
-.navbar .dropdown-menu {
-  background-color: variables.$blueDark !important; // tamno plava pozadina
-  color: variables.$white !important; // tekst u white
-  border: none; // ukloni default border
-  min-width: 200px;
-}
+// DROPDOWN MENU
 
 .navbar .dropdown-item {
   color: variables.$white !important;
@@ -102,16 +96,9 @@
 
 .navbar .dropdown-item:hover,
 .navbar .dropdown-item:focus {
-  background-color: lighten(variables.$blueDark, 10%) !important; // svetlija nijansa na hover
+  background-color: lighten(variables.$blueDark, 10%) !important;
   color: variables.$white !important;
 }
-
-.navbar .dropdown-divider {
-  border-top: 1px solid lighten(variables.$blueDark, 20%);
-}
-
-
-
 
 
 // BACK TO TOP

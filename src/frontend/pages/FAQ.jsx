@@ -1,33 +1,35 @@
 import React, { useState } from "react";
 
 const FAQ = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeQuestion, setActiveQuestion] = useState(0);
 
   const faqs = [
     {
       question: "How do I add a warranty?",
       answer:
-        "To add a warranty, navigate to the New Warranty form and upload the PDF of your warranty.",
+        "To add a warranty, navigate to the New Warranty form and upload the PDF of your warranty. You can also manually input key details like the product name, purchase date, and expiration date.",
     },
     {
       question: "What can I use Warranty Wallet for?",
       answer:
-        "Warranty Wallet helps you organize and manage warranties for electronics, appliances, furniture, vehicles, and more.",
+        "Warranty Wallet helps you organize and manage warranties for electronics, appliances, furniture, vehicles, and more. It's designed to be a single, secure place for all your important documents, preventing them from being lost.",
     },
     {
       question: "Is my data secure?",
       answer:
-        "Absolutely. We use industry-standard encryption to keep your warranty details safe.",
+        "Yes, your data is absolutely secure. We use industry-standard encryption protocols and secure cloud storage to protect all your personal information and uploaded files.",
     },
     {
       question: "How many warranties can I store in the app?",
-      answer: "You can add and manage an unlimited number of warranties.",
+      answer:
+        "You can add and manage an unlimited number of warranties. Our service is designed to scale with your needs, from a few documents to hundreds.",
+    },
+    {
+      question: "How do I delete my account?",
+      answer:
+        "You can permanently delete your account from the Profile settings page. This action will also delete all of your uploaded warranties and associated data. This action is irreversible.",
     },
   ];
-
-  const toggleFAQ = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
 
   return (
     <section
@@ -37,33 +39,31 @@ const FAQ = () => {
       <div className="content-layout w-100 help">
         <h2 className="display-4 text-center mb-5">FAQ</h2>
 
-        <div className="accordion" id="faqAccordion">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="accordion-item shadow-sm mb-3 rounded-3"
-            >
-              <h2 className="accordion-header">
+        <div className="row justify-content-center g-0">
+          {/* Left Column: Questions List */}
+          <div className="col-md-5">
+            <div className="list-group list-group-flush border rounded-3 p-3 h-100">
+              {faqs.map((faq, index) => (
                 <button
-                  className={`accordion-button ${
-                    activeIndex === index ? "" : "collapsed"
-                  }`}
+                  key={index}
                   type="button"
-                  onClick={() => toggleFAQ(index)}
-                  aria-expanded={activeIndex === index}
+                  className={`list-group-item list-group-item-action ${
+                    activeQuestion === index ? "active fw-bold" : ""
+                  }`}
+                  onClick={() => setActiveQuestion(index)}
                 >
                   {faq.question}
                 </button>
-              </h2>
-              <div
-                className={`accordion-collapse collapse ${
-                  activeIndex === index ? "show" : ""
-                }`}
-              >
-                <div className="accordion-body">{faq.answer}</div>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Right Column: Answer Panel */}
+          <div className="col-md-7 ps-md-4 mt-3 mt-md-0">
+            <div className="card shadow-sm rounded-3 p-4 h-100">
+              <p className="lead">{faqs[activeQuestion].answer}</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

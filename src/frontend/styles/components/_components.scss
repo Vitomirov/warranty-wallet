@@ -2,7 +2,7 @@
 
 // MODAL POPUP WINDOW
 .modalWindow-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgb(179, 170, 170);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,76 +26,13 @@
     z-index: 1001;
 }
 
-/* // BUTTONS
-.button {
-    .btn { 
-        background-color: variables.$blueDark; 
-        color: variables.$white;
-        border-color: variables.$blueDark;
-        padding: 0.3rem 2rem;
-        font-size: 1rem;
-        border-radius: 0.3rem;
-        transition: transform 0.3s ease-in-out;
-        display: flex;
-        align-items: center;
-
-        &:hover {
-            transform: scale(1.05);
-            color: variables.$blueDark;
-            background-color: variables.$blueLight;
-            border-color: variables.$blueDark;
-        }
-
-        @media (max-width: 1200px) {
-            padding: 0.3rem 1.5rem;
-            font-size: 1.1rem;
-        }
-        @media (max-width: 768px) {
-            padding: 0.3rem 1.1rem;
-            font-size: 0.9rem;
-        }
-        @media (max-width: 576px) {
-            padding: 0.3rem 0.8rem;
-            font-size: 0.8rem;
-        }
-    }
-}
-
-.buttonOpenWarranty {
-    border-radius: 0.3rem;
-    border-color: variables.$blueDark; 
-    transition: transform 0.5s ease-in-out;
-    background-color: variables.$blueLight;
-    color: variables.$blueDark;
-
-    &:hover {
-        transform: scale(1.05);
-        color: variables.$white;
-        background-color: variables.$blueDark;
-    }
-}
-
-.dashboardbutton {
-    padding: 1rem 2rem;
-    font-size: 2rem;
-    border-radius: 0.3rem;
-    transition: transform 5s ease-in-out; 
-
-    .btn:hover {
-        transform: scale(1.05);
-        color: variables.$dark;
-        background-color: variables.$blueLight;
-    }
-} */
-
-/* src/components/ui/Button.css */
 
 /* Base styles for the button block */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 18px;
+  padding: 3px 18px;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 600;
@@ -127,7 +64,7 @@
 /* Primary button variant */
 .button--primary {
   background-color: variables.$blueDark;
-  color: #fff;
+  color: variables.$white;
 }
 
 .button--primary:hover {
@@ -140,9 +77,9 @@
   color: #fff;
 }
 
-.button--secondary:hover {
+ .button--secondary:hover {
   background-color: #5a6268;
-}
+} 
 
 /* Danger button variant */
 .button--danger {
@@ -154,11 +91,22 @@
   background-color: #c82333;
 }
 
+/* Logout button variant */
+.button--logout {
+  background-color: #6c757d;
+  color: variables.$white;
+  margin-bottom: 2px;
+}
+.button--logout:hover {
+  background-color: #5a6268;
+  color: variables.$yellow;
+}
+
 // Dropdown Menu
 .dropdown-menu {
     background-color: transparent;
     border: none;
-}
+} 
 
 // List Style
 .list-style {

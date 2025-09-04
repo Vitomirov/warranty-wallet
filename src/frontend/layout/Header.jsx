@@ -80,7 +80,7 @@ function Header() {
             <>
               {/* Navigation links and dropdowns for logged-in users. */}
               <Nav className="ms-auto"></Nav>
-              <Nav className="d-flex align-items-end gap-3 text-end">
+              <Nav className="d-flex align-items-end gap-3 text-end white">
                 <NavDropdown title="Home" id="marketing-dropdown">
                   <NavDropdown.Item
                     as={Link}
@@ -137,11 +137,8 @@ function Header() {
                   >
                     Account Settings
                   </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item className="nav-link btn">
-                    <LogOut />
-                  </NavDropdown.Item>
                 </NavDropdown>
+                <LogOut />
               </Nav>
             </>
           )}

@@ -6,7 +6,6 @@ import Button from "../../ui/Button";
 import useNewWarranty from "../../hooks/useNewWarranty";
 
 const NewWarranty = () => {
-  // Call the custom hook to get all necessary functions and state
   const {
     formData,
     handleInputChange,
@@ -23,8 +22,9 @@ const NewWarranty = () => {
           Create New Warranty
         </h1>
 
-        <div className="col-lg-6 col-md-8 col-sm-10 mx-auto mt-4">
+        <div className="col-lg-8 col-md-10 mx-auto mt-4">
           <form onSubmit={handleAddWarranty}>
+            {/* Product Name */}
             <div className="mb-3">
               <label htmlFor="productName">Product Name:</label>
               <input
@@ -38,6 +38,21 @@ const NewWarranty = () => {
               />
             </div>
 
+            {/* Seller's Email */}
+            <div className="mb-3">
+              <label htmlFor="sellersEmail">Seller's email:</label>
+              <input
+                id="sellersEmail"
+                name="sellersEmail"
+                type="email"
+                value={formData.sellersEmail}
+                onChange={handleInputChange}
+                className="form-control form-control-md form-style"
+                required
+              />
+            </div>
+
+            {/* Purchase Date */}
             <div className="mb-3">
               <label htmlFor="dateOfPurchase">Purchase Date:</label>
               <DatePicker
@@ -51,6 +66,7 @@ const NewWarranty = () => {
               />
             </div>
 
+            {/* Expiry Date */}
             <div className="mb-3">
               <label htmlFor="warrantyExpireDate">Expiry Date:</label>
               <DatePicker
@@ -66,19 +82,7 @@ const NewWarranty = () => {
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="sellersEmail">Seller's email:</label>
-              <input
-                id="sellersEmail"
-                name="sellersEmail"
-                type="email"
-                value={formData.sellersEmail}
-                onChange={handleInputChange}
-                className="form-control form-control-md form-style"
-                required
-              />
-            </div>
-
+            {/* PDF File Upload */}
             <div className="mb-3">
               <label htmlFor="file">Upload PDF File:</label>
               <input
@@ -94,12 +98,12 @@ const NewWarranty = () => {
 
             {message && <div className="alert alert-info mt-4">{message}</div>}
 
-            <div className="button mt-4 d-flex justify-content-between">
+            <div className="button mt-4 d-flex justify-content-between help">
               <Button type="submit" variant="primary" disabled={loading}>
                 {loading ? "Adding..." : "Add Warranty"}
               </Button>
-              <Link to="/dashboard" className="btn btn-secondary">
-                Back
+              <Link to="/dashboard">
+                <Button variant="secondary">Back</Button>
               </Link>
             </div>
           </form>
