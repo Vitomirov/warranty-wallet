@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 // Import your application routers
 import authRoutes from "./auth/auth.route.js";
 import warrantiesRoutes from "./warranty/warranty.route.js";
-import userRoutes from "./routes/user.js";
+import userRoutes from "./user/user.route.js";
 import aiRoutes from "./routes/ai.js";
 import db from "./config/db.js";
 import warrantyClaimHandler from "./handlers/warrantyClaimHandler.js";
