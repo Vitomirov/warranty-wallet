@@ -1,4 +1,3 @@
-// src/backend/app.js
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -10,7 +9,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./auth/auth.route.js";
 import warrantiesRoutes from "./warranty/warranty.route.js";
 import userRoutes from "./user/user.route.js";
-import aiRoutes from "./routes/ai.js";
+import aiRoute from "./ai/ai.route.js";
 import db from "./config/db.js";
 import warrantyClaimHandler from "./handlers/warrantyClaimHandler.js";
 
@@ -67,7 +66,7 @@ app.get("/api/test", (req, res) => {
 app.use("/api/warranties", warrantiesRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-app.use("/api/ai", aiRoutes);
+app.use("/api/ai", aiRoute);
 
 // Warranty claim email route
 app.post("/api/warranty/claim", warrantyClaimHandler);
