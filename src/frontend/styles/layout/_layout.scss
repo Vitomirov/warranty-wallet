@@ -52,7 +52,7 @@
 }
 // NAVIGATION BAR
 .navbar {
-    background-color: variables.$blueDark;
+    background-color: variables.$richNavy;
     min-height: 100px;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -78,7 +78,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: variables.$yellow;
+    color: variables.$cyanAccent;
   }
 
   &.active {
@@ -90,32 +90,40 @@
 
 .navbar .dropdown-item {
   color: variables.$white !important;
-  background-color: variables.$blueDark !important;
+  background-color: variables.$richNavy !important;
   transition: background-color 0.2s ease-in-out;
 }
 
 .navbar .dropdown-item:hover,
 .navbar .dropdown-item:focus {
-  background-color: lighten(variables.$blueDark, 10%) !important;
+  background-color: lighten(variables.$richNavy, 10%) !important;
   color: variables.$white !important;
 }
 
 
 // BACK TO TOP
 .back-to-top {
-    color: variables.$blueDark;
+    color: variables.$richNavy;
     font-size: 3rem;
 }
 
 // FOOTER - Stick to the bottom of the main content
 footer {
-    background-color: variables.$blueDark;
+       background: #020024;
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
     color: variables.$white;
     text-align: start;
     padding: 5px 0;
     width: 100%;
     box-sizing: border-box;
     margin-top: auto;
+}
+
+.header {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+           background: #020024;
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
 }
 
 //----- AI CHAT -----//
@@ -127,10 +135,10 @@ footer {
   width: 350px;
   max-height: 80vh;
   z-index: 10000;
-  background-color: variables.$blueDark;
-  color: variables.$blueLight;
+  background-color: variables.$richNavy;
+  color: variables.$lightGrayBlue;
   border-radius: 16px;
-  border: 1px solid variables.$blueLight;
+  border: 1px solid variables.$lightGrayBlue;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   overflow: hidden;
 
@@ -148,7 +156,7 @@ footer {
   right: 40px;
   width: 70px;
   height: 70px;
-  background-color: variables.$blueDark;
+  background-color: variables.$richNavy;
   color: variables.$white;
   border: none;
   border-radius: 50%;
@@ -187,7 +195,7 @@ footer {
 
 
 .ai-chat-header {
-  border-bottom: 1px solid variables.$blueLight;
+  border-bottom: 1px solid variables.$lightGrayBlue;
   padding: 1rem;
 
   h2 {
@@ -199,7 +207,7 @@ footer {
   .btn-close-chat {
     font-size: 1.5rem;
     background: none;
-    color: variables.$blueLight;
+    color: variables.$lightGrayBlue;
     border: none;
     cursor: pointer;
 
@@ -210,15 +218,15 @@ footer {
 }
 
 .ai-chat-messages {
-  background-color: variables.$blueLight;
-  color: variables.$dark;
+  background-color: variables.$lightGrayBlue;
+  color: variables.$neutralGray;
   overflow-y: auto;
   padding: 1rem;
   flex-grow: 1;
 
   .user-msg {
-    background-color: variables.$blueLight;
-    color: variables.$dark;
+    background-color: variables.$lightGrayBlue;
+    color: variables.$neutralGray;
     align-self: flex-end;
     padding: 0.5rem;
     border-radius: 8px;
@@ -228,8 +236,8 @@ footer {
 
   .ai-msg {
     background-color: #f0f0f0;
-    color: variables.$dark;
-    border-left: 3px solid variables.$blueDark;
+    color: variables.$neutralGray;
+    border-left: 3px solid variables.$richNavy;
     align-self: flex-start;
     padding: 0.5rem;
     border-radius: 8px;
@@ -239,8 +247,8 @@ footer {
 }
 
 .ai-chat-form {
-  border-top: 1px solid variables.$blueLight;
-  background-color: variables.$blueDark;
+  border-top: 1px solid variables.$lightGrayBlue;
+  background-color: variables.$richNavy;
   padding: 1rem;
 
   textarea {
@@ -250,8 +258,8 @@ footer {
   }
 
   .btn-submit-chat {
-    background-color: variables.$blueLight;
-    color: variables.$dark;
+    background-color: variables.$lightGrayBlue;
+    color: variables.$neutralGray;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 6px;
@@ -263,7 +271,7 @@ footer {
     }
 
     &:hover:not(:disabled) {
-      background-color: darken(variables.$blueLight, 10%);
+      background-color: neutralGrayen(variables.$lightGrayBlue, 10%);
     }
   }
 }

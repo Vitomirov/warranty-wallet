@@ -40,67 +40,98 @@
   text-decoration: none; /* In case it's used as a link */
   cursor: pointer;
   border: 1px solid transparent;
-  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
   user-select: none;
-}
 
-.button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+  /* Smooth transitions for modern feel */
+  transition: 
+    background 0.25s ease-in-out, 
+    color 0.25s ease-in-out, 
+    transform 0.1s ease-in-out, 
+    box-shadow 0.2s ease-in-out;
 
-.button:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+  }
 
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
 
-/* Modifier styles for different variants */
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
 
 /* Primary button variant */
 .button--primary {
-  background-color: variables.$blueDark;
+  background: linear-gradient(90deg, variables.$richNavy 0%, variables.$cyanAccent 100%);
   color: variables.$white;
-}
 
-.button--primary:hover {
-  background-color: #0056b3;
+  &:hover {
+    background: linear-gradient(90deg, variables.$richNavy 0%, lighten(variables.$cyanAccent, 10%));
+  }
+
+  &:active {
+    background: linear-gradient(90deg, darken(variables.$richNavy, 5%) 0%, darken(variables.$cyanAccent, 5%) 100%);
+  }
 }
 
 /* Secondary button variant */
 .button--secondary {
-  background-color: #6c757d;
-  color: #fff;
+  background: linear-gradient(90deg, variables.$neutralGray 0%, lighten(variables.$richNavy, 8%) 100%);
+  color: variables.$white;
+
+  &:hover {
+    background: linear-gradient(90deg, lighten(variables.$neutralGray, 10%) 0%, lighten(variables.$neutralGray, 15%) 100%);
+    color: variables.$richNavy;
+  }
+
+  &:active {
+    background: linear-gradient(90deg, darken(variables.$neutralGray, 5%) 0%, darken(variables.$neutralGray, 10%) 100%);
+  }
 }
 
- .button--secondary:hover {
-  background-color: #5a6268;
-} 
 
 /* Danger button variant */
 .button--danger {
-  background-color: #dc3545;
-  color: #fff;
-}
+  background-color: #dc3545; // standard red
+  color: variables.$white;
 
-.button--danger:hover {
-  background-color: #c82333;
+  &:hover {
+    background-color: darken(#dc3545, 5%);
+  }
+
+  &:active {
+    background-color: darken(#dc3545, 10%);
+  }
 }
 
 /* Logout button variant */
 .button--logout {
-  background-color: #6c757d;
+  background-color: variables.$neutralGray;
   color: variables.$white;
   margin-bottom: 2px;
+
+  &:hover {
+    background-color: variables.$modal;
+    color: variables.$cyanAccent;
+  }
+
+  &:active {
+    background-color: darken(variables.$modal, 5%);
+  }
 }
-.button--logout:hover {
-  background-color: #5a6268;
-  color: variables.$yellow;
+
+/* Focus ring for accessibility */
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4);
 }
+
 
 // Dropdown Menu
 .dropdown-menu {

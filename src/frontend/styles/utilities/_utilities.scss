@@ -1,7 +1,7 @@
 @use '../variables';
 
-.text-blueLight {
-    color: variables.$blueLight;
+.text-lightGrayBlue {
+    color: variables.$lightGrayBlue;
 }
 
 .white {
@@ -9,7 +9,7 @@
 }
 
 .load {
-    background-color: variables.$dark;
+    background-color: variables.$neutralGray;
 }
 
 .form-style {

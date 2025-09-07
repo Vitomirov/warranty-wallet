@@ -43,28 +43,28 @@
 
 // Styles for specific pages (Login, Signup, MyAccount, Dashboard, NewWarranty, WarrantyDetails)
 .login {
-    background: linear-gradient(155deg, variables.$white 60%, variables.$blueLight 60%);
+    background: linear-gradient(155deg, variables.$white 60%, variables.$lightGrayBlue 60%);
 }
 
 .signup {
     background: linear-gradient(125deg,
-    variables.$blueLight 26.5%,
+    variables.$lightGrayBlue 26.5%,
     variables.$white 25.5%,
     variables.$white 74.8%,
-    variables.$blueLight 74.8%);
+    variables.$lightGrayBlue 74.8%);
 }
 
 .myAccount {
     background: linear-gradient(120deg,
     variables.$white 26.5%,
-    variables.$blueLight 25.5%,
-    variables.$blueLight 74.8%,
+    variables.$lightGrayBlue 25.5%,
+    variables.$lightGrayBlue 74.8%,
     variables.$white 74.8%);
 }
 
 .dashboard {
     background-color: variables.$white;
-    background: linear-gradient(181deg, variables.$blueDark 46%, variables.$white 46%);
+    background: linear-gradient(181deg, variables.$richNavy 46%, variables.$white 46%);
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
@@ -75,7 +75,7 @@
 
 .warrantyDetails {
     @extend %section-background-styles;
-    background: linear-gradient(85deg, variables.$blueLight 55%, variables.$white 55%); 
+    background: linear-gradient(85deg, variables.$lightGrayBlue 55%, variables.$white 55%); 
     background-position: right;
     background-repeat: no-repeat;
 }

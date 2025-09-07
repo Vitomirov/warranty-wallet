@@ -23,7 +23,7 @@ function Header() {
       expanded={expanded}
       onToggle={toggleExpanded}
       collapseOnSelect
-      className="shadow-lg w-100 fixed-top"
+      className="header shadow-lg w-100 fixed-top"
     >
       <Container
         fluid

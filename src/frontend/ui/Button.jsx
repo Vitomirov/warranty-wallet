@@ -1,9 +1,6 @@
 import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 
-/**
- * A reusable button component that can be customized with different variants and properties.
- * It follows the "single responsibility principle," focusing only on rendering a button element. */
 const Button = forwardRef(
   (
     { onClick, children, type = "button", variant = "primary", ...rest },
