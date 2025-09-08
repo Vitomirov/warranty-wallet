@@ -16,13 +16,13 @@ const LandingPage = () => {
 
       <main>
         <Hero className="help" />
-        <section className=" help">
+        <section>
           <About />
         </section>
-        <section className="help">
+        <section>
           <Features />
         </section>
-        <section className="help">
+        <section>
           <FAQ />
         </section>
       </main>

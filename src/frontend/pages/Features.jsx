@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
+import { motion } from "framer-motion";
+import {
+  containerVariants,
+  itemVariants,
+  popUpAndFadeIn,
+  slideInFromBottom,
+} from "../animations/Animations";
 
 const Features = () => {
   const featuresData = [
@@ -34,23 +41,32 @@ const Features = () => {
   ];
 
   const [selectedFeature, setSelectedFeature] = useState(null);
-
   const handleClose = () => setSelectedFeature(null);
 
   return (
-    <section
+    <motion.section
       id="features"
       className="global-container d-flex justify-content-center align-items-center"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="row content-layout help">
-        <h1 className="display-4 text-center">FEATURES</h1>
+      <div className="row content-layout">
+        <h1 className="display-4 text-center mb-5">FEATURES</h1>
 
         <div className="row g-5 justify-content-center">
-          {featuresData.map((feature) => (
+          {featuresData.map((feature, index) => (
             <React.Fragment key={feature.id}>
               {/* Card for md/lg: normal */}
-              <div className="col-md-6 col-lg-3 d-none d-md-flex justify-content-center mb-4">
-                <div className="feature-card h-100 pb-3">
+              <motion.div
+                className="col-md-6 col-lg-3 d-none d-md-flex justify-content-center mb-4"
+                variants={itemVariants}
+              >
+                <motion.div
+                  className="feature-card h-100 pb-3"
+                  variants={popUpAndFadeIn}
+                >
                   <div className="card-body text-center d-flex flex-column justify-content-center">
                     <i className={`${feature.icon} display-4 mb-3`} />
                     <h5 className="card-title">{feature.title}</h5>
@@ -58,29 +74,45 @@ const Features = () => {
                       {feature.description}
                     </p>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {/* Mobile card: center with flex outside grid */}
-              <div className="d-flex d-md-none justify-content-center mb-3 ms-5">
-                <div
+              <motion.div
+                className="d-flex d-md-none justify-content-center mb-3 ms-5 w-100"
+                variants={slideInFromBottom}
+                custom={index * 0.1}
+              >
+                <motion.div
                   className="feature-card h-100 pb-3 bg-transparent border"
                   style={{ cursor: "pointer", width: "90%" }}
                   onClick={() => setSelectedFeature(feature)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   <div className="card-body text-center d-flex flex-column justify-content-start">
                     <i className={`${feature.icon} display-4 mb-3`} />
                     <h5 className="card-title">{feature.title}</h5>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </React.Fragment>
           ))}
         </div>
       </div>
 
       {/* Modal for mobile */}
-      <Modal show={!!selectedFeature} onHide={handleClose} centered>
+      <Modal
+        show={!!selectedFeature}
+        onHide={handleClose}
+        centered
+        dialogClassName="custom-modal"
+        as={motion.div} // motion modal for subtle pop-up
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
         {selectedFeature && (
           <>
             <Modal.Header closeButton>
@@ -97,7 +129,7 @@ const Features = () => {
           </>
         )}
       </Modal>
-    </section>
+    </motion.section>
   );
 };
 
