@@ -6,7 +6,7 @@ import {
   containerVariants,
   createSlideUpVariant,
   popUpAndFadeIn,
-} from "../animations/Animations"; // adjust path
+} from "../animations/Animations";
 
 const Hero = () => {
   const { user } = useAuth();
