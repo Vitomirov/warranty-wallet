@@ -103,3 +103,27 @@ export const popUpAndFadeIn = {
     },
   },
 };
+
+// Modal animation: fade-in + scale + subtle rotate for modern feel
+export const modalPop = {
+  hidden: { opacity: 0, scale: 0.8, rotate: -3, y: 40 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+      mass: 0.8,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.9,
+    rotate: 2,
+    y: 20,
+    transition: { duration: 0.4, ease: "easeInOut" },
+  },
+};

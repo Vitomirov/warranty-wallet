@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { itemVariants } from "../animations/Animations"; // smooth fade/slide animations
 
 const FAQ = () => {
-  const [activeQuestion, setActiveQuestion] = useState(0);
+  const [activeQuestion, setActiveQuestion] = useState(null);
 
   const faqs = [
     {
@@ -31,38 +33,60 @@ const FAQ = () => {
     },
   ];
 
+  const toggleQuestion = (index) => {
+    setActiveQuestion(activeQuestion === index ? null : index);
+  };
+
   return (
-    <section
-      id="faq"
-      className="min-vh-75 d-flex justify-content-center py-5 help"
-    >
-      <div className="content-layout w-100 help">
-        <h2 className="display-4 text-center mb-5">FAQ</h2>
+    <section id="faq" className="py-5">
+      <div className="container">
+        <h2 className="display-4 text-center mb-4">FAQ</h2>
 
-        <div className="row justify-content-center g-0">
-          {/* Left Column: Questions List */}
-          <div className="col-md-5">
-            <div className="list-group list-group-flush border rounded-3 p-3 h-100">
-              {faqs.map((faq, index) => (
+        <div className="row justify-content-center">
+          <div className="col-lg-10">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                className="mb-3 rounded-4 border shadow-sm"
+                style={{
+                  backgroundColor: "transparent",
+                  backdropFilter: "blur(6px)", // modern frosted glass
+                  cursor: "pointer",
+                }}
+                variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
                 <button
-                  key={index}
-                  type="button"
-                  className={`list-group-item list-group-item-action ${
-                    activeQuestion === index ? "active fw-bold" : ""
-                  }`}
-                  onClick={() => setActiveQuestion(index)}
+                  className="faq-btn btn text-start w-100 p-4 d-flex justify-content-between align-items-center"
+                  onClick={() => toggleQuestion(index)}
+                  aria-expanded={activeQuestion === index}
+                  aria-controls={`faq-answer-${index}`}
                 >
-                  {faq.question}
+                  <span className="fw-semibold">{faq.question}</span>
+                  <span className="ms-2">
+                    {activeQuestion === index ? "−" : "+"}
+                  </span>
                 </button>
-              ))}
-            </div>
-          </div>
 
-          {/* Right Column: Answer Panel */}
-          <div className="col-md-7 ps-md-4 mt-3 mt-md-0">
-            <div className="card shadow-sm rounded-3 p-4 h-100">
-              <p className="lead">{faqs[activeQuestion].answer}</p>
-            </div>
+                {/* Animated answer */}
+                <motion.div
+                  id={`faq-answer-${index}`}
+                  className="px-4 pb-1"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={
+                    activeQuestion === index
+                      ? { opacity: 1, height: "auto" }
+                      : { opacity: 0, height: 0 }
+                  }
+                  transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <p className="text-muted">{faq.answer}</p>
+                </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

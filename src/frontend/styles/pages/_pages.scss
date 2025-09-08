@@ -119,3 +119,41 @@
 }
 
 
+//FAQ
+
+.faq-btn {
+  outline: none !important;        // remove outline
+  box-shadow: none !important;     // remove shadow
+  border: none;                     // remove default border
+  -webkit-tap-highlight-color: transparent; // remove mobile tap highlight
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none;
+  }
+
+  &:active {
+    transform: scale(0.98); // subtle press effect
+  }
+
+  &:hover {
+    transform: scale(1.02); // optional hover scale
+  }
+}
+
+/* Optional: add soft keyboard focus halo for accessibility */
+.faq-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+  border-radius: 0.5rem;
+}
+
+
+
+
+
+
+
