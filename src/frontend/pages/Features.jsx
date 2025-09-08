@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 
 const Features = () => {
   const featuresData = [
@@ -32,6 +33,10 @@ const Features = () => {
     },
   ];
 
+  const [selectedFeature, setSelectedFeature] = useState(null);
+
+  const handleClose = () => setSelectedFeature(null);
+
   return (
     <section
       id="features"
@@ -42,29 +47,56 @@ const Features = () => {
 
         <div className="row g-5 justify-content-center">
           {featuresData.map((feature) => (
-            <div
-              key={feature.id}
-              className="col-12 col-md-6 col-lg-3 d-flex justify-content-center"
-            >
-              {/* Bootstrap card */}
-              <div className="feature-card h-100 pb-3">
-                <div className="card-body text-center d-flex flex-column justify-content-start">
-                  {/* Icon */}
-                  <i className={`${feature.icon} display-4 mb-3`} />
-
-                  {/* Title */}
-                  <h5 className="card-title">{feature.title}</h5>
-
-                  {/* Description (hidden by default, shown on hover with CSS) */}
-                  <p className="card-text text-justify feature-description mt-2">
-                    {feature.description}
-                  </p>
+            <React.Fragment key={feature.id}>
+              {/* Card for md/lg: normal */}
+              <div className="col-md-6 col-lg-3 d-none d-md-flex justify-content-center mb-4">
+                <div className="feature-card h-100 pb-3">
+                  <div className="card-body text-center d-flex flex-column justify-content-center">
+                    <i className={`${feature.icon} display-4 mb-3`} />
+                    <h5 className="card-title">{feature.title}</h5>
+                    <p className="card-text text-justify feature-description mt-2">
+                      {feature.description}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+
+              {/* Mobile card: center with flex outside grid */}
+              <div className="d-flex d-md-none justify-content-center mb-3 ms-5">
+                <div
+                  className="feature-card h-100 pb-3 bg-transparent border"
+                  style={{ cursor: "pointer", width: "90%" }}
+                  onClick={() => setSelectedFeature(feature)}
+                >
+                  <div className="card-body text-center d-flex flex-column justify-content-start">
+                    <i className={`${feature.icon} display-4 mb-3`} />
+                    <h5 className="card-title">{feature.title}</h5>
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
           ))}
         </div>
       </div>
+
+      {/* Modal for mobile */}
+      <Modal show={!!selectedFeature} onHide={handleClose} centered>
+        {selectedFeature && (
+          <>
+            <Modal.Header closeButton>
+              <Modal.Title>{selectedFeature.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>{selectedFeature.description}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </>
+        )}
+      </Modal>
     </section>
   );
 };
