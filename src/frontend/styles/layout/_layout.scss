@@ -99,25 +99,38 @@
 // HEADER
 // ------------------------------
 .header {
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background: #020024;
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
+  background: linear-gradient(
+    90deg,
+    #0F172A 0%,   // deep navy left
+    #1E3A8A 50%,  // soft mid blue
+    #334155  100%  // bright soft blue right
+  );
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
+
+
+
 
 // ------------------------------
 // FOOTER
 // ------------------------------
 footer {
-  background: #020024;
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
+  background: linear-gradient(
+    90deg,
+    #334155  0%,   // bright soft blue left
+    #1E3A8A 50%,  // soft mid blue
+    #0F172A 100%  // deep navy right
+  );
   color: variables.$white;
   text-align: start;
-  padding: 5px 0;
+  padding: 10px 0;
   width: 100%;
   box-sizing: border-box;
   margin-top: auto;
 }
+
+
+
 
 // ------------------------------
 // BACK TO TOP BUTTON

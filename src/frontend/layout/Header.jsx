@@ -15,8 +15,6 @@ function Header() {
   } = useHeader();
 
   return (
-    // The main navigation container. `ref` is used to track clicks outside the element.
-
     <Navbar
       ref={navRef}
       expand="lg"
@@ -27,7 +25,7 @@ function Header() {
     >
       <Container
         fluid
-        className="content-layout help d-flex justify-content-between align-items-center"
+        className="content-layout d-flex justify-content-between align-items-center"
       >
         {/* Logo and brand name. Navigates to the dashboard if the user is logged in. */}
 
