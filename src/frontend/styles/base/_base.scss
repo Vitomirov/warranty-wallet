@@ -1,5 +1,12 @@
 @use '../variables';
 
+// ==============================
+// BASE STYLES
+// ==============================
+
+// ------------------------------
+// HTML ELEMENTS
+// ------------------------------
 html {
   scroll-behavior: smooth;
 }
@@ -12,8 +19,8 @@ body {
   background: linear-gradient(
     135deg,
     #E0F2FE 0%,    // light sky blue
-    #BFDBFE 50%,   // soft blue (gives warmth, not sterile)
-    #0F172A 100%   // deep navy for contrast
+    #BFDBFE 50%,   // soft blue
+    #0F172A 100%   // deep navy
   );
 
   @media (max-width: 768px) {
@@ -21,8 +28,9 @@ body {
   }
 }
 
-
-// Headings / Titles
+// ------------------------------
+// HEADINGS / TITLES
+// ------------------------------
 .title {
   letter-spacing: 0.11rem;
   line-height: 1.5;
@@ -34,13 +42,15 @@ body {
   // Clean navy color (good readability on light/blue background)
   color: variables.$richNavy;
 
-    @media (max-width: 768px) {
-        font-size: 1.75rem;
-    }
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
 }
 
-
-// Special Montserrat decorative style (if needed)
+// ------------------------------
+// SPECIAL FONT CLASSES
+// ------------------------------
+// Optional decorative Montserrat style
 .montserrat {
   font-family: 'Thank You', cursive;
 }

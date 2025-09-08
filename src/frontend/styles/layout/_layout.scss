@@ -1,77 +1,66 @@
 @use '../variables';
 
-// GENERAL LAYOUT
-.global-container {
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    min-height: 88.5vh;
+// ==============================
+// LAYOUT
+// ==============================
 
+// ------------------------------
+// GENERAL CONTAINERS
+// ------------------------------
+.global-container {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  min-height: 88.5vh;
 }
 
-/* Update your content-layout class to be responsive */
 .content-layout {
-  /* Default padding for mobile screens */
+  // Default padding for mobile screens
   padding-left: 1rem;
   padding-right: 1rem;
-}
 
-/* Use a media query to apply margins for larger screens */
-@media (min-width: 768px) {
-  .content-layout {
-    /* Apply margins only on larger screens */
+  @media (min-width: 768px) {
+    // Apply margins for larger screens
     margin-left: 10%;
     margin-right: 10%;
-    /* Remove padding on larger screens to avoid extra space */
     padding-left: 0;
     padding-right: 0;
   }
 }
 
-/*
-  Add a custom class to fix the button layout.
-  This makes the buttons stack on small screens.
-*/
+// Button layout container
 .button-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
 
-/* On larger screens, make buttons go side-by-side */
-@media (min-width: 576px) {
-  .button-container {
+  @media (min-width: 576px) {
     flex-direction: row;
     justify-content: space-between;
   }
 }
 
 .paragraph-justify {
-    text-align: justify;
-    text-justify: inter-word;
+  text-align: justify;
+  text-justify: inter-word;
 }
+
+// ------------------------------
 // NAVIGATION BAR
+// ------------------------------
 .navbar {
-    background-color: variables.$richNavy;
-    min-height: 100px;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    
-    img {
-        height: 70px;
-        width: auto;
-    }
+  background-color: variables.$richNavy;
+  min-height: 100px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  img {
+    height: 70px;
+    width: auto;
+  }
 }
 
-#about,
-#features,
-#FAQ {
-  scroll-margin-top: 102px; // Or the height of your navbar
-}
-
-
-
-// NAVIGATION LINKS
+// Navigation links
 .navbar .nav-link {
   color: variables.$white;
 
@@ -86,48 +75,61 @@
   }
 }
 
-// DROPDOWN MENU
-
+// Dropdown items
 .navbar .dropdown-item {
   color: variables.$white !important;
   background-color: variables.$richNavy !important;
   transition: background-color 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: lighten(variables.$richNavy, 10%) !important;
+    color: variables.$white !important;
+  }
 }
 
-.navbar .dropdown-item:hover,
-.navbar .dropdown-item:focus {
-  background-color: lighten(variables.$richNavy, 10%) !important;
-  color: variables.$white !important;
+// Scroll offsets for page sections
+#about,
+#features,
+#FAQ {
+  scroll-margin-top: 102px; // Height of navbar
 }
 
-
-// BACK TO TOP
-.back-to-top {
-    color: variables.$richNavy;
-    font-size: 3rem;
-}
-
-// FOOTER - Stick to the bottom of the main content
-footer {
-       background: #020024;
-    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
-    color: variables.$white;
-    text-align: start;
-    padding: 5px 0;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: auto;
-}
-
+// ------------------------------
+// HEADER
+// ------------------------------
 .header {
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-           background: #020024;
-    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: #020024;
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
 }
 
-//----- AI CHAT -----//
+// ------------------------------
+// FOOTER
+// ------------------------------
+footer {
+  background: #020024;
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 102, 1) 35%);
+  color: variables.$white;
+  text-align: start;
+  padding: 5px 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+}
 
+// ------------------------------
+// BACK TO TOP BUTTON
+// ------------------------------
+.back-to-top {
+  color: variables.$richNavy;
+  font-size: 3rem;
+}
+
+// ------------------------------
+// AI CHAT COMPONENT
+// ------------------------------
 .ai-chat-container {
   position: fixed;
   bottom: 40px;
@@ -169,15 +171,6 @@ footer {
     transform: scale(1.05);
   }
 
-  @media (max-width: 768px) {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    bottom: 50px;
-    right: 50px;
-  }
-
-  // DODATAK: Pomeri udesno kad je korisnik logovan
   &.logged-in {
     right: 80px;
     bottom: 95px;
@@ -187,12 +180,18 @@ footer {
     }
   }
 
-  // DODATAK: Veće pomeranje za jako široke ekrane
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    bottom: 50px;
+    right: 50px;
+  }
+
   @media (min-width: 1400px) {
     right: 80px;
   }
 }
-
 
 .ai-chat-header {
   border-bottom: 1px solid variables.$lightGrayBlue;
@@ -276,11 +275,13 @@ footer {
   }
 }
 
+// Force body position and overflow for AI chat
 body {
   position: static !important;
   overflow: visible !important;
 }
 
+// Force AI chat positioning
 .ai-chat-toggle-btn,
 .ai-chat-container {
   position: fixed !important;

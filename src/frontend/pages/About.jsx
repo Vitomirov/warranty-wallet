@@ -49,11 +49,7 @@ function About() {
 
           {/* More button */}
           <motion.div className="text-center my-4" variants={itemVariants}>
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={toggleMore}
-            >
+            <button className="btn" type="button" onClick={toggleMore}>
               {isOpen ? "Less" : "More"}
             </button>
           </motion.div>

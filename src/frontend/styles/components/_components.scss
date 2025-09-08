@@ -1,33 +1,40 @@
 @use '../variables';
 
+// ==============================
+// COMPONENTS
+// ==============================
+
+// ------------------------------
 // MODAL POPUP WINDOW
+// ------------------------------
 .modalWindow-overlay {
-    background-color: rgb(179, 170, 170);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
+  background-color: rgb(179, 170, 170);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
 }
 
 .modalWindow {
-    background-color: variables.$modal;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 1000px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    outline: none;
-    z-index: 1001;
+  background-color: variables.$modal;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 1000px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  outline: none;
+  z-index: 1001;
 }
 
-
-/* Base styles for the button block */
+// ------------------------------
+// BUTTONS
+// ------------------------------
 .button {
   display: inline-flex;
   align-items: center;
@@ -37,12 +44,12 @@
   font-size: 16px;
   font-weight: 600;
   text-align: center;
-  text-decoration: none; /* In case it's used as a link */
+  text-decoration: none; // for links
   cursor: pointer;
   border: 1px solid transparent;
   user-select: none;
 
-  /* Smooth transitions for modern feel */
+  // Smooth transitions
   transition: 
     background 0.25s ease-in-out, 
     color 0.25s ease-in-out, 
@@ -66,7 +73,7 @@
   }
 }
 
-/* Primary button variant */
+// ----- Button Variants -----
 .button--primary {
   background: linear-gradient(90deg, variables.$richNavy 0%, variables.$cyanAccent 100%);
   color: variables.$white;
@@ -80,7 +87,6 @@
   }
 }
 
-/* Secondary button variant */
 .button--secondary {
   background: linear-gradient(90deg, variables.$neutralGray 0%, lighten(variables.$richNavy, 8%) 100%);
   color: variables.$white;
@@ -95,8 +101,6 @@
   }
 }
 
-
-/* Danger button variant */
 .button--danger {
   background-color: #dc3545; // standard red
   color: variables.$white;
@@ -110,7 +114,6 @@
   }
 }
 
-/* Logout button variant */
 .button--logout {
   background-color: variables.$neutralGray;
   color: variables.$white;
@@ -126,47 +129,47 @@
   }
 }
 
-/* Focus ring for accessibility */
+// Focus ring for accessibility
 .button:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4);
 }
 
-
-// Dropdown Menu
+// ------------------------------
+// DROPDOWN MENU
+// ------------------------------
 .dropdown-menu {
-    background-color: transparent;
-    border: none;
+  background-color: transparent;
+  border: none;
 } 
 
-// List Style
+// ------------------------------
+// LISTS
+// ------------------------------
 .list-style {
-    background-color: variables.$white;
-    color: variables.$dark;
-    cursor: pointer;
-    position: relative;
+  background-color: variables.$white;
+  color: variables.$dark;
+  cursor: pointer;
+  position: relative;
 
-    &.list-group-item {
-        display: flex;
-        align-items: center;
-    }
+  &.list-group-item {
+    display: flex;
+    align-items: center;
+  }
 
-    // The Link component inside the list item
+  a {
+    display: block; // Fill parent
+    flex-grow: 1;   // Take all space
+    text-decoration: none;
+    color: inherit;
+    padding: 0.1rem 1rem;
+  }
+
+  &:hover {
+    background-color: variables.$yellow;
+
     a {
-        display: block; // Make the link fill the parent <li>'s content area
-        flex-grow: 1; // Allow the link to take up all available space
-        text-decoration: none;
-        color: inherit;
-        padding: 0.1rem 1rem; // Apply padding to the link for clickable area
+      color: variables.$dark;
     }
-
-    &:hover {
-        background-color: variables.$yellow;
-        a {
-            color: variables.$dark;
-        }
-    }
+  }
 }
-
-
-

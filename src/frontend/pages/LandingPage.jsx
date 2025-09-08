@@ -15,7 +15,7 @@ const LandingPage = () => {
       </header>
 
       <main>
-        <Hero className="help" />
+        <Hero />
         <section>
           <About />
         </section>

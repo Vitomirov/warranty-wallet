@@ -1,8 +1,13 @@
 @use '../variables';
 @use '../abstracts/abstracts';
 
+// ==============================
+// PAGE SPECIFIC STYLES
+// ==============================
 
-//About
+// ------------------------------
+// ABOUT SECTION
+// ------------------------------
 .more-content {
   max-height: 0;
   overflow: hidden;
@@ -13,119 +18,123 @@
   max-height: 300px;
 }
 
-
-//Features
+// ------------------------------
+// FEATURES SECTION
+// ------------------------------
 .feature-card {
   cursor: pointer;
   transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    z-index: 1050;
+  }
 }
 
-.feature-card:hover {
-  transform: scale(1.05);
-  z-index: 1050;
-}
-
-/* Description hidden by default */
 .feature-description {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease-in-out;
-  height: auto; /* Allow text to take natural height */
+  height: auto; // allow text natural height
 }
 
-/* Show description when hovering the card */
 .feature-card:hover .feature-description {
   opacity: 1;
   visibility: visible;
 }
 
-/* featuresModal.css */
+// ------------------------------
+// FEATURES MODAL
+// ------------------------------
 .custom-modal .modal-content {
-  background: rgba(255, 255, 255, 0.12); /* translucent glass effect */
-  backdrop-filter: blur(12px); /* glass blur */
-  border-radius: 20px; /* smooth rounded corners */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* subtle border */
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25); /* modern shadow */
+  background: rgba(255, 255, 255, 0.12); // translucent glass effect
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
   padding: 1.5rem;
-  color: #fff; /* text color for contrast */
+  color: #fff;
   overflow: hidden;
 }
 
-/* Optional: Modal header */
 .custom-modal .modal-header {
   border-bottom: none;
   justify-content: center;
 }
 
-/* Optional: Modal footer */
 .custom-modal .modal-footer {
   border-top: none;
   justify-content: center;
   gap: 1rem;
 }
 
-/* Button styling */
 .custom-modal .btn-secondary {
   background: rgba(255, 255, 255, 0.2);
   border: none;
   color: #fff;
   backdrop-filter: blur(6px);
   transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
 }
-.custom-modal .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
 
-
-
-// Styles for specific pages (Login, Signup, MyAccount, Dashboard, NewWarranty, WarrantyDetails)
+// ------------------------------
+// LOGIN / SIGNUP / ACCOUNT / DASHBOARD
+// ------------------------------
 .login {
-    background: linear-gradient(155deg, variables.$white 60%, variables.$lightGrayBlue 60%);
+  background: linear-gradient(155deg, variables.$white 60%, variables.$lightGrayBlue 60%);
 }
 
 .signup {
-    background: linear-gradient(125deg,
+  background: linear-gradient(
+    125deg,
     variables.$lightGrayBlue 26.5%,
     variables.$white 25.5%,
     variables.$white 74.8%,
-    variables.$lightGrayBlue 74.8%);
+    variables.$lightGrayBlue 74.8%
+  );
 }
 
 .myAccount {
-    background: linear-gradient(120deg,
+  background: linear-gradient(
+    120deg,
     variables.$white 26.5%,
     variables.$lightGrayBlue 25.5%,
     variables.$lightGrayBlue 74.8%,
-    variables.$white 74.8%);
+    variables.$white 74.8%
+  );
 }
 
 .dashboard {
-    background-color: variables.$white;
-    background: linear-gradient(181deg, variables.$richNavy 46%, variables.$white 46%);
-    background-size: cover;
-    background-position: right;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  background-color: variables.$white;
+  background: linear-gradient(181deg, variables.$richNavy 46%, variables.$white 46%);
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-
-
+// ------------------------------
+// WARRANTY DETAILS PAGE
+// ------------------------------
 .warrantyDetails {
-    @extend %section-background-styles;
-    background: linear-gradient(85deg, variables.$lightGrayBlue 55%, variables.$white 55%); 
-    background-position: right;
-    background-repeat: no-repeat;
+  @extend %section-background-styles;
+  background: linear-gradient(85deg, variables.$lightGrayBlue 55%, variables.$white 55%);
+  background-position: right;
+  background-repeat: no-repeat;
 }
 
-
-//FAQ
-
+// ------------------------------
+// FAQ SECTION BUTTONS
+// ------------------------------
 .faq-btn {
-  outline: none !important;        // remove outline
-  box-shadow: none !important;     // remove shadow
-  border: none;                     // remove default border
-  -webkit-tap-highlight-color: transparent; // remove mobile tap highlight
+  outline: none !important;
+  box-shadow: none !important;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 
   &:focus,
@@ -137,23 +146,15 @@
   }
 
   &:active {
-    transform: scale(0.98); // subtle press effect
+    transform: scale(0.98);
   }
 
   &:hover {
-    transform: scale(1.02); // optional hover scale
+    transform: scale(1.02);
   }
 }
 
-/* Optional: add soft keyboard focus halo for accessibility */
 .faq-btn:focus-visible {
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
   border-radius: 0.5rem;
 }
-
-
-
-
-
-
-

@@ -1,26 +1,34 @@
 @use '../variables';
 
+// ==============================
+// TEXT COLOR UTILITIES
+// ==============================
 .text-lightGrayBlue {
-    color: variables.$lightGrayBlue;
+  color: variables.$lightGrayBlue;
 }
 
 .white {
-    color: variables.$white;
+  color: variables.$white;
 }
 
+// ==============================
+// BACKGROUND / FORM UTILITIES
+// ==============================
 .load {
-    background-color: variables.$neutralGray;
+  background-color: variables.$neutralGray;
 }
 
 .form-style {
-    background-color: variables.$white;
+  background-color: variables.$white;
 }
 
 .datepickerFullWidth {
-    width: 100%;
+  width: 100%;
 }
 
+// ==============================
 // HELPERS
+// ==============================
 .help {
-    border: red 2px solid;
+  border: red 2px solid;
 }

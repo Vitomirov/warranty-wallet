@@ -1,4 +1,9 @@
-// Placeholders (used with @extend)
+// ==============================
+// ABSTRACTS / PLACEHOLDERS
+// ==============================
+
+// General section background style placeholder
+// Can be extended in other files using @extend %section-background-styles
 %section-background-styles {
     background-attachment: fixed;
     background-size: cover;
