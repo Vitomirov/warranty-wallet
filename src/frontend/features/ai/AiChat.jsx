@@ -9,6 +9,7 @@ function AIChat() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [icon, setIcon] = useState("✨");
   const [buttonStyle, setButtonStyle] = useState({});
   const chatRef = useRef();
   const { token } = useAuth();
@@ -19,21 +20,18 @@ function AIChat() {
     const updateButtonPosition = () => {
       const isMobile = window.innerWidth <= 768;
       if (location.pathname === "/") {
-        // Landing page
         setButtonStyle({
           bottom: isMobile ? "90px" : "120px",
           right: isMobile ? "65px" : "40px",
           zIndex: 10015,
         });
       } else if (token) {
-        // Logged-in user
         setButtonStyle({
           bottom: isMobile ? "155px" : "90px",
           right: isMobile ? "20px" : "80px",
           zIndex: 10015,
         });
       } else {
-        // Other cases
         setButtonStyle({
           bottom: isMobile ? "110px" : "120px",
           right: isMobile ? "35px" : "40px",
@@ -41,40 +39,36 @@ function AIChat() {
         });
       }
     };
-
     updateButtonPosition();
     window.addEventListener("resize", updateButtonPosition);
     return () => window.removeEventListener("resize", updateButtonPosition);
   }, [location.pathname, token]);
 
-  // Closing chat by clicking outside the chat
+  // Close chat by clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (chatRef.current && !chatRef.current.contains(e.target)) {
         setIsChatOpen(false);
+        setIcon("✨");
       }
     };
-    if (isChatOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+    if (isChatOpen) document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isChatOpen]);
 
-  // Close chat by pressing Escape key
+  // Close chat by pressing Escape
   useEffect(() => {
     const handleKeydown = (e) => {
       if (e.key === "Escape") {
         setIsChatOpen(false);
+        setIcon("✨");
       }
     };
-
-    if (isChatOpen) {
-      document.addEventListener("keydown", handleKeydown);
-    }
+    if (isChatOpen) document.addEventListener("keydown", handleKeydown);
     return () => document.removeEventListener("keydown", handleKeydown);
   }, [isChatOpen]);
 
-  // Sending message to AI
+  // Send message
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!prompt.trim()) return;
@@ -89,7 +83,6 @@ function AIChat() {
         prompt,
         history: [...messages, newUserMessage],
       });
-
       const newAiMessage = { role: "assistant", content: res.data.response };
       setMessages((prev) => [...prev, newAiMessage]);
       setPrompt("");
@@ -102,7 +95,6 @@ function AIChat() {
     }
   };
 
-  // Handle Enter key press
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -114,13 +106,16 @@ function AIChat() {
     <>
       {!isChatOpen && (
         <button
-          onClick={() => setIsChatOpen(true)}
+          onClick={() => {
+            setIsChatOpen(true);
+            setIcon("❌");
+          }}
           className={`ai-chat-toggle-btn d-flex align-items-center justify-content-center ${
             token ? "logged-in" : ""
           }`}
-          style={buttonStyle} // inline style for position
+          style={buttonStyle}
         >
-          💬
+          {icon}
         </button>
       )}
 
@@ -129,7 +124,10 @@ function AIChat() {
           <div className="ai-chat-header d-flex justify-content-between align-items-center">
             <h2 className="m-0">AI Assistant</h2>
             <button
-              onClick={() => setIsChatOpen(false)}
+              onClick={() => {
+                setIsChatOpen(false);
+                setIcon("✨");
+              }}
               className="btn-close-chat"
             >
               &times;

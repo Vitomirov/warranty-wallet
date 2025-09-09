@@ -63,7 +63,8 @@ function Header() {
                 </Nav.Link>
                 <Nav.Link onClick={() => scrollToSection("faq")}>FAQ</Nav.Link>
               </Nav>
-              <NavDropdown.Divider />
+              <div className="navbar-separator my-2"></div>
+
               {/* Authentication links (Log In / Sign Up). */}
               <Nav className="ms-auto text-end">
                 <Nav.Link as={Link} to="/login" onClick={collapseNavbar}>
@@ -79,7 +80,11 @@ function Header() {
               {/* Navigation links and dropdowns for logged-in users. */}
               <Nav className="ms-auto"></Nav>
               <Nav className="d-flex align-items-end gap-3 text-end white">
-                <NavDropdown title="Home" id="marketing-dropdown">
+                <NavDropdown
+                  title="Home"
+                  id="marketing-dropdown"
+                  className="dropdown-gradient"
+                >
                   <NavDropdown.Item
                     as={Link}
                     to="/about"
@@ -110,6 +115,7 @@ function Header() {
                   title="User Account"
                   id="user-dropdown"
                   align="end"
+                  className="dropdown-gradient"
                 >
                   <NavDropdown.Item
                     as={Link}
