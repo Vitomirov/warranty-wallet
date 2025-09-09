@@ -33,15 +33,17 @@ function SignUp() {
       isOpen={true}
       onRequestClose={closeSignUpModal}
       contentLabel="Sign Up"
-      className="modalWindow"
+      className="modalWindow signup"
       overlayClassName="modalWindow-overlay"
+      shouldCloseOnOverlayClick={false}
+      shouldCloseOnEsc={false}
       ariaHideApp={false}
     >
       <div className="auth-card">
         <h2 className="text-center mb-4">Sign Up</h2>
         <form onSubmit={handleSubmit}>
-          <div className="row g-4">
-            <div className="col-12 col-lg-6">
+          <div className="row justify-content-center">
+            <div className="col-12 col-md-6">
               <fieldset>
                 <legend>Account Information</legend>
                 <input
@@ -71,7 +73,7 @@ function SignUp() {
               </fieldset>
             </div>
 
-            <div className="col-12 col-lg-6">
+            <div className="col-12 col-md-6">
               <fieldset>
                 <legend>Personal Information</legend>
                 <input

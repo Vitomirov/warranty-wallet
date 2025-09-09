@@ -52,7 +52,7 @@
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-  padding: 1.5rem;
+  padding: 1rem;
   color: #fff;
   overflow: hidden;
 }
@@ -97,27 +97,28 @@
 }
 
 .modalWindow {
-  background: rgba(255, 255, 255, 0.85); // general frosted glass
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1rem;
   max-width: 1200px;
   width: 120%;
   max-height: 85vh;
-  overflow-y: auto;
+  overflow: hidden;
   outline: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Specific login modal - narrower and more transparent */
 .modalWindow.login {
-  background: transparent; // more transparent for login
+  background: transparent;
   max-width: 700px;
   width: 100%;
-  padding: 2rem;
+  padding: 1rem;
 }
 
-/* Auth card inside modal */
+// ------------------------------
+// AUTH CARD
+// ------------------------------
 .auth-card {
   width: 100%;
   background: transparent;
@@ -126,87 +127,151 @@
   margin: 0;
 
   h2 {
-    font-size: 1.6rem;
+    font-size: 2rem;
     font-weight: 600;
-    color: #1E3A8A;
-    margin-bottom: 1rem;
+    color:variables.$richNavy;
+    margin-bottom: 0.5rem;
   }
 
   fieldset {
-    border: 1px solid rgba(30, 58, 138, 0.15);
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
   }
 
   legend {
     font-weight: 600;
     color: #1E3A8A;
-    font-size: 1.1rem;
-    padding: 0 0.5rem;
+    font-size: 1rem;
+    padding: 0 0.3rem;
   }
 
   input {
     width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border-radius: 12px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 10px;
     border: 1px solid #CBD5E1;
     background: #f8fafd;
+    margin-bottom: 0.5rem;
     transition: border 0.2s ease, box-shadow 0.2s ease;
-    margin-bottom: 1rem;
 
     &:focus {
       outline: none;
       border-color: #3B82F6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
     }
   }
 
   .form-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 }
 
-/* Login card overrides for transparency */
-.auth-card.login {
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
+/* .auth-card.login input {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+} */
 
-  input {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
+// ------------------------------
+// SIGNUP / ACCOUNT MODAL
+// ------------------------------
+.modalWindow.signup,
+.modalWindow.account {
+  background: transparent;
+  max-width: 700px;
+  width: 100%;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.auth-card.signup,
+.auth-card.account {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
   }
 
-  input:focus {
-    border-color: #3B82F6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  .row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  fieldset {
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  input {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .form-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 }
 
 // ------------------------------
-// RESPONSIVE
+// RESPONSIVE - MOBILE
+// ------------------------------
+@media (max-width: 768px) {
+  .modalWindow.signup,
+  .modalWindow.account {
+    width: 95%;
+    max-width: 95%;
+    max-height: calc(100vh - 100px); // ostavlja prostor za header i footer
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .auth-card.signup,
+  .auth-card.account {
+    height: 100%;
+    justify-content: space-between;
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .row {
+      gap: 0.4rem;
+    }
+
+    input {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.5rem;
+    }
+
+    fieldset {
+      padding: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-buttons {
+      gap: 0.4rem;
+      justify-content: space-between;
+    }
+  }
+}
+
+// ------------------------------
+// RESPONSIVE TABLET / LAPTOP
 // ------------------------------
 @media (max-width: 1200px) {
   .modalWindow {
     max-width: 95%;
-  }
-}
-
-@media (max-width: 768px) {
-  .modalWindow {
-    padding: 1.5rem;
-    width: 95%;
-    max-height: 90vh;
-  }
-
-  .auth-card fieldset {
-    padding: 1rem;
   }
 }
 

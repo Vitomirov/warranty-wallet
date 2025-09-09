@@ -23,6 +23,8 @@ function LogIn() {
       contentLabel="Log In"
       className="modalWindow login"
       overlayClassName="modalWindow-overlay"
+      shouldCloseOnOverlayClick={false}
+      shouldCloseOnEsc={false}
       ariaHideApp={false}
     >
       <div className="auth-card">
