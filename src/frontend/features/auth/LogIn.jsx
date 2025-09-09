@@ -21,7 +21,7 @@ function LogIn() {
       isOpen={showLoginModal}
       onRequestClose={closeLoginModal}
       contentLabel="Log In"
-      className="modalWindow"
+      className="modalWindow login"
       overlayClassName="modalWindow-overlay"
       ariaHideApp={false}
     >
@@ -30,7 +30,7 @@ function LogIn() {
 
         {/* Centriranje uže forme */}
         <div className="row justify-content-center">
-          <div className="col-12 col-md-6 col-lg-5">
+          <div className="col-md-8 col-lg-9">
             <form onSubmit={handleSubmit}>
               <div className="mb-3 form-floating">
                 <input

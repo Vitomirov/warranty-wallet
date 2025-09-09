@@ -35,7 +35,7 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease-in-out;
-  height: auto; // allow text natural height
+  height: auto;
 }
 
 .feature-card:hover .feature-description {
@@ -47,7 +47,7 @@
 // FEATURES MODAL
 // ------------------------------
 .custom-modal .modal-content {
-  background: rgba(255, 255, 255, 0.12); // translucent glass effect
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(12px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -82,14 +82,9 @@
 }
 
 // ------------------------------
-// LOGIN / SIGNUP / ACCOUNT / DASHBOARD
+// MODALS - LOGIN / SIGNUP / ACCOUNT
 // ------------------------------
-/* ------------------------------
-   Auth Card - Modern 2025 Senior Style (No Buttons)
-   ------------------------------ */
-/* Modal overlay */
 .modalWindow-overlay {
-  background-color: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,67 +96,102 @@
   z-index: 1000;
 }
 
-/* Modal container */
 .modalWindow {
-  background: linear-gradient(145deg, #ffffff 0%, #e6f0fa 100%);
+  background: rgba(255, 255, 255, 0.85); // general frosted glass
+  backdrop-filter: blur(8px);
   border-radius: 20px;
   padding: 2rem;
   max-width: 1200px;
-  width: 95%;
+  width: 120%;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1);
   outline: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Card inside modal for styling */
+/* Specific login modal - narrower and more transparent */
+.modalWindow.login {
+  background: transparent; // more transparent for login
+  max-width: 700px;
+  width: 100%;
+  padding: 2rem;
+}
+
+/* Auth card inside modal */
 .auth-card {
   width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #1E3A8A;
+    margin-bottom: 1rem;
+  }
+
+  fieldset {
+    border: 1px solid rgba(30, 58, 138, 0.15);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  legend {
+    font-weight: 600;
+    color: #1E3A8A;
+    font-size: 1.1rem;
+    padding: 0 0.5rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1px solid #CBD5E1;
+    background: #f8fafd;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
 }
 
-/* Form fieldsets for sections */
-.auth-card fieldset {
-  border: 1px solid rgba(30, 58, 138, 0.15);
-  border-radius: 15px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+/* Login card overrides for transparency */
+.auth-card.login {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+  }
+
+  input:focus {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
 }
 
-/* Legends */
-.auth-card legend {
-  font-weight: 600;
-  color: #1E3A8A;
-  font-size: 1.1rem;
-  padding: 0 0.5rem;
-}
-
-/* Inputs */
-.auth-card input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1px solid #CBD5E1;
-  background: #f8fafd;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-  margin-bottom: 1rem;
-}
-
-.auth-card input:focus {
-  outline: none;
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-
-/* Form buttons container */
-.auth-card .form-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-}
-
-/* Responsive adjustments */
+// ------------------------------
+// RESPONSIVE
+// ------------------------------
 @media (max-width: 1200px) {
   .modalWindow {
     max-width: 95%;
@@ -180,9 +210,9 @@
   }
 }
 
-
-
-
+// ------------------------------
+// DASHBOARD
+// ------------------------------
 .dashboard {
   background-color: variables.$white;
   background: linear-gradient(181deg, variables.$richNavy 46%, variables.$white 46%);
