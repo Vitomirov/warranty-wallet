@@ -84,29 +84,104 @@
 // ------------------------------
 // LOGIN / SIGNUP / ACCOUNT / DASHBOARD
 // ------------------------------
-.login {
-  background: linear-gradient(155deg, variables.$white 60%, variables.$lightGrayBlue 60%);
+/* ------------------------------
+   Auth Card - Modern 2025 Senior Style (No Buttons)
+   ------------------------------ */
+/* Modal overlay */
+.modalWindow-overlay {
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
 }
 
-.signup {
-  background: linear-gradient(
-    125deg,
-    variables.$lightGrayBlue 26.5%,
-    variables.$white 25.5%,
-    variables.$white 74.8%,
-    variables.$lightGrayBlue 74.8%
-  );
+/* Modal container */
+.modalWindow {
+  background: linear-gradient(145deg, #ffffff 0%, #e6f0fa 100%);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 1200px;
+  width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1);
+  outline: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.myAccount {
-  background: linear-gradient(
-    120deg,
-    variables.$white 26.5%,
-    variables.$lightGrayBlue 25.5%,
-    variables.$lightGrayBlue 74.8%,
-    variables.$white 74.8%
-  );
+/* Card inside modal for styling */
+.auth-card {
+  width: 100%;
 }
+
+/* Form fieldsets for sections */
+.auth-card fieldset {
+  border: 1px solid rgba(30, 58, 138, 0.15);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Legends */
+.auth-card legend {
+  font-weight: 600;
+  color: #1E3A8A;
+  font-size: 1.1rem;
+  padding: 0 0.5rem;
+}
+
+/* Inputs */
+.auth-card input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #CBD5E1;
+  background: #f8fafd;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Form buttons container */
+.auth-card .form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .modalWindow {
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .modalWindow {
+    padding: 1.5rem;
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .auth-card fieldset {
+    padding: 1rem;
+  }
+}
+
+
+
 
 .dashboard {
   background-color: variables.$white;

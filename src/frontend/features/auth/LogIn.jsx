@@ -1,5 +1,3 @@
-// src/components/auth/LogIn.jsx
-
 import React from "react";
 import ReactModal from "react-modal";
 import Button from "../../ui/Button";
@@ -27,10 +25,12 @@ function LogIn() {
       overlayClassName="modalWindow-overlay"
       ariaHideApp={false}
     >
-      <div className="container-fluid help">
+      <div className="auth-card">
+        <h2 className="text-center mb-4">Log In</h2>
+
+        {/* Centriranje uže forme */}
         <div className="row justify-content-center">
-          <div className="col-12 col-md-8 col-lg-6">
-            <h2 className="text-center mb-4">Log In</h2>
+          <div className="col-12 col-md-6 col-lg-5">
             <form onSubmit={handleSubmit}>
               <div className="mb-3 form-floating">
                 <input

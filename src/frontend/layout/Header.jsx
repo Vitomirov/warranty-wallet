@@ -63,7 +63,6 @@ function Header() {
                 </Nav.Link>
                 <Nav.Link onClick={() => scrollToSection("faq")}>FAQ</Nav.Link>
               </Nav>
-              <div className="navbar-separator my-2"></div>
 
               {/* Authentication links (Log In / Sign Up). */}
               <Nav className="ms-auto text-end">
