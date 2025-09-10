@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
-import DeleteAccount from "./DeleteAccount";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import ReactModal from "react-modal";
 import Button from "../../ui/Button";
+import DeleteAccount from "./DeleteAccount";
 import useMyAccount from "../../hooks/useMyAccount";
 
-function MyAccount() {
+function MyAccountModal() {
+  const navigate = useNavigate();
   const {
     userData,
     loading,
@@ -13,140 +16,109 @@ function MyAccount() {
     handleUpdate,
   } = useMyAccount();
 
+  const closeModal = () => navigate("/dashboard");
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <section className="d-flex justify-content-center flex-grow-1 py-4">
-      <div className="container">
-        <div className="auth-card">
-          <h2 className="text-center mb-4">My Account</h2>
+    <ReactModal
+      isOpen={true}
+      onRequestClose={closeModal}
+      contentLabel="My Account"
+      className="modalWindow account"
+      overlayClassName="modalWindow-overlay"
+      shouldCloseOnOverlayClick={false}
+      shouldCloseOnEsc={false}
+      ariaHideApp={false}
+    >
+      <div className="auth-card account">
+        <h2 className="text-center mb-4">My Account</h2>
 
-          <form onSubmit={handleUpdate}>
-            <div className="row g-4">
-              {/* Account Information */}
-              <div className="col-12 col-md-6">
-                <fieldset className="border p-3 rounded h-100">
-                  <legend className="fs-6 px-2">Account</legend>
-
-                  <div className="mb-3 form-floating">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="username"
-                      name="username"
-                      value={userData.username}
-                      onChange={handleInputChange}
-                      placeholder="Username"
-                      required
-                    />
-                    <label htmlFor="username">Username</label>
-                  </div>
-
-                  <div className="mb-3 form-floating">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="userEmail"
-                      name="userEmail"
-                      value={userData.userEmail}
-                      onChange={handleInputChange}
-                      placeholder="Email"
-                      required
-                    />
-                    <label htmlFor="userEmail">Email</label>
-                  </div>
-
-                  <div className="mb-3 form-floating">
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      name="password"
-                      value={userData.password}
-                      onChange={handleInputChange}
-                      placeholder="Password"
-                      required
-                    />
-                    <label htmlFor="password">Password</label>
-                  </div>
-                </fieldset>
-              </div>
-
-              {/* Personal Information */}
-              <div className="col-12 col-md-6">
-                <fieldset className="border p-3 rounded h-100">
-                  <legend className="fs-6 px-2">Personal</legend>
-
-                  <div className="mb-3 form-floating">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="fullName"
-                      name="fullName"
-                      value={userData.fullName}
-                      onChange={handleInputChange}
-                      placeholder="Full Name"
-                      required
-                    />
-                    <label htmlFor="fullName">Full Name</label>
-                  </div>
-
-                  <div className="mb-3 form-floating">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="userAddress"
-                      name="userAddress"
-                      value={userData.userAddress}
-                      onChange={handleInputChange}
-                      placeholder="Address"
-                      required
-                    />
-                    <label htmlFor="userAddress">Address</label>
-                  </div>
-
-                  <div className="mb-3 form-floating">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="userPhoneNumber"
-                      name="userPhoneNumber"
-                      value={userData.userPhoneNumber}
-                      onChange={handleInputChange}
-                      placeholder="Phone Number"
-                      required
-                    />
-                    <label htmlFor="userPhoneNumber">Phone Number</label>
-                  </div>
-                </fieldset>
-              </div>
+        <form onSubmit={handleUpdate}>
+          <div className="row">
+            {/* Account Information */}
+            <div className="col-12 col-md-6">
+              <fieldset>
+                <legend>Account Information</legend>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={userData.username}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="email"
+                  name="userEmail"
+                  placeholder="Email"
+                  value={userData.userEmail}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={userData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+              </fieldset>
             </div>
 
-            {/* Buttons */}
-            <div className="d-flex justify-content-between gap-3 mt-4">
-              <Button type="submit" variant="primary">
-                Update Account
-              </Button>
-              <DeleteAccount />
+            {/* Personal Information */}
+            <div className="col-12 col-md-6">
+              <fieldset>
+                <legend>Personal Information</legend>
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="Full Name"
+                  value={userData.fullName}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="text"
+                  name="userAddress"
+                  placeholder="Address"
+                  value={userData.userAddress}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="tel"
+                  name="userPhoneNumber"
+                  placeholder="Phone Number"
+                  value={userData.userPhoneNumber}
+                  onChange={handleInputChange}
+                  required
+                />
+              </fieldset>
             </div>
+          </div>
 
-            <div className="d-flex justify-content-end mt-3">
-              <Link to="/dashboard">
-                <Button variant="secondary">Back</Button>
-              </Link>
+          {/* Buttons */}
+          <div className="form-buttons mt-3 d-flex justify-content-between">
+            <Button type="submit" variant="primary">
+              Update Account
+            </Button>
+            <Button type="button" variant="secondary" onClick={closeModal}>
+              Cancel
+            </Button>
+          </div>
+
+          {successMessage && (
+            <div className="alert alert-success mt-2 text-center">
+              {successMessage}
             </div>
-
-            {successMessage && (
-              <p className="text-success mt-2 text-center small">
-                {successMessage}
-              </p>
-            )}
-          </form>
-        </div>
+          )}
+        </form>
       </div>
-    </section>
+    </ReactModal>
   );
 }
 
-export default MyAccount;
+export default MyAccountModal;

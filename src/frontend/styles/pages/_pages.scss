@@ -169,13 +169,8 @@
   }
 }
 
-/* .auth-card.login input {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-} */
-
 // ------------------------------
-// SIGNUP / ACCOUNT MODAL
+// SIGNUP / ACCOUNT MODAL - UNIFIED WITH LOGIN STYLES
 // ------------------------------
 .modalWindow.signup,
 .modalWindow.account {
@@ -190,32 +185,57 @@
 .auth-card.account {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+  justify-content: flex-start;
+  height: auto;
+  width: 100%;
 
   h2 {
-    font-size: 1.4rem;
+    font-size: 2rem;
+    font-weight: 600;
+    color: variables.$richNavy;
     margin-bottom: 0.5rem;
   }
 
   .row {
+    display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
   fieldset {
-    padding: 0.8rem;
-    margin-bottom: 0.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    padding: 0;
+    border: none;
+  }
+
+  legend {
+    font-weight: 600;
+    color: variables.$richNavy;
+    font-size: 1rem;
+    padding: 0 0.3rem;
   }
 
   input {
-    font-size: 0.8rem;
-    padding: 0.35rem 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    border: 1px solid #CBD5E1;
+    background: #f8fafd;
+    margin-bottom: 0.5rem;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    }
   }
 
   .form-buttons {
-    flex-direction: row;
-    justify-content: space-between;
+    display: flex;
+    justify-content: flex-end;
     gap: 0.5rem;
   }
 }
@@ -228,43 +248,32 @@
   .modalWindow.account {
     width: 95%;
     max-width: 95%;
-    max-height: calc(100vh - 100px); // ostavlja prostor za header i footer
+    max-height: calc(100vh - 100px);
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .auth-card.signup,
   .auth-card.account {
-    height: 100%;
-    justify-content: space-between;
-
     h2 {
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .row {
-      gap: 0.4rem;
-    }
-
-    input {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.5rem;
-    }
-
-    fieldset {
-      padding: 0.6rem;
+      font-size: 1.8rem;
       margin-bottom: 0.4rem;
     }
 
+    input {
+      font-size: 0.85rem;
+      padding: 0.5rem 0.75rem;
+    }
+
     .form-buttons {
-      gap: 0.4rem;
-      justify-content: space-between;
+      justify-content: flex-end;
+      gap: 0.5rem;
     }
   }
 }
+
 
 // ------------------------------
 // RESPONSIVE TABLET / LAPTOP
