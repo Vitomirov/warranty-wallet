@@ -32,11 +32,11 @@ function MyAccountModal() {
       shouldCloseOnEsc={false}
       ariaHideApp={false}
     >
-      <div className="auth-card account">
+      <div className="auth-card">
         <h2 className="text-center mb-4">My Account</h2>
 
         <form onSubmit={handleUpdate}>
-          <div className="row">
+          <div className="row justify-content-center">
             {/* Account Information */}
             <div className="col-12 col-md-6">
               <fieldset>
