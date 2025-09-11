@@ -19,7 +19,6 @@ const WarrantyDetails = () => {
     handleIssueChange,
     handleOpenPDF,
     handleSendEmail,
-    fetchWarranty,
   } = useWarrantyDetails();
 
   const handleDeleteSuccess = () => {
@@ -31,75 +30,66 @@ const WarrantyDetails = () => {
     return <div className="alert alert-info">Loading...</div>;
 
   return (
-    <section
-      id="warrantyDetails"
-      className="d-flex justify-content-center align-items-center flex-grow-1"
-    >
-      <div className="content-layout w-100">
-        <h1 className="text-center mb-2 mt-5">
-          {warranty.productName} - Warranty Details
-        </h1>
+    <div className="container col-12 col-md-10 col-lg-8 mt-5">
+      <h1 className="text-center mb-4">
+        {warranty.productName} - Warranty Details
+      </h1>
 
-        <div className="row g-4">
-          <div className="col-12">
-            <fieldset className="h-100">
-              <div className="px-3">
-                <div className="mb-3">
-                  <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
-                </div>
-                <div className="mb-3">
-                  <strong>Expiry Date:</strong> {warranty.warrantyExpireDate}
-                </div>
-                <div className="mb-3">
-                  <strong>Expires In:</strong>{" "}
-                  {isExpired ? "Warranty has expired" : `${daysLeft} days left`}
-                </div>
-                <div className="mb-3">
-                  <strong>Seller's Email:</strong> {warranty.sellersEmail}
-                </div>
-
-                <div className="mb-3">
-                  <Button variant="primary" onClick={handleOpenPDF}>
-                    Open Warranty PDF
-                  </Button>
-                </div>
-
-                <div className="mb-3">
-                  <textarea
-                    id="issueDescription"
-                    className="form-control"
-                    placeholder="Describe your issue here..."
-                    value={issueDescription}
-                    onChange={handleIssueChange}
-                    rows="4"
-                    disabled={isExpired}
-                  />
-                </div>
-
-                <div className="d-flex justify-content-between gap-2">
-                  <Button
-                    variant="primary"
-                    onClick={() => handleSendEmail(user)}
-                    disabled={isExpired}
-                  >
-                    Send
-                  </Button>
-                  <DeleteWarranty
-                    id={warranty.warrantyId}
-                    onDeleteSuccess={handleDeleteSuccess}
-                  />
-                </div>
-              </div>
-              <div className="mt-4 d-flex justify-content-end pe-3">
-                <Link to="/dashboard">
-                  <Button variant="secondary">Back</Button>
-                </Link>
-              </div>
-            </fieldset>
+      <div className="row">
+        <fieldset className="h-100">
+          <div className="mb-3">
+            <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
           </div>
-        </div>
+          <div className="mb-3">
+            <strong>Expiry Date:</strong> {warranty.warrantyExpireDate}
+          </div>
+          <div className="mb-3">
+            <strong>Expires In:</strong>{" "}
+            {isExpired ? "Warranty has expired" : `${daysLeft} days left`}
+          </div>
+          <div className="mb-3">
+            <strong>Seller's Email:</strong> {warranty.sellersEmail}
+          </div>
+
+          <div className="mb-3">
+            <Button variant="primary" onClick={handleOpenPDF}>
+              Open Warranty PDF
+            </Button>
+          </div>
+
+          <div className="mb-3">
+            <textarea
+              id="issueDescription"
+              className="form-control"
+              placeholder="Describe your issue here..."
+              value={issueDescription}
+              onChange={handleIssueChange}
+              rows="4"
+              disabled={isExpired}
+            />
+          </div>
+
+          <div className="d-flex justify-content-between gap-2">
+            <Button
+              variant="primary"
+              onClick={() => handleSendEmail(user)}
+              disabled={isExpired}
+            >
+              Send
+            </Button>
+            <DeleteWarranty
+              id={warranty.warrantyId}
+              onDeleteSuccess={handleDeleteSuccess}
+            />
+          </div>
+          <div className="mt-4 d-flex justify-content-end">
+            <Link to="/dashboard">
+              <Button variant="secondary">Back</Button>
+            </Link>
+          </div>
+        </fieldset>
       </div>
-    </section>
+    </div>
   );
 };
 

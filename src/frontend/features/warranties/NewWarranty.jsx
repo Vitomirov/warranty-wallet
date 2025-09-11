@@ -16,16 +16,14 @@ const NewWarranty = () => {
   } = useNewWarranty();
 
   return (
-    <div className="container-fluid d-flex flex-column justify-content-center align-items-center flex-grow-1">
-      <div className="row content-layout">
-        <h1 className="col-12 mt-5 pt-3 montserrat text-center">
-          Enter Warranty Details
-        </h1>
+    <div className="container col-12 col-md-10 col-lg-8 my-5 pt-5">
+      <h1 className="text-center mb-4">Enter Warranty Details</h1>
 
-        <div className="col-lg-8 col-md-10 mx-auto mt-4">
+      <div className="row justify-content-center">
+        <div className="col-12">
           <form onSubmit={handleAddWarranty}>
             {/* Product Name */}
-            <div className="mb-3">
+            <div className="mb-2">
               <label htmlFor="productName">Product Name:</label>
               <input
                 id="productName"
@@ -39,7 +37,7 @@ const NewWarranty = () => {
             </div>
 
             {/* Seller's Email */}
-            <div className="mb-3">
+            <div className="mb-2">
               <label htmlFor="sellersEmail">Seller's email:</label>
               <input
                 id="sellersEmail"
@@ -53,7 +51,7 @@ const NewWarranty = () => {
             </div>
 
             {/* Purchase Date */}
-            <div className="mb-3">
+            <div className="mb-2">
               <label htmlFor="dateOfPurchase">Purchase Date:</label>
               <DatePicker
                 id="dateOfPurchase"
@@ -67,7 +65,7 @@ const NewWarranty = () => {
             </div>
 
             {/* Expiry Date */}
-            <div className="mb-3">
+            <div className="mb-2">
               <label htmlFor="warrantyExpireDate">Expiry Date:</label>
               <DatePicker
                 id="warrantyExpireDate"
@@ -83,7 +81,7 @@ const NewWarranty = () => {
             </div>
 
             {/* PDF File Upload */}
-            <div className="mb-3">
+            <div className="mb-2">
               <label htmlFor="file">Upload PDF File:</label>
               <input
                 id="file"
@@ -99,7 +97,7 @@ const NewWarranty = () => {
             {message && <div className="alert alert-info mt-4">{message}</div>}
 
             {/* Buttons */}
-            <div className=" mt-4 d-flex justify-content-between">
+            <div className="mt-5 d-flex justify-content-between">
               <Button type="submit" variant="primary" disabled={loading}>
                 {loading ? "Adding..." : "Add Warranty"}
               </Button>

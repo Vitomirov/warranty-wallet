@@ -27,7 +27,7 @@ function Dashboard() {
   }
 
   return (
-    <div className="container">
+    <div className="container col-12 col-md-10 col-lg-8 my-5">
       <h1 className="text-center mb-4">Hello, {user?.username}!</h1>
 
       <div className="mb-3">

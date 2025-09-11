@@ -1,11 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import ReactModal from "react-modal";
 import Button from "../../ui/Button";
 import DeleteAccount from "./DeleteAccount";
 import useMyAccount from "../../hooks/useMyAccount";
 
-function MyAccountModal() {
+function MyAccount() {
   const navigate = useNavigate();
   const {
     userData,
@@ -16,31 +15,22 @@ function MyAccountModal() {
     handleUpdate,
   } = useMyAccount();
 
-  const closeModal = () => navigate("/dashboard");
+  const handleCancel = () => navigate("/dashboard");
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <div className="alert alert-info">Loading...</div>;
+  if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
-    <ReactModal
-      isOpen={true}
-      onRequestClose={closeModal}
-      contentLabel="My Account"
-      className="modalWindow account"
-      overlayClassName="modalWindow-overlay"
-      shouldCloseOnOverlayClick={false}
-      shouldCloseOnEsc={false}
-      ariaHideApp={false}
-    >
-      <div className="auth-card">
-        <h2 className="text-center mb-4">My Account</h2>
+    <div className="container col-12 col-md-10 col-lg-8 my-5">
+      <h1 className="text-center mb-4">My Account</h1>
 
-        <form onSubmit={handleUpdate}>
-          <div className="row justify-content-center">
+      <div className="row justify-content-center">
+        <div className="col-12">
+          <form onSubmit={handleUpdate}>
             {/* Account Information */}
-            <div className="col-12 col-md-6">
-              <fieldset>
-                <legend>Account Information</legend>
+            <fieldset className="mb-3">
+              <legend>Account Information</legend>
+              <div className="mb-2">
                 <input
                   type="text"
                   name="username"
@@ -48,7 +38,10 @@ function MyAccountModal() {
                   value={userData.username}
                   onChange={handleInputChange}
                   required
+                  className="form-control"
                 />
+              </div>
+              <div className="mb-2">
                 <input
                   type="email"
                   name="userEmail"
@@ -56,7 +49,10 @@ function MyAccountModal() {
                   value={userData.userEmail}
                   onChange={handleInputChange}
                   required
+                  className="form-control"
                 />
+              </div>
+              <div className="mb-2">
                 <input
                   type="password"
                   name="password"
@@ -64,14 +60,15 @@ function MyAccountModal() {
                   value={userData.password}
                   onChange={handleInputChange}
                   required
+                  className="form-control"
                 />
-              </fieldset>
-            </div>
+              </div>
+            </fieldset>
 
             {/* Personal Information */}
-            <div className="col-12 col-md-6">
-              <fieldset>
-                <legend>Personal Information</legend>
+            <fieldset className="mb-3">
+              <legend>Personal Information</legend>
+              <div className="mb-2">
                 <input
                   type="text"
                   name="fullName"
@@ -79,7 +76,10 @@ function MyAccountModal() {
                   value={userData.fullName}
                   onChange={handleInputChange}
                   required
+                  className="form-control"
                 />
+              </div>
+              <div className="mb-2">
                 <input
                   type="text"
                   name="userAddress"
@@ -87,7 +87,10 @@ function MyAccountModal() {
                   value={userData.userAddress}
                   onChange={handleInputChange}
                   required
+                  className="form-control"
                 />
+              </div>
+              <div className="mb-2">
                 <input
                   type="tel"
                   name="userPhoneNumber"
@@ -95,33 +98,33 @@ function MyAccountModal() {
                   value={userData.userPhoneNumber}
                   onChange={handleInputChange}
                   required
+                  className="form-control"
                 />
-              </fieldset>
-            </div>
-          </div>
+              </div>
+            </fieldset>
 
-          {/* Buttons Layout - Copied from WarrantyDetails */}
-          <div className="d-flex justify-content-between gap-2 mt-4">
-            <Button type="submit" variant="primary">
-              Update Account
-            </Button>
-            <DeleteAccount />
-          </div>
-          <div className="mt-4 d-flex justify-content-end">
-            <Button type="button" variant="secondary" onClick={closeModal}>
-              Cancel
-            </Button>
-          </div>
-
-          {successMessage && (
-            <div className="alert alert-success mt-2 text-center">
-              {successMessage}
+            {/* Buttons Layout */}
+            <div className="d-flex justify-content-between gap-2 mt-3">
+              <Button type="submit" variant="primary">
+                Update Account
+              </Button>
+              <DeleteAccount />
             </div>
-          )}
-        </form>
+            <div className="mt-4 d-flex justify-content-end">
+              <Button type="button" variant="secondary" onClick={handleCancel}>
+                Back
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
-    </ReactModal>
+      {successMessage && (
+        <div className="alert alert-success mt-4 text-center">
+          {successMessage}
+        </div>
+      )}
+    </div>
   );
 }
 
-export default MyAccountModal;
+export default MyAccount;
