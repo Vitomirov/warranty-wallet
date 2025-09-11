@@ -1,0 +1,9 @@
+@use '../variables';
+@use '../abstracts/abstracts';
+
+.warrantyDetails {
+  @extend %section-background-styles;
+  background: linear-gradient(85deg, variables.$lightGrayBlue 55%, variables.$white 55%);
+  background-position: right;
+  background-repeat: no-repeat;
+}

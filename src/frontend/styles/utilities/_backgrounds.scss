@@ -1,0 +1,14 @@
+@use '../variables';
+
+// Background / form utilities
+.load {
+  background-color: variables.$neutralGray;
+}
+
+.form-style {
+  background-color: variables.$white;
+}
+
+.datepickerFullWidth {
+  width: 100%;
+}

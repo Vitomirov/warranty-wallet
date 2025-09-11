@@ -1,0 +1,16 @@
+@use '../variables';
+
+footer {
+  background: linear-gradient(
+    90deg,
+    #334155  0%,   
+    #1E3A8A 50%,  
+    #0F172A 100%  
+  );
+  color: variables.$white;
+  text-align: start;
+  padding: 10px 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+}

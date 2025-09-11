@@ -1,0 +1,9 @@
+.more-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+
+.more-content.open {
+  max-height: 300px;
+}

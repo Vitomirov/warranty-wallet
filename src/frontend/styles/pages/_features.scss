@@ -1,0 +1,57 @@
+.feature-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    z-index: 1050;
+  }
+}
+
+.feature-description {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+  height: auto;
+}
+
+.feature-card:hover .feature-description {
+  opacity: 1;
+  visibility: visible;
+}
+
+// Features modal
+.custom-modal .modal-content {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
+  color: #fff;
+  overflow: hidden;
+}
+
+.custom-modal .modal-header {
+  border-bottom: none;
+  justify-content: center;
+}
+
+.custom-modal .modal-footer {
+  border-top: none;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.custom-modal .btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
+}

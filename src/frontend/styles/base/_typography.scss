@@ -1,0 +1,44 @@
+@use '../variables';
+
+body {
+  font-family: 'Roboto Serif', 'Edu AU VIC WA NT Pre', serif;
+  line-height: 1.6;
+
+  // Balanced gradient: light → soft blue → navy
+  background: linear-gradient(
+    135deg,
+    variables.$white 0%,    // light sky blue
+    #BFDBFE 50%,   // soft blue
+    #14295a 100%   // deep navy
+  );
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+// ------------------------------
+// HEADINGS / TITLES
+// ------------------------------
+.title {
+  letter-spacing: 0.11rem;
+  line-height: 1.5;
+  font-size-adjust: 0.85;
+  stroke-width: 0.1px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  // Clean navy color (good readability on light/blue background)
+  color: variables.$richNavy;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+}
+
+// ------------------------------
+// SPECIAL FONT CLASSES
+// ------------------------------
+.montserrat {
+  font-family: 'Thank You', cursive;
+}
