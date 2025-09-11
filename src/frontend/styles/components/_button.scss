@@ -17,18 +17,15 @@
   transition: 
     background 0.25s ease-in-out, 
     color 0.25s ease-in-out, 
-    transform 0.1s ease-in-out, 
-    box-shadow 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); // Added subtle base shadow
+    transform 0.1s ease-in-out;
+
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   }
 
   &:disabled {
@@ -139,5 +136,50 @@
   &:focus {
     outline: 2px solid lighten(variables.$cyanAccent, 20%);
     outline-offset: 2px;
+  }
+}
+
+// Hero Buttons
+.button--hero-primary {
+  font-size: 18px;
+  padding: 12px 24px;
+    background-color: variables.$cyanAccent;
+  color: variables.$white;
+
+  &:hover {
+    background-color: lighten(variables.$cyanAccent, 5%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  &:active {
+    background-color: darken(variables.$cyanAccent, 5%);
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// Hero-specific styling for the secondary "Log In" button
+.button--hero-secondary {
+  font-size: 18px;
+  padding: 12px 24px;
+
+  background-color: transparent;
+  color: variables.$richNavy;
+  border: 2px solid variables.$richNavy;
+  box-shadow: none;
+
+  &:hover {
+    background-color: variables.$richNavy;
+    color: variables.$white;
+    transform: none; // Reset transform for a clean hover
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: darken(variables.$richNavy, 5%);
+    color: variables.$white;
+    transform: none;
+    box-shadow: none;
   }
 }

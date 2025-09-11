@@ -12,7 +12,7 @@ const Hero = () => {
   const { user } = useAuth();
 
   return (
-    <section className="min-vh-100 d-flex align-items-center justify-content-center text-center bg-gradient-light">
+    <section className="min-vh-100 d-flex align-items-center justify-content-center text-center ">
       <motion.div
         className="w-100 content-layout"
         variants={containerVariants}
@@ -40,7 +40,7 @@ const Hero = () => {
 
             {/* Buttons */}
             <motion.div
-              className="button d-flex justify-content-center gap-3"
+              className="button d-flex justify-content-center gap-5"
               variants={popUpAndFadeIn}
               initial="hidden"
               animate="visible"
@@ -48,10 +48,10 @@ const Hero = () => {
               {!user && (
                 <>
                   <Link to="/login">
-                    <Button variant="primary">Log In</Button>
+                    <Button variant="hero-primary">Log In</Button>
                   </Link>
                   <Link to="/signup">
-                    <Button variant="secondary">Sign Up</Button>
+                    <Button variant="hero-secondary">Sign Up</Button>
                   </Link>
                 </>
               )}
