@@ -16,10 +16,10 @@ const NewWarranty = () => {
   } = useNewWarranty();
 
   return (
-    <div className="help container-fluid d-flex flex-column justify-content-center align-items-center flex-grow-1">
-      <div className="row content-layout help">
-        <h1 className="col-12 display-5 mt-5 pt-3 montserrat text-center">
-          Create New Warranty
+    <div className="container-fluid d-flex flex-column justify-content-center align-items-center flex-grow-1">
+      <div className="row content-layout">
+        <h1 className="col-12 mt-5 pt-3 montserrat text-center">
+          Enter Warranty Details
         </h1>
 
         <div className="col-lg-8 col-md-10 mx-auto mt-4">
@@ -98,7 +98,8 @@ const NewWarranty = () => {
 
             {message && <div className="alert alert-info mt-4">{message}</div>}
 
-            <div className="button mt-4 d-flex justify-content-between help">
+            {/* Buttons */}
+            <div className=" mt-4 d-flex justify-content-between">
               <Button type="submit" variant="primary" disabled={loading}>
                 {loading ? "Adding..." : "Add Warranty"}
               </Button>

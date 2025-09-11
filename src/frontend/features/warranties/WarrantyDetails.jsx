@@ -9,7 +9,6 @@ const WarrantyDetails = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Sva logika je u hook-u
   const {
     warranty,
     loading,

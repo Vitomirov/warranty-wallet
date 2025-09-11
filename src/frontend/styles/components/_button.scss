@@ -1,5 +1,6 @@
 @use '../variables';
 
+// Base button class for universal styles
 .button {
   display: inline-flex;
   align-items: center;
@@ -18,6 +19,7 @@
     color 0.25s ease-in-out, 
     transform 0.1s ease-in-out, 
     box-shadow 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); // Added subtle base shadow
 
   &:hover {
     transform: translateY(-1px);
@@ -34,10 +36,16 @@
     cursor: not-allowed;
     box-shadow: none;
   }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4);
+  }
 }
 
 // Button Variants
-.button--primary {
+// Primary: The main action button, the star of the show
+.button--primary, .button--success {
   background: linear-gradient(90deg, variables.$richNavy 0%, variables.$cyanAccent 100%);
   color: variables.$white;
 
@@ -50,51 +58,74 @@
   }
 }
 
+// Secondary: A slightly less important action
 .button--secondary {
-  background: linear-gradient(90deg, variables.$neutralGray 0%, lighten(variables.$richNavy, 8%) 100%);
+  background: variables.$neutralGray;
   color: variables.$white;
 
   &:hover {
-    background: linear-gradient(90deg, lighten(variables.$neutralGray, 10%) 0%, lighten(variables.$neutralGray, 15%) 100%);
-    color: variables.$richNavy;
+    background-color: lighten(variables.$neutralGray, 10%);
   }
 
   &:active {
-    background: linear-gradient(90deg, darken(variables.$neutralGray, 5%) 0%, darken(variables.$neutralGray, 10%) 100%);
+    background-color: darken(variables.$neutralGray, 5%);
   }
 }
 
+// Tertiary: For "View" or other low-priority actions. A minimalist approach.
+.button--tertiary {
+  background: transparent;
+  color: variables.$neutralGray;
+  border: 1px solid variables.$neutralGray;
+  box-shadow: none;
+
+  &:hover {
+    background-color: variables.$lightGrayBlue;
+    color: variables.$richNavy;
+    transform: none; // Reset transform for this variant
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: variables.$lightGrayBlue;
+    color: variables.$richNavy;
+    transform: none; // Reset transform for this variant
+    box-shadow: none;
+  }
+}
+
+// Danger: For destructive actions like "Delete"
 .button--danger {
-  background-color: #dc3545;
+  background-color: #dc3545; // Keeping this a solid color is a good UX practice
   color: variables.$white;
+  box-shadow: none;
 
   &:hover {
     background-color: darken(#dc3545, 5%);
+    transform: none; // Reset transform for this variant
+    box-shadow: none;
   }
 
   &:active {
     background-color: darken(#dc3545, 10%);
+    transform: none; // Reset transform for this variant
+    box-shadow: none;
   }
 }
 
-
-
+// Logout: A specific variant for a logout button.
 .button--logout {
+  // Re-use base button styles
   background-color: variables.$neutralGray;
   color: variables.$white;
-  border: none;
-  border-radius: 0.5rem;
   padding: 0.6rem 1rem;
-  font-weight: 600;
   font-size: 1rem;
-  transition: all 0.3s ease-in-out;
+  border-radius: 0.5rem;
   margin-bottom: 2px;
-  cursor: pointer;
   box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 
   &:hover {
     background-color: variables.$cyanAccent;
-    color: variables.$white;
     transform: translateY(-1px);
     box-shadow: 0 5px 8px rgba(0,0,0,0.25);
   }
@@ -109,10 +140,4 @@
     outline: 2px solid lighten(variables.$cyanAccent, 20%);
     outline-offset: 2px;
   }
-}
-
-// Focus ring for accessibility
-.button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4);
 }

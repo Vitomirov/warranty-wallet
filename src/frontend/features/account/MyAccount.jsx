@@ -100,11 +100,14 @@ function MyAccountModal() {
             </div>
           </div>
 
-          {/* Buttons */}
-          <div className="form-buttons mt-3 d-flex justify-content-between">
+          {/* Buttons Layout - Copied from WarrantyDetails */}
+          <div className="d-flex justify-content-between gap-2 mt-4">
             <Button type="submit" variant="primary">
               Update Account
             </Button>
+            <DeleteAccount />
+          </div>
+          <div className="mt-4 d-flex justify-content-end">
             <Button type="button" variant="secondary" onClick={closeModal}>
               Cancel
             </Button>

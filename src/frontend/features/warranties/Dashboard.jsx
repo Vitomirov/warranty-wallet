@@ -58,9 +58,9 @@ function Dashboard() {
                       Expires: {warranty.warrantyExpireDate}
                     </small>
                   </div>
-                  <div className="d-flex flex-row flex-sm-row gap-2 mt-2 mt-sm-0">
+                  <div className="d-flex flex-row flex-sm-row gap-4 mt-2 mt-sm-0">
                     <Button
-                      variant="primary"
+                      variant="tertiary"
                       onClick={() => handleWarrantyClick(warranty.warrantyId)}
                     >
                       View
