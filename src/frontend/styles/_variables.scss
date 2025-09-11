@@ -1,23 +1,17 @@
-// Define Color Scheme Variables (Option 1 - Trust & Tech)
 
-// Light background, almost white (for sections, cards, etc.)
-$lightGrayBlue: #F9FAFB; // was #c2dfe3 (light gray-blue)
+$lightGrayBlue: #F9FAFB; 
+$white: #FFFFFF; 
+$cyanAccent: #0EA5E9;
+$neutralGray: #475569;
+$richNavy: #0F172A;
 
-// Pure white, keep for contrast
-$white: #FFFFFF; // was #f5f5f5 (slightly off-white)!!!!!!!!!!!!!!!!!!!!!!
-
-// Accent color (cyanAccent replaced with cyan accent)
-$cyanAccent: #0EA5E9; // was #fffc5f (bright cyanAccent), now cyan accent
-
-// Neutral neutralGray gray for text
-$neutralGray: #475569; // was #212121 (blackish), now neutral gray
-
-// Deep navy for titles/headings
-$richNavy: #0F172A; // was #162D46 (neutralGray blue), now rich navy
-
-// Modal background (light neutral)
-$modal: #E2E8F0; // was #c3c3d7 (muted lavender), now soft neutral!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   
+$background-gradient: linear-gradient(
+  135deg,
+  #F9FAFB 0%,    // light sky blue
+  #BFDBFE 50%,   // soft blue
+  #14295a 100%   // deep navy
+);
 
 // Override Bootstrap's default theme colors
 $theme-colors: (

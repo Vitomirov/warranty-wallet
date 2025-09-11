@@ -4,13 +4,7 @@ body {
   font-family: 'Roboto Serif', 'Edu AU VIC WA NT Pre', serif;
   line-height: 1.6;
 
-  // Balanced gradient: light → soft blue → navy
-  background: linear-gradient(
-    135deg,
-    variables.$white 0%,    // light sky blue
-    #BFDBFE 50%,   // soft blue
-    #14295a 100%   // deep navy
-  );
+
 
   @media (max-width: 768px) {
     font-size: 1rem;

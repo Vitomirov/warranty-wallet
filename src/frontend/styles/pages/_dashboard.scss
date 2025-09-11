@@ -1,8 +1,7 @@
 @use '../variables';
 
 .dashboard {
-  background-color: variables.$white;
-  background: linear-gradient(181deg, variables.$richNavy 46%, variables.$white 46%);
+  background-color:variables.$background-gradient;
   background-size: cover;
   background-position: right;
   background-repeat: no-repeat;
