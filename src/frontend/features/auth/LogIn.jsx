@@ -27,7 +27,7 @@ function LogIn() {
       shouldCloseOnEsc={false}
       ariaHideApp={false}
     >
-      <div className="auth-card">
+      <div>
         <h2 className="text-center mb-4">Log In</h2>
 
         {/* Centriranje uže forme */}

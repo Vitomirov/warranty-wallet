@@ -7,3 +7,15 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+.border-dark-item {
+  border-color: variables.$richNavy !important; // dark blue (or use variables.$richNavy)
+background: #F9FAFB;
+background: linear-gradient(141deg, rgba(249, 250, 251, 1) 26%, rgba(41, 126, 230, 0.4) 100%);
+}
+
+.border-dark-item:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+  transition: all 0.2s ease-in-out;
+}

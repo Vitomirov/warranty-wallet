@@ -11,7 +11,7 @@
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: transparent;
   user-select: none;
   transition: 
     background 0.25s ease-in-out, 
@@ -76,6 +76,8 @@
     background-color: darken(#dc3545, 10%);
   }
 }
+
+
 
 .button--logout {
   background-color: variables.$neutralGray;

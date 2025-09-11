@@ -45,9 +45,12 @@ function Dashboard() {
           }}
           ref={listRef}
         >
-          <ul className="list-group mb-0">
+          <ul className="list-group ">
             {warranties.map((warranty) => (
-              <li key={warranty.warrantyId} className="list-group-item">
+              <li
+                key={warranty.warrantyId}
+                className="border border-dark-item rounded-3 p-3"
+              >
                 <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
                   <div className="mb-2 mb-sm-0">
                     <div className="fw-bold">{warranty.productName}</div>
