@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ReactModal from "react-modal";
 import Button from "../../ui/Button";
 import useSignUp from "../../hooks/useSignUp";
+import useLogin from "../../hooks/useLogin"; // koristimo cancel iz login hooka
 
 function SignUp() {
-  const navigate = useNavigate();
+  const { handleCancel } = useLogin();
   const { handleSignUp, message, loading } = useSignUp();
+
   const [formData, setFormData] = useState({
     username: "",
     userEmail: "",
@@ -15,8 +15,6 @@ function SignUp() {
     userAddress: "",
     userPhoneNumber: "",
   });
-
-  const closeSignUpModal = () => navigate("/");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,100 +27,117 @@ function SignUp() {
   };
 
   return (
-    <ReactModal
-      isOpen={true}
-      onRequestClose={closeSignUpModal}
-      contentLabel="Sign Up"
-      className="modalWindow signup"
-      overlayClassName="modalWindow-overlay"
-      shouldCloseOnOverlayClick={false}
-      shouldCloseOnEsc={false}
-      ariaHideApp={false}
-    >
+    <div className="container py-5">
       <div className="auth-card">
         <h2 className="text-center mb-4">Sign Up</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="row justify-content-center">
-            <div className="col-12 col-md-6">
-              <fieldset>
-                <legend>Account Information</legend>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="email"
-                  name="userEmail"
-                  placeholder="Email"
-                  value={formData.userEmail}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  required
-                />
-              </fieldset>
-            </div>
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-10 col-lg-8">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                {/* Account Information Section */}
+                <div className="col-12">
+                  <fieldset className="mb-3">
+                    <legend>Account Information</legend>
+                    <div className="mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="username"
+                        placeholder="Username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        type="email"
+                        className="form-control"
+                        name="userEmail"
+                        placeholder="Email"
+                        value={formData.userEmail}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        type="password"
+                        className="form-control"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </fieldset>
+                </div>
 
-            <div className="col-12 col-md-6">
-              <fieldset>
-                <legend>Personal Information</legend>
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Full Name"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="userAddress"
-                  placeholder="Address"
-                  value={formData.userAddress}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="tel"
-                  name="userPhoneNumber"
-                  placeholder="Phone"
-                  value={formData.userPhoneNumber}
-                  onChange={handleInputChange}
-                  required
-                />
-              </fieldset>
-            </div>
+                {/* Personal Information Section */}
+                <div className="col-12">
+                  <fieldset className="mb-3">
+                    <legend>Personal Information</legend>
+                    <div className="mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="fullName"
+                        placeholder="Full Name"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="userAddress"
+                        placeholder="Address"
+                        value={formData.userAddress}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        type="tel"
+                        className="form-control"
+                        name="userPhoneNumber"
+                        placeholder="Phone"
+                        value={formData.userPhoneNumber}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              {message && (
+                <div className="alert alert-info mt-3 text-center">
+                  {message}
+                </div>
+              )}
+
+              <div className="form-buttons mt-3 d-flex justify-content-between">
+                <Button type="submit" variant="primary" disabled={loading}>
+                  {loading ? "Signing Up..." : "Sign Up"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleCancel}
+                >
+                  Back
+                </Button>
+              </div>
+            </form>
           </div>
-
-          {message && (
-            <div className="alert alert-info mt-3 text-center">{message}</div>
-          )}
-
-          <div className="form-buttons mt-3 d-flex justify-content-between">
-            <Button type="submit" variant="primary" disabled={loading}>
-              {loading ? "Signing Up..." : "Sign Up"}
-            </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={closeSignUpModal}
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
+        </div>
       </div>
-    </ReactModal>
+    </div>
   );
 }
 

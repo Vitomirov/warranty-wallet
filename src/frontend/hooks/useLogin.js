@@ -1,5 +1,3 @@
-// src/hooks/useLogin.js
-
 import { useState } from "react";
 import { useAuth } from "../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -18,14 +16,6 @@ const useLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(true);
-
-  /**
-   * Closes the login modal and navigates to the homepage.
-   */
-  const closeLoginModal = () => {
-    setShowLoginModal(false);
-    navigate("/");
-  };
 
   /**
    * Handles the form submission for user login.
@@ -56,16 +46,19 @@ const useLogin = () => {
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
+  /** Navigate back to home */
+  const handleCancel = () => navigate("/");
+
   return {
     username,
     password,
     error,
     loading,
     showLoginModal,
-    closeLoginModal,
     handleSubmit,
     handleUsernameChange,
     handlePasswordChange,
+    handleCancel,
   };
 };
 

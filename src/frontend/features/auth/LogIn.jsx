@@ -1,5 +1,4 @@
 import React from "react";
-import ReactModal from "react-modal";
 import Button from "../../ui/Button";
 import useLogin from "../../hooks/useLogin";
 
@@ -9,30 +8,18 @@ function LogIn() {
     password,
     error,
     loading,
-    showLoginModal,
-    closeLoginModal,
     handleSubmit,
     handleUsernameChange,
     handlePasswordChange,
+    handleCancel,
   } = useLogin();
 
   return (
-    <ReactModal
-      isOpen={showLoginModal}
-      onRequestClose={closeLoginModal}
-      contentLabel="Log In"
-      className="modalWindow login"
-      overlayClassName="modalWindow-overlay"
-      shouldCloseOnOverlayClick={false}
-      shouldCloseOnEsc={false}
-      ariaHideApp={false}
-    >
-      <div>
+    <div className="container py-5">
+      <div className="auth-card">
         <h2 className="text-center mb-4">Log In</h2>
-
-        {/* Centriranje uže forme */}
         <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-9">
+          <div className="col-12 col-md-10 col-lg-8">
             <form onSubmit={handleSubmit}>
               <div className="mb-3 form-floating">
                 <input
@@ -72,17 +59,16 @@ function LogIn() {
                 <Button
                   type="button"
                   variant="secondary"
-                  onClick={closeLoginModal}
-                  disabled={loading}
+                  onClick={handleCancel}
                 >
-                  Cancel
+                  Back
                 </Button>
               </div>
             </form>
           </div>
         </div>
       </div>
-    </ReactModal>
+    </div>
   );
 }
 
