@@ -34,12 +34,12 @@ function Header() {
             as={Link}
             to="/dashboard"
             onClick={collapseNavbar}
-            className="text-decoration-none"
+            className="text-decoration-none ms-3"
           >
             <h1 className="text-white">Warranty Wallet</h1>
           </Navbar.Brand>
         ) : (
-          <Navbar.Brand href="#" className="text-decoration-none">
+          <Navbar.Brand href="#" className="text-decoration-none ms-3">
             <h1 className="text-white">Warranty Wallet</h1>
           </Navbar.Brand>
         )}

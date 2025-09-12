@@ -1,10 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import {
-  containerVariants,
-  itemVariants,
-  fadeIn,
-} from "../animations/Animations";
+import { containerVariants, itemVariants } from "../animations/Animations";
 
 function About() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,28 +12,24 @@ function About() {
   return (
     <section
       id="about"
-      className="global-container d-flex align-items-center justify-content-center"
+      className="global-container d-flex justify-content-center align-items-center"
       ref={ref}
     >
       <div className="content-layout w-100">
         <motion.div
-          className="mx-auto"
-          style={{ maxWidth: "800px" }}
+          className="col-12 col-md-10 col-lg-6 ps-2"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
           {/* Title */}
-          <motion.h2
-            className="display-4 text-center mb-4"
-            variants={itemVariants}
-          >
+          <motion.h2 className="display-4 mb-4" variants={itemVariants}>
             About
           </motion.h2>
 
           {/* First paragraph */}
           <motion.p
-            className="lead text-start paragraph-justify"
+            className="lead text-start paragraph-justify w-100"
             variants={itemVariants}
           >
             Warranty Wallet is your ultimate tool for managing warranties with
@@ -48,13 +40,13 @@ function About() {
           </motion.p>
 
           {/* More button */}
-          <motion.div className="text-center my-4" variants={itemVariants}>
+          <motion.div className="my-4" variants={itemVariants}>
             <button className="btn" type="button" onClick={toggleMore}>
               {isOpen ? "Less" : "More"}
             </button>
           </motion.div>
 
-          {/* Hidden paragraph with smooth collapse */}
+          {/* Hidden paragraph */}
           <AnimatePresence mode="wait">
             {isOpen && (
               <motion.div
@@ -64,7 +56,7 @@ function About() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-                style={{ overflow: "hidden" }} // prevent content from jumping
+                style={{ overflow: "hidden" }}
               >
                 <p className="fs-6 mt-2">
                   With <span className="fw-bold">Warranty Wallet</span>, you can

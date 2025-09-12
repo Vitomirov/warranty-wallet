@@ -52,7 +52,7 @@ const Features = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="row content-layout">
+      <div className="content-layout w-100">
         <h1 className="display-4 text-center mb-5">FEATURES</h1>
 
         <div className="row g-5 justify-content-center">
@@ -60,7 +60,7 @@ const Features = () => {
             <React.Fragment key={feature.id}>
               {/* Card for md/lg: normal */}
               <motion.div
-                className="col-md-6 col-lg-3 d-none d-md-flex justify-content-center mb-4"
+                className="col-md-10 col-lg-6 d-none d-md-flex justify-content-center mb-4"
                 variants={itemVariants}
               >
                 <motion.div
@@ -79,7 +79,7 @@ const Features = () => {
 
               {/* Mobile card: center with flex outside grid */}
               <motion.div
-                className="d-flex d-md-none justify-content-center mb-3 ms-5 w-100"
+                className="d-flex d-md-none justify-content-center mb-3  w-100"
                 variants={slideInFromBottom}
                 custom={index * 0.1}
               >

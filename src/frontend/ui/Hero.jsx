@@ -12,7 +12,7 @@ const Hero = () => {
   const { user } = useAuth();
 
   return (
-    <section className="min-vh-100 d-flex align-items-center justify-content-center text-center ">
+    <section className="min-vh-100 d-flex align-items-center justify-content-center text-center">
       <motion.div
         className="w-100 content-layout"
         variants={containerVariants}
