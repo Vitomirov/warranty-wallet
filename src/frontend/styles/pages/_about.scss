@@ -1,9 +1,21 @@
-.more-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease;
-}
+.about-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 
-.more-content.open {
-  max-height: 300px;
-}
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    width: 100%;
+    align-items: flex-start;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  }
+

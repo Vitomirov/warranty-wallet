@@ -1,74 +1,80 @@
-import React, { useState, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
-import { containerVariants, itemVariants } from "../animations/Animations";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { slideInFromRight, popUpAndFadeIn } from "../animations/Animations";
 
 function About() {
-  const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  const toggleMore = () => setIsOpen(!isOpen);
-
   return (
-    <section
-      id="about"
-      className="global-container d-flex justify-content-center align-items-center"
-      ref={ref}
-    >
-      <div className="content-layout w-100">
+    <section id="about" className="about-section global-container" ref={ref}>
+      <div className="content-layout about-content w-100 d-flex flex-column flex-md-row align-items-start gap-6">
+        {/* Left column: title */}
+        <div className="col-12 col-md-6">
+          <motion.h2
+            className="title"
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 1 }}
+          >
+            Manage your warranties effortlessly
+          </motion.h2>
+        </div>
+
+        {/* Right column: text */}
         <motion.div
-          className="col-12 col-md-10 col-lg-6 ps-2"
-          variants={containerVariants}
+          className="col-12 col-md-6"
+          variants={slideInFromRight}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Title */}
-          <motion.h2 className="display-4 mb-4" variants={itemVariants}>
-            About
-          </motion.h2>
+          {/* subtle background accent */}
+          <motion.div />
 
-          {/* First paragraph */}
-          <motion.p
-            className="lead text-start paragraph-justify w-100"
-            variants={itemVariants}
-          >
-            Warranty Wallet is your ultimate tool for managing warranties with
-            ease. We understand how frustrating it can be to keep track of
-            receipts, expiration dates, and warranty details. That’s why we
-            designed an app that simplifies the process, ensuring your valuable
-            products are always protected.
-          </motion.p>
+          <motion.div className="position-relative z-2">
+            <motion.p
+              className="lead mb-3"
+              variants={popUpAndFadeIn}
+              transition={{ delay: 0.2 }}
+            >
+              Warranty Wallet is a smart, all-in-one app that helps you keep
+              track of every product warranty you own. No more digging through
+              drawers for receipts or forgetting expiration dates. Everything is
+              organized and easily accessible from your device.
+            </motion.p>
 
-          {/* More button */}
-          <motion.div className="my-4" variants={itemVariants}>
-            <button className="btn" type="button" onClick={toggleMore}>
-              {isOpen ? "Less" : "More"}
-            </button>
+            <motion.p
+              className="mb-3"
+              variants={popUpAndFadeIn}
+              transition={{ delay: 0.4 }}
+            >
+              With just a few taps, you can add a new warranty, upload receipts,
+              and set reminders for expiration dates. The app automatically
+              calculates remaining warranty periods, so you’ll never miss a
+              claim or replacement opportunity.
+            </motion.p>
+
+            <motion.p
+              className=" mb-3"
+              variants={popUpAndFadeIn}
+              transition={{ delay: 0.6 }}
+            >
+              Warranty Wallet supports all kinds of products—electronics,
+              appliances, gadgets, even vehicles. Its intuitive dashboard lets
+              you see all active warranties at a glance and quickly search or
+              filter by product, purchase date, or expiration.
+            </motion.p>
+
+            <motion.p
+              className=" mb-3"
+              variants={popUpAndFadeIn}
+              transition={{ delay: 0.8 }}
+            >
+              Secure, easy to use, and designed to save you time, Warranty
+              Wallet ensures peace of mind by keeping your purchases protected.
+              Focus on enjoying your products while the app handles the rest.
+            </motion.p>
           </motion.div>
-
-          {/* Hidden paragraph */}
-          <AnimatePresence mode="wait">
-            {isOpen && (
-              <motion.div
-                key="more-content"
-                className="text-start paragraph-justify"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-                style={{ overflow: "hidden" }}
-              >
-                <p className="fs-6 mt-2">
-                  With <span className="fw-bold">Warranty Wallet</span>, you can
-                  securely store, organize, and access all your warranties in
-                  one place. Whether it’s a household appliance, an electronic
-                  gadget, or even your car, Warranty Wallet helps you stay
-                  informed about warranty terms and expiration dates so you
-                  never miss out on a claim.
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
       </div>
     </section>
