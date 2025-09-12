@@ -182,4 +182,9 @@
     transform: none;
     box-shadow: none;
   }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
 }
