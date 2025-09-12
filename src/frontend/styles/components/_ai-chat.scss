@@ -1,5 +1,74 @@
 @use '../variables';
 
+/* Base styles for the button, applied to all screens by default */
+.ai-chat-toggle-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 70px;
+  height: 70px;
+  background: transparent;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 45px;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 0px rgba(59, 130, 246, 0.4);
+
+  &:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 25px rgba(191, 219, 254, 0.4);
+  }
+
+  &:active {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+}
+
+/* Specific button position for logged-in users on all screen sizes */
+.ai-chat-toggle-btn.logged-in {
+  bottom: 90px;
+}
+
+/* Specific button position for the homepage on all screen sizes */
+.ai-chat-toggle-btn.homepage {
+  bottom: 120px;
+  right: 150px;
+}
+
+/* --- Tablet and smaller laptops (769px to 1024px) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ai-chat-toggle-btn.homepage {
+    right: 65px; /* Pushes the button closer to the right edge on medium screens */
+  }
+}
+
+/* --- Mobile phones (up to 768px) --- */
+@media (max-width: 768px) {
+  .ai-chat-toggle-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 38px;
+  }
+  
+  /* Logged-in state on mobile, closer to the edge */
+  .ai-chat-toggle-btn.logged-in {
+    bottom: 86px;
+    right: 20px;
+  }
+  
+  /* Homepage state on mobile, slightly to the right to avoid other UI */
+  .ai-chat-toggle-btn.homepage {
+    bottom: 85px;
+    right: 20px;
+  }
+}
+
 .ai-chat-container {
   position: fixed;
   bottom: 40px;
@@ -113,42 +182,5 @@
       background: #93C5FD;
       cursor: not-allowed;
     }
-  }
-}
-
-.ai-chat-toggle-btn {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  width: 70px;
-  height: 70px;
-  background: transparent;
-  color: #fff;
-  border-radius: 50%;
-  font-size: 45px;
-  z-index: 10001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 0px rgba(59,130,246,0.4);
-
-  &:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 15px rgba(59,130,246,0.6), 0 0 25px rgba(191,219,254,0.4);
-  }
-
-  &:active {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(59,130,246,0.5);
-  }
-
-  @media (max-width: 768px) {
-    width: 60px;
-    height: 60px;
-    font-size: 38px;
-    bottom: 20px;
-    right: 20px;
   }
 }

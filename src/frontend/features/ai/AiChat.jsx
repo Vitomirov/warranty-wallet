@@ -1,120 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
-import axiosPublic from "../../context/api/axiosPublic";
+import React from "react";
+import { useAi } from "../../hooks/useAi";
 import { useAuth } from "../../context/auth/AuthContext";
 import { useLocation } from "react-router-dom";
 
 function AIChat() {
-  const [prompt, setPrompt] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [icon, setIcon] = useState("✨");
-  const [buttonStyle, setButtonStyle] = useState({});
-  const chatRef = useRef();
   const { token } = useAuth();
   const location = useLocation();
+  const {
+    prompt,
+    messages,
+    loading,
+    error,
+    isChatOpen,
+    icon,
+    chatRef,
+    handleSubmit,
+    handleKeyDown,
+    handleToggleChat,
+    handlePromptChange,
+  } = useAi();
 
-  // Responsive button positioning
-  useEffect(() => {
-    const updateButtonPosition = () => {
-      const isMobile = window.innerWidth <= 768;
-      if (location.pathname === "/") {
-        setButtonStyle({
-          bottom: isMobile ? "90px" : "120px",
-          right: isMobile ? "65px" : "40px",
-          zIndex: 10015,
-        });
-      } else if (token) {
-        setButtonStyle({
-          bottom: isMobile ? "155px" : "90px",
-          right: isMobile ? "20px" : "80px",
-          zIndex: 10015,
-        });
-      } else {
-        setButtonStyle({
-          bottom: isMobile ? "110px" : "120px",
-          right: isMobile ? "35px" : "40px",
-          zIndex: 10015,
-        });
-      }
-    };
-    updateButtonPosition();
-    window.addEventListener("resize", updateButtonPosition);
-    return () => window.removeEventListener("resize", updateButtonPosition);
-  }, [location.pathname, token]);
-
-  // Close chat by clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (chatRef.current && !chatRef.current.contains(e.target)) {
-        setIsChatOpen(false);
-        setIcon("✨");
-      }
-    };
-    if (isChatOpen) document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isChatOpen]);
-
-  // Close chat by pressing Escape
-  useEffect(() => {
-    const handleKeydown = (e) => {
-      if (e.key === "Escape") {
-        setIsChatOpen(false);
-        setIcon("✨");
-      }
-    };
-    if (isChatOpen) document.addEventListener("keydown", handleKeydown);
-    return () => document.removeEventListener("keydown", handleKeydown);
-  }, [isChatOpen]);
-
-  // Send message
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!prompt.trim()) return;
-
-    setLoading(true);
-    setError("");
-    const newUserMessage = { role: "user", content: prompt };
-    setMessages((prev) => [...prev, newUserMessage]);
-
-    try {
-      const res = await axiosPublic.post("/ai", {
-        prompt,
-        history: [...messages, newUserMessage],
-      });
-      const newAiMessage = { role: "assistant", content: res.data.response };
-      setMessages((prev) => [...prev, newAiMessage]);
-      setPrompt("");
-    } catch (err) {
-      console.error(err);
-      setError("AI is currently unavailable. Please try again later.");
-      setMessages((prev) => prev.slice(0, prev.length - 1));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
+  const isHomePage = location.pathname === "/";
+  const buttonClass = `ai-chat-toggle-btn d-flex align-items-center justify-content-center ${
+    token ? "logged-in" : ""
+  } ${isHomePage ? "homepage" : ""}`;
 
   return (
     <>
+      {/*
+        The button is now only rendered when the chat is NOT open.
+        This removes the redundant "X" icon when the chat window is visible.
+      */}
       {!isChatOpen && (
-        <button
-          onClick={() => {
-            setIsChatOpen(true);
-            setIcon("❌");
-          }}
-          className={`ai-chat-toggle-btn d-flex align-items-center justify-content-center ${
-            token ? "logged-in" : ""
-          }`}
-          style={buttonStyle}
-        >
+        <button onClick={handleToggleChat} className={buttonClass}>
           {icon}
         </button>
       )}
@@ -123,13 +41,8 @@ function AIChat() {
         <div ref={chatRef} className="ai-chat-container d-flex flex-column">
           <div className="ai-chat-header d-flex justify-content-between align-items-center">
             <h2 className="m-0">AI Assistant</h2>
-            <button
-              onClick={() => {
-                setIsChatOpen(false);
-                setIcon("✨");
-              }}
-              className="btn-close-chat"
-            >
+            {/* This is the X button that closes the chat */}
+            <button onClick={handleToggleChat} className="btn-close-chat">
               &times;
             </button>
           </div>
@@ -158,7 +71,7 @@ function AIChat() {
           <form onSubmit={handleSubmit} className="ai-chat-form">
             <textarea
               value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
+              onChange={handlePromptChange}
               onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               rows={3}

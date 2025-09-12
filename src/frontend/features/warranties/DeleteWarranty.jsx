@@ -37,7 +37,7 @@ const DeleteWarranty = ({ id, onDeleteSuccess }) => {
   return (
     <>
       <Button type="button" variant="danger" onClick={openDeleteModal}>
-        Delete Warranty
+        Delete
       </Button>
 
       <ReactModal

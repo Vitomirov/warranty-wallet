@@ -14,7 +14,7 @@ function DeleteAccount() {
   return (
     <div className="ps-5">
       <Button type="button" variant="danger" onClick={openDeleteModal}>
-        Delete Account
+        Delete
       </Button>
 
       <ReactModal

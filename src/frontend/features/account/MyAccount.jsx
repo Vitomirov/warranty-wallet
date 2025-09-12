@@ -106,7 +106,7 @@ function MyAccount() {
             {/* Buttons Layout */}
             <div className="d-flex justify-content-between gap-2 mt-3">
               <Button type="submit" variant="primary">
-                Update Account
+                Update
               </Button>
               <DeleteAccount />
             </div>
@@ -119,7 +119,7 @@ function MyAccount() {
         </div>
       </div>
       {successMessage && (
-        <div className="alert alert-success mt-4 text-center">
+        <div className="alert alert-success mt-2 text-center">
           {successMessage}
         </div>
       )}

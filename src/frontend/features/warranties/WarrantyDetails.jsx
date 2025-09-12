@@ -82,7 +82,7 @@ const WarrantyDetails = () => {
               onDeleteSuccess={handleDeleteSuccess}
             />
           </div>
-          <div className="mt-4 d-flex justify-content-end">
+          <div className="mt-3 d-flex justify-content-end">
             <Link to="/dashboard">
               <Button variant="secondary">Back</Button>
             </Link>
