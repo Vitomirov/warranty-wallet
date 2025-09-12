@@ -53,8 +53,8 @@ function Header() {
         <Navbar.Collapse id="responsive-navbar-nav">
           {!isLoggedIn ? (
             <>
-              {/* Navigation links for marketing pages when the user is not logged in. */}
-              <Nav className="text-end">
+              {/* Navigation links for guests (not logged in). */}
+              <Nav className="ms-auto text-end ">
                 <Nav.Link onClick={() => scrollToSection("about")}>
                   About
                 </Nav.Link>
@@ -62,10 +62,12 @@ function Header() {
                   Features
                 </Nav.Link>
                 <Nav.Link onClick={() => scrollToSection("faq")}>FAQ</Nav.Link>
-              </Nav>
 
-              {/* Authentication links (Log In / Sign Up). */}
-              <Nav className="ms-auto text-end">
+                <span
+                  className="separator
+                "
+                ></span>
+
                 <Nav.Link as={Link} to="/login" onClick={collapseNavbar}>
                   Log In
                 </Nav.Link>

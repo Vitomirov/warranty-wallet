@@ -40,7 +40,7 @@ const FAQ = () => {
   return (
     <section id="faq" className="py-5">
       <div className="container">
-        <h2 className="display-4 text-center mb-4">FAQ</h2>
+        <h2 className="display-4 text-center mb-5">FAQ</h2>
 
         <div className="row justify-content-center">
           <div className="col-lg-10">
@@ -50,7 +50,7 @@ const FAQ = () => {
                 className="mb-3 rounded-4 border shadow-sm"
                 style={{
                   backgroundColor: "transparent",
-                  backdropFilter: "blur(6px)", // modern frosted glass
+                  backdropFilter: "blur(6px)",
                   cursor: "pointer",
                 }}
                 variants={itemVariants}
@@ -59,7 +59,7 @@ const FAQ = () => {
                 viewport={{ once: true, amount: 0.2 }}
               >
                 <button
-                  className="faq-btn btn text-start w-100 p-4 d-flex justify-content-between align-items-center"
+                  className="faq-btn btn text-start w-100 p-4 d-flex justify-content-between align-items-center mb-2"
                   onClick={() => toggleQuestion(index)}
                   aria-expanded={activeQuestion === index}
                   aria-controls={`faq-answer-${index}`}
