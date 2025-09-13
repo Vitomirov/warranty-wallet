@@ -3,7 +3,7 @@
 
 .warrantyDetails {
   @extend %section-background-styles;
-  background: linear-gradient(85deg, variables.$lightGrayBlue 55%, variables.$white 55%);
+  background: variables.$app-background;
   background-position: right;
   background-repeat: no-repeat;
 }

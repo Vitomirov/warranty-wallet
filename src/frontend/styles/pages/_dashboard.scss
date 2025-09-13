@@ -1,15 +1,8 @@
 @use '../variables';
 
-.dashboard {
-  background-color:variables.$background-gradient;
-  background-size: cover;
-  background-position: right;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
 
 .border-dark-item {
-  border-color: variables.$richNavy !important; // dark blue (or use variables.$richNavy)
+  border-color: variables.$richNavy !important;
 background: #F9FAFB;
 background: linear-gradient(141deg, rgba(249, 250, 251, 1) 26%, rgba(41, 126, 230, 0.4) 100%);
 }

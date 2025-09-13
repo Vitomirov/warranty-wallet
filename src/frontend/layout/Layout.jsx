@@ -1,13 +1,15 @@
 import Header from "./Header";
 import Footer from "./Footer";
 
-/* Layout wraps the whole app with header on top and Footer at bottom */
-
-const Layout = ({ children }) => {
+const Layout = ({ children, isApp = false }) => {
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div
+      className={`d-flex flex-column min-vh-100 ${
+        isApp ? "app-background" : "marketing-background"
+      }`}
+    >
       <Header />
-      <main className="flex-grow-1 d-flex content-layout justify-content-center align-items-center align-items-start pt-5">
+      <main className="flex-grow-1 d-flex content-layout justify-content-center align-items-center pt-5">
         <div className="container">{children}</div>
       </main>
       <Footer />

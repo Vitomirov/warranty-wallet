@@ -22,63 +22,120 @@ function App() {
 
   return (
     <AuthProvider>
-      <Layout>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/logout" element={<LogOut />} />
+      <Routes>
+        {/* Public / Marketing routes */}
+        <Route
+          path="/"
+          element={
+            <Layout isApp={false}>
+              <LandingPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Layout isApp={false}>
+              <LogIn />
+            </Layout>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <Layout isApp={false}>
+              <SignUp />
+            </Layout>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Layout isApp={false}>
+              <About />
+            </Layout>
+          }
+        />
+        <Route
+          path="/features"
+          element={
+            <Layout isApp={false}>
+              <Features />
+            </Layout>
+          }
+        />
+        <Route
+          path="/faq"
+          element={
+            <Layout isApp={false}>
+              <FAQ />
+            </Layout>
+          }
+        />
+        <Route
+          path="/logout"
+          element={
+            <Layout isApp={false}>
+              <LogOut />
+            </Layout>
+          }
+        />
 
-          {/* Private routes */}
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
+        {/* Private / App routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Layout isApp={true}>
                 <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/myAccount"
-            element={
-              <PrivateRoute>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/myAccount"
+          element={
+            <PrivateRoute>
+              <Layout isApp={false}>
                 <MyAccount />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/newWarranty"
-            element={
-              <PrivateRoute>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/newWarranty"
+          element={
+            <PrivateRoute>
+              <Layout isApp={true}>
                 <NewWarranty />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/warranties/details/:id"
-            element={
-              <PrivateRoute>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/warranties/details/:id"
+          element={
+            <PrivateRoute>
+              <Layout isApp={true}>
                 <WarrantyDetails />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/warranties/delete/:id"
-            element={
-              <PrivateRoute>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/warranties/delete/:id"
+          element={
+            <PrivateRoute>
+              <Layout isApp={true}>
                 <DeleteWarranty />
-              </PrivateRoute>
-            }
-          />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
 
-          {/* Default catch-all route */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Layout>
+        {/* Default catch-all route */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
       <AIChat />
     </AuthProvider>
   );

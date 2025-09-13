@@ -14,6 +14,10 @@
 }
 
 
-body{
-  background: variables.$background-gradient;
+.marketing-background {
+  background: variables.$marketing-background;
+}
+
+.app-background {
+  background: variables.$app-background;
 }

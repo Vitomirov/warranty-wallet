@@ -6,11 +6,18 @@ $neutralGray: #475569;
 $richNavy: #0F172A;
 
   
-$background-gradient: linear-gradient(
+$marketing-background: linear-gradient(
   135deg,
   #F9FAFB 0%,    // light sky blue
   #BFDBFE 50%,   // soft blue
   #14295a 100%   // deep navy
+);
+
+$app-background: linear-gradient(
+  135deg,
+  #cfe93b 0%,
+  #23bb0f 50%,
+  #2063b1 100%
 );
 
 // Override Bootstrap's default theme colors
