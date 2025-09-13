@@ -1,5 +1,5 @@
 import Header from "../layout/Header";
-import Hero from "../ui/Hero";
+import Hero from "./Hero";
 import About from "./About";
 import Features from "./Features";
 import FAQ from "./FAQ";

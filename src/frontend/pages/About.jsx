@@ -16,15 +16,15 @@ function About() {
         {/* Left column: title */}
         <div className="col-12 col-md-6">
           <motion.h1
-            className="fw-bold pe-md-5 
-                       display-5       /* Large screens */
-                       display-6-md    /* Medium */
-                       fs-3-sm" /* Small screens */
+            className="pe-md-5 
+                       display-1
+                       display-6-md
+                       fs-3-sm"
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 1 }}
           >
-            Manage <br /> your warranties <br /> effortlessly
+            Manage your warranties <br /> effortlessly
           </motion.h1>
         </div>
 
@@ -35,7 +35,7 @@ function About() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <motion.div className="lead position-relative">
+          <motion.div className="lead position-relative pt-1">
             <motion.p
               className="mb-3 fs-5 fs-md-6 fs-sm-6"
               variants={popUpAndFadeIn}

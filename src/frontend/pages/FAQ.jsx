@@ -43,7 +43,7 @@ const FAQ = () => {
         <h2 className="display-4 text-center mb-5">FAQ</h2>
 
         <div className="row justify-content-center">
-          <div className="col-lg-10">
+          <div className="col-lg-12">
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}

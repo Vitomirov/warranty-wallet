@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
-import Button from "./Button";
+import Button from "../ui/Button";
 import { motion } from "framer-motion";
 import {
   containerVariants,
