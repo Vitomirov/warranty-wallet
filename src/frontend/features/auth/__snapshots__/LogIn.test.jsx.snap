@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`LogIn Component - Full Senior Frontend Tests snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    class="container py-5"
+  >
+    <div
+      class="auth-card"
+    >
+      <h2
+        class="text-center mb-4"
+      >
+        Log In
+      </h2>
+      <div
+        class="row justify-content-center"
+      >
+        <div
+          class="col-12 col-md-10 col-lg-8"
+        >
+          <form
+            role="form"
+          >
+            <div
+              class="mb-3 form-floating"
+            >
+              <input
+                class="form-control"
+                id="username"
+                placeholder="Username"
+                required=""
+                type="text"
+                value=""
+              />
+              <label
+                for="username"
+              >
+                Username
+              </label>
+            </div>
+            <div
+              class="mb-4 form-floating"
+            >
+              <input
+                class="form-control"
+                id="password"
+                placeholder="Password"
+                required=""
+                type="password"
+                value=""
+              />
+              <label
+                for="password"
+              >
+                Password
+              </label>
+            </div>
+            <div
+              class="d-flex justify-content-between gap-3"
+            >
+              <button
+                class="button button--primary"
+                type="submit"
+              >
+                Log In
+              </button>
+              <button
+                class="button button--secondary"
+                type="button"
+              >
+                Back
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`LogIn Component Tests matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="container py-5"
+  >
+    <div
+      class="auth-card"
+    >
+      <h2
+        class="text-center mb-4"
+      >
+        Log In
+      </h2>
+      <div
+        class="row justify-content-center"
+      >
+        <div
+          class="col-12 col-md-10 col-lg-8"
+        >
+          <form
+            role="form"
+          >
+            <div
+              class="mb-3 form-floating"
+            >
+              <input
+                class="form-control"
+                id="username"
+                placeholder="Username"
+                required=""
+                type="text"
+                value=""
+              />
+              <label
+                for="username"
+              >
+                Username
+              </label>
+            </div>
+            <div
+              class="mb-4 form-floating"
+            >
+              <input
+                class="form-control"
+                id="password"
+                placeholder="Password"
+                required=""
+                type="password"
+                value=""
+              />
+              <label
+                for="password"
+              >
+                Password
+              </label>
+            </div>
+            <div
+              class="d-flex justify-content-between gap-3"
+            >
+              <button
+                class="button button--primary"
+                type="submit"
+              >
+                Log In
+              </button>
+              <button
+                class="button button--secondary"
+                type="button"
+              >
+                Back
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

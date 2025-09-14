@@ -32,7 +32,7 @@ function SignUp() {
         <h2 className="text-center mb-4">Sign Up</h2>
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-8">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} role="form">
               <div className="row">
                 {/* Account Information Section */}
                 <div className="col-12">

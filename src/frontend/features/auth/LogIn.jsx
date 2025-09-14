@@ -20,7 +20,7 @@ function LogIn() {
         <h2 className="text-center mb-4">Log In</h2>
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-8">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} role="form">
               <div className="mb-3 form-floating">
                 <input
                   type="text"
