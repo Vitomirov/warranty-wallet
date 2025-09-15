@@ -1,12 +1,6 @@
 @use '../variables';
 
 .header {
-  background: linear-gradient(
-    90deg,
-    #0F172A 0%,   
-    #1E3A8A 50%,  
-    #334155  100%
-  );
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -21,8 +15,8 @@
 /* Mobile / hamburger: horizontal line */
 @media (max-width: 991.98px) {
   .separator {
-    border-left: none;           /* ukloni vertikalnu */
-    border-top: 2px solid variables.$lightGrayBlue; /* horizontalna linija */
+    border-left: none;
+    border-top: 2px solid variables.$lightGrayBlue;
     width: 100%;
     height: 0;
     margin: 0.5rem 0;

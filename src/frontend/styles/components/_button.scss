@@ -36,23 +36,21 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4);
+    box-shadow: 0 0 0 3px #69272e;;
   }
 }
 
 // Button Variants
 // Primary: The main action button, the star of the show
 .button--primary, .button--success {
-  background: linear-gradient(90deg, variables.$richNavy 0%, variables.$cyanAccent 100%);
+  background: rgb(104, 104, 46);
   color: variables.$white;
 
   &:hover {
-    background: linear-gradient(90deg, variables.$richNavy 0%, lighten(variables.$cyanAccent, 10%));
+    background: rgb(71, 71, 31);
   }
 
-  &:active {
-    background: linear-gradient(90deg, darken(variables.$richNavy, 5%) 0%, darken(variables.$cyanAccent, 5%) 100%);
-  }
+
 }
 
 // Secondary: A slightly less important action
@@ -93,13 +91,12 @@
 
 // Danger: For destructive actions like "Delete"
 .button--danger {
-  background-color: #dc3545; // Keeping this a solid color is a good UX practice
+  background-color: #69272e; // Keeping this a solid color is a good UX practice
   color: variables.$white;
   box-shadow: none;
 
   &:hover {
-    background-color: darken(#dc3545, 5%);
-    transform: none; // Reset transform for this variant
+    background-color: darken(#4e1e23, 5%);
     box-shadow: none;
   }
 
@@ -122,7 +119,7 @@
   box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 
   &:hover {
-    background-color: variables.$cyanAccent;
+    background-color: variables.$richNavy;
     transform: translateY(-1px);
     box-shadow: 0 5px 8px rgba(0,0,0,0.25);
   }
@@ -172,7 +169,6 @@
   &:hover {
     background-color: variables.$richNavy;
     color: variables.$white;
-    transform: none; // Reset transform for a clean hover
     box-shadow: none;
   }
 

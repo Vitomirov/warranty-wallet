@@ -2,23 +2,43 @@
 $lightGrayBlue: #F9FAFB; 
 $white: #FFFFFF; 
 $cyanAccent: #0EA5E9;
-$neutralGray: #475569;
+$neutralGray: #3d444d;
 $richNavy: #0F172A;
 
   
 $marketing-background: linear-gradient(
   135deg,
-  #F9FAFB 0%,    // light sky blue
-  #BFDBFE 50%,   // soft blue
-  #14295a 100%   // deep navy
+  #F9FAFB 0%,
+  #BFDBFE 50%,
+  #14295a 100%
 );
 
-$app-background: linear-gradient(
+$marketing-header: linear-gradient(
+    90deg,
+    #0F172A 0%,   
+    #1E3A8A 50%,  
+    #334155  100%
+);
+
+$marketing-footer: linear-gradient(
+    90deg,
+    #1E3A8A 50%,  
+    #334155  100%,
+    #0F172A 0%,  
+);
+
+/* $app-background: linear-gradient(
   135deg,
   #cfe93b 0%,
   #23bb0f 50%,
   #2063b1 100%
-);
+); */
+$app-background: radial-gradient(circle,rgba(218, 215, 205, 1) 0%, rgba(163, 177, 138, 1) 35%, rgba(88, 129, 87, 1) 100%);
+
+
+$app-header: rgba(163, 177, 138, 1);
+
+$app-footer: rgba(163, 177, 138, 1);
 
 // Override Bootstrap's default theme colors
 $theme-colors: (

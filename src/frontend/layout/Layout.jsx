@@ -8,7 +8,7 @@ const Layout = ({ children, isApp = false }) => {
         isApp ? "app-background" : "marketing-background"
       }`}
     >
-      <Header />
+      <Header className={isApp ? "app-header" : "marketing-header"} />
       <main className="flex-grow-1 d-flex content-layout justify-content-center align-items-center pt-5">
         <div className="container">{children}</div>
       </main>

@@ -1,6 +1,6 @@
 @use '../variables';
 
-.navbar {
+/* .navbar {
   background-color: variables.$richNavy;
   min-height: 100px;
   padding-top: 1rem;
@@ -10,16 +10,16 @@
     height: 70px;
     width: auto;
   }
-}
+} */
 
 // Navigation links
 .navbar .nav-link {
-  color: variables.$white;
+  color: black;
 
   &:hover,
   &:focus,
   &:active {
-    color: variables.$cyanAccent;
+    color: variables.$richNavy;
   }
 
   &.active {
@@ -27,27 +27,5 @@
   }
 }
 
-// Dropdown items
-.dropdown-gradient .dropdown-menu {
-  background: linear-gradient(90deg, #1E3A8A 50%, #334155 100%);
-  border: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  backdrop-filter: blur(6px);
-}
 
-.dropdown-gradient .dropdown-item {
-  background-color: transparent !important;
-  color: variables.$lightGrayBlue;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
 
-  &:hover,
-  &:focus {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: variables.$cyanAccent;
-  }
-}
-
-.dropdown-gradient .dropdown-divider {
-  border-top: 1px solid rgba(255,255,255,0.2);
-}

@@ -36,11 +36,11 @@ function Header() {
             onClick={collapseNavbar}
             className="text-decoration-none ms-3"
           >
-            <h1 className="text-white">Warranty Wallet</h1>
+            <h1 className="logo">Warranty Wallet</h1>
           </Navbar.Brand>
         ) : (
           <Navbar.Brand href="#" className="text-decoration-none ms-3">
-            <h1 className="text-white">Warranty Wallet</h1>
+            <h1 className="logo">Warranty Wallet</h1>
           </Navbar.Brand>
         )}
 
@@ -54,7 +54,7 @@ function Header() {
           {!isLoggedIn ? (
             <>
               {/* Navigation links for guests (not logged in). */}
-              <Nav className="ms-auto text-end ">
+              <Nav className="ms-auto text-end">
                 <Nav.Link onClick={() => scrollToSection("about")}>
                   About
                 </Nav.Link>

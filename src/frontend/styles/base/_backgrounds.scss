@@ -16,8 +16,99 @@
 
 .marketing-background {
   background: variables.$marketing-background;
+  .header{
+      background: variables.$marketing-header;
+  }
+    .footer{
+    background: variables.$marketing-footer;
+  }
+.navbar .nav-link {
+  color: rgb(247, 247, 247);
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: variables.$white;
+  }
+
+  &.active {
+    color: variables.$white;
+  }
+  
+}
+
+.dropdown-gradient .dropdown-menu {
+  background: variables.$marketing-header;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(255,255,255,0.2);
+
+}
+
+.dropdown-gradient .dropdown-item {
+  background-color: transparent !important;
+  color: black;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: variables.$white;
+  }
+}
+
+.logo{
+  color: white;
+}
+
 }
 
 .app-background {
   background: variables.$app-background;
+  .header{
+    background: variables.$app-header;
+  }
+  .footer{
+    background: variables.$app-footer;
+  }
+  .navbar .nav-link {
+  color: black;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: variables.$richNavy;
+  }
+
+  &.active {
+    color: variables.$white;
+  }
 }
+
+// Dropdown items TODO!!!!!! change name if not gradient
+.dropdown-gradient .dropdown-menu {
+  background: rgba(163, 177, 138, 1);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(255,255,255,0.2);
+
+}
+
+.dropdown-gradient .dropdown-item {
+  background-color: transparent !important;
+  color: black;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: variables.$white;
+  }
+}
+.logo{
+  color: rgb(0, 0, 0);
+}
+}
+
