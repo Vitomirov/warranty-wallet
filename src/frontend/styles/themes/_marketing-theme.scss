@@ -1,0 +1,42 @@
+@use '../variables';
+
+.marketing-theme {
+  // Use a class like `.marketing-theme` on the body or a top-level container
+  background: variables.$marketing-background;
+
+  .header {
+    background: variables.$marketing-header;
+  }
+
+  .footer {
+    background: variables.$marketing-footer;
+
+    a{
+        color: white;
+    }
+  }
+
+  .navbar .nav-link {
+    color: rgb(247, 247, 247);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      color: white;
+    }
+  }
+
+  .dropdown-gradient .dropdown-menu {
+    background: variables.$marketing-header;
+  }
+
+  .dropdown-gradient .dropdown-item {
+    color: black;
+  }
+
+
+  .logo {
+    color: white;
+  }
+}

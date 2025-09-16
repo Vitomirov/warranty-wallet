@@ -26,11 +26,6 @@ const FAQ = () => {
       answer:
         "You can add and manage an unlimited number of warranties. Our service is designed to scale with your needs, from a few documents to hundreds.",
     },
-    {
-      question: "How do I delete my account?",
-      answer:
-        "You can permanently delete your account from the Profile settings page. This action will also delete all of your uploaded warranties and associated data. This action is irreversible.",
-    },
   ];
 
   const toggleQuestion = (index) => {
@@ -38,9 +33,9 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-5">
+    <section id="faq" className="py-5 mb-5">
       <div className="container">
-        <h2 className="display-4 text-center mb-5">FAQ</h2>
+        <h2 className="display-4 text-center mb-2">FAQ</h2>
 
         <div className="row justify-content-center">
           <div className="col-lg-12">

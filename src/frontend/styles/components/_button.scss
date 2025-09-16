@@ -43,13 +43,12 @@
 // Button Variants
 // Primary: The main action button, the star of the show
 .button--primary, .button--success {
-  background: rgb(104, 104, 46);
+  background: rgb(68, 60, 60);
   color: variables.$white;
 
   &:hover {
     background: rgb(71, 71, 31);
   }
-
 
 }
 

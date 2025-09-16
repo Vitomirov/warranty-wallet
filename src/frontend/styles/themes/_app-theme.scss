@@ -1,0 +1,45 @@
+@use '../variables';
+
+.app-theme {
+  // Use a class like `.app-theme` on the body or a top-level container
+  background: variables.$app-background;
+
+  .header {
+    background: variables.$app-header;
+  }
+
+  .footer {
+    background: variables.$app-footer;
+    color: black;
+
+    a{
+        color: black;
+    }
+  }
+
+  .navbar .nav-link {
+    color: black;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: variables.$richNavy;
+    }
+
+    &.active {
+      color: white;
+    }
+  }
+
+  .dropdown-gradient .dropdown-menu {
+    background: rgba(163, 177, 138, 1);
+  }
+
+  .dropdown-gradient .dropdown-item {
+    color: black;
+  }
+
+  .logo {
+    color: rgb(0, 0, 0);
+  }
+}
