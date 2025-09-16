@@ -1,13 +1,69 @@
+@use "../variables";
+
+// ------------------------------
+// FEATURES CARDS
+// ------------------------------
 .feature-card {
   cursor: pointer;
-  transition: transform 0.3s ease;
+  background-color: transparent;
+  border: none;
+  border-radius: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
     transform: scale(1.05);
     z-index: 1050;
   }
+
+  .card-body {
+    padding: 1rem 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media (max-width: 480px) {
+      padding: 0.75rem 0.5rem; // manji padding
+    }
+  }
+
+  i {
+    font-size: 2.5rem; 
+    color: variables.$richNavy;
+    margin-bottom: 1rem;
+
+    @media (max-width: 480px) {
+      font-size: 1.8rem; // manja ikonice
+    }
+  }
+
+  .card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #001f3f;
+
+    @media (max-width: 480px) {
+      font-size: 1rem; // manji naslov
+    }
+  }
+
+  .card-text, .feature-description {
+    font-family: 'Roboto Serif', serif;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #333333;
+    margin-top: 0.25rem;
+    text-align: center;
+
+    @media (max-width: 480px) {
+      font-size: 0.85rem; // manji tekst
+    }
+  }
 }
 
+// Feature description hover effect
 .feature-description {
   opacity: 0;
   visibility: hidden;
@@ -20,38 +76,41 @@
   visibility: visible;
 }
 
-// Features modal
-.custom-modal .modal-content {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-  padding: 1rem;
-  color: #fff;
-  overflow: hidden;
-}
+// ------------------------------
+// FEATURES MODAL
+// ------------------------------
+.custom-modal {
+  .modal-content {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    color: #fff;
+    overflow: hidden;
+  }
 
-.custom-modal .modal-header {
-  border-bottom: none;
-  justify-content: center;
-}
+  .modal-header {
+    border-bottom: none;
+    justify-content: center;
+  }
 
-.custom-modal .modal-footer {
-  border-top: none;
-  justify-content: center;
-  gap: 1rem;
-}
+  .modal-footer {
+    border-top: none;
+    justify-content: center;
+    gap: 1rem;
+  }
 
-.custom-modal .btn-secondary {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: #fff;
-  backdrop-filter: blur(6px);
-  transition: all 0.3s ease;
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
   }
 }

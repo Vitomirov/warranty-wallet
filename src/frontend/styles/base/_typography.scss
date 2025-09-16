@@ -1,30 +1,136 @@
 @use '../variables';
 
+// ------------------------------
+// GLOBAL TYPOGRAPHY
+// ------------------------------
 body {
-  font-family: 'Roboto Serif', 'Edu AU VIC WA NT Pre', serif;
+  font-family: 'Roboto Serif', serif; // osnovni tekst
+  font-size: 1rem;
   line-height: 1.6;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
+  color: variables.$textColor; // neutralna boja
 }
 
 // ------------------------------
 // HEADINGS / TITLES
 // ------------------------------
+h1, h2, h3, h4, h5, h6,
 .title {
-  letter-spacing: 0.11rem;
-  line-height: 1.5;
-  font-size-adjust: 0.85;
-  stroke-width: 0.1px;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-
-  // Clean navy color (good readability on light/blue background)
+  font-weight: 400;
+  font-size: 4rem;
+  letter-spacing: 0.05rem;
   color: variables.$richNavy;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+
+  // Tablet
+  @media (max-width: 768px) {
+    font-size: 3rem;
+    letter-spacing: 0.03rem;
+  }
+
+  // Mobile
+  @media (max-width: 480px) {
+    font-size: 2rem;
+    letter-spacing: 0.02rem;
+  }
+}
+
+// Individual heading sizes for clarity
+h1 {
+  font-size: 3.5rem;
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 1.8rem;
+  }
+}
+
+h2 {
+  font-size: 2.5rem;
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
+}
+
+h3 {
+  font-size: 2rem;
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 1.25rem;
+  }
+}
+
+// ------------------------------
+// SUBTITLE / DESCRIPTIONS
+// ------------------------------
+.subtitle {
+  font-family: 'Roboto Serif', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: variables.$textColor;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
 
   @media (max-width: 768px) {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
+}
+
+// ------------------------------
+// PARAGRAPHS
+// ------------------------------
+p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: variables.$textColor;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
+}
+
+small {
+  font-size: 0.75rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.65rem;
+  }
+}
+
+// ------------------------------
+// LINKS
+// ------------------------------
+a {
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  color: variables.$primary;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
   }
 }
 
@@ -32,10 +138,25 @@ body {
 // SPECIAL FONT CLASSES
 // ------------------------------
 .montserrat {
-  font-family: 'montserat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
+.roboto-serif {
+  font-family: "Roboto Serif", serif;
+}
 
+// ------------------------------
+// FORMS
+// ------------------------------
 .form-floating .form-control {
   font-size: 1rem;
+  font-family: 'Roboto Serif', serif;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 }

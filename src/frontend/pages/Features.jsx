@@ -69,7 +69,7 @@ const Features = () => {
                 >
                   <div className="card-body text-center d-flex flex-column justify-content-center">
                     <i className={`${feature.icon} display-4 mb-3`} />
-                    <h5 className="card-title">{feature.title}</h5>
+                    <h6 className="card-title">{feature.title}</h6>
                     <p className="card-text text-justify feature-description mt-2">
                       {feature.description}
                     </p>

@@ -24,23 +24,24 @@ const Hero = () => {
           <div className="col-12">
             {/* Title */}
             <motion.h1
-              className="mb-3 display-5 title"
+              className="mb-3 title"
               variants={createSlideUpVariant(0.2)}
             >
-              Warranty Wallet
+              <h1 className="title">Never lose a warranty again</h1>
             </motion.h1>
 
             {/* Subtitle */}
-            <motion.h2
-              className="mb-4 fs-5"
+            <motion.small
+              className="mb-5 fs-5"
               variants={createSlideUpVariant(0.4)}
             >
-              All warranties in one place.
-            </motion.h2>
+              No more digging through drawers for receipts of forgeting
+              expiration dates.
+            </motion.small>
 
             {/* Buttons */}
             <motion.div
-              className="button d-flex justify-content-center gap-5"
+              className="button d-flex justify-content-center gap-5 mt-5"
               variants={popUpAndFadeIn}
               initial="hidden"
               animate="visible"
