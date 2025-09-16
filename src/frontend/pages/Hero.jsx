@@ -27,7 +27,7 @@ const Hero = () => {
               className="mb-3 title"
               variants={createSlideUpVariant(0.2)}
             >
-              <h1 className="title">Never lose a warranty again</h1>
+              Never lose a warranty again
             </motion.h1>
 
             {/* Subtitle */}

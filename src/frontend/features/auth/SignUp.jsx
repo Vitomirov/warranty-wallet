@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Button from "../../ui/Button";
 import useSignUp from "../../hooks/useSignUp";
 import useLogin from "../../hooks/useLogin"; // koristimo cancel iz login hooka
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const { handleCancel } = useLogin();
   const { handleSignUp, message, loading } = useSignUp();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -60,7 +62,7 @@ function SignUp() {
                         required
                       />
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-1">
                       <input
                         type="password"
                         className="form-control"
@@ -76,7 +78,7 @@ function SignUp() {
 
                 {/* Personal Information Section */}
                 <div className="col-12">
-                  <fieldset className="mb-3">
+                  <fieldset className="mb-2">
                     <legend>Personal Information</legend>
                     <div className="mb-3">
                       <input
@@ -100,7 +102,7 @@ function SignUp() {
                         required
                       />
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-1">
                       <input
                         type="tel"
                         className="form-control"
@@ -121,7 +123,7 @@ function SignUp() {
                 </div>
               )}
 
-              <div className="form-buttons mt-3 d-flex justify-content-between">
+              <div className="form-buttons d-flex justify-content-between">
                 <Button type="submit" variant="primary" disabled={loading}>
                   {loading ? "Signing Up..." : "Sign Up"}
                 </Button>
@@ -134,6 +136,18 @@ function SignUp() {
                 </Button>
               </div>
             </form>
+
+            {/* Navigate to log in */}
+            <div className="text-center mt-2">
+              <p>Already have an account? Please log in.</p>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={() => navigate("/login")}
+              >
+                Log In
+              </Button>
+            </div>
           </div>
         </div>
       </div>

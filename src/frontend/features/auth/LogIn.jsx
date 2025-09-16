@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../../ui/Button";
 import useLogin from "../../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
 
 function LogIn() {
   const {
@@ -13,6 +14,8 @@ function LogIn() {
     handlePasswordChange,
     handleCancel,
   } = useLogin();
+
+  const navigate = useNavigate();
 
   return (
     <div className="container py-5">
@@ -52,7 +55,7 @@ function LogIn() {
                 </div>
               )}
 
-              <div className="d-flex justify-content-between gap-3">
+              <div className="d-flex justify-content-between gap-3 mb-3">
                 <Button type="submit" variant="primary" disabled={loading}>
                   {loading ? "Logging In..." : "Log In"}
                 </Button>
@@ -65,6 +68,18 @@ function LogIn() {
                 </Button>
               </div>
             </form>
+
+            {/* Dodato ispod forme */}
+            <div className="text-center mt-4">
+              <p>Don't have an account? Please sign up.</p>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </Button>
+            </div>
           </div>
         </div>
       </div>
