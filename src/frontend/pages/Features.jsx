@@ -60,7 +60,7 @@ const Features = () => {
             <React.Fragment key={feature.id}>
               {/* Card for md/lg: normal */}
               <motion.div
-                className="col-md-10 col-lg-6 d-none d-md-flex justify-content-center mb-4"
+                className="col-md-5 col-lg-6 d-none d-md-flex justify-content-center mb-4"
                 variants={itemVariants}
               >
                 <motion.div

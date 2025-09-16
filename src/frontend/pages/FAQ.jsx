@@ -35,7 +35,7 @@ const FAQ = () => {
   return (
     <section id="faq" className="py-5 mb-5">
       <div className="container">
-        <h2 className="display-4 text-center mb-2">FAQ</h2>
+        <h2 className="display-4 text-center mb-4 montserrat">FAQ</h2>
 
         <div className="row justify-content-center">
           <div className="col-lg-12">
@@ -54,7 +54,7 @@ const FAQ = () => {
                 viewport={{ once: true, amount: 0.2 }}
               >
                 <button
-                  className="faq-btn btn text-start w-100 p-4 d-flex justify-content-between align-items-center mb-2"
+                  className="faq-btn btn text-start w-100 p-4 d-flex justify-content-between align-items-center mb-2 montserrat fs-5"
                   onClick={() => toggleQuestion(index)}
                   aria-expanded={activeQuestion === index}
                   aria-controls={`faq-answer-${index}`}
@@ -68,7 +68,7 @@ const FAQ = () => {
                 {/* Animated answer */}
                 <motion.div
                   id={`faq-answer-${index}`}
-                  className="px-4 pb-1"
+                  className="px-4 pb-3 roboto-serif fs-5 text-muted"
                   initial={{ opacity: 0, height: 0 }}
                   animate={
                     activeQuestion === index
@@ -78,7 +78,7 @@ const FAQ = () => {
                   transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
                   style={{ overflow: "hidden" }}
                 >
-                  <p className="text-muted">{faq.answer}</p>
+                  <p>{faq.answer}</p>
                 </motion.div>
               </motion.div>
             ))}
