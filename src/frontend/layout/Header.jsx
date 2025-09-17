@@ -80,7 +80,7 @@ function Header() {
             <>
               {/* Navigation links and dropdowns for logged-in users. */}
               <Nav className="ms-auto"></Nav>
-              <Nav className="d-flex align-items-end gap-3 text-end white">
+              <Nav className="d-flex align-items-end gap-3 text-end">
                 <NavDropdown
                   title="Home"
                   id="marketing-dropdown"

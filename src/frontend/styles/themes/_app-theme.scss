@@ -5,11 +5,11 @@
   background: variables.$app-background;
 
   .header {
-    background: variables.$app-header;
+    background: variables.$app-background;
   }
 
   .footer {
-    background: variables.$app-footer;
+    background: transparent;
     color: black;
 
     a {
@@ -31,14 +31,12 @@
     }
   }
 
-  .dropdown-menu {
-    background-color: variables.$app-header;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  .dropdown-gradient .dropdown-menu {
+    background-color: #EDE8F5;
   }
 
   .dropdown-gradient .dropdown-item {
-    color: black;
+    color: rgb(0, 0, 0);
   }
 
   .logo {
