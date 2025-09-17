@@ -16,13 +16,10 @@ $marketing-header: #ADBBDA;
 $marketing-footer: #8697C4;
 
 
-$app-background: radial-gradient(circle,rgba(218, 215, 205, 1) 0%, rgba(163, 177, 138, 1) 35%, rgba(88, 129, 87, 1) 100%);
+$app-background: radial-gradient(circle,rgba(248, 240, 255, 1) 0%, rgba(237, 232, 245, 1) 31%, rgba(173, 187, 218, 1) 67%, rgba(112, 145, 230, 1) 94%);
+$app-header: rgba #7091E6;
 
-
-$app-header: rgba(163, 177, 138, 1);
-
-$app-footer: rgba(163, 177, 138, 1);
-
+$app-footer: rgba #000000;
 // Override Bootstrap's default theme colors
 $theme-colors: (
   "richNavy": $richNavy, // titles, emphasis

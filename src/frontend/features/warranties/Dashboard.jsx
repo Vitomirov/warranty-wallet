@@ -28,10 +28,10 @@ function Dashboard() {
 
   return (
     <div className="container col-12 col-md-10 col-lg-8 my-5">
-      <h1 className="text-center mb-4">Hello, {user?.username}!</h1>
+      <h1 className="text-center mb-3 fw-bold">Hello, {user?.username}!</h1>
 
       <div className="mb-3">
-        <h4>Your Warranties:</h4>
+        <h3 className="fw-lighter">Your Warranties:</h3>
       </div>
 
       {warranties.length === 0 ? (
@@ -54,9 +54,9 @@ function Dashboard() {
                 <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
                   <div className="mb-2 mb-sm-0">
                     <div className="fw-bold">{warranty.productName}</div>
-                    <small className="text-muted">
+                    <p className="text-muted">
                       Expires: {warranty.warrantyExpireDate}
-                    </small>
+                    </p>
                   </div>
                   <div className="d-flex justify-content-between flex-row col-12 col-lg-3 col-md-5 mt-2 mt-sm-0">
                     <Button
@@ -77,7 +77,7 @@ function Dashboard() {
         </div>
       )}
 
-      <div className="text-center mt-4">
+      <div className="text-center mt-3">
         <Button variant="success" onClick={handleAddClick}>
           + Add New Warranty
         </Button>

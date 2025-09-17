@@ -74,7 +74,7 @@ function LogIn() {
               <p>Don't have an account? Please sign up.</p>
               <Button
                 type="button"
-                variant="hero-secondary"
+                variant="signup-secondary"
                 onClick={() => navigate("/signup")}
               >
                 Sign Up

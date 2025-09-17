@@ -3,8 +3,7 @@
 
 .border-dark-item {
 border-color: variables.$richNavy !important;
-background: #F9FAFB;
-background: linear-gradient(141deg, rgba(206, 191, 164, 0.4) 26%, rgba(230, 164, 41, 0.4) 100%);
+background: #EDE8F5;
 }
 
 .border-dark-item:hover {
@@ -12,3 +11,20 @@ background: linear-gradient(141deg, rgba(206, 191, 164, 0.4) 26%, rgba(230, 164,
   transform: translateY(-1px);
   transition: all 0.2s ease-in-out;
 }
+
+h1 {
+  font-size: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+

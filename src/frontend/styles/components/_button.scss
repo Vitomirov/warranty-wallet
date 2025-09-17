@@ -36,7 +36,7 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px #69272e;;
+    box-shadow: 0 0 0 3px #3D52A0;;
   }
 }
 
@@ -57,10 +57,12 @@
 .button--secondary {
   background-color: transparent;
   color: variables.$richNavy;
+    border: 1px solid variables.$neutralGray;
+
 
   &:hover {
     background-color: lighten(variables.$neutralGray, 10%);
-    color: white;;
+    color: white;
   }
 
   &:active {
@@ -92,7 +94,7 @@
 
 // Danger: For destructive actions like "Delete"
 .button--danger {
-  background-color: #69272e; // Keeping this a solid color is a good UX practice
+  background-color: #8b2c36; // Keeping this a solid color is a good UX practice
   color: variables.$white;
   box-shadow: none;
 
@@ -184,4 +186,44 @@
     font-size: 16px;
     padding: 10px 20px;
   }
+}
+
+//LogIn and SignUp button (on componetntnes)
+
+.button--login-primary {
+    background-color: #3D52A0;
+  color: variables.$white;
+
+  &:hover {
+    background-color: #7091E6; 
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+  }
+
+  &:active {
+    background-color: darken(variables.$cyanAccent, 5%);
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
+  }
+}
+
+.button--signup-secondary {
+  background-color: transparent;
+  color: variables.$richNavy;
+  border: 2px solid variables.$richNavy;
+  box-shadow: none;
+
+  &:hover {
+    background-color: variables.$richNavy;
+    color: variables.$white;
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: darken(variables.$richNavy, 5%);
+    color: variables.$white;
+    transform: none;
+    box-shadow: none;
+  }
+
 }

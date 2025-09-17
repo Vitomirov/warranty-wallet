@@ -142,7 +142,7 @@ function SignUp() {
               <p>Already have an account? Please log in.</p>
               <Button
                 type="button"
-                variant="hero-primary"
+                variant="login-primary"
                 onClick={() => navigate("/login")}
               >
                 Log In

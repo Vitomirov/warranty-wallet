@@ -12,8 +12,8 @@
     background: variables.$app-footer;
     color: black;
 
-    a{
-        color: black;
+    a {
+      color: black;
     }
   }
 
@@ -31,8 +31,10 @@
     }
   }
 
-  .dropdown-gradient .dropdown-menu {
-    background: rgba(163, 177, 138, 1);
+  .dropdown-menu {
+    background-color: variables.$app-header;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 
   .dropdown-gradient .dropdown-item {
