@@ -6,6 +6,7 @@
 
   .header {
     background: variables.$marketing-header;
+    color: black;
   }
 
   .footer {
@@ -17,7 +18,7 @@
   }
 
   .navbar .nav-link {
-    color: rgb(247, 247, 247);
+    color: rgb(0, 0, 0);
 
     &:hover,
     &:focus,
@@ -37,6 +38,6 @@
 
 
   .logo {
-    color: white;
+    color: rgb(0, 0, 0);
   }
 }

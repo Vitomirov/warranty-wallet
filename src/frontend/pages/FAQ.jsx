@@ -68,7 +68,7 @@ const FAQ = () => {
                 {/* Animated answer */}
                 <motion.div
                   id={`faq-answer-${index}`}
-                  className="px-4 pb-3 roboto-serif fs-5 text-muted"
+                  className="px-4 pb-3 fs-4 text-muted"
                   initial={{ opacity: 0, height: 0 }}
                   animate={
                     activeQuestion === index

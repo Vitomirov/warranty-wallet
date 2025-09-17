@@ -1,17 +1,5 @@
 @use '../variables';
 
-/* .navbar {
-  background-color: variables.$richNavy;
-  min-height: 100px;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-
-  img {
-    height: 70px;
-    width: auto;
-  }
-} */
-
 // Navigation links
 .navbar .nav-link {
   color: black;
@@ -23,7 +11,7 @@
   }
 
   &.active {
-    color: variables.$white;
+    color: black;
   }
 }
 

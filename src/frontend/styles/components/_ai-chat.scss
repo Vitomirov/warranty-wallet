@@ -96,18 +96,18 @@
 }
 
 .ai-chat-header {
-  background: linear-gradient(90deg, #3B82F6, #1E3A8A);
+  background: #EDE8F5;
   color: #fff;
   padding: 1rem;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   .btn-close-chat {
     font-size: 1.5rem;
-    color: #fff;
+    color: #000000;
     opacity: 0.8;
     background: none;
     border: none;
@@ -157,14 +157,14 @@
     resize: none;
     min-height: 60px;
     max-height: 120px;
-    border: 1px solid #CBD5E1;
+    border: 1px solid #740f0f;
     border-radius: 10px;
     padding: 0.6rem;
     font-size: 0.95rem;
   }
 
   .btn-submit-chat {
-    background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+    background: #8697C4;
     color: variables.$lightGrayBlue;
     border: none;
     padding: 0.7rem;
@@ -174,12 +174,12 @@
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+      background: #e67070;
       box-shadow: 0 4px 12px variables.$richNavy;
     }
 
     &:disabled {
-      background: #93C5FD;
+      background: #ADBBDA;
       cursor: not-allowed;
     }
   }
