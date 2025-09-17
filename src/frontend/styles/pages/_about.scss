@@ -12,9 +12,15 @@
     width: 100%;
     align-items: flex-start;
 
+
+
     @media (min-width: 768px) {
       flex-direction: row;
     }
+  }
+
+  h1 {
+  line-height: 0.9;
   }
 
   }

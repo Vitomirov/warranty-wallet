@@ -17,14 +17,18 @@ function About() {
         <div className="col-12 col-md-6">
           <motion.h1
             className="pe-md-5 
-                       display-1
-                       display-6-md
-                       fs-3-sm"
+             display-3
+             display-6-md
+             fs-3-sm"
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 1 }}
           >
-            Manage your warranties <br /> effortlessly
+            Simplify Your
+            <br />
+            Warranties
+            <br />
+            Forever.
           </motion.h1>
         </div>
 
@@ -36,26 +40,26 @@ function About() {
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.div className="lead position-relative pt-1">
-            <motion.p
-              className="mb-3 fs-5 fs-md-6 fs-sm-6"
+            <motion.h2
+              className="mb-3 fs-3 fs-md-5 fs-sm-5"
               variants={popUpAndFadeIn}
               transition={{ delay: 0.2 }}
             >
-              Warranty Wallet is a smart, all-in-one app that helps you keep
-              track of every product warranty you own. No more digging through
-              drawers for receipts or forgetting expiration dates. Everything is
-              organized and easily accessible from your device.
-            </motion.p>
+              Stop searching for receipts and start protecting your purchases
+              with ease.
+            </motion.h2>
 
             <motion.p
-              className="mb-3 fs-5 fs-md-6 fs-sm-6"
+              className="mb-2 fs-5 fs-md-6 fs-sm-6"
               variants={popUpAndFadeIn}
               transition={{ delay: 0.4 }}
             >
-              With just a few taps, you can add a new warranty, upload receipts,
-              and set reminders for expiration dates. The app automatically
-              calculates remaining warranty periods, so you’ll never miss a
-              claim or replacement opportunity.
+              Warranty Wallet is the smart, seamless way to manage every product
+              warranty you own. We've eliminated the hassle of paper trails and
+              forgotten deadlines. With a few quick taps, you can digitally
+              store receipts, track expiration dates, and get timely reminders.
+              Your purchases are valuable—let's make sure they're always
+              protected.
             </motion.p>
           </motion.div>
         </motion.div>
