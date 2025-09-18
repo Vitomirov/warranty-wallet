@@ -13,6 +13,10 @@
   &:hover {
     transform: scale(1.05);
     z-index: 1050;
+
+    @media (max-width: 480px) {
+      
+    }
   }
 
   .card-body {
@@ -81,12 +85,12 @@
 // ------------------------------
 .custom-modal {
   .modal-content {
-    background: rgba(255, 255, 255, 0.12);
+    background: #EDE8F5;
     backdrop-filter: blur(12px);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid #3D52A0;
     padding: 1rem;
-    color: #fff;
+    color: #3D52A0;
     overflow: hidden;
   }
 
@@ -103,13 +107,13 @@
 
   .btn-secondary {
     background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: #fff;
+    border: 1px solid #3D52A0;
+    color: #3D52A0;
     backdrop-filter: blur(6px);
     transition: all 0.3s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: #8697C4;
       transform: scale(1.05);
     }
   }
