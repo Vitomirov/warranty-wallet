@@ -1,25 +1,18 @@
 import React from "react";
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+  within,
+} from "@testing-library/react";
 import DeleteAccount from "../../../features/account/DeleteAccount";
-import renderWithProviders from "../../helpers/renderWithProviders";
+import { BrowserRouter } from "react-router-dom";
 
 // Mock useDeleteAccount hook
-const mockOpen = jest.fn();
-const mockClose = jest.fn();
-const mockDelete = jest.fn();
+jest.mock("../../../hooks/useDeleteAccount");
 
-jest.mock("../../../hooks/useDeleteAccount", () => ({
-  __esModule: true,
-  default: () => ({
-    showDeleteModal: true,
-    error: null,
-    openDeleteModal: mockOpen,
-    closeDeleteModal: mockClose,
-    handleDeleteAccount: mockDelete,
-  }),
-}));
-
-// Mock alert da ne pravi popup
+// Mock alert
 global.alert = jest.fn();
 
 describe("DeleteAccount component", () => {
@@ -28,37 +21,86 @@ describe("DeleteAccount component", () => {
   });
 
   test("renders Delete button and opens modal", () => {
-    const { getByText } = renderWithProviders(<DeleteAccount />);
+    // Mockujemo da je modal inicijalno zatvoren
+    const {
+      default: useDeleteAccountMock,
+    } = require("../../../hooks/useDeleteAccount");
+    const mockOpen = jest.fn();
+    useDeleteAccountMock.mockReturnValue({
+      showDeleteModal: false,
+      error: null,
+      openDeleteModal: mockOpen,
+      closeDeleteModal: jest.fn(),
+      handleDeleteAccount: jest.fn(),
+    });
 
-    // Delete button je vidljiv
-    const deleteButton = getByText("Delete");
-    expect(deleteButton).toBeInTheDocument();
+    render(<DeleteAccount />, { wrapper: BrowserRouter });
 
-    // Simuliramo klik na Delete button
+    const deleteButton = screen.getByRole("button", { name: /Delete/i });
     fireEvent.click(deleteButton);
     expect(mockOpen).toHaveBeenCalled();
   });
 
-  test("calls handleDeleteAccount on confirmation", async () => {
-    const { getByText } = renderWithProviders(<DeleteAccount />);
+  test("displays the modal and handles confirmation", async () => {
+    const mockHandleDelete = jest.fn();
+    const mockCloseModal = jest.fn();
 
-    // Modal je otvoren (showDeleteModal = true u mock-u)
-    const confirmButton = getByText("Yes, delete my account");
-    fireEvent.click(confirmButton);
+    // Mockujemo da je modal otvoren pre nego što se test renderuje
+    const {
+      default: useDeleteAccountMock,
+    } = require("../../../hooks/useDeleteAccount");
+    useDeleteAccountMock.mockReturnValue({
+      showDeleteModal: true,
+      error: null,
+      openDeleteModal: jest.fn(),
+      closeDeleteModal: mockCloseModal,
+      handleDeleteAccount: mockHandleDelete,
+    });
 
+    render(<DeleteAccount />, { wrapper: BrowserRouter });
+
+    // Tražimo modal po njegovom ARIA labelu
+    const modal = screen.getByRole("dialog", {
+      name: /Delete Account Confirmation/i,
+    });
+
+    // Koristimo 'within' za pretragu unutar modala
+    const modalConfirmButton = within(modal).getByRole("button", {
+      name: "Delete",
+    });
+    const modalCancelButton = within(modal).getByRole("button", {
+      name: "Cancel",
+    });
+
+    expect(modalConfirmButton).toBeInTheDocument();
+    expect(modalCancelButton).toBeInTheDocument();
+
+    fireEvent.click(modalConfirmButton);
     await waitFor(() => {
-      expect(mockDelete).toHaveBeenCalled();
+      expect(mockHandleDelete).toHaveBeenCalled();
+    });
+
+    fireEvent.click(modalCancelButton);
+    await waitFor(() => {
+      expect(mockCloseModal).toHaveBeenCalled();
     });
   });
 
-  test("calls closeDeleteModal on cancel", async () => {
-    const { getByText } = renderWithProviders(<DeleteAccount />);
-
-    const cancelButton = getByText("Cancel");
-    fireEvent.click(cancelButton);
-
-    await waitFor(() => {
-      expect(mockClose).toHaveBeenCalled();
+  test("renders error message if error exists", () => {
+    const mockError = "Failed to delete account";
+    const {
+      default: useDeleteAccountMock,
+    } = require("../../../hooks/useDeleteAccount");
+    useDeleteAccountMock.mockReturnValue({
+      showDeleteModal: true,
+      error: mockError,
+      openDeleteModal: jest.fn(),
+      closeDeleteModal: jest.fn(),
+      handleDeleteAccount: jest.fn(),
     });
+
+    render(<DeleteAccount />, { wrapper: BrowserRouter });
+
+    expect(screen.getByText(mockError)).toBeInTheDocument();
   });
 });

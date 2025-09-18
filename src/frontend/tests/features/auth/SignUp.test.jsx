@@ -1,10 +1,23 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import SignUp from "../../../features/auth/SignUp";
+import { BrowserRouter } from "react-router-dom";
 
-// Mock hooks
-jest.mock("../../../hooks/useSignUp");
-jest.mock("../../../hooks/useLogin");
+// Mock-ovanje useNavigate i useSignUp
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
+jest.mock("../../../hooks/useSignUp", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+jest.mock("../../../hooks/useLogin", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 describe("SignUp Component", () => {
   let mockHandleSignUp;
@@ -27,8 +40,12 @@ describe("SignUp Component", () => {
     });
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test("renders signup form with all fields and buttons", () => {
-    render(<SignUp />);
+    render(<SignUp />, { wrapper: BrowserRouter });
     expect(screen.getByPlaceholderText(/username/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
@@ -39,10 +56,11 @@ describe("SignUp Component", () => {
       screen.getByRole("button", { name: /sign up/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /back/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /log in/i })).toBeInTheDocument();
   });
 
   test("handles input changes and form submit", () => {
-    render(<SignUp />);
+    render(<SignUp />, { wrapper: BrowserRouter });
 
     const form = screen.getByRole("form");
 
@@ -85,16 +103,23 @@ describe("SignUp Component", () => {
       loading: false,
     });
 
-    render(<SignUp />);
+    render(<SignUp />, { wrapper: BrowserRouter });
     expect(
       screen.getByText(/account created successfully/i)
     ).toBeInTheDocument();
   });
 
   test("calls handleCancel when Back button is clicked", () => {
-    render(<SignUp />);
+    render(<SignUp />, { wrapper: BrowserRouter });
     const backButton = screen.getByRole("button", { name: /back/i });
     fireEvent.click(backButton);
     expect(mockHandleCancel).toHaveBeenCalled();
+  });
+
+  test("navigates to login on button click", () => {
+    render(<SignUp />, { wrapper: BrowserRouter });
+    const loginButton = screen.getByRole("button", { name: /Log In/i });
+    fireEvent.click(loginButton);
+    expect(mockNavigate).toHaveBeenCalledWith("/login");
   });
 });
