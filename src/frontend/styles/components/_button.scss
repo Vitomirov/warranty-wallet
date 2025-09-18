@@ -190,24 +190,7 @@
 
 //LogIn and SignUp button (on componetntnes)
 
-.button--login-primary {
-    background-color: #3D52A0;
-  color: variables.$white;
-
-  &:hover {
-    background-color: #7091E6; 
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
-  }
-
-  &:active {
-    background-color: darken(variables.$cyanAccent, 5%);
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
-  }
-}
-
-.button--signup-secondary {
+.button--auth-change {
   background-color: transparent;
   color: variables.$richNavy;
   border: 2px solid variables.$richNavy;
