@@ -51,17 +51,14 @@ const DeleteWarranty = ({ id, onDeleteSuccess }) => {
         <div className="container-fluid">
           <div className="row justify-content-center">
             <div className="col-12 col-md-10 col-lg-8">
-              <h4 className="text-center mb-3">
+              <h5 className="text-center fs-4 mb-3">
                 Are you sure you want to delete this warranty?
-              </h4>
+              </h5>
               <p className="text-center">This action cannot be undone.</p>
               <div className="d-flex justify-content-center gap-3">
-                <button
-                  className="btn btn-danger border-danger"
-                  onClick={handleDelete}
-                >
-                  Yes, delete warranty
-                </button>
+                <Button variant="danger" onClick={handleDelete}>
+                  Delete
+                </Button>
                 <button
                   className="btn btn-secondary border-secondary"
                   onClick={closeDeleteModal}

@@ -14,9 +14,10 @@
 }
 
 .modalWindow {
-  background: rgba(255, 255, 255, 0.85);
+  background: #EDE8F5;
   backdrop-filter: blur(8px);
   border-radius: 20px;
+  border: 2px solid #8697C4;
   padding: 1rem;
   max-width: 1200px;
   width: 120%;
@@ -26,109 +27,3 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.modalWindow.login,
-.modalWindow.signup,
-.modalWindow.account {
-  background: transparent;
-  max-width: 700px;
-  width: 100%;
-  padding: 1rem;
-  overflow: hidden;
-}
-
-// AUTH CARD
-.auth-card,
-.auth-card.signup,
-.auth-card.account {
-  width: 100%;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-
-  h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: variables.$richNavy;
-    margin-bottom: 0.5rem;
-  }
-
-  fieldset {
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    padding: 0;
-    border: none;
-  }
-
-  legend {
-    font-weight: 600;
-    color: variables.$richNavy;
-    font-size: 1rem;
-    padding: 0 0.3rem;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
-    border-radius: 10px;
-    border: 1px solid #CBD5E1;
-    background: #f8fafd;
-    margin-bottom: 0.5rem;
-    transition: border 0.2s ease, box-shadow 0.2s ease;
-
-    &:focus {
-      outline: none;
-      border-color: #3B82F6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
-    }
-  }
-
-  .form-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-  }
-}
-
-// RESPONSIVE - MOBILE
-@media (max-width: 768px) {
-  .modalWindow.signup,
-  .modalWindow.account {
-    width: 95%;
-    max-width: 95%;
-    max-height: calc(100vh - 100px);
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .auth-card.signup,
-  .auth-card.account {
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.4rem;
-    }
-
-    input {
-      font-size: 0.85rem;
-      padding: 0.5rem 0.75rem;
-    }
-
-    .form-buttons {
-      justify-content: flex-end;
-      gap: 0.5rem;
-    }
-  }
-}
-
-// RESPONSIVE TABLET / LAPTOP
-@media (max-width: 1200px) {
-  .modalWindow {
-    max-width: 95%;
-  }
-}
