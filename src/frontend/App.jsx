@@ -23,7 +23,7 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        {/* Public / Marketing routes */}
+        {/* Public / Marketing routes (for guests) */}
         <Route
           path="/"
           element={
@@ -81,7 +81,7 @@ function App() {
           }
         />
 
-        {/* Private / App routes */}
+        {/* Private / App routes (for logged users) */}
         <Route
           path="/dashboard"
           element={

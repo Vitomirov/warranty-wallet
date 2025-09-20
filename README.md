@@ -1,4 +1,4 @@
-Warranty Wallet
+Warranty Wallet app
 
 Warranty Wallet is a professional full-stack web application for managing product warranties. Users can securely store and track warranty details, upload receipts or PDF warranty documents, and receive automatic reminders before warranties expire. It also features an AI Assistant chatbot powered by OpenAI for quick warranty-related guidance.
 
@@ -8,19 +8,19 @@ Key Features:
 
 - Secure user registration & login (JWT)
 
-- Add and manage product warranties
+- Add and manage product warranties.
 
-- Upload and view receipts in PDF format
+- Upload and view receipts in PDF format.
 
-- Dashboard for active and expired warranties
+- Dashboard for active and expired warranties.
 
-- Automatic email reminders for expiring warranties
+- Automatic email reminders for expiring warranties.
 
-- AI Assistant chatbot for user support
+- AI Assistant chatbot for user support.
 
-- Fully responsive, mobile-first design
+- Fully responsive, mobile-first design.
 
-- Smooth UX with animated interactions and modals
+- Smooth UX with animated interactions and modals.
 
 Technology Stack:\
 Frontend: React 19, Vite, React Router, React Bootstrap, React Datepicker, Framer Motion, Sass\
