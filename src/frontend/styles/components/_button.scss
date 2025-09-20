@@ -36,18 +36,18 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px #3D52A0;;
+    box-shadow: 0 0 0 3px variables.$darkBlue;;
   }
 }
 
 // Button Variants
 // Primary: The main action button, the star of the show
 .button--primary, .button--success {
-    background-color: #3D52A0;
+    background-color: variables.$darkBlue;
   color: variables.$white;
 
   &:hover {
-    background-color: #7091E6; 
+    background-color: variables.$lightBlue; 
 
   }
 
@@ -143,7 +143,7 @@
 .button--hero-primary {
   font-size: 18px;
   padding: 12px 24px;
-    background-color: #3D52A0;
+    background-color: variables.$darkBlue;
   color: variables.$white;
 
   &:hover {

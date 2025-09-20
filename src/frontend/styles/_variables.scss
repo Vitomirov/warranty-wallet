@@ -4,30 +4,32 @@ $white: #FFFFFF;
 $cyanAccent: #0EA5E9;
 $neutralGray: #3d444d;
 $richNavy: #0F172A;
-$yellow: rgb(89, 0, 148);
 $textColor: #2c3e50;
 
-
+$darkBlue: #3D52A0;
+$lightBlue: #7091E6;
+$pastelBlue: #8697C4;
+$steelBlue: #ADBBDA;
+$brightGray: #EDE8F5;
   
 $marketing-background:  radial-gradient(circle,rgba(173, 187, 218, 1) 10%, rgba(237, 232, 245, 1) 43%, rgba(251, 246, 249, 1) 58%);
 
-$marketing-header: #ADBBDA;
+$marketing-header: $steelBlue;
 
-$marketing-footer: #8697C4;
+$marketing-footer: $pastelBlue;
 
 
 $app-background: radial-gradient(circle,rgba(248, 240, 255, 1) 0%, rgba(237, 232, 245, 1) 31%, rgba(173, 187, 218, 1) 67%, rgba(112, 145, 230, 1) 94%);
 
-$app-header: #7091E6;
+$app-header: $lightBlue;
 
 
 // Override Bootstrap's default theme colors
 $theme-colors: (
-  "richNavy": $richNavy, // titles, emphasis
-  "lightGrayBlue": $lightGrayBlue, // backgrounds
-  "yelow": $cyanAccent, // accent (links, highlights)
-  "white": $white, // pure white
-  "neutralGray": $neutralGray, // paragraphs, muted text
+  "richNavy": $richNavy,
+  "lightGrayBlue": $lightGrayBlue,
+  "white": $white,
+  "neutralGray": $neutralGray,
 );
 
 @import "bootstrap/scss/bootstrap";

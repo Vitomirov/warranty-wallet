@@ -14,10 +14,10 @@
 }
 
 .modalWindow {
-  background: #EDE8F5;
+  background: variables.$brightGray;
   backdrop-filter: blur(8px);
   border-radius: 20px;
-  border: 2px solid #8697C4;
+  border: 2px solid variables.$pastelBlue;
   padding: 1rem;
   max-width: 1200px;
   width: 120%;

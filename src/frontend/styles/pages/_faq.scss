@@ -1,10 +1,12 @@
+@use '../variables';
+
 .faq-btn {
   outline: none !important;
   box-shadow: none !important;
   border: none;
   -webkit-tap-highlight-color: transparent;
   transition: box-shadow 0.3s ease, transform 0.2s ease;
-  background-color: #EDE8F5;
+  background-color: variables.$brightGray;
 
   &:focus,
   &:focus-visible,

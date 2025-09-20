@@ -34,12 +34,12 @@ function Header() {
             as={Link}
             to="/dashboard"
             onClick={collapseNavbar}
-            className="text-decoration-none ms-3"
+            className="text-decoration-none ms-3 pt-3"
           >
             <h1 className="logo">Warranty Wallet</h1>
           </Navbar.Brand>
         ) : (
-          <Navbar.Brand href="#" className="text-decoration-none ms-3">
+          <Navbar.Brand href="#" className="text-decoration-none ms-3 pt-3">
             <h1 className="logo">Warranty Wallet</h1>
           </Navbar.Brand>
         )}
@@ -79,7 +79,7 @@ function Header() {
           ) : (
             <>
               {/* Navigation links and dropdowns for logged-in users. */}
-              <Nav className="ms-auto"></Nav>
+              <Nav className="ms-auto text-end"></Nav>
               <Nav className="d-flex align-items-end gap-3 text-end">
                 <NavDropdown
                   title="Home"

@@ -21,12 +21,12 @@
 
   &:hover {
     transform: scale(1.15);
-    box-shadow: 0 0 15px #3D52A0;
+    box-shadow: 0 0 15px variables.$darkBlue;
   }
 
   &:active {
     transform: scale(1.1);
-    box-shadow: 0 0 10px #3D52A0;
+    box-shadow: 0 0 10px variables.$darkBlue;
   }
 }
 
@@ -96,7 +96,7 @@
 }
 
 .ai-chat-header {
-  background: #EDE8F5;
+  background: variables.$brightGray;
   padding: 1rem;
   font-weight: 600;
   font-size: 0.5rem;
@@ -140,7 +140,7 @@
     align-self: flex-start;
     background: variables.$lightGrayBlue;
     color: variables.$richNavy;
-    border-left: 4px solid #3D52A0;
+    border-left: 4px solid variables.$darkBlue;
     padding: 0.6rem 0.8rem;
     border-radius: 12px 12px 12px 0;
     max-width: 80%;
@@ -156,14 +156,14 @@
     resize: none;
     min-height: 60px;
     max-height: 120px;
-    border: 1px solid #3d52A0;
+    border: 1px solid variables.$darkBlue;
     border-radius: 10px;
     padding: 0.6rem;
     font-size: 0.95rem;
   }
 
   .btn-submit-chat {
-    background: #8697C4;
+    background: variables.$pastelBlue;
     color: variables.$lightGrayBlue;
     border: none;
     padding: 0.7rem;
@@ -173,12 +173,12 @@
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      background: #3D52A0;
+      background: variables.$darkBlue;
       box-shadow: 0 4px 12px variables.$richNavy;
     }
 
     &:disabled {
-      background: #ADBBDA;
+      background: variables.$steelBlue;
       cursor: not-allowed;
     }
   }

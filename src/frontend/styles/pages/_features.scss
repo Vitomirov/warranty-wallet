@@ -85,12 +85,12 @@
 // ------------------------------
 .custom-modal {
   .modal-content {
-    background: #EDE8F5;
+    background: variables.$brightGray;
     backdrop-filter: blur(12px);
     border-radius: 20px;
-    border: 1px solid #3D52A0;
+    border: 1px solid variables.$darkBlue;
     padding: 1rem;
-    color: #3D52A0;
+    color: variables.$darkBlue;
     overflow: hidden;
   }
 
@@ -107,13 +107,13 @@
 
   .btn-secondary {
     background: rgba(255, 255, 255, 0.2);
-    border: 1px solid #3D52A0;
-    color: #3D52A0;
+    border: 1px solid variables.$darkBlue;
+    color: variables.$darkBlue;
     backdrop-filter: blur(6px);
     transition: all 0.3s ease;
 
     &:hover {
-      background: #8697C4;
+      background: variables.$pastelBlue;
       transform: scale(1.05);
     }
   }
