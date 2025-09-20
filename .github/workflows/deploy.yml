@@ -42,14 +42,31 @@ jobs:
           rsync -avz --delete ./src/frontend/dist/ root@206.189.59.75:/home/root/projects/warranty-wallet/src/frontend/dist/
 
       - name: Deploy backend and restart Docker services on VPS
-        env:
-          PROD_ENV_VARS: ${{ secrets.PROD_ENV_FILE }}
         run: |
           ssh root@206.189.59.75 << EOF
             cd /home/root/projects/warranty-wallet
-
-            # Update .env.production sa tajnama iz GitHub Secrets (koristeći printf da ne preseče ključ)
-            printf "%s" "${PROD_ENV_VARS}" > .env.production
+            
+            # Kreiraj novi .env.production fajl sa svim potrebnim varijablama.
+            # Osetljive (Secrets) se povlače iz GitHub-a, a ostale su hardkodovane.
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env.production
+            echo "REFRESH_SECRET_KEY=${{ secrets.REFRESH_SECRET_KEY }}" >> .env.production
+            echo "MAILGUN_SMTP_HOST=${{ secrets.MAILGUN_SMTP_HOST }}" >> .env.production
+            echo "MAILGUN_SMTP_PORT=${{ secrets.MAILGUN_SMTP_PORT }}" >> .env.production
+            echo "MAILGUN_SMTP_USER=${{ secrets.MAILGUN_SMTP_USER }}" >> .env.production
+            echo "MAILGUN_SMTP_PASSWORD=${{ secrets.MAILGUN_SMTP_PASSWORD }}" >> .env.production
+            echo "MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}" >> .env.production
+            echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.production
+            echo "DB_USER=${{ secrets.DB_USER }}" >> .env.production
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.production
+            echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env.production
+            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env.production
+            echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.production
+            
+            # Dodaj neosetljive, fiksne varijable koje nisu u Secrets
+            echo "PORT=3000" >> .env.production
+            echo "NODE_ENV=production" >> .env.production
+            echo "VITE_API_BASE_URL=https://devitowarranty.xyz" >> .env.production
+            echo "BACKEND_BASE_URL=https://devitowarranty.xyz" >> .env.production
 
             # Osveži backend kod na VPS-u
             git fetch --all
