@@ -15,7 +15,7 @@ const envFile =
     : ".env.development";
 
 // Load environment variables from .env file
-dotenv.config({ path: path.resolve(__dirname, "../../" + envFile) });
+dotenv.config({ path: path.resolve(__dirname, "../../../" + envFile) });
 
 console.log("Loaded env file:", envFile);
 console.log("DB_PASSWORD:", process.env.DB_PASSWORD);

@@ -24,12 +24,5 @@ $app-background: radial-gradient(circle,rgba(248, 240, 255, 1) 0%, rgba(237, 232
 $app-header: $lightBlue;
 
 
-// Override Bootstrap's default theme colors
-$theme-colors: (
-  "richNavy": $richNavy,
-  "lightGrayBlue": $lightGrayBlue,
-  "white": $white,
-  "neutralGray": $neutralGray,
-);
 
 @import "bootstrap/scss/bootstrap";

@@ -10,7 +10,9 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "dist",
     },
-
+    css: {
+      postcss: "./postcss.config.js",
+    },
     define: {
       "import.meta.env.VITE_API_BASE_URL": JSON.stringify(
         env.VITE_API_BASE_URL
