@@ -1,4 +1,4 @@
-import { purgeCSSPlugin } from "@fullhuman/postcss-purgecss";
+import purgecss from "@fullhuman/postcss-purgecss";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -10,23 +10,31 @@ export default {
   plugins: [
     ...(process.env.NODE_ENV === "production"
       ? [
-          purgeCSSPlugin({
+          purgecss({
             content: [
               path.resolve(__dirname, "index.html"),
-              path.resolve(__dirname, "**/*.jsx"),
-              path.resolve(__dirname, "**/*.js"),
+              path.resolve(__dirname, "src/**/*.js"),
+              path.resolve(__dirname, "src/**/*.jsx"),
+              // Dodata putanja za skeniranje Bootstrap JavaScript fajlova.
+              // Neke Bootstrap klase se dinamički dodaju.
+              path.resolve(__dirname, "node_modules/bootstrap/dist/js/*.js"),
             ],
-            defaultExtractor: (content) =>
-              content.match(/[\w-/:]+(?<!:)/g) || [],
-            safelist: {
-              standard: [
-                "is-active",
-                "is-open",
+            defaultExtractor: (content) => {
+              // regex za sve klase, uključujući dinamičke
+              const classes = content.match(/[\w-/:]+(?<!:)/g) || [];
+              // Neke klase koje koristi React Bootstrap i koje PurgeCSS ne prepoznaje uvek
+              const reactBootstrapSafelist = [
                 "show",
                 "fade",
-                "modal-open",
                 "collapsing",
-              ],
+                "modal-open",
+              ];
+              return [...classes, ...reactBootstrapSafelist];
+            },
+            safelist: {
+              // Osnovne klase
+              standard: ["is-active", "is-open"],
+              // Dinamičke klase i klase iz Bootstrap-a
               deep: [
                 /^col-/,
                 /^container-/,
@@ -54,6 +62,7 @@ export default {
                 /^position-/,
                 /^justify-content-/,
                 /^align-items-/,
+                // Klase koje se koriste u tvojim komponentama
                 /^motion-/,
                 /^ai-/,
                 /^hook-/,
@@ -70,6 +79,8 @@ export default {
               keyframes: [/^keyframes-/],
               variables: [/^--motion-/],
             },
+            // Korisno za debagovanje
+            rejected: process.env.NODE_ENV === "development",
           }),
         ]
       : []),

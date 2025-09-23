@@ -1,9 +1,16 @@
-@use '../variables';
-@use '../abstracts/abstracts';
+@use '../variables' as vars; 
 
+
+// ==============================
+// Stilovi za pozadinu
+// ==============================
 .warrantyDetails {
-  @extend %section-background-styles;
-  background: variables.$app-background;
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative;
+  z-index: 1;
+
+  background: vars.$app-background;
   background-position: right;
   background-repeat: no-repeat;
 }

@@ -1,7 +1,9 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import LogOut from "../features/auth/LogOut";
 import useHeader from "../hooks/useHeader";
+import { useAuth } from "../context/auth/AuthContext";
+import Button from "../ui/Button";
 
 function Header() {
   const {
@@ -13,6 +15,7 @@ function Header() {
     collapseNavbar,
     scrollToSection,
   } = useHeader();
+  const { logout } = useAuth(); // Direktno koristimo logout funkciju iz useAuth hook-a.
 
   return (
     <Navbar
@@ -27,8 +30,6 @@ function Header() {
         fluid
         className="content-layout d-flex justify-content-between align-items-center"
       >
-        {/* Logo and brand name. Navigates to the dashboard if the user is logged in. */}
-
         {isLoggedIn ? (
           <Navbar.Brand
             as={Link}
@@ -44,41 +45,27 @@ function Header() {
           </Navbar.Brand>
         )}
 
-        {/* Hamburger toggle button for collapsing the navigation on mobile. */}
-
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-
-        {/* The collapsible part of the navigation menu. */}
-
         <Navbar.Collapse id="responsive-navbar-nav">
           {!isLoggedIn ? (
-            <>
-              {/* Navigation links for guests (not logged in). */}
-              <Nav className="ms-auto text-end">
-                <Nav.Link onClick={() => scrollToSection("about")}>
-                  About
-                </Nav.Link>
-                <Nav.Link onClick={() => scrollToSection("features")}>
-                  Features
-                </Nav.Link>
-                <Nav.Link onClick={() => scrollToSection("faq")}>FAQ</Nav.Link>
-
-                <span
-                  className="separator
-                "
-                ></span>
-
-                <Nav.Link as={Link} to="/login" onClick={collapseNavbar}>
-                  Log In
-                </Nav.Link>
-                <Nav.Link as={Link} to="/signup" onClick={collapseNavbar}>
-                  Sign Up
-                </Nav.Link>
-              </Nav>
-            </>
+            <Nav className="ms-auto text-end">
+              <Nav.Link onClick={() => scrollToSection("about")}>
+                About
+              </Nav.Link>
+              <Nav.Link onClick={() => scrollToSection("features")}>
+                Features
+              </Nav.Link>
+              <Nav.Link onClick={() => scrollToSection("faq")}>FAQ</Nav.Link>
+              <span className="separator"></span>
+              <Nav.Link as={Link} to="/login" onClick={collapseNavbar}>
+                Log In
+              </Nav.Link>
+              <Nav.Link as={Link} to="/signup" onClick={collapseNavbar}>
+                Sign Up
+              </Nav.Link>
+            </Nav>
           ) : (
             <>
-              {/* Navigation links and dropdowns for logged-in users. */}
               <Nav className="ms-auto text-end"></Nav>
               <Nav className="d-flex align-items-end gap-3 text-end">
                 <NavDropdown
@@ -143,7 +130,16 @@ function Header() {
                     Account Settings
                   </NavDropdown.Item>
                 </NavDropdown>
-                <LogOut />
+                <Button
+                  type="button"
+                  variant="logout"
+                  onClick={() => {
+                    logout();
+                    collapseNavbar(); // Zatvaramo nav bar nakon odjave
+                  }}
+                >
+                  Log Out
+                </Button>
               </Nav>
             </>
           )}

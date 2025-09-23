@@ -14,7 +14,6 @@ const SignUp = lazy(() => import("./features/auth/SignUp"));
 const About = lazy(() => import("./pages/About"));
 const Features = lazy(() => import("./pages/Features"));
 const FAQ = lazy(() => import("./pages/FAQ"));
-const LogOut = lazy(() => import("./features/auth/LogOut"));
 const Dashboard = lazy(() => import("./features/warranties/Dashboard"));
 const MyAccount = lazy(() => import("./features/account/MyAccount"));
 const NewWarranty = lazy(() => import("./features/warranties/NewWarranty"));
@@ -79,14 +78,6 @@ function App() {
             element={
               <Layout isApp={false}>
                 <FAQ />
-              </Layout>
-            }
-          />
-          <Route
-            path="/logout"
-            element={
-              <Layout isApp={false}>
-                <LogOut />
               </Layout>
             }
           />
