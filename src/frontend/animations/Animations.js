@@ -8,26 +8,6 @@ export const fadeIn = {
   exit: { opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } },
 };
 
-// Slide-in from the left
-export const slideInFromLeft = {
-  hidden: { x: -80, opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 70,
-      damping: 20,
-      mass: 0.9,
-    },
-  },
-  exit: {
-    x: -80,
-    opacity: 0,
-    transition: { duration: 0.5, ease: "easeInOut" },
-  },
-};
-
 // Slide-in from the right
 export const slideInFromRight = {
   hidden: { x: 80, opacity: 0 },
@@ -101,29 +81,5 @@ export const popUpAndFadeIn = {
       damping: 18,
       mass: 1,
     },
-  },
-};
-
-// Modal animation: fade-in + scale + subtle rotate for modern feel
-export const modalPop = {
-  hidden: { opacity: 0, scale: 0.8, rotate: -3, y: 40 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    rotate: 0,
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15,
-      mass: 0.8,
-    },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.9,
-    rotate: 2,
-    y: 20,
-    transition: { duration: 0.4, ease: "easeInOut" },
   },
 };

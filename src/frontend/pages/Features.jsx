@@ -54,11 +54,10 @@ const Features = () => {
     >
       <div className="content-layout w-100">
         <h1 className="display-4 text-center mb-5">FEATURES</h1>
-
         <div className="row g-5 justify-content-center">
           {featuresData.map((feature, index) => (
             <React.Fragment key={feature.id}>
-              {/* Card for md/lg: normal */}
+              {/* Cards for md/lg: normal */}
               <motion.div
                 className="col-md-5 col-lg-6 d-none d-md-flex justify-content-center mb-4"
                 variants={itemVariants}
@@ -79,7 +78,7 @@ const Features = () => {
 
               {/* Mobile card: center with flex outside grid */}
               <motion.div
-                className="d-flex d-md-none justify-content-center mb-3  w-100"
+                className="d-flex d-md-none justify-content-center mb-3 w-100"
                 variants={slideInFromBottom}
                 custom={index * 0.1}
               >
@@ -107,7 +106,7 @@ const Features = () => {
         onHide={handleClose}
         centered
         dialogClassName="custom-modal"
-        as={motion.div} // motion modal for subtle pop-up
+        as={motion.div}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}

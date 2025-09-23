@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,7 +22,6 @@ const NewWarranty = () => {
       <div className="row justify-content-center">
         <div className="col-12">
           <form onSubmit={handleAddWarranty}>
-            {/* Product Name */}
             <div className="mb-2">
               <label htmlFor="productName">Product Name:</label>
               <input
@@ -36,7 +35,6 @@ const NewWarranty = () => {
               />
             </div>
 
-            {/* Seller's Email */}
             <div className="mb-2">
               <label htmlFor="sellersEmail">Seller's email:</label>
               <input
@@ -50,7 +48,6 @@ const NewWarranty = () => {
               />
             </div>
 
-            {/* Purchase Date */}
             <div className="mb-2">
               <label htmlFor="dateOfPurchase">Purchase Date:</label>
               <DatePicker
@@ -64,7 +61,6 @@ const NewWarranty = () => {
               />
             </div>
 
-            {/* Expiry Date */}
             <div className="mb-2">
               <label htmlFor="warrantyExpireDate">Expiry Date:</label>
               <DatePicker
@@ -80,7 +76,6 @@ const NewWarranty = () => {
               />
             </div>
 
-            {/* PDF File Upload */}
             <div className="mb-2">
               <label htmlFor="file">Upload PDF File:</label>
               <input
@@ -96,7 +91,6 @@ const NewWarranty = () => {
 
             {message && <div className="alert alert-info mt-4">{message}</div>}
 
-            {/* Buttons */}
             <div className="mt-5 d-flex justify-content-between">
               <Button type="submit" variant="primary" disabled={loading}>
                 {loading ? "Adding..." : "Add Warranty"}
@@ -112,4 +106,4 @@ const NewWarranty = () => {
   );
 };
 
-export default NewWarranty;
+export default memo(NewWarranty);
