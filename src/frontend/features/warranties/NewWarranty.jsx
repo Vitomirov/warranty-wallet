@@ -1,9 +1,11 @@
-import React, { memo } from "react";
+import React, { memo, useMemo, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
 import useNewWarranty from "../../hooks/useNewWarranty";
+
+// Lazy load DatePicker
+const DatePicker = lazy(() => import("react-datepicker"));
 
 const NewWarranty = () => {
   const {
@@ -15,79 +17,92 @@ const NewWarranty = () => {
     loading,
   } = useNewWarranty();
 
+  // Sva polja u jednom array-u
+  const fields = useMemo(
+    () => [
+      {
+        label: "Product Name",
+        id: "productName",
+        name: "productName",
+        type: "text",
+        required: true,
+      },
+      {
+        label: "Seller's Email",
+        id: "sellersEmail",
+        name: "sellersEmail",
+        type: "email",
+        required: true,
+      },
+      {
+        label: "Purchase Date",
+        id: "dateOfPurchase",
+        key: "dateOfPurchase",
+        type: "date",
+        placeholder: "Select purchase date",
+      },
+      {
+        label: "Expiry Date",
+        id: "warrantyExpireDate",
+        key: "warrantyExpireDate",
+        type: "date",
+        placeholder: "Select expiry date",
+      },
+      {
+        label: "Upload PDF File",
+        id: "file",
+        name: "file",
+        type: "file",
+        accept: "application/pdf",
+        required: true,
+      },
+    ],
+    []
+  );
+
   return (
     <div className="container col-12 col-md-10 col-lg-8 my-5 pt-5">
       <h1 className="text-center mb-4">Enter Warranty Details</h1>
-
       <div className="row justify-content-center">
         <div className="col-12">
           <form onSubmit={handleAddWarranty}>
-            <div className="mb-2">
-              <label htmlFor="productName">Product Name:</label>
-              <input
-                id="productName"
-                name="productName"
-                type="text"
-                value={formData.productName}
-                onChange={handleInputChange}
-                className="form-control form-control-md form-style"
-                required
-              />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="sellersEmail">Seller's email:</label>
-              <input
-                id="sellersEmail"
-                name="sellersEmail"
-                type="email"
-                value={formData.sellersEmail}
-                onChange={handleInputChange}
-                className="form-control form-control-md form-style"
-                required
-              />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="dateOfPurchase">Purchase Date:</label>
-              <DatePicker
-                id="dateOfPurchase"
-                selected={formData.dateOfPurchase}
-                onChange={(date) => handleDateChange(date, "dateOfPurchase")}
-                dateFormat="dd/MM/yyyy"
-                className="form-control form-control-md form-style"
-                wrapperClassName="datepickerFullWidth"
-                placeholderText="Select purchase date"
-              />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="warrantyExpireDate">Expiry Date:</label>
-              <DatePicker
-                id="warrantyExpireDate"
-                selected={formData.warrantyExpireDate}
-                onChange={(date) =>
-                  handleDateChange(date, "warrantyExpireDate")
-                }
-                dateFormat="dd/MM/yyyy"
-                className="form-control form-control-md form-style"
-                wrapperClassName="datepickerFullWidth"
-                placeholderText="Select expiry date"
-              />
-            </div>
-
-            <div className="mb-2">
-              <label htmlFor="file">Upload PDF File:</label>
-              <input
-                id="file"
-                name="file"
-                type="file"
-                accept="application/pdf"
-                onChange={handleInputChange}
-                className="form-control form-control-md form-style"
-                required
-              />
-            </div>
+            {fields.map((f) =>
+              f.type === "date" ? (
+                <Suspense
+                  key={f.id}
+                  fallback={<div>Loading date picker...</div>}
+                >
+                  <div className="mb-2">
+                    <label htmlFor={f.id}>{f.label}</label>
+                    <DatePicker
+                      id={f.id}
+                      selected={formData[f.key]}
+                      onChange={(d) => handleDateChange(d, f.key)}
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control form-control-md form-style"
+                      wrapperClassName="datepickerFullWidth"
+                      placeholderText={f.placeholder}
+                    />
+                  </div>
+                </Suspense>
+              ) : (
+                <div key={f.id} className="mb-2">
+                  <label htmlFor={f.id}>{f.label}</label>
+                  <input
+                    id={f.id}
+                    name={f.name}
+                    type={f.type}
+                    value={
+                      f.type !== "file" ? formData[f.name] || "" : undefined
+                    }
+                    onChange={handleInputChange}
+                    className="form-control form-control-md form-style"
+                    required={f.required}
+                    accept={f.accept}
+                  />
+                </div>
+              )
+            )}
 
             {message && <div className="alert alert-info mt-4">{message}</div>}
 
