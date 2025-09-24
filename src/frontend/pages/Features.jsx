@@ -7,6 +7,7 @@ import {
   popUpAndFadeIn,
   slideInFromBottom,
 } from "../animations/Animations";
+import "../styles/pages/_features.scss";
 
 const Features = () => {
   const featuresData = [

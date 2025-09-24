@@ -1,8 +1,10 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../ui/Button";
-import DeleteAccount from "./DeleteAccount";
 import useMyAccount from "../../hooks/useMyAccount";
+
+// Dynamic import
+const DeleteAccount = lazy(() => import("./DeleteAccount"));
 
 function MyAccount() {
   const navigate = useNavigate();
@@ -108,7 +110,9 @@ function MyAccount() {
               <Button type="submit" variant="primary">
                 Update
               </Button>
-              <DeleteAccount />
+              <Suspense>
+                <DeleteAccount />
+              </Suspense>
             </div>
             <div className="mt-4 d-flex justify-content-end">
               <Button type="button" variant="secondary" onClick={handleCancel}>

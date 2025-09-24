@@ -1,12 +1,12 @@
 import { lazy, Suspense } from "react";
 import Header from "../layout/Header";
 import Hero from "./Hero";
-import BackToTopButton from "../ui/BackToTopButton";
 
-// Dinamički uvoz ostalih komponenti
+// Dynamic import
 const About = lazy(() => import("./About"));
 const Features = lazy(() => import("./Features"));
 const FAQ = lazy(() => import("./FAQ"));
+const BackToTopButton = lazy(() => import("../ui/BackToTopButton"));
 
 console.log("Landing page is rendering");
 
@@ -35,8 +35,9 @@ const LandingPage = () => {
           </section>
         </Suspense>
       </main>
-
-      <BackToTopButton />
+      <Suspense>
+        <BackToTopButton />
+      </Suspense>
     </div>
   );
 };

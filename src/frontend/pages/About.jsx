@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { slideInFromRight, popUpAndFadeIn } from "../animations/Animations";
+import "../styles/pages/_about.scss";
 
 function About() {
   const ref = useRef(null);

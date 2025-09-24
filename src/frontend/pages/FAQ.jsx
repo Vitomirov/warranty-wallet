@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { itemVariants } from "../animations/Animations"; // smooth fade/slide animations
+import { itemVariants } from "../animations/Animations";
+import "../styles/pages/_faq.scss";
 
 const FAQ = () => {
   const [activeQuestion, setActiveQuestion] = useState(null);

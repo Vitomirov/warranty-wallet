@@ -1,1 +1,2 @@
-@import "bootstrap/scss/bootstrap";
+@use "../variables";
+@use "bootstrap/scss/bootstrap" as *;

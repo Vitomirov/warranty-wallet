@@ -15,7 +15,7 @@ function Header() {
     collapseNavbar,
     scrollToSection,
   } = useHeader();
-  const { logout } = useAuth(); // Direktno koristimo logout funkciju iz useAuth hook-a.
+  const { logout } = useAuth();
 
   return (
     <Navbar

@@ -2,6 +2,7 @@ import React from "react";
 import ReactModal from "react-modal";
 import Button from "../../ui/Button";
 import useDeleteAccount from "../../hooks/useDeleteAccount";
+import "../../styles/pages/_modals.scss";
 
 function DeleteAccount() {
   const {
