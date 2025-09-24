@@ -1,4 +1,6 @@
-@use "vendors/bootstrap";
+// src/frontend/styles/Styles.scss
+
+// 1. All @use rules must come first.
 @use 'abstracts/abstracts';
 @use 'base/base';
 @use 'layout/layout';
@@ -6,3 +8,6 @@
 @use 'pages/pages';
 @use 'themes/themes';
 @use 'utilities/utilities';
+
+// 2. Other rules, including @import, can follow.
+@import "bootstrap/dist/css/bootstrap.min.css";

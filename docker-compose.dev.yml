@@ -32,7 +32,7 @@ services:
       - ./.env.development
     volumes:
       - ./src/backend:/app
-      - /app/node_modules
+      - /app/node_modules # Sprecava mapiranje host 'node_modules' foldera
       - ./src/backend/uploads:/app/uploads
       - ./.env.development:/app/.env
     ports:
@@ -52,12 +52,12 @@ services:
       - ./.env.development
     volumes:
       - ./src/frontend:/app
-      - /app/node_modules
+      - /app/node_modules # Sprecava mapiranje host 'node_modules' foldera
     ports:
       - "5173:5173"
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - VITE_APP_API_URL=http://localhost:3000
+      - VITE_APP_API_URL=http://backend:3000
     command: npm run dev -- --host --port 5173 --mode development
     networks:
       - warranty_network
