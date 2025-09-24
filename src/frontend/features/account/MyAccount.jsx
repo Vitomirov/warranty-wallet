@@ -1,10 +1,10 @@
 import React, { lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../ui/Button";
 import useMyAccount from "../../hooks/useMyAccount";
 
 // Dynamic import
 const DeleteAccount = lazy(() => import("./DeleteAccount"));
+const Button = lazy(() => import("../../ui/Button"));
 
 function MyAccount() {
   const navigate = useNavigate();
@@ -107,17 +107,27 @@ function MyAccount() {
 
             {/* Buttons Layout */}
             <div className="d-flex justify-content-between gap-2 mt-3">
-              <Button type="submit" variant="primary">
-                Update
-              </Button>
+              <Suspense>
+                {" "}
+                <Button type="submit" variant="primary">
+                  Update
+                </Button>
+              </Suspense>
+
               <Suspense>
                 <DeleteAccount />
               </Suspense>
             </div>
             <div className="mt-4 d-flex justify-content-end">
-              <Button type="button" variant="secondary" onClick={handleCancel}>
-                Back
-              </Button>
+              <Suspense>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleCancel}
+                >
+                  Back
+                </Button>
+              </Suspense>
             </div>
           </form>
         </div>

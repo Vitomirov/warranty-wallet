@@ -1,9 +1,11 @@
+import React, { lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
-import DeleteWarranty from "./DeleteWarranty";
 import Button from "../../ui/Button";
 import useWarranties from "../../hooks/useWarranties";
 import useMeasure from "../../hooks/useMeasure";
+
+const DeleteWarranty = lazy(() => import("./DeleteWarranty"));
 
 function Dashboard() {
   const { user } = useAuth();
@@ -65,10 +67,12 @@ function Dashboard() {
                     >
                       View
                     </Button>
-                    <DeleteWarranty
-                      id={warranty.warrantyId}
-                      onDeleteSuccess={fetchWarranties}
-                    />
+                    <Suspense>
+                      <DeleteWarranty
+                        id={warranty.warrantyId}
+                        onDeleteSuccess={fetchWarranties}
+                      />
+                    </Suspense>
                   </div>
                 </div>
               </li>

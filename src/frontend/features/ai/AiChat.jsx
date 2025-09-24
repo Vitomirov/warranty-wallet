@@ -2,6 +2,7 @@ import React from "react";
 import { useAi } from "../../hooks/useAi";
 import { useAuth } from "../../context/auth/AuthContext";
 import { useLocation } from "react-router-dom";
+import "../../styles/components/_ai-chat.scss";
 
 function AIChat() {
   const { token } = useAuth();

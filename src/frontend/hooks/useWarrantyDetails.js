@@ -1,24 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import useSecureRequest from "./useSecureRequest";
-import axios from "axios";
 
 const calculateDaysLeft = (expiryDate) => {
-  if (!expiryDate || typeof expiryDate !== "string") {
-    return { days: 0, isExpired: true };
-  }
-  const dateParts = expiryDate.split("-");
-  if (dateParts.length !== 3) {
-    return { days: 0, isExpired: true };
-  }
-  const [day, month, year] = dateParts.map(Number);
+  if (!expiryDate) return { days: 0, isExpired: true };
+  const [day, month, year] = expiryDate.split("-").map(Number);
   const expiry = new Date(year, month - 1, day);
-  const currentDate = new Date();
-  const timeLeft = expiry - currentDate;
-  const isExpiredResult = timeLeft <= 0;
+  const diff = expiry - new Date();
   return {
-    days: isExpiredResult ? 0 : Math.floor(timeLeft / (1000 * 60 * 60 * 24)),
-    isExpired: isExpiredResult,
+    days: diff > 0 ? Math.floor(diff / 86400000) : 0,
+    isExpired: diff <= 0,
   };
 };
 
@@ -27,32 +18,30 @@ const useWarrantyDetails = () => {
   const { secureRequest } = useSecureRequest();
 
   const [warranty, setWarranty] = useState(null);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [issueDescription, setIssueDescription] = useState("");
-  const [daysLeft, setDaysLeft] = useState(0);
-  const [isExpired, setIsExpired] = useState(false);
 
   const fetchWarranty = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await secureRequest("get", `/warranties/${id}`);
-      setWarranty(response.data);
-      const { days, isExpired: expired } = calculateDaysLeft(
-        response.data.warrantyExpireDate
-      );
-      setDaysLeft(days);
-      setIsExpired(expired);
-    } catch (error) {
+      const { data } = await secureRequest("get", `/warranties/${id}`);
+      setWarranty(data);
+    } catch {
       setError("Failed to fetch warranty details.");
     } finally {
       setLoading(false);
     }
   }, [id, secureRequest]);
 
+  const { days: daysLeft, isExpired } = useMemo(
+    () => calculateDaysLeft(warranty?.warrantyExpireDate),
+    [warranty]
+  );
+
   const handleOpenPDF = useCallback(async () => {
-    if (!warranty?.warrantyId) return;
+    if (!warranty) return;
     setError(null);
     try {
       const response = await secureRequest(
@@ -63,20 +52,18 @@ const useWarrantyDetails = () => {
       );
       const url = window.URL.createObjectURL(new Blob([response.data]));
       window.open(url, "_blank");
-    } catch (error) {
+    } catch {
       setError("Error fetching warranty PDF.");
     }
-  }, [warranty?.warrantyId, secureRequest]);
+  }, [warranty, secureRequest]);
 
   const handleSendEmail = useCallback(
     async (user) => {
-      if (!warranty || !user) {
-        setError("Cannot send email: Warranty or user details not available");
-        return;
-      }
+      if (!warranty || !user)
+        return setError("Cannot send email: missing data.");
       setError(null);
       try {
-        await secureRequest("post", `/warranty/claim`, {
+        await secureRequest("post", "/warranty/claim", {
           userId: user.id,
           productName: warranty.productName,
           warrantyId: warranty.warrantyId,
@@ -88,8 +75,8 @@ const useWarrantyDetails = () => {
           issueDescription,
         });
         alert("Email sent successfully!");
-      } catch (error) {
-        setError("Error sending email. Please try again.");
+      } catch {
+        setError("Error sending email.");
       }
     },
     [warranty, issueDescription, secureRequest]
@@ -98,10 +85,9 @@ const useWarrantyDetails = () => {
   const handleIssueChange = (e) => setIssueDescription(e.target.value);
 
   useEffect(() => {
-    if (id) {
-      fetchWarranty();
-    } else {
-      setError("ID is missing");
+    if (id) fetchWarranty();
+    else {
+      setError("ID missing");
       setLoading(false);
     }
   }, [id, fetchWarranty]);

@@ -1,8 +1,8 @@
-import React, { memo, useMemo, Suspense, lazy } from "react";
+import React, { memo, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
 import useNewWarranty from "../../hooks/useNewWarranty";
+import "../../styles/pages/_new-warranty.scss";
 
 // Lazy load DatePicker
 const DatePicker = lazy(() => import("react-datepicker"));
@@ -10,55 +10,13 @@ const DatePicker = lazy(() => import("react-datepicker"));
 const NewWarranty = () => {
   const {
     formData,
+    fields,
     handleInputChange,
     handleDateChange,
     handleAddWarranty,
     message,
     loading,
   } = useNewWarranty();
-
-  // Sva polja u jednom array-u
-  const fields = useMemo(
-    () => [
-      {
-        label: "Product Name",
-        id: "productName",
-        name: "productName",
-        type: "text",
-        required: true,
-      },
-      {
-        label: "Seller's Email",
-        id: "sellersEmail",
-        name: "sellersEmail",
-        type: "email",
-        required: true,
-      },
-      {
-        label: "Purchase Date",
-        id: "dateOfPurchase",
-        key: "dateOfPurchase",
-        type: "date",
-        placeholder: "Select purchase date",
-      },
-      {
-        label: "Expiry Date",
-        id: "warrantyExpireDate",
-        key: "warrantyExpireDate",
-        type: "date",
-        placeholder: "Select expiry date",
-      },
-      {
-        label: "Upload PDF File",
-        id: "file",
-        name: "file",
-        type: "file",
-        accept: "application/pdf",
-        required: true,
-      },
-    ],
-    []
-  );
 
   return (
     <div className="container col-12 col-md-10 col-lg-8 my-5 pt-5">
