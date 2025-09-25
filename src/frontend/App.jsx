@@ -1,20 +1,21 @@
-import React from "react";
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import AuthProvider from "./context/auth/AuthProvider";
-
-// Glavne komponente koje se uvek ucitavaju (Layout i PrivateRoute)
 import Layout from "./layout/Layout";
 import PrivateRoute from "./features/account/PrivateRoute";
 
-// Odlozeno ucitavanje za sve rute
-const LandingPage = lazy(() => import("./pages/LandingPage"));
+// LandingPage direktni import → instant FCP/LCP
+import LandingPage from "./pages/LandingPage";
+
+// Prefetch kritičnih ruta
 const LogIn = lazy(() => import("./features/auth/LogIn"));
 const SignUp = lazy(() => import("./features/auth/SignUp"));
+const Dashboard = lazy(() => import("./features/warranties/Dashboard"));
+
+// Ostale lazy rute
 const About = lazy(() => import("./pages/About"));
 const Features = lazy(() => import("./pages/Features"));
 const FAQ = lazy(() => import("./pages/FAQ"));
-const Dashboard = lazy(() => import("./features/warranties/Dashboard"));
 const MyAccount = lazy(() => import("./features/account/MyAccount"));
 const NewWarranty = lazy(() => import("./features/warranties/NewWarranty"));
 const WarrantyDetails = lazy(() =>
@@ -23,16 +24,22 @@ const WarrantyDetails = lazy(() =>
 const DeleteWarranty = lazy(() =>
   import("./features/warranties/DeleteWarranty")
 );
+
+// AIChat lazy, fallback null → uvek mountovan
 const AIChat = lazy(() => import("./features/ai/AiChat"));
 
 function App() {
-  console.log("Rendering App component");
-
   return (
     <AuthProvider>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div
+            style={{ height: "100vh", width: "100%", background: "#f0f0f0" }}
+          />
+        }
+      >
         <Routes>
-          {/* Public / Marketing routes (for guests) */}
+          {/* Public */}
           <Route
             path="/"
             element={
@@ -82,7 +89,7 @@ function App() {
             }
           />
 
-          {/* Private / App routes (for logged users) */}
+          {/* Private */}
           <Route
             path="/dashboard"
             element={
@@ -134,10 +141,14 @@ function App() {
             }
           />
 
-          {/* Default catch-all route */}
+          {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <AIChat />
+
+        {/* AIChat uvek mountovan */}
+        <Suspense fallback={null}>
+          <AIChat />
+        </Suspense>
       </Suspense>
     </AuthProvider>
   );

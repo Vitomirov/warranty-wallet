@@ -37,7 +37,7 @@ function Dashboard() {
       </div>
 
       {warranties.length === 0 ? (
-        <div className="alert alert-warning">No warranties found.</div>
+        <div className="mb-5 mt-3">No warranties found.</div>
       ) : (
         <div
           style={{

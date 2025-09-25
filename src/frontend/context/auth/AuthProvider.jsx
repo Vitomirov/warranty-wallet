@@ -1,121 +1,119 @@
-import React, { useState, useEffect } from "react";
+// AuthProvider.jsx
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import AuthContext from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 
-const AuthProvider = ({ children }) => {
-  // Get token from localStorage (if available) when the app starts
-  const [token, setToken] = useState(localStorage.getItem("accessToken"));
-
-  // Get user info from localStorage (if available) on initial load
-  const [user, setUser] = useState(() => {
+const getInitialUser = () => {
+  try {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
-  });
+  } catch {
+    return null;
+  }
+};
+
+const getInitialToken = () => localStorage.getItem("accessToken") || null;
+
+const AuthProvider = ({ children }) => {
+  const [token, setToken] = useState(getInitialToken);
+  const [user, setUser] = useState(getInitialUser);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Automatically refresh token shortly before it expires
+  // Automatically refresh token before expiration
   useEffect(() => {
-    if (token) {
-      // Decode token to get expiration time
-      const tokenExpiration = JSON.parse(atob(token.split(".")[1])).exp * 1000;
+    if (!token) return;
 
-      // Calculate time to refresh token: 30 seconds before expiration
-      const refreshTime = tokenExpiration - Date.now() - 30000;
-
-      // Set a timeout to call refreshToken
-      const timer = setTimeout(() => {
-        refreshToken();
-      }, refreshTime);
-
-      // Clear timeout if token changes or component unmounts
-      return () => clearTimeout(timer);
+    let timer;
+    try {
+      const { exp } = JSON.parse(atob(token.split(".")[1]));
+      const refreshTime = exp * 1000 - Date.now() - 30000; // 30s pre isteka
+      if (refreshTime > 0) {
+        timer = setTimeout(refreshToken, refreshTime);
+      }
+    } catch {
+      logout();
     }
+    return () => clearTimeout(timer);
   }, [token]);
 
-  // Login user with username and password
-  const login = async (username, password) => {
+  // Login
+  const login = useCallback(async (username, password) => {
+    setIsLoading(true);
     try {
-      const response = await axiosInstance.post("/login", {
+      const { data } = await axiosInstance.post("/login", {
         username,
         password,
       });
+      if (!data?.accessToken) throw new Error("Access token not found");
 
-      // Save token and user info if login is successful
-      if (response.data?.accessToken) {
-        localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        setToken(response.data.accessToken);
-        setUser(response.data.user);
-        return response.data;
-      } else {
-        throw new Error("Access token not found in response");
-      }
-    } catch (error) {
-      console.error("Login error:", error.message);
-      throw error; // allow handling in the component
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setToken(data.accessToken);
+      setUser(data.user);
+
+      return data;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, []);
 
-  // Logout user: clear token, user info, and redirect to home
-  const logout = () => {
+  // Logout
+  const logout = useCallback(() => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     setToken(null);
     setUser(null);
     navigate("/");
-  };
+  }, [navigate]);
 
-  // Refresh access token using backend endpoint
-  const refreshToken = async () => {
+  // Refresh token
+  const refreshToken = useCallback(async () => {
     try {
-      const response = await axiosInstance.post("/refresh-token");
+      const { data } = await axiosInstance.post("/refresh-token");
+      if (!data?.accessToken) throw new Error("Access token not found");
 
-      // Update stored token if successful
-      if (response.data?.accessToken) {
-        localStorage.setItem("accessToken", response.data.accessToken);
-        setToken(response.data.accessToken);
-        return response.data;
-      } else {
-        throw new Error("Access token not found in response");
-      }
-    } catch (error) {
-      // If refresh fails, log the user out
+      localStorage.setItem("accessToken", data.accessToken);
+      setToken(data.accessToken);
+      return data;
+    } catch (err) {
       logout();
-      throw error;
+      throw err;
     }
-  };
+  }, [logout]);
 
-  // Update user data in state and localStorage
-  const updateUser = (newUserData) => {
-    if (newUserData === null) {
-      // If passed null, clear user state and remove from storage
+  // Update user
+  const updateUser = useCallback((newUserData) => {
+    if (!newUserData) {
       setUser(null);
       localStorage.removeItem("user");
-    } else {
-      // Merge and update user data
-      setUser((prevUser) => ({
-        ...prevUser,
-        ...newUserData,
-      }));
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          ...user,
-          ...newUserData,
-        })
-      );
+      return;
     }
-  };
 
-  // Provide authentication values to the rest of the app
-  return (
-    <AuthContext.Provider
-      value={{ token, login, logout, refreshToken, setToken, user, updateUser }}
-    >
-      {children}
-    </AuthContext.Provider>
+    setUser((prev) => {
+      const updated = { ...prev, ...newUserData };
+      localStorage.setItem("user", JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  // Memoize context value
+  const value = useMemo(
+    () => ({
+      token,
+      user,
+      login,
+      logout,
+      refreshToken,
+      updateUser,
+      setToken,
+      isLoading,
+    }),
+    [token, user, login, logout, refreshToken, updateUser, isLoading]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
