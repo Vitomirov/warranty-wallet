@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { motion } from "framer-motion";
 import {
   containerVariants,

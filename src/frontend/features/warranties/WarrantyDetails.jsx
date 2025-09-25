@@ -23,8 +23,7 @@ const WarrantyDetails = () => {
   } = useWarrantyDetails();
 
   if (error) return <div className="alert alert-danger">{error}</div>;
-  if (loading || !warranty)
-    return <div className="alert alert-info">Loading...</div>;
+  if (loading || !warranty) return null;
 
   return (
     <div className="container col-12 col-md-10 col-lg-8 mt-5">
@@ -72,7 +71,7 @@ const WarrantyDetails = () => {
           >
             Send
           </Button>
-          <Suspense fallback={<div>Loading delete...</div>}>
+          <Suspense>
             <DeleteWarranty
               id={warranty.warrantyId}
               onDeleteSuccess={() => navigate("/dashboard")}

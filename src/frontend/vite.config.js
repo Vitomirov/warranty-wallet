@@ -7,40 +7,45 @@ const purgecss = purgecssPkg.default;
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const isProd = mode === "production";
+  const isProduction = mode === "production";
 
   const plugins = [react()];
-  if (isProd) {
+  if (isProduction) {
     plugins.push(visualizer({ open: true, filename: "dist/stats.html" }));
   }
 
   return {
     plugins,
+    base: "/",
     build: {
       outDir: "dist",
       sourcemap: false,
       minify: "terser",
-      chunkSizeWarningLimit: 200,
+      chunkSizeWarningLimit: 300, // manji threshold
       terserOptions: {
         compress: { drop_console: true, drop_debugger: true },
       },
       rollupOptions: {
         output: {
           manualChunks(id) {
+            // Node modules razdvojeno po biblioteci
             if (id.includes("node_modules")) {
               if (id.includes("react")) return "vendor-react";
               if (id.includes("react-dom")) return "vendor-react-dom";
+              if (id.includes("react-router-dom")) return "vendor-router";
               if (id.includes("axios")) return "vendor-axios";
+              if (id.includes("framer-motion")) return "vendor-framer-motion";
               if (id.includes("bootstrap")) return "vendor-bootstrap";
               return "vendor-other";
             }
+            // Dashboard chunkovi
             if (id.includes("Dashboard")) return "dashboard";
-            if (id.includes("Features")) return "features";
-            if (id.includes("MyAccount")) return "myAccount";
-            if (id.includes("NewWarranty")) return "newWarranty";
-            if (id.includes("WarrantyDetails")) return "warrantyDetails";
-            if (id.includes("DeleteWarranty")) return "deleteWarranty";
+            if (id.includes("WarrantiesList")) return "dashboard-list";
+            if (id.includes("DeleteWarranty")) return "dashboard-delete";
+            if (id.includes("AddWarrantyButton")) return "dashboard-add";
+            // AIChat
             if (id.includes("AIChat")) return "aichat";
+            return null;
           },
         },
       },
@@ -48,7 +53,7 @@ export default defineConfig(({ mode }) => {
     css: {
       postcss: {
         plugins: [
-          isProd &&
+          isProduction &&
             purgecss({
               content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
               safelist: {

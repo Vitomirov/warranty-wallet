@@ -5,6 +5,9 @@ import "./styles/Styles.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import App from "./App.jsx";
 
+import("./features/auth/LogIn");
+import("./features/auth/SignUp");
+
 console.log("Rendering main.jsx");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

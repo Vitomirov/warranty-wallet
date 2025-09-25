@@ -4,10 +4,10 @@ import AuthProvider from "./context/auth/AuthProvider";
 import Layout from "./layout/Layout";
 import PrivateRoute from "./features/account/PrivateRoute";
 
-// LandingPage direktni import → instant FCP/LCP
+// Direktni import za landing page → brzi FCP
 import LandingPage from "./pages/LandingPage";
 
-// Prefetch kritičnih ruta
+// Prefetch ključnih ruta
 const LogIn = lazy(() => import("./features/auth/LogIn"));
 const SignUp = lazy(() => import("./features/auth/SignUp"));
 const Dashboard = lazy(() => import("./features/warranties/Dashboard"));
@@ -39,7 +39,7 @@ function App() {
         }
       >
         <Routes>
-          {/* Public */}
+          {/* Public / Marketing */}
           <Route
             path="/"
             element={
@@ -89,7 +89,7 @@ function App() {
             }
           />
 
-          {/* Private */}
+          {/* Private / App */}
           <Route
             path="/dashboard"
             element={
@@ -145,7 +145,6 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 
-        {/* AIChat uvek mountovan */}
         <Suspense fallback={null}>
           <AIChat />
         </Suspense>

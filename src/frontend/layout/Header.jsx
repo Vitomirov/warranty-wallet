@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import Navbar from "react-bootstrap/esm/Navbar";
+import Nav from "react-bootstrap/esm/Nav";
+import Container from "react-bootstrap/esm/Container";
+import NavDropdown from "react-bootstrap/esm/NavDropdown";
 import useHeader from "../hooks/useHeader";
 import { useAuth } from "../context/auth/AuthContext";
 import Button from "../ui/Button";
