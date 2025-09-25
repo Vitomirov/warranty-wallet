@@ -10,6 +10,7 @@ import {
 
 const Hero = () => {
   const { user } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <section className="min-vh-100 d-flex align-items-center justify-content-center text-center">
@@ -46,7 +47,7 @@ const Hero = () => {
               initial="hidden"
               animate="visible"
             >
-              {!user && (
+              {!user ? (
                 <>
                   <Link to="/login">
                     <Button variant="hero-primary">Log In</Button>
@@ -54,6 +55,22 @@ const Hero = () => {
                   <Link to="/signup">
                     <Button variant="hero-secondary">Sign Up</Button>
                   </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/dashboard">
+                    <Button variant="hero-primary">My Warranties</Button>
+                  </Link>
+                  <Button
+                    type="button"
+                    variant="hero-secondary"
+                    onClick={() => {
+                      logout();
+                      collapseNavbar(); // Zatvaramo nav bar nakon odjave
+                    }}
+                  >
+                    Log Out
+                  </Button>
                 </>
               )}
             </motion.div>
