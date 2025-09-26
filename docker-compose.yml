@@ -52,12 +52,14 @@ services:
     depends_on:
       - backend
     ports:
+      - "80:80" # Moramo otvoriti port 80 za Certbot proveru
       - "443:443"
     networks:
       - warranty_network
     volumes:
-      # OVDE JE IZMENA: Mapiramo sertifikate koje Nginx koristi
-      - ./certs:/etc/nginx/certs:ro
+      # NOVA MAPIRANJA: Putanje do pravih Let's Encrypt sertifikata na VPS-u
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/lib/letsencrypt:/var/lib/letsencrypt:ro
 
   adminer:
     image: adminer:latest
