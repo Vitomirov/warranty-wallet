@@ -1,4 +1,4 @@
-Warranty Wallet app
+Warranty Wallet
 
 Warranty Wallet is a professional full-stack web application for managing product warranties. Users can securely store and track warranty details, upload receipts or PDF warranty documents, and receive automatic reminders before warranties expire. It also features an AI Assistant chatbot powered by OpenAI for quick warranty-related guidance.
 

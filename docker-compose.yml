@@ -55,6 +55,9 @@ services:
       - "443:443"
     networks:
       - warranty_network
+    volumes:
+      # OVDE JE IZMENA: Mapiramo sertifikate koje Nginx koristi
+      - ./certs:/etc/nginx/certs:ro
 
   adminer:
     image: adminer:latest
