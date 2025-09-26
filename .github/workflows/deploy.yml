@@ -14,19 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js (za frontend build)
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install frontend dependencies
-        working-directory: ./src/frontend
-        run: npm install
-
-      - name: Build frontend (vite build)
-        working-directory: ./src/frontend
-        run: npm run build
-
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -37,17 +24,12 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 206.189.59.75 >> ~/.ssh/known_hosts
 
-      - name: Sync frontend build to VPS
-        run: |
-          rsync -avz --delete ./src/frontend/dist/ root@206.189.59.75:/home/root/projects/warranty-wallet/src/frontend/dist/
-
-      - name: Deploy backend and restart Docker services on VPS
+      - name: Deploy and Restart Docker Services on VPS
         run: |
           ssh root@206.189.59.75 << EOF
             cd /home/root/projects/warranty-wallet
             
-            # Kreiraj novi .env.production fajl sa svim potrebnim varijablama.
-            # Osetljive (Secrets) se povlače iz GitHub-a, a ostale su hardkodovane.
+            # Kreiraj .env.production fajl
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env.production
             echo "REFRESH_SECRET_KEY=${{ secrets.REFRESH_SECRET_KEY }}" >> .env.production
             echo "MAILGUN_SMTP_HOST=${{ secrets.MAILGUN_SMTP_HOST }}" >> .env.production
@@ -62,20 +44,20 @@ jobs:
             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env.production
             echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.production
             
-            # Dodaj neosetljive, fiksne varijable koje nisu u Secrets
+            # Dodaj neosetljive, fiksne varijable
             echo "PORT=3000" >> .env.production
             echo "NODE_ENV=production" >> .env.production
             echo "VITE_API_BASE_URL=https://devitowarranty.xyz" >> .env.production
             echo "BACKEND_BASE_URL=https://devitowarranty.xyz" >> .env.production
 
-            # Osveži backend kod na VPS-u
+            # Osveži SVE kodove na VPS-u
             git fetch --all
             git reset --hard origin/main
 
             # Povuci nove docker slike (mysql, adminer)
             docker compose -f docker-compose.yml pull
 
-            # Restartuj kontejnere sa rebuild-om backend servisa
+            # Restartuj kontejnere sa REBUILD-om SVIH SERVISA
             docker compose -f docker-compose.yml down
             docker compose -f docker-compose.yml up -d --build
           EOF
