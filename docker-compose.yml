@@ -21,6 +21,7 @@ services:
 
   backend:
     build: ./src/backend
+    dockerfile: Dockerfile.prod
     container_name: warranty_backend
     restart: always
     depends_on:
