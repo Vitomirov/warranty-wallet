@@ -21,7 +21,6 @@ services:
 
   backend:
     build: ./src/backend
-    dockerfile: Dockerfile.prod
     container_name: warranty_backend
     restart: always
     depends_on:
@@ -47,7 +46,6 @@ services:
   frontend:
     build:
       context: ./src/frontend
-      dockerfile: Dockerfile.prod
     container_name: warranty_frontend
     restart: always
     depends_on:
