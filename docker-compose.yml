@@ -20,7 +20,9 @@ services:
       - ./db_init:/docker-entrypoint-initdb.d
 
   backend:
-    build: ./src/backend
+    build:
+      context: ./src/backend # NOVO: KONTEKST JE SADA src/backend
+      dockerfile: Dockerfile # NOVO: Dockerfile mora biti u tom kontekstu (src/backend/Dockerfile)
     container_name: warranty_backend
     restart: always
     depends_on:
@@ -44,8 +46,7 @@ services:
       NODE_ENV: production
 
   frontend:
-    build:
-      context: ./src/frontend
+    build: ./src/frontend
     container_name: warranty_frontend
     restart: always
     depends_on:
