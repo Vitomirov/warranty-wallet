@@ -2,14 +2,24 @@
 
 FROM node:20-alpine
 
+# Postavi radni direktorijum
 WORKDIR /app
 
+# 1. KOPIRA SAMO PACKAGE FAJLOVE 
+# Ovo je jedini COPY koji radimo u build-u
 COPY package*.json ./
 
+# 2. INSTALIRA MODULE UNUTAR KONTEJNERA
+# Ovo kreira ciste, ispravne, Linux-bazirane node_modules foldere
 RUN npm install
 
-COPY . .  
+# 3. NEMA KOMANDE 'COPY . .'
+# Sav ostali kod se mapira (preslikava) u kontejner preko Volume-a 
+# definisanog u docker-compose.dev.yml: './src/frontend:/app'
 
-# CMD komanda će biti nadjačana od strane docker-compose.dev.yml, ali neka ostane za konzistentnost
-# sa build-om ako se nekad Dockerfile koristi samostalno.
+# Definise portove za izlozenost (opciono)
+EXPOSE 5173
+EXPOSE 8080
+
+# Komanda za pokretanje aplikacije (preuzeto od docker-compose)
 CMD ["npm", "run", "dev", "--", "--host", "--port", "5173", "--mode", "development"]

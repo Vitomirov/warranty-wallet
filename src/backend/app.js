@@ -30,7 +30,7 @@ const app = express();
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? ["https://devitowarranty.xyz", "https://www.devitowarranty.xyz"]
-    : ["http://localhost:5173"];
+    : ["http://localhost:5173", "http://localhost:8080"];
 
 // Global middleware
 app.use(

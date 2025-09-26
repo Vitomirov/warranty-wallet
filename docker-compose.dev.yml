@@ -55,6 +55,7 @@ services:
       - /app/node_modules # Sprecava mapiranje host 'node_modules' foldera
     ports:
       - "5173:5173"
+      - "8080:8080"
     environment:
       - CHOKIDAR_USEPOLLING=true
       - VITE_APP_API_URL=http://backend:3000
