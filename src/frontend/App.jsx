@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AuthProvider from "./context/auth/AuthProvider";
 import Layout from "./layout/Layout";
 import PrivateRoute from "./features/account/PrivateRoute";
+import BackToTopButton from "./ui/BackToTopButton";
 
 // Direktni import za landing page → brzi FCP
 import LandingPage from "./pages/LandingPage";
@@ -148,6 +149,7 @@ function App() {
         <Suspense fallback={null}>
           <AIChat />
         </Suspense>
+        <BackToTopButton />
       </Suspense>
     </AuthProvider>
   );

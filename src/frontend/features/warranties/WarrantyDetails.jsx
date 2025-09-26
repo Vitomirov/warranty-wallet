@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, memo } from "react";
+import React, { lazy, Suspense, memo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
 import Button from "../../ui/Button";
@@ -22,6 +22,14 @@ const WarrantyDetails = () => {
     handleSendEmail,
   } = useWarrantyDetails();
 
+  useEffect(() => {
+    if (warranty && warranty.productName) {
+      document.title = `${warranty.productName} Warranty Details | Warranty Wallet`;
+    } else {
+      document.title = "Warranty Details | Warranty Wallet";
+    }
+  }, [warranty]);
+
   if (error) return <div className="alert alert-danger">{error}</div>;
   if (loading || !warranty) return null;
 
@@ -35,13 +43,16 @@ const WarrantyDetails = () => {
         <div className="mb-3">
           <strong>Date of Purchase:</strong> {warranty.dateOfPurchase}
         </div>
+
         <div className="mb-3">
-          <strong>Expiry Date:</strong> {warranty.warrantyExpireDate}
+          <strong>Expiry Date:</strong> {warranty.warrantyExpireDate} 
         </div>
+
         <div className="mb-3">
-          <strong>Expires In:</strong>{" "}
+          <strong>Expires In:</strong>
           {isExpired ? "Expired" : `${daysLeft} days left`}
         </div>
+
         <div className="mb-3">
           <strong>Seller's Email:</strong> {warranty.sellersEmail}
         </div>
@@ -51,7 +62,6 @@ const WarrantyDetails = () => {
             Open Warranty PDF
           </Button>
         </div>
-
         <div className="mb-3">
           <textarea
             className="form-control"
@@ -62,7 +72,6 @@ const WarrantyDetails = () => {
             disabled={isExpired}
           />
         </div>
-
         <div className="d-flex justify-content-between gap-2">
           <Button
             variant="primary"
@@ -78,7 +87,6 @@ const WarrantyDetails = () => {
             />
           </Suspense>
         </div>
-
         <div className="mt-3 d-flex justify-content-end">
           <Link to="/dashboard">
             <Button variant="secondary">Back</Button>
