@@ -1,13 +1,10 @@
-FROM node:22-slim AS builder 
+FROM node:22-slim AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-EXPOSE 443
-
-CMD ["nginx", "-g", "daemon off;"]
+COPY src/backend/package.json src/backend/package-lock.json ./
+RUN npm install --only=production
+FROM node:22-slim
+WORKDIR /app
+COPY --from=build /app/node_modules ./node_modules
+COPY src/backend/ ./.
+EXPOSE 3000
+CMD ["node", "server.js"]
