@@ -71,6 +71,17 @@ app.use("/api/ai", aiRoute);
 // Warranty claim email route
 app.post("/api/warranty/claim", warrantyClaimHandler);
 
+// Serve frontend statically in production after all API routes
+if (process.env.NODE_ENV === "production") {
+  const distPath = path.join(__dirname, "../../src/frontend/dist");
+  app.use(express.static(distPath));
+
+  // Catch-all route for SPA
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+}
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err.stack);

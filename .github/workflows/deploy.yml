@@ -14,6 +14,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js (za frontend build)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install frontend dependencies
+        working-directory: ./src/frontend
+        run: npm install
+
+      - name: Build frontend (vite build)
+        working-directory: ./src/frontend
+        run: npm run build
+
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -24,11 +37,11 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 206.189.59.75 >> ~/.ssh/known_hosts
 
-      - name: Deploy and Restart Docker Services on VPS
+      - name: Deploy backend with embedded frontend and restart Docker services on VPS
         run: |
           ssh root@206.189.59.75 << EOF
             cd /home/root/projects/warranty-wallet
-            
+
             # Kreiraj .env.production fajl
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env.production
             echo "REFRESH_SECRET_KEY=${{ secrets.REFRESH_SECRET_KEY }}" >> .env.production
@@ -57,7 +70,7 @@ jobs:
             # Povuci nove docker slike (mysql, adminer)
             docker compose -f docker-compose.yml pull
 
-            # Restartuj kontejnere sa REBUILD-om SVIH SERVISA
+            # Restartuj kontejnere sa REBUILD-om backend servisa (frontend je već u backendu)
             docker compose -f docker-compose.yml down
             docker compose -f docker-compose.yml up -d --build
           EOF

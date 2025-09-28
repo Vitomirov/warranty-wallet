@@ -21,21 +21,22 @@ services:
 
   backend:
     build:
-      context: ./src/backend # NOVO: KONTEKST JE SADA src/backend
-      dockerfile: Dockerfile # NOVO: Dockerfile mora biti u tom kontekstu (src/backend/Dockerfile)
+      context: ./src/backend
+      dockerfile: Dockerfile
     container_name: warranty_backend
     restart: always
     depends_on:
       mysql:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/test"]
+      test: ["CMD-SHELL", "node -e 'require(\"http\").get(\"http://localhost:3000/api/test\", res => process.exit(res.statusCode === 200 ? 0 : 1))'"]
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 120s
+      start_period: 30s
     ports:
-      - "127.0.0.1:3000:3000"
+      - "80:3000"
+      - "443:3000"
     env_file:
       - .env.production
     networks:
@@ -44,22 +45,6 @@ services:
       - ./src/backend/uploads:/app/uploads
     environment:
       NODE_ENV: production
-
-  frontend:
-    build: ./src/frontend
-    container_name: warranty_frontend
-    restart: always
-    depends_on:
-      - backend
-    ports:
-      - "80:80" # Moramo otvoriti port 80 za Certbot proveru
-      - "443:443"
-    networks:
-      - warranty_network
-    volumes:
-      # NOVA MAPIRANJA: Putanje do pravih Let's Encrypt sertifikata na VPS-u
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-      - /var/lib/letsencrypt:/var/lib/letsencrypt:ro
 
   adminer:
     image: adminer:latest
