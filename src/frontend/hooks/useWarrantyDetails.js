@@ -28,6 +28,7 @@ const useWarrantyDetails = () => {
     try {
       const { data } = await secureRequest("get", `/warranties/${id}`);
       setWarranty(data);
+      localStorage.setItem(`warranty-${id}`, JSON.stringify(data));
     } catch {
       setError("Failed to fetch warranty details.");
     } finally {
@@ -35,13 +36,29 @@ const useWarrantyDetails = () => {
     }
   }, [id, secureRequest]);
 
+  useEffect(() => {
+    if (!id) {
+      setError("ID missing");
+      setLoading(false);
+      return;
+    }
+
+    const savedWarranty = localStorage.getItem(`warranty-${id}`);
+    if (savedWarranty) {
+      setWarranty(JSON.parse(savedWarranty));
+      setLoading(false);
+    } else {
+      fetchWarranty();
+    }
+  }, [id, fetchWarranty]);
+
   const { days: daysLeft, isExpired } = useMemo(
     () => calculateDaysLeft(warranty?.warrantyExpireDate),
     [warranty]
   );
 
   const handleOpenPDF = useCallback(async () => {
-    if (!warranty) return;
+    if (!warranty) return setError("Warranty not loaded.");
     setError(null);
     try {
       const response = await secureRequest(
@@ -83,14 +100,6 @@ const useWarrantyDetails = () => {
   );
 
   const handleIssueChange = (e) => setIssueDescription(e.target.value);
-
-  useEffect(() => {
-    if (id) fetchWarranty();
-    else {
-      setError("ID missing");
-      setLoading(false);
-    }
-  }, [id, fetchWarranty]);
 
   return {
     warranty,

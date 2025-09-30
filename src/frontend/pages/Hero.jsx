@@ -9,8 +9,7 @@ import {
 } from "../animations/Animations";
 
 const Hero = () => {
-  const { user } = useAuth();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <section className="min-vh-100 d-flex align-items-center justify-content-center text-center">
@@ -23,7 +22,6 @@ const Hero = () => {
       >
         <div className="row d-flex justify-content-center">
           <div className="col-12">
-            {/* Title */}
             <motion.h1
               className="mb-3 title"
               variants={createSlideUpVariant(0.2)}
@@ -31,16 +29,14 @@ const Hero = () => {
               Never lose a warranty again
             </motion.h1>
 
-            {/* Subtitle */}
             <motion.small
               className="mb-5 fs-5"
               variants={createSlideUpVariant(0.4)}
             >
-              No more digging through drawers for receipts of forgeting
+              No more digging through drawers for receipts or forgetting
               expiration dates.
             </motion.small>
 
-            {/* Buttons */}
             <motion.div
               className="button d-flex justify-content-center gap-5 mt-5"
               variants={popUpAndFadeIn}
@@ -64,10 +60,7 @@ const Hero = () => {
                   <Button
                     type="button"
                     variant="hero-secondary"
-                    onClick={() => {
-                      logout();
-                      collapseNavbar();
-                    }}
+                    onClick={logout}
                   >
                     Log Out
                   </Button>

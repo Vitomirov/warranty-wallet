@@ -2,15 +2,34 @@ import { useCallback, useState } from "react";
 import { useAuth } from "../context/auth/AuthContext";
 import axiosInstance from "../context/api/axiosInstance";
 
-// Custom hook that returns the secureRequest function
 const useSecureRequest = () => {
   const { token, setToken, logout, refreshToken } = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // secureRequest automatically adds the token and refreshes it if it has expired
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    try {
+      const { exp } = JSON.parse(atob(token.split(".")[1]));
+      return Date.now() >= exp * 1000;
+    } catch {
+      return true;
+    }
+  };
+
   const secureRequest = useCallback(
     async (method, url, data = {}, options = {}) => {
       try {
+        // Pre-request token check + refresh
+        if (!token || isTokenExpired(token)) {
+          setIsRefreshing(true);
+          const newToken = await refreshToken();
+          if (!newToken) {
+            logout();
+            throw new Error("Token expired and refresh failed");
+          }
+          setToken(newToken);
+        }
+
         const config = { ...options, method, url, ...(data ? { data } : {}) };
 
         if (token) {
@@ -26,7 +45,6 @@ const useSecureRequest = () => {
           try {
             setIsRefreshing(true);
             const newToken = await refreshToken();
-
             if (newToken) {
               setToken(newToken);
               return secureRequest(method, url, data, {
@@ -44,8 +62,9 @@ const useSecureRequest = () => {
             setIsRefreshing(false);
           }
         }
-
         throw error;
+      } finally {
+        setIsRefreshing(false);
       }
     },
     [token, setToken, logout, refreshToken]

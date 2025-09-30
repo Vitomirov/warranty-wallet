@@ -3,7 +3,7 @@ import { useAuth } from "../context/auth/AuthContext";
 import useSecureRequest from "./useSecureRequest";
 
 const useMyAccount = () => {
-  const { token, updateUser } = useAuth();
+  const { updateUser } = useAuth();
   const { secureRequest } = useSecureRequest();
 
   const [userData, setUserData] = useState({
@@ -22,10 +22,8 @@ const useMyAccount = () => {
     setLoading(true);
     setError(null);
     try {
-      if (!token) throw new Error("No token found, please log in.");
-
       const response = await secureRequest("get", "/me");
-      if (response.data) {
+      if (response?.data) {
         setUserData({
           username: response.data.username || "",
           userEmail: response.data.userEmail || "",
@@ -45,7 +43,7 @@ const useMyAccount = () => {
     } finally {
       setLoading(false);
     }
-  }, [token, secureRequest]);
+  }, [secureRequest]);
 
   useEffect(() => {
     fetchUser();
@@ -59,11 +57,6 @@ const useMyAccount = () => {
   const handleUpdate = useCallback(
     async (e) => {
       e.preventDefault();
-      if (!token) {
-        setError("No token found, please log in.");
-        return;
-      }
-
       setSuccessMessage("");
       setError(null);
 
@@ -83,7 +76,7 @@ const useMyAccount = () => {
         );
       }
     },
-    [token, userData, secureRequest, updateUser]
+    [userData, secureRequest, updateUser]
   );
 
   return {

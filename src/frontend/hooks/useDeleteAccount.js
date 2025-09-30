@@ -4,25 +4,16 @@ import { useNavigate } from "react-router-dom";
 import useSecureRequest from "./useSecureRequest";
 
 const useDeleteAccount = () => {
-  const { token, updateUser } = useAuth();
+  const { updateUser } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { secureRequest } = useSecureRequest();
 
-  const openDeleteModal = () => {
-    setShowDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => {
-    setShowDeleteModal(false);
-  };
+  const openDeleteModal = () => setShowDeleteModal(true);
+  const closeDeleteModal = () => setShowDeleteModal(false);
 
   const handleDeleteAccount = async () => {
-    if (!token) {
-      setError("No token found, please log in.");
-      return;
-    }
     setError(null);
     try {
       await secureRequest("delete", "/me");

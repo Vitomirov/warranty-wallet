@@ -18,7 +18,6 @@ const useNewWarranty = () => {
     sellersEmail: "",
   });
 
-  // Field definition
   const fields = useMemo(
     () => [
       {
@@ -76,51 +75,57 @@ const useNewWarranty = () => {
     }));
   }, []);
 
-  const handleAddWarranty = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
+  const handleAddWarranty = useCallback(
+    async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      setMessage("");
 
-    const {
-      productName,
-      dateOfPurchase,
-      warrantyExpireDate,
-      file,
-      sellersEmail,
-    } = formData;
+      const {
+        productName,
+        dateOfPurchase,
+        warrantyExpireDate,
+        file,
+        sellersEmail,
+      } = formData;
 
-    if (!dateOfPurchase || !warrantyExpireDate) {
-      setMessage("Please select both purchase and expiry dates.");
-      setLoading(false);
-      return;
-    }
+      if (!dateOfPurchase || !warrantyExpireDate) {
+        setMessage("Please select both purchase and expiry dates.");
+        setLoading(false);
+        return;
+      }
 
-    if (!file) {
-      setMessage("Please upload the warranty receipt as a PDF file.");
-      setLoading(false);
-      return;
-    }
+      if (!file) {
+        setMessage("Please upload the warranty receipt as a PDF file.");
+        setLoading(false);
+        return;
+      }
 
-    const data = new FormData();
-    data.append("productName", productName);
-    data.append("dateOfPurchase", format(dateOfPurchase, "dd-MM-yyyy"));
-    data.append("warrantyExpireDate", format(warrantyExpireDate, "dd-MM-yyyy"));
-    data.append("pdfFile", file);
-    data.append("sellersEmail", sellersEmail);
+      const data = new FormData();
+      data.append("productName", productName);
+      data.append("dateOfPurchase", format(dateOfPurchase, "dd-MM-yyyy"));
+      data.append(
+        "warrantyExpireDate",
+        format(warrantyExpireDate, "dd-MM-yyyy")
+      );
+      data.append("pdfFile", file);
+      data.append("sellersEmail", sellersEmail);
 
-    try {
-      await secureRequest("post", "/warranties", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setMessage("Warranty created successfully!");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error creating warranty:", error);
-      setMessage("Error creating warranty.");
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        await secureRequest("post", "/warranties", data, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setMessage("Warranty created successfully!");
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Error creating warranty:", error);
+        setMessage(error.response?.data?.message || "Error creating warranty.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [formData, secureRequest, navigate]
+  );
 
   return {
     formData,
