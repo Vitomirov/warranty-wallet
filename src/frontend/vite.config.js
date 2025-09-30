@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import purgecssPkg from "@fullhuman/postcss-purgecss";
 
-const purgecss = purgecssPkg.default; // Iako ne koristimo purgecss, ostavljamo deklaraciju.
+const purgecss = purgecssPkg.default;
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");

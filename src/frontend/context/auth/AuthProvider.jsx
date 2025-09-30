@@ -1,4 +1,3 @@
-// AuthProvider.jsx
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import AuthContext from "./AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +27,7 @@ const AuthProvider = ({ children }) => {
     let timer;
     try {
       const { exp } = JSON.parse(atob(token.split(".")[1]));
-      const refreshTime = exp * 1000 - Date.now() - 30000; // 30s pre isteka
+      const refreshTime = exp * 1000 - Date.now() - 30000;
       if (refreshTime > 0) {
         timer = setTimeout(refreshToken, refreshTime);
       }

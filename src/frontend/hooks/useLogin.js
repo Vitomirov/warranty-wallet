@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 /**
  * Custom hook for handling the user login process.
  * It manages form state, login logic, and navigation.
- * @returns {object} An object containing state and handler functions.
  */
 const useLogin = () => {
   const { login } = useAuth();
@@ -19,7 +18,6 @@ const useLogin = () => {
 
   /**
    * Handles the form submission for user login.
-   * @param {Event} event - The form submission event.
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,8 +43,6 @@ const useLogin = () => {
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
-
-  /** Navigate back to home */
   const handleCancel = () => navigate("/");
 
   return {

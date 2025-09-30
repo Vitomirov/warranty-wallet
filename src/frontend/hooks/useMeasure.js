@@ -5,8 +5,6 @@ import { useState, useRef, useEffect } from "react";
  * It's primarily used to calculate the height of a single list item
  * and provides a ref to attach to the list container for accurate measurements.
  * The hook recalculates the height on component updates and window resize events.
- * @param {any} dependency The hook will re-measure when this dependency changes.
- * @returns {{ref: React.RefObject<any>, height: number}} An object containing a ref for the element and its calculated height.
  */
 
 const useMeasure = (dependency) => {

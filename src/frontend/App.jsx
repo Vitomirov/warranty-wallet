@@ -5,15 +5,12 @@ import Layout from "./layout/Layout";
 import PrivateRoute from "./features/account/PrivateRoute";
 import BackToTopButton from "./ui/BackToTopButton";
 
-// Direktni import za landing page → brzi FCP
 import LandingPage from "./pages/LandingPage";
 
-// Prefetch ključnih ruta
 const LogIn = lazy(() => import("./features/auth/LogIn"));
 const SignUp = lazy(() => import("./features/auth/SignUp"));
 const Dashboard = lazy(() => import("./features/warranties/Dashboard"));
 
-// Ostale lazy rute
 const About = lazy(() => import("./pages/About"));
 const Features = lazy(() => import("./pages/Features"));
 const FAQ = lazy(() => import("./pages/FAQ"));
@@ -26,7 +23,6 @@ const DeleteWarranty = lazy(() =>
   import("./features/warranties/DeleteWarranty")
 );
 
-// AIChat lazy, fallback null → uvek mountovan
 const AIChat = lazy(() => import("./features/ai/AiChat"));
 
 function App() {

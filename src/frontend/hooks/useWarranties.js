@@ -21,14 +21,14 @@ const useWarranties = () => {
 
   const deleteWarranty = async (id) => {
     try {
-      setLoading(true); // Optional: Set loading state during deletion
+      setLoading(true);
       await axiosInstance.delete(`/warranties/${id}`);
       fetchWarranties();
     } catch (err) {
       console.error("Failed to delete warranty:", err);
       setError("Failed to delete warranty. Please try again.");
     } finally {
-      setLoading(false); // Make sure to turn off loading state
+      setLoading(false);
     }
   };
 

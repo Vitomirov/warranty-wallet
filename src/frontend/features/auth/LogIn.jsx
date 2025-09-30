@@ -69,7 +69,6 @@ function LogIn() {
               </div>
             </form>
 
-            {/* Dodato ispod forme */}
             <div className="text-center mt-4">
               <p>Don't have an account? Please sign up.</p>
               <Button

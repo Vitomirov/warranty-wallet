@@ -138,7 +138,7 @@ function Header() {
                   variant="logout"
                   onClick={() => {
                     logout();
-                    collapseNavbar(); // Zatvaramo nav bar nakon odjave
+                    collapseNavbar();
                   }}
                 >
                   Log Out

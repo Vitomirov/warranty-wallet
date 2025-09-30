@@ -28,10 +28,6 @@ function AIChat() {
 
   return (
     <>
-      {/*
-        The button is now only rendered when the chat is NOT open.
-        This removes the redundant "X" icon when the chat window is visible.
-      */}
       {!isChatOpen && (
         <button onClick={handleToggleChat} className={buttonClass}>
           {icon}
@@ -42,7 +38,6 @@ function AIChat() {
         <div ref={chatRef} className="ai-chat-container d-flex flex-column">
           <div className="ai-chat-header d-flex justify-content-between align-items-center">
             <h2 className="m-0">AI Assistant</h2>
-            {/* This is the X button that closes the chat */}
             <button onClick={handleToggleChat} className="btn-close-chat">
               &times;
             </button>

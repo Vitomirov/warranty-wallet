@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../ui/Button";
 import useSignUp from "../../hooks/useSignUp";
-import useLogin from "../../hooks/useLogin"; // koristimo cancel iz login hooka
+import useLogin from "../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 
 function SignUp() {

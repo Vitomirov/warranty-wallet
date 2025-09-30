@@ -1,5 +1,3 @@
-console.log("db.js called!");
-
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 import path from "path";
@@ -17,14 +15,9 @@ const envFile =
 // Load environment variables from .env file
 dotenv.config({ path: path.resolve(__dirname, "../../../" + envFile) });
 
-console.log("Loaded env file:", envFile);
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
-
 // Function to create a MySQL connection pool with retry logic
 const createPoolWithRetry = async (attempt = 1) => {
   try {
-    console.log("DB_PASSWORD before pool creation:", process.env.DB_PASSWORD); // Log password before pool creation
-
     if (!process.env.DB_PASSWORD) {
       console.error("DB_PASSWORD is undefined or not set.");
       throw new Error("DB_PASSWORD is undefined or not set.");

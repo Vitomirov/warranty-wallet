@@ -4,7 +4,6 @@ const Footer = () => {
   return (
     <footer className="footer py-4">
       <div className="d-flex flex-column flex-md-row justify-content-center align-items-center w-100">
-        {/* Copyright */}
         <p className="mb-2 mb-md-0 text-center">
           &copy; Designed and Developed by{" "}
           <a

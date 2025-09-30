@@ -22,7 +22,7 @@ const MyAccount = () => {
   if (loading) return <div className="alert alert-info">Loading...</div>;
   if (error) return <div className="alert alert-danger">{error}</div>;
 
-  // Field definitions to reduce repetition
+  // Field definitions
   const accountFields = [
     { name: "username", type: "text", placeholder: "Username" },
     { name: "userEmail", type: "email", placeholder: "Email" },

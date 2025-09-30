@@ -18,7 +18,6 @@ const PORT = process.env.PORT || 3000;
 async function checkDbConnection() {
   try {
     await db.query("SELECT 1");
-    console.log("Database connection successful!");
     return true;
   } catch (error) {
     console.error("Database connection failed:", error.message);
@@ -28,7 +27,6 @@ async function checkDbConnection() {
 
 // Start server after DB connection
 async function startServer() {
-  console.log("Attempting to connect to database...");
   let dbConnected = false;
   const maxRetries = 30;
   let retries = 0;
@@ -37,7 +35,6 @@ async function startServer() {
     dbConnected = await checkDbConnection();
     if (!dbConnected) {
       retries++;
-      console.log(`Retrying DB in 5s... Attempt ${retries}/${maxRetries}`);
       await new Promise((res) => setTimeout(res, 5000));
     }
   }
@@ -47,20 +44,13 @@ async function startServer() {
     process.exit(1);
   }
 
-  const server = app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+  const server = app.listen(PORT, "0.0.0.0", () => {});
 
   server.on("error", (err) => {
     console.error("Server error:", err);
   });
 
-  server.on("close", () => {
-    console.log("Server closed.");
-  });
-
-  // Keep process alive logs
-  setInterval(() => console.log("Backend is alive..."), 30000);
+  server.on("close", () => {});
 
   // Schedule cron jobs
   scheduleCronJobs();

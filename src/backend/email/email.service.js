@@ -41,7 +41,6 @@ ${username}
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully with attachment:", info.messageId);
     return info;
   } catch (error) {
     console.error(
@@ -80,10 +79,7 @@ Warranty Wallet Team
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log(
-      "Expiration notification email sent successfully:",
-      info.messageId
-    );
+
     return info;
   } catch (error) {
     console.error(

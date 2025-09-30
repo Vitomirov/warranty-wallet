@@ -1,10 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import { seoConfig } from "../seoConfig"; // Putanja je prilagođena za root frontenda
+import { seoConfig } from "../seoConfig";
 
-/**
- * Updates <title> and <meta> tags in the document head based on the current route.
- */
 function MetaTags() {
   const location = useLocation();
 

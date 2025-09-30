@@ -1,7 +1,6 @@
 import { lazy, Suspense } from "react";
 import Header from "../layout/Header";
 import Hero from "./Hero";
-import BackToTopButton from "../ui/BackToTopButton";
 
 // Dynamic import
 const About = lazy(() => import("./About"));
