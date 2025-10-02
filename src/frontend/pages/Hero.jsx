@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
 import Button from "../ui/Button";
@@ -9,7 +10,15 @@ import {
 } from "../animations/Animations";
 
 const Hero = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
+
+  // Ensure user is hydrated from localStorage on tab return
+  useEffect(() => {
+    if (!user) {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) updateUser(JSON.parse(storedUser));
+    }
+  }, [user, updateUser]);
 
   return (
     <section className="min-vh-100 d-flex align-items-center justify-content-center text-center">

@@ -6,10 +6,10 @@ const useSecureRequest = () => {
   const { token, setToken, logout, refreshToken } = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const isTokenExpired = (token) => {
-    if (!token) return true;
+  const isTokenExpired = (tok) => {
+    if (!tok) return true;
     try {
-      const { exp } = JSON.parse(atob(token.split(".")[1]));
+      const { exp } = JSON.parse(atob(tok.split(".")[1]));
       return Date.now() >= exp * 1000;
     } catch {
       return true;
@@ -19,8 +19,10 @@ const useSecureRequest = () => {
   const secureRequest = useCallback(
     async (method, url, data = {}, options = {}) => {
       try {
-        // Pre-request token check + refresh
-        if (!token || isTokenExpired(token)) {
+        // Always get latest token from localStorage to avoid stale context
+        let currentToken = localStorage.getItem("accessToken") || token;
+
+        if (!currentToken || isTokenExpired(currentToken)) {
           setIsRefreshing(true);
           const newToken = await refreshToken();
           if (!newToken) {
@@ -28,14 +30,15 @@ const useSecureRequest = () => {
             throw new Error("Token expired and refresh failed");
           }
           setToken(newToken);
+          currentToken = newToken;
         }
 
         const config = { ...options, method, url, ...(data ? { data } : {}) };
 
-        if (token) {
+        if (currentToken) {
           config.headers = {
             ...config.headers,
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${currentToken}`,
           };
         }
 
