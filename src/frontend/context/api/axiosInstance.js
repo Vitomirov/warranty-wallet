@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Fallback interceptor (samo ako secureRequest ne dodaje Authorization)
+// Fallback interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
