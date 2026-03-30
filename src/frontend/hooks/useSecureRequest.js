@@ -6,7 +6,10 @@ const useSecureRequest = () => {
   const { token, setToken, logout, refreshToken } = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Helper: check if access token is expired
+  // Public routes that don't require token
+  const publicRoutes = ["/login", "/signup", "/refresh-token"];
+
+  // Check if JWT access token is expired
   const isTokenExpired = (tok) => {
     if (!tok) return true;
     try {
@@ -20,11 +23,11 @@ const useSecureRequest = () => {
   const secureRequest = useCallback(
     async (method, url, data = {}, options = {}) => {
       try {
-        // Always get latest access token from context or localStorage
+        const isPublic = publicRoutes.some((route) => url.includes(route));
         let currentToken = localStorage.getItem("accessToken") || token;
 
-        // If token missing or expired, call refresh-token endpoint
-        if (!currentToken || isTokenExpired(currentToken)) {
+        // Only refresh token if route is not public AND token missing/expired
+        if (!isPublic && (!currentToken || isTokenExpired(currentToken))) {
           setIsRefreshing(true);
           const newTokenData = await refreshToken(); // Calls backend /refresh-token
           if (!newTokenData?.accessToken) {
@@ -32,10 +35,10 @@ const useSecureRequest = () => {
             throw new Error("Token expired and refresh failed");
           }
           currentToken = newTokenData.accessToken;
-          setToken(currentToken); // Update context + localStorage
+          setToken(currentToken);
         }
 
-        // Configure Axios request
+        // Axios config
         const config = {
           ...options,
           method,
@@ -43,14 +46,14 @@ const useSecureRequest = () => {
           ...(data ? { data } : {}),
           headers: {
             ...options.headers,
-            Authorization: `Bearer ${currentToken}`,
+            ...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
           },
         };
 
         // Execute request
         return await axiosInstance(config);
       } catch (error) {
-        // Retry once if server returns 401
+        // Retry once on 401
         if (error.response?.status === 401 && !options._retry) {
           try {
             setIsRefreshing(true);
