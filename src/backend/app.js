@@ -35,11 +35,20 @@ const allowedOrigins =
 // Global middleware
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      // Allow requests with no origin
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Authorization", "Set-Cookie"],
-    credentials: true,
     maxAge: 3600,
   })
 );
