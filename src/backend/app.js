@@ -29,7 +29,12 @@ const app = express();
 // Allowed CORS origins
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["https://devitowarranty.xyz", "https://www.devitowarranty.xyz"]
+    ? [
+        "https://devitowarranty.xyz", 
+        "https://www.devitowarranty.xyz", 
+        "https://dejanvitomirov.com",
+        "https://www.dejanvitomirov.com"
+      ]
     : ["http://localhost:5173", "http://localhost:8080"];
 
 // Global middleware
