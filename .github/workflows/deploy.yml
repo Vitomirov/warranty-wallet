@@ -26,7 +26,8 @@ jobs:
       - name: Build frontend (vite build)
         working-directory: ./src/frontend
         run: |
-          echo "VITE_API_BASE_URL=https://dejanvitomirov.com/warrantywallet" > .env.production
+          rm -f .env .env.production .env.local
+          echo "VITE_API_BASE_URL=https://dejanvitomirov.com/warrantywallet" > .env
           npm run build
 
       - name: Set up SSH key

@@ -48,11 +48,6 @@ export default defineConfig(({ mode }) => {
         plugins: [], // Prazan niz isključuje PurgeCSS
       },
     },
-    define: {
-      "import.meta.env.VITE_API_BASE_URL": JSON.stringify(
-        env.VITE_API_BASE_URL
-      ),
-    },
     server: { host: true, port: 5173 },
   };
 });
