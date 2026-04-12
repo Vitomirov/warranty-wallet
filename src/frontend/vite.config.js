@@ -1,9 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
-import purgecssPkg from "@fullhuman/postcss-purgecss";
 
-const purgecss = purgecssPkg.default;
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -16,7 +14,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins,
-    base: "/",
+    base: "/warrantywallet/",
     build: {
       outDir: "dist",
       sourcemap: false,
@@ -46,15 +44,11 @@ export default defineConfig(({ mode }) => {
       },
     },
     css: {
-      // Rešava problem sa nedostatkom stilova
       postcss: {
         plugins: [], // Prazan niz isključuje PurgeCSS
       },
     },
     define: {
-      // Uklanjamo ručno definisanje i ostavljamo da Vite sam preuzme VITE_* varijable iz .env fajlova.
-      // Ovu liniju ne morate uključiti, jer Vite automatski injektuje VITE_* varijable u build.
-      // Ako ste je ostavili, ona i dalje radi:
       "import.meta.env.VITE_API_BASE_URL": JSON.stringify(
         env.VITE_API_BASE_URL
       ),

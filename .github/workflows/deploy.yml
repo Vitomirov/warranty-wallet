@@ -60,8 +60,8 @@ jobs:
             # Dodaj neosetljive, fiksne varijable
             echo "PORT=3000" >> .env.production
             echo "NODE_ENV=production" >> .env.production
-            echo "VITE_API_BASE_URL=https://dejanvitomirov.com" >> .env.production
-            echo "BACKEND_BASE_URL=https://dejanvitomirov.com" >> .env.production
+            echo "VITE_API_BASE_URL=https://dejanvitomirov.com/warrantywallet" >> .env.production
+            echo "BACKEND_BASE_URL=https://dejanvitomirov.com/warrantywallet" >> .env.production
 
             # Osveži SVE kodove na VPS-u
             git fetch --all
