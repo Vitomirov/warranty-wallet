@@ -25,9 +25,9 @@ jobs:
 
       - name: Build frontend (vite build)
         working-directory: ./src/frontend
-        env:
-          VITE_API_BASE_URL: https://dejanvitomirov.com/warrantywallet
-        run: npm run build
+        run: |
+          echo "VITE_API_BASE_URL=https://dejanvitomirov.com/warrantywallet" > .env.production
+          npm run build
 
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.7.0
