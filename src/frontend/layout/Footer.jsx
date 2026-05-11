@@ -8,7 +8,7 @@ const Footer = () => {
           &copy; Designed and Developed by{" "}
           <a
             className="text-decoration-underline"
-            href="https://portfolio.devitowarranty.xyz/"
+            href="https://dejanvitomirov.com"
             target="_blank"
             rel="noopener noreferrer"
           >
