@@ -6,7 +6,7 @@ Live Demo: <https://devitowarranty.xyz>
 
 Key Features:
 
-- Secure user registration & login (JWT)
+- Secure user registration & login - JWT
 
 - Add and manage product warranties.
 
