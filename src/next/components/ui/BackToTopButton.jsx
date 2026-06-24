@@ -1,0 +1,46 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function BackToTopButton() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    const scrolledPastThreshold = window.pageYOffset > 300;
+    const isDesktopOrTablet = window.innerWidth > 768;
+    setIsVisible(scrolledPastThreshold && isDesktopOrTablet);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisibility);
+    window.addEventListener("resize", toggleVisibility);
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+      window.removeEventListener("resize", toggleVisibility);
+    };
+  }, []);
+
+  return (
+    <button
+      type="button"
+      className={`btn btn-primary ${isVisible ? "d-block" : "d-none"}`}
+      onClick={scrollToTop}
+      style={{
+        position: "fixed",
+        bottom: "55px",
+        right: "20px",
+        zIndex: 1000,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+      aria-label="Back to top"
+    >
+      <i className="bi bi-arrow-up back-to-top"></i>
+    </button>
+  );
+}

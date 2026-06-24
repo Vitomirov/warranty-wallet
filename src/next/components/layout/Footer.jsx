@@ -1,0 +1,19 @@
+export default function Footer() {
+  return (
+    <footer className="footer py-4">
+      <div className="d-flex flex-column flex-md-row justify-content-center align-items-center w-100">
+        <p className="mb-2 mb-md-0 text-center">
+          &copy; Designed and Developed by{" "}
+          <a
+            className="text-decoration-underline"
+            href="https://dejanvitomirov.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Dejan Vitomirov
+          </a>
+        </p>
+      </div>
+    </footer>
+  );
+}

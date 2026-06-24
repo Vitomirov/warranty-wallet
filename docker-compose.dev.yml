@@ -6,7 +6,7 @@ services:
     env_file:
       - ./.env.development
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data_dev:/var/lib/mysql
       - ./db_init:/docker-entrypoint-initdb.d
@@ -55,7 +55,7 @@ services:
       - /app/node_modules # Sprecava mapiranje host 'node_modules' foldera
     ports:
       - "5173:5173"
-      - "8080:8080"
+      - "8081:8080"
     environment:
       - CHOKIDAR_USEPOLLING=true
       - VITE_APP_API_URL=http://backend:3000
@@ -63,8 +63,30 @@ services:
     networks:
       - warranty_network
 
+  next:
+    image: node:22-slim
+    container_name: warranty_next_dev
+    restart: unless-stopped
+    depends_on:
+      - backend
+    working_dir: /app/src/next
+    volumes:
+      - ./src/next:/app/src/next
+      - ./src/frontend:/app/src/frontend
+      - next_node_modules:/app/src/next/node_modules
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_BASE_PATH: /warrantywallet
+      LEGACY_API_URL: http://backend:3000
+    command: sh -c "npm install && npm run dev"
+    networks:
+      - warranty_network
+
 volumes:
   mysql_data_dev: {}
+  next_node_modules: {}
 
 networks:
   warranty_network:

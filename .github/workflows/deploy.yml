@@ -30,6 +30,16 @@ jobs:
           echo "VITE_API_BASE_URL=https://dejanvitomirov.com/warrantywallet" > .env
           npm run build
 
+      - name: Install Next.js dependencies
+        working-directory: ./src/next
+        run: npm ci
+
+      - name: Build Next.js (marketing pages)
+        working-directory: ./src/next
+        env:
+          NEXT_PUBLIC_BASE_PATH: /warrantywallet
+        run: npm run build
+
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -73,7 +83,7 @@ jobs:
             # Povuci nove docker slike (mysql, adminer)
             docker compose -f docker-compose.yml pull
 
-            # Restartuj kontejnere sa REBUILD-om backend servisa (frontend je već u backendu)
+            # Restartuj kontejnere sa REBUILD-om backend i next servisa
             docker compose -f docker-compose.yml down
             docker compose -f docker-compose.yml up -d --build
           EOF

@@ -1,0 +1,11 @@
+// Full frontend design system — mirrors src/frontend/styles/Styles.scss exactly.
+// Paths resolve via sassOptions.includePaths → src/frontend/styles
+@use "abstracts/abstracts";
+@use "base/base";
+@use "layout/layout";
+@use "components/components";
+@use "pages/pages";
+@use "themes/themes";
+@use "utilities/utilities";
+
+@import "bootstrap/dist/css/bootstrap.min.css";
