@@ -71,6 +71,11 @@ services:
       - warranty_network
     environment:
       NODE_ENV: production
+      # MUST override PORT from .env.production (which sets 3000 for the backend);
+      # env_file takes precedence over the Dockerfile ENV, so set it here where
+      # `environment` wins. Next standalone must listen on 3001 to match nginx.
+      PORT: 3001
+      HOSTNAME: 0.0.0.0
       NEXT_PUBLIC_BASE_PATH: /warrantywallet
       LEGACY_API_URL: http://backend:3000
 
