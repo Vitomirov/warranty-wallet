@@ -28,9 +28,11 @@ ENV HOSTNAME=0.0.0.0
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/src/next/public ./src/next/public
+# Next standalone (tracing root = src/next) places server.js at the image root,
+# so static MUST live at /app/.next/static and public at /app/public.
 COPY --from=builder --chown=nextjs:nodejs /app/src/next/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/src/next/.next/static ./src/next/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/src/next/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/src/next/public ./public
 
 USER nextjs
 EXPOSE 3001

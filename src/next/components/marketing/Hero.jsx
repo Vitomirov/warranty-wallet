@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import {
@@ -8,6 +7,9 @@ import {
   createSlideUpVariant,
   popUpAndFadeIn,
 } from "@/lib/animations";
+
+// Legacy (Express/Vite) routes need a full page load, not next/link.
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "/warrantywallet";
 
 export default function Hero() {
   return (
@@ -42,12 +44,12 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
             >
-              <Link href="/login">
+              <a href={`${BASE}/login`}>
                 <Button variant="hero-primary">Log In</Button>
-              </Link>
-              <Link href="/signup">
+              </a>
+              <a href={`${BASE}/signup`}>
                 <Button variant="hero-secondary">Sign Up</Button>
-              </Link>
+              </a>
             </motion.div>
           </div>
         </div>

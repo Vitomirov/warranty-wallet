@@ -6,6 +6,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/warrantywallet";
 const nextConfig = {
   basePath,
   assetPrefix: basePath,
+  trailingSlash: true,
   output: "standalone",
   reactStrictMode: true,
 

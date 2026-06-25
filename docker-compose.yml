@@ -20,6 +20,7 @@ services:
       - ./db_init:/docker-entrypoint-initdb.d
 
   backend:
+    image: ${BACKEND_IMAGE:-ghcr.io/vitomirov/warranty-wallet-backend:latest}
     build:
       context: .
       dockerfile: src/backend/Dockerfile
@@ -46,6 +47,7 @@ services:
       NODE_ENV: production
 
   next:
+    image: ${NEXT_IMAGE:-ghcr.io/vitomirov/warranty-wallet-next:latest}
     build:
       context: .
       dockerfile: src/next/Dockerfile
@@ -55,14 +57,14 @@ services:
       backend:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "node -e 'fetch(\"http://127.0.0.1:3000/warrantywallet\").then(res => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))'"]
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://127.0.0.1:3001/warrantywallet/', r => process.exit(r.statusCode < 400 ? 0 : 1)).on('error', () => process.exit(1))\""]
       interval: 15s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
     ports:
-      - "3001:3000"
+      - "3001:3001"
     env_file:
       - .env.production
     networks:
