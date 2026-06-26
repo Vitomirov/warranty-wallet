@@ -15,19 +15,24 @@ export const marketingMetadata = {
     },
   },
   "/about": {
-    title: "About Us | Warranty Wallet",
+    title: "About Us",
     description:
       "Learn about the Warranty Wallet mission and how we simplify life for users.",
   },
   "/features": {
-    title: "Features | Warranty Wallet",
+    title: "Features",
     description:
       "Overview of all advanced app features: automated reminders, AI chat, and secure document storage.",
   },
   "/faq": {
-    title: "FAQ | Warranty Wallet",
+    title: "FAQ",
     description:
       "Answers to frequently asked questions about registration, document storage, and app security.",
+  },
+  "/login": {
+    title: "Log In",
+    description:
+      "Sign in to your Warranty Wallet account to manage warranties and receipts.",
   },
 };
 

@@ -7,10 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 
-// Legacy (Express/Vite) routes are NOT Next.js routes, so they must use a
-// real anchor + full basePath to force a full page load (next/link would
-// client-side navigate and hit a Next 404).
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "/warrantywallet";
+import { legacyPath } from "@/lib/base-path";
 
 export default function Header() {
   const pathname = usePathname();
@@ -111,10 +108,10 @@ export default function Header() {
               </>
             )}
             <span className="separator"></span>
-            <Nav.Link href={`${BASE}/login`} onClick={collapseNavbar}>
+            <Nav.Link as={Link} href="/login" onClick={collapseNavbar}>
               Log In
             </Nav.Link>
-            <Nav.Link href={`${BASE}/signup`} onClick={collapseNavbar}>
+            <Nav.Link href={legacyPath("/signup")} onClick={collapseNavbar}>
               Sign Up
             </Nav.Link>
           </Nav>

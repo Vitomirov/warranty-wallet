@@ -6,6 +6,9 @@ import AboutSection from "@/components/marketing/AboutSection";
 import FeaturesSection from "@/components/marketing/FeaturesSection";
 import FAQSection from "@/components/marketing/FAQSection";
 import BackToTopButton from "@/components/ui/BackToTopButton";
+import { buildPageMetadata } from "@/lib/metadata";
+
+export const metadata = buildPageMetadata("/");
 
 function SectionFallback() {
   return <div className="py-5 text-center text-muted">Loading...</div>;
@@ -13,8 +16,7 @@ function SectionFallback() {
 
 export default function HomePage() {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      {/* Matches Vite Layout wrapper: main.content-layout > .container > LandingPage */}
+    <>
       <main className="flex-grow-1 d-flex content-layout justify-content-center align-items-center pt-5">
         <div className="container">
           <div className="global-container">
@@ -46,6 +48,6 @@ export default function HomePage() {
         </div>
       </main>
       <Footer />
-    </div>
+    </>
   );
 }

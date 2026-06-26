@@ -1,7 +1,5 @@
 import "./globals.scss";
-import { buildPageMetadata } from "@/lib/metadata";
-
-export const metadata = buildPageMetadata("/");
+import Providers from "@/providers/Providers";
 
 export default function RootLayout({ children }) {
   return (
@@ -22,7 +20,9 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body className="content-wrapper marketing-theme">{children}</body>
+      <body className="content-wrapper">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
