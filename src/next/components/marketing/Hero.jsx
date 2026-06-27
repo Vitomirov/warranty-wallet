@@ -3,14 +3,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
-import { legacyPath } from "@/lib/base-path";
 import {
   containerVariants,
   createSlideUpVariant,
   popUpAndFadeIn,
 } from "@/lib/animations";
-
-// Legacy (Express/Vite) routes need a full page load, not next/link.
 
 export default function Hero() {
   return (
@@ -48,9 +45,9 @@ export default function Hero() {
               <Link href="/login">
                 <Button variant="hero-primary">Log In</Button>
               </Link>
-              <a href={legacyPath("/signup")}>
+              <Link href="/signup">
                 <Button variant="hero-secondary">Sign Up</Button>
-              </a>
+              </Link>
             </motion.div>
           </div>
         </div>

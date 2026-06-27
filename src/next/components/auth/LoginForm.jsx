@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import useLogin from "@/hooks/auth/useLogin";
-import { legacyPath } from "@/lib/base-path";
 
 export default function LoginForm() {
   const {
@@ -70,11 +70,11 @@ export default function LoginForm() {
 
             <div className="text-center mt-4">
               <p>Don&apos;t have an account? Please sign up.</p>
-              <a href={legacyPath("/signup")}>
+              <Link href="/signup">
                 <Button type="button" variant="auth-change">
                   Sign Up
                 </Button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

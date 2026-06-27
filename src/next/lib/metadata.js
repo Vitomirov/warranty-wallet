@@ -34,6 +34,11 @@ export const marketingMetadata = {
     description:
       "Sign in to your Warranty Wallet account to manage warranties and receipts.",
   },
+  "/signup": {
+    title: "Sign Up",
+    description:
+      "Create a free Warranty Wallet account to store and manage your warranties and receipts.",
+  },
 };
 
 export function buildPageMetadata(path) {

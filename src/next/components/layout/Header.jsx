@@ -7,8 +7,6 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 
-import { legacyPath } from "@/lib/base-path";
-
 export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -111,7 +109,7 @@ export default function Header() {
             <Nav.Link as={Link} href="/login" onClick={collapseNavbar}>
               Log In
             </Nav.Link>
-            <Nav.Link href={legacyPath("/signup")} onClick={collapseNavbar}>
+            <Nav.Link as={Link} href="/signup" onClick={collapseNavbar}>
               Sign Up
             </Nav.Link>
           </Nav>
