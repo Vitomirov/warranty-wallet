@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth/AuthContext";
-import { legacyPath } from "@/lib/base-path";
 
 /**
  * Custom hook for handling the user login process.
@@ -28,7 +27,7 @@ export default function useLogin() {
     try {
       const response = await login(username, password);
       if (response?.accessToken) {
-        window.location.assign(legacyPath("/dashboard"));
+        router.push("/dashboard");
       } else {
         setError("Login failed: The server response was unexpected.");
       }

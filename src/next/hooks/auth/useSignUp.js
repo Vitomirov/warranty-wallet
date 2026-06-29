@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { isAxiosError } from "axios";
 import { useAuth } from "@/context/auth/AuthContext";
+import { useRouter } from "next/navigation";
 import useSecureRequest from "@/hooks/auth/useSecureRequest";
-import { legacyPath } from "@/lib/base-path";
 
 export default function useSignUp() {
   const { login } = useAuth();
+  const router = useRouter();
   const { secureRequest } = useSecureRequest();
 
   const [message, setMessage] = useState("");
@@ -36,7 +37,7 @@ export default function useSignUp() {
       if (response.data) {
         setMessage("Signup successful! Logging you in...");
         await login(userData.username, userData.password);
-        window.location.assign(legacyPath("/dashboard"));
+        router.push("/dashboard");
       }
     } catch (error) {
       if (isAxiosError(error) && error.response) {
