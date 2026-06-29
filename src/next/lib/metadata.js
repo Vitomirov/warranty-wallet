@@ -39,6 +39,11 @@ export const marketingMetadata = {
     description:
       "Create a free Warranty Wallet account to store and manage your warranties and receipts.",
   },
+  "/dashboard": {
+    title: "Dashboard | My Warranties",
+    description:
+      "Overview of all active and expired warranties with clear status.",
+  },
 };
 
 export function buildPageMetadata(path) {
