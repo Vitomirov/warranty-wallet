@@ -44,6 +44,11 @@ export const marketingMetadata = {
     description:
       "Overview of all active and expired warranties with clear status.",
   },
+  "/newWarranty": {
+    title: "New Warranty | Add Document",
+    description:
+      "Form to easily upload and categorize new warranty documents.",
+  },
 };
 
 export function buildPageMetadata(path) {
