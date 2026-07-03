@@ -35,7 +35,11 @@ const allowedOrigins =
         "https://dejanvitomirov.com",
         "https://www.dejanvitomirov.com"
       ]
-    : ["http://localhost:5173", "http://localhost:8080"];
+    : [
+        "http://localhost:5173",
+        "http://localhost:8080",
+        "http://localhost:3001",
+      ];
 
 // Global middleware
 app.use(

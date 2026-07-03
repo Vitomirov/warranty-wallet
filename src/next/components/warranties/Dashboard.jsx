@@ -27,7 +27,7 @@ export default function Dashboard() {
         warranties={warranties}
         listRef={listRef}
         rowHeight={rowHeight}
-        onView={(id) => router.push(`/warranties/details/${id}`)}
+        onView={(id) => router.push(`/warrantyDetails/${id}`)}
         onDeleteSuccess={fetchWarranties}
       />
 

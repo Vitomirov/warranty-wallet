@@ -49,6 +49,11 @@ export const marketingMetadata = {
     description:
       "Form to easily upload and categorize new warranty documents.",
   },
+  "/warrantyDetails": {
+    title: "Warranty Details",
+    description:
+      "View the details of a warranty, including the warranty period, the product, and the warranty provider.",
+  },
 };
 
 export function buildPageMetadata(path) {
