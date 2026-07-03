@@ -56,7 +56,7 @@ const WarrantyDetails = () => {
         </div>
 
         <div className="mb-3">
-          <strong>Seller's Email:</strong> {warranty.sellersEmail}
+          <strong>Seller&apos;s Email:</strong> {warranty.sellersEmail}
         </div>
 
         <div className="mb-3">
