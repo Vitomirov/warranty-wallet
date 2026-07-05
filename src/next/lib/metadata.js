@@ -54,6 +54,11 @@ export const marketingMetadata = {
     description:
       "View the details of a warranty, including the warranty period, the product, and the warranty provider.",
   },
+  "/myAccount": {
+    title: "My Account",
+    description:
+      "Manage your account information and preferences.",
+  },
 };
 
 export function buildPageMetadata(path) {
