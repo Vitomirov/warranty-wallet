@@ -31,7 +31,17 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/warranties/details/:id/",
+        destination: "/warrantyDetails/:id/",
+        permanent: true,
+      },
+      {
         source: "/warranties/delete/:id",
+        destination: "/warrantyDetails/:id/",
+        permanent: true,
+      },
+      {
+        source: "/warranties/delete/:id/",
         destination: "/warrantyDetails/:id/",
         permanent: true,
       },
