@@ -79,7 +79,6 @@ flowchart TB
     NEXT --> NGINX
     NGINX -->|pages| NX
     NGINX -->|api, uploads| BE
-    NGINX -.->|502/503/504 fallback| BE
     BE --> DB
     BE --> UP
     BE --> MG
@@ -110,7 +109,7 @@ lib/            → API client, metadata, animations
 providers/      → AuthProvider, global AiChat
 ```
 
-Legacy Vite SPA (`src/frontend/`) remains as an nginx outage fallback only. See [MIGRATION.md](MIGRATION.md).
+Legacy Vite SPA (`src/frontend/`) is no longer built or deployed. Scheduled for deletion in Phase 4. See [MIGRATION.md](MIGRATION.md).
 
 ### Authentication Flow
 
@@ -138,9 +137,9 @@ Legacy Vite SPA (`src/frontend/`) remains as an nginx outage fallback only. See 
 | Testing | Jest, React Testing Library | Component tests in `src/next/__tests__/` |
 | Linting | ESLint (eslint-config-next) | Code quality |
 
-### Frontend (Legacy Vite — fallback only)
+### Frontend (Legacy Vite — scheduled for removal)
 
-The Vite SPA in `src/frontend/` is retained for nginx emergency fallback. Do not use for new development. See [MIGRATION.md](MIGRATION.md).
+`src/frontend/` is no longer used in production or Docker dev. Do not extend. See [MIGRATION.md](MIGRATION.md) Phase 4.
 
 ### Backend
 
@@ -193,7 +192,7 @@ warranty-wallet/
 │   │   ├── app.js              # Express app (API + legacy SPA static)
 │   │   ├── server.js           # Entry point, DB retry, cron init
 │   │   ├── cronJobs.js         # Expiration notification scheduler
-│   │   └── Dockerfile          # Multi-stage prod image (API + embedded Vite fallback)
+│   │   └── Dockerfile          # Production API image
 │   ├── next/                   # Primary frontend (Next.js App Router)
 │   │   ├── app/                # Routes: marketing, auth, app, account
 │   │   ├── components/         # UI by domain
@@ -203,7 +202,7 @@ warranty-wallet/
 │   │   ├── providers/          # AuthProvider, AiChat
 │   │   ├── __tests__/          # Jest component tests
 │   │   └── Dockerfile          # Standalone Next.js production image
-│   └── frontend/               # Legacy Vite SPA (nginx fallback only — do not extend)
+│   └── frontend/               # Legacy Vite SPA (unused — Phase 4 deletion)
 │       ├── features/           # auth, warranties, account, ai
 │       ├── styles/             # Original SCSS (copied to src/next/styles/)
 │       └── ...                 # See MIGRATION.md for decommission plan
@@ -250,7 +249,6 @@ warranty-wallet/
    |---------|-----|
    | **Next.js (primary UI)** | http://localhost:3001/warrantywallet/ |
    | Backend API | http://localhost:3000/api/test |
-   | Legacy Vite (optional) | http://localhost:5173/warrantywallet/ |
    | MySQL | localhost:3307 |
 
 ### Option B — Local Node.js
@@ -296,7 +294,6 @@ Create `.env.development` (local) or `.env.production` (VPS/Docker) at the **pro
 | `OPENAI_API_KEY` | Yes | OpenAI API key for AI assistant |
 | `PORT` | No | Backend port (default `3000`) |
 | `NODE_ENV` | No | `development` or `production` |
-| `VITE_API_BASE_URL` | Yes* | Legacy Vite API base URL (*build-time for backend fallback image) |
 | `NEXT_PUBLIC_BASE_PATH` | No | Next.js base path (default `/warrantywallet`) |
 | `LEGACY_API_URL` | No | Next dev proxy target for API (default `http://localhost:3000`) |
 | `BACKEND_BASE_URL` | No | Backend public URL (production) |
@@ -359,7 +356,7 @@ Production deployment is fully automated via GitHub Actions (`.github/workflows/
 
 1. **Trigger** — Push to `main` branch
 2. **Build** — Build and push two Docker images to GHCR:
-   - `warranty-wallet-backend` — Express API + embedded Vite fallback SPA
+   - `warranty-wallet-backend` — Express API
    - `warranty-wallet-next` — Next.js standalone app
 3. **Deploy** — SSH into DigitalOcean VPS, write `.env.production` from GitHub Secrets, sync nginx config, pull images, recreate containers
 
@@ -368,11 +365,11 @@ Production stack (`docker-compose.yml`):
 | Container | Image / Build | Port | Role |
 |-----------|---------------|------|------|
 | `warranty_db` | mysql:8.0 | internal | Database with persistent volume |
-| `warranty_backend` | Multi-stage Dockerfile | 3000 | API + legacy Vite fallback SPA |
+| `warranty_backend` | API Dockerfile | 3000 | Express API |
 | `warranty_next` | Next.js Dockerfile | 3001 | Primary UI (all pages) |
 | `warranty_adminer` | adminer:latest | 8080 | Database admin UI |
 
-Nginx on the VPS routes all `/warrantywallet/*` pages to Next.js (`:3001`), with automatic fallback to the legacy Vite SPA on 502/503/504. See [deploy/nginx/README.md](deploy/nginx/README.md).
+Nginx on the VPS routes all `/warrantywallet/*` pages to Next.js (`:3001`). API and uploads go to Express (`:3000`). See [deploy/nginx/README.md](deploy/nginx/README.md).
 
 ---
 
@@ -385,7 +382,7 @@ Nginx on the VPS routes all `/warrantywallet/*` pages to Next.js (`:3001`), with
 
 ## Migration
 
-The application is migrating from Vite + React Router to Next.js App Router. All user-facing features are live on Next.js in production. The legacy Vite SPA remains as an emergency fallback.
+The application runs on **Next.js App Router** in production. Legacy `src/frontend/` is unused and scheduled for deletion (Phase 4).
 
 See **[MIGRATION.md](MIGRATION.md)** for the full status, route mapping, and step-by-step decommission plan.
 

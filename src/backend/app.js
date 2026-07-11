@@ -36,9 +36,8 @@ const allowedOrigins =
         "https://www.dejanvitomirov.com"
       ]
     : [
-        "http://localhost:5173",
-        "http://localhost:8080",
         "http://localhost:3001",
+        "http://localhost:8080",
       ];
 
 // Global middleware
@@ -88,17 +87,6 @@ app.use("/api/ai", aiRoute);
 
 // Warranty claim email route
 app.post("/api/warranty/claim", warrantyClaimHandler);
-
-// Serve frontend statically in production after all API routes
-if (process.env.NODE_ENV === "production") {
-  const distPath = path.join(__dirname, "../../src/frontend/dist");
-  app.use(express.static(distPath));
-
-  // Catch-all route for SPA
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
-}
 
 // Global error handler
 app.use((err, req, res, next) => {

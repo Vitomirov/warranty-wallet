@@ -18,7 +18,7 @@ Warranty Wallet is migrating from a **Vite + React Router SPA** (`src/frontend`)
 | Legacy URL redirects | **Complete** — see `src/next/next.config.js` |
 | Nginx routing | **Complete** — all pages → Next (`:3001`) |
 | Tests | **Partial** — `LoginForm` in Next; legacy auth tests remain |
-| Legacy decommission | **Not started** — Vite SPA still built as fallback |
+| Legacy decommission | **Phase 3 complete** — fallback removed; `src/frontend/` ready for Phase 4 deletion |
 
 ---
 
@@ -32,17 +32,15 @@ Browser
 Nginx (:443)
   ├─ /warrantywallet/api/     → Express :3000 (API + uploads)
   ├─ /warrantywallet/_next/   → Next.js :3001 (static assets)
-  ├─ /warrantywallet/*        → Next.js :3001 (all pages)
-  └─ (on 502/503/504)         → Express :3000 (legacy Vite SPA fallback)
+  └─ /warrantywallet/*        → Next.js :3001 (all pages)
 ```
 
 ### Development
 
 | Service | URL | Role |
 |---------|-----|------|
-| Next.js | http://localhost:3001/warrantywallet/ | **Primary UI** (use this) |
+| Next.js | http://localhost:3001/warrantywallet/ | **Primary UI** |
 | Express | http://localhost:3000/api/test | API |
-| Vite (legacy) | http://localhost:5173/warrantywallet/ | Fallback dev only — optional |
 
 ---
 
@@ -77,15 +75,11 @@ Nginx (:443)
 - `providers/` — AuthProvider, global AiChat
 - `__tests__/` — Jest tests (growing)
 
-### `src/frontend/` — legacy (decommission pending)
+### `src/frontend/` — legacy (Phase 4 deletion pending)
 
-Still required for:
+No longer used in production or development Docker stacks. Safe to delete in Phase 4 after confirming no local workflows depend on it.
 
-1. **Nginx emergency fallback** when Next.js is unavailable
-2. **Backend Docker image** — Vite build embedded in `warranty_backend` container
-3. **Express static serving** — `src/backend/app.js` serves `dist/` as SPA
-
-Do **not** delete `src/frontend/` until Phase 3–4 below are complete.
+Previously used for nginx fallback and backend-embedded Vite build — **removed in Phase 3**.
 
 ### `src/backend/` — unchanged
 
@@ -120,24 +114,20 @@ Express API. Next.js proxies `/api/*` and `/uploads/*` in dev; nginx handles thi
 - [x] Remove unused `legacyPath()` helper
 - [x] Remove orphaned login snapshot file
 
-### Phase 3 — Remove fallback infrastructure (after burn-in)
+### Phase 3 — Remove fallback infrastructure ✅
 
-Monitor production for 2–4 weeks with no nginx fallback triggers, then:
-
-- [ ] Remove `@warranty_express_fallback` from `deploy/nginx/warranty-wallet.conf`
-- [ ] Remove Vite build stage from `src/backend/Dockerfile`
-- [ ] Remove static SPA serving from `src/backend/app.js`
-- [ ] Remove `frontend` service from `docker-compose.dev.yml`
-- [ ] Update `deploy/scripts/vps-emergency-restore.sh` or archive it
+- [x] Remove `@warranty_express_fallback` from `deploy/nginx/warranty-wallet.conf`
+- [x] Remove Vite build stage from `src/backend/Dockerfile`
+- [x] Remove static SPA serving from `src/backend/app.js`
+- [x] Remove `frontend` service from `docker-compose.dev.yml`
+- [x] Update `deploy/scripts/vps-emergency-restore.sh` (restart Next, not Vite fallback)
+- [x] Remove `VITE_API_BASE_URL` from CI/CD deploy workflow
+- [x] Deprecate `deploy/nginx/warranty-wallet-emergency.conf`
 
 ### Phase 4 — Delete legacy frontend
 
-Only after Phase 3:
-
 - [ ] Delete `src/frontend/` (entire directory)
-- [ ] Remove `VITE_API_BASE_URL` from CI/CD and env docs
 - [ ] Port or drop remaining legacy Jest tests
-- [ ] Update `.github/workflows/deploy.yml` — backend image no longer builds Vite
 
 ---
 
@@ -163,11 +153,11 @@ cd src/next && npm run dev   # http://localhost:3001/warrantywallet/
 
 If Next.js has issues in production:
 
-1. **Automatic:** nginx serves legacy Vite SPA from Express on 502/503/504
-2. **Manual:** use `deploy/nginx/warranty-wallet-emergency.conf` to route all traffic to Express
-3. **Script:** `deploy/scripts/vps-emergency-restore.sh`
+1. **Restart Next:** `bash deploy/scripts/vps-recover-next.sh` on the VPS
+2. **Emergency restore:** `bash deploy/scripts/vps-emergency-restore.sh`
+3. **Pin previous image:** set `NEXT_IMAGE` in `.env.production` to a known-good GHCR tag and `docker compose pull && up -d next`
 
-No database changes are involved in frontend migration rollback.
+No database changes are involved in frontend rollback.
 
 ---
 

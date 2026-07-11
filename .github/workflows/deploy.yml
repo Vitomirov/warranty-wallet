@@ -9,7 +9,6 @@ env:
   REGISTRY: ghcr.io
   BACKEND_IMAGE: ghcr.io/vitomirov/warranty-wallet-backend
   NEXT_IMAGE: ghcr.io/vitomirov/warranty-wallet-next
-  VITE_API_BASE_URL: https://dejanvitomirov.com/warrantywallet
 
 jobs:
   build-and-push:
@@ -32,14 +31,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & push backend (Express + embedded Vite frontend)
+      - name: Build & push backend (Express API)
         uses: docker/build-push-action@v6
         with:
           context: .
           file: src/backend/Dockerfile
           push: true
-          build-args: |
-            VITE_API_BASE_URL=${{ env.VITE_API_BASE_URL }}
           tags: |
             ${{ env.BACKEND_IMAGE }}:latest
             ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
@@ -98,7 +95,6 @@ jobs:
             echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.production
             echo "PORT=3000" >> .env.production
             echo "NODE_ENV=production" >> .env.production
-            echo "VITE_API_BASE_URL=https://dejanvitomirov.com/warrantywallet" >> .env.production
             echo "BACKEND_BASE_URL=https://dejanvitomirov.com/warrantywallet" >> .env.production
 
             # Pin the exact images built in this run

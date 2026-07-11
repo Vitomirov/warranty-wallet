@@ -1,30 +1,16 @@
-# Stage 1: build backend dependencies
+# Stage 1: install production dependencies
 FROM node:22-slim AS build-backend
 WORKDIR /app
 COPY src/backend/package.json src/backend/package-lock.json ./
 RUN npm install --only=production
 
-# Stage 2: build frontend
-FROM node:22-slim AS build-frontend
-WORKDIR /app
-# API base URL is baked into the Vite bundle at build time.
-ARG VITE_API_BASE_URL=https://dejanvitomirov.com/warrantywallet
-ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
-COPY src/frontend/package.json src/frontend/package-lock.json ./
-RUN npm install
-COPY src/frontend/ ./
-RUN npm run build
-
+# Stage 2: production API image
 FROM node:22-slim
 WORKDIR /app
 
-# Copy backend node_modules
 COPY --from=build-backend /app/node_modules ./node_modules
 COPY src/backend/ ./src/backend
-COPY --from=build-frontend /app/dist ./src/frontend/dist
 
-# Expose backend port
 EXPOSE 3000
 
-# Start backend server
 CMD ["node", "src/backend/server.js"]

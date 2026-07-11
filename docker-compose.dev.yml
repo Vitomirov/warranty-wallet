@@ -40,29 +40,6 @@ services:
     networks:
       - warranty_network
 
-  frontend:
-    build:
-      context: ./src/frontend
-      dockerfile: Dockerfile.dev
-    container_name: warranty_frontend_dev
-    restart: always
-    depends_on:
-      - backend
-    env_file:
-      - ./.env.development
-    volumes:
-      - ./src/frontend:/app
-      - /app/node_modules # Sprecava mapiranje host 'node_modules' foldera
-    ports:
-      - "5173:5173"
-      - "8081:8080"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - VITE_APP_API_URL=http://backend:3000
-    command: npm run dev -- --host --port 5173 --mode development
-    networks:
-      - warranty_network
-
   next:
     image: node:22-slim
     container_name: warranty_next_dev
