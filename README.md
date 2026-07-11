@@ -23,6 +23,7 @@
 - [Testing](#testing)
 - [Deployment & CI/CD](#deployment--cicd)
 - [Documentation](#documentation)
+- [Migration](#migration)
 - [License](#license)
 - [Author](#author)
 
@@ -46,16 +47,18 @@
 
 ## Architecture Overview
 
-Warranty Wallet follows a **decoupled frontend / API backend** design in development, and a **unified production deployment** where the Express server serves the Vite-built React SPA as static assets.
+Warranty Wallet uses a **Next.js frontend** with an **Express API backend**, deployed via a strangler pattern on nginx. Next.js serves all user-facing pages; Express handles the API, file uploads, and emergency Vite SPA fallback.
 
 ```mermaid
 flowchart TB
     subgraph Client["Browser"]
-        SPA["React SPA<br/>(Vite + React Router)"]
+        NEXT["Next.js App<br/>(App Router)"]
     end
 
     subgraph VPS["DigitalOcean VPS"]
+        NGINX["Nginx :443"]
         subgraph Docker["Docker Compose"]
+            NX["Next.js<br/>:3001"]
             BE["Express API<br/>:3000"]
             DB[("MySQL 8.0")]
             AD["Adminer<br/>:8080"]
@@ -69,11 +72,14 @@ flowchart TB
     end
 
     subgraph CI["GitHub Actions"]
-        BUILD["Vite build"]
+        BUILD["Build backend + Next images"]
         SSH["SSH deploy"]
     end
 
-    SPA -->|REST + JWT| BE
+    NEXT --> NGINX
+    NGINX -->|pages| NX
+    NGINX -->|api, uploads| BE
+    NGINX -.->|502/503/504 fallback| BE
     BE --> DB
     BE --> UP
     BE --> MG
@@ -93,17 +99,18 @@ Request → Route → Middleware → Controller → Service → MySQL / File Sys
 - **Services** contain business logic, database queries, and file operations.
 - **Core utilities** (`httpResponses`, `logActivity`) standardize API responses and audit trails.
 
-### Frontend — Feature-Based Architecture
+### Frontend — Next.js App Router
 
 ```
-pages/          → Marketing & shell routes
-features/       → Domain modules (auth, warranties, account, ai)
-hooks/          → Data fetching & form logic (separated from UI)
-context/        → Global auth state & Axios configuration
-layout/         → Header, Footer, MetaTags, Layout wrapper
-ui/             → Reusable presentational components
-styles/         → SCSS 7-1 architecture with dual themes
+app/            → Routes (marketing, auth, app, account)
+components/     → UI by domain (auth, warranties, account, marketing, ai)
+hooks/          → Data fetching & form logic
+styles/         → SCSS 7-1 design system
+lib/            → API client, metadata, animations
+providers/      → AuthProvider, global AiChat
 ```
+
+Legacy Vite SPA (`src/frontend/`) remains as an nginx outage fallback only. See [MIGRATION.md](MIGRATION.md).
 
 ### Authentication Flow
 
@@ -116,21 +123,24 @@ styles/         → SCSS 7-1 architecture with dual themes
 
 ## Technology Stack
 
-### Frontend
+### Frontend (Next.js — primary)
 
 | Category | Technology | Purpose |
 |----------|------------|---------|
-| Framework | React 19 | UI rendering |
-| Build tool | Vite 6 | Dev server, production bundling, code splitting |
-| Routing | React Router 6 | Client-side routing with `/warrantywallet` base path |
-| HTTP | Axios | API client with interceptors |
+| Framework | Next.js 15, React 19 | App Router, SSR metadata |
+| Routing | Next.js App Router | File-based routes with `/warrantywallet` base path |
+| HTTP | Axios | API client (`lib/api/client.js`) |
 | UI | Bootstrap 5, React Bootstrap | Grid, components, responsive layout |
-| Styling | Sass (7-1 pattern) | Theming, component styles, utilities |
+| Styling | Sass (7-1 pattern) | `src/next/styles/` design system |
 | Animation | Framer Motion | Page transitions and micro-interactions |
 | Forms | React Datepicker | Purchase and expiry date inputs |
 | Modals | React Modal | Confirmation dialogs |
-| Testing | Jest, React Testing Library | Component unit tests |
-| Linting | ESLint 9 | Code quality |
+| Testing | Jest, React Testing Library | Component tests in `src/next/__tests__/` |
+| Linting | ESLint (eslint-config-next) | Code quality |
+
+### Frontend (Legacy Vite — fallback only)
+
+The Vite SPA in `src/frontend/` is retained for nginx emergency fallback. Do not use for new development. See [MIGRATION.md](MIGRATION.md).
 
 ### Backend
 
@@ -150,7 +160,7 @@ styles/         → SCSS 7-1 architecture with dual themes
 | Category | Technology | Purpose |
 |----------|------------|---------|
 | Containerization | Docker, Docker Compose | Reproducible dev and prod environments |
-| CI/CD | GitHub Actions | Build frontend, SSH deploy to VPS on `main` push |
+| CI/CD | GitHub Actions | Build backend + Next images, SSH deploy to VPS |
 | Hosting | DigitalOcean VPS | Production server |
 | Domain | Namecheap → dejanvitomirov.com | Public URL with sub-path deployment |
 | DB Admin | Adminer | Database management (production compose) |
@@ -162,14 +172,13 @@ styles/         → SCSS 7-1 architecture with dual themes
 ```
 warranty-wallet/
 ├── .github/workflows/
-│   └── deploy.yml              # CI/CD pipeline
+│   └── deploy.yml              # CI/CD — builds backend + Next images, deploys to VPS
 ├── db_init/
 │   └── init.sql                # Database schema bootstrap
-├── docs/                       # Extended documentation
-│   ├── architecture.md
-│   ├── api.md
-│   ├── development.md
-│   └── deployment.md
+├── deploy/nginx/
+│   ├── warranty-wallet.conf    # Production strangler routing
+│   └── README.md               # Nginx setup guide
+├── MIGRATION.md                # Next.js migration status and decommission checklist
 ├── src/
 │   ├── backend/
 │   │   ├── ai/                 # OpenAI chat endpoint
@@ -181,24 +190,24 @@ warranty-wallet/
 │   │   ├── user/               # Profile CRUD
 │   │   ├── warranty/           # Warranty CRUD + PDF upload
 │   │   ├── uploads/            # Persisted PDF files (volume-mounted)
-│   │   ├── app.js              # Express app configuration
+│   │   ├── app.js              # Express app (API + legacy SPA static)
 │   │   ├── server.js           # Entry point, DB retry, cron init
 │   │   ├── cronJobs.js         # Expiration notification scheduler
-│   │   └── Dockerfile          # Multi-stage prod image (backend + frontend dist)
-│   └── frontend/
-│       ├── context/            # AuthProvider, Axios instances
+│   │   └── Dockerfile          # Multi-stage prod image (API + embedded Vite fallback)
+│   ├── next/                   # Primary frontend (Next.js App Router)
+│   │   ├── app/                # Routes: marketing, auth, app, account
+│   │   ├── components/         # UI by domain
+│   │   ├── hooks/              # Data & form logic
+│   │   ├── styles/             # SCSS 7-1 design system
+│   │   ├── lib/                # API client, metadata, animations
+│   │   ├── providers/          # AuthProvider, AiChat
+│   │   ├── __tests__/          # Jest component tests
+│   │   └── Dockerfile          # Standalone Next.js production image
+│   └── frontend/               # Legacy Vite SPA (nginx fallback only — do not extend)
 │       ├── features/           # auth, warranties, account, ai
-│       ├── hooks/              # Custom hooks for API & forms
-│       ├── layout/             # Header, Footer, Layout, MetaTags
-│       ├── pages/              # Landing, About, Features, FAQ
-│       ├── styles/             # SCSS 7-1 architecture
-│       ├── tests/              # Jest component tests
-│       ├── ui/                 # Shared UI components
-│       ├── seoConfig.js        # Per-route SEO metadata
-│       ├── App.jsx             # Route definitions
-│       ├── main.jsx            # React entry point
-│       └── vite.config.js      # Build, chunking, base path
-├── docker-compose.yml          # Production stack
+│       ├── styles/             # Original SCSS (copied to src/next/styles/)
+│       └── ...                 # See MIGRATION.md for decommission plan
+├── docker-compose.yml          # Production stack (mysql, backend, next, adminer)
 ├── docker-compose.dev.yml      # Local development stack
 └── README.md
 ```
@@ -239,8 +248,9 @@ warranty-wallet/
 
    | Service | URL |
    |---------|-----|
-   | Frontend (Vite) | http://localhost:5173/warrantywallet/ |
+   | **Next.js (primary UI)** | http://localhost:3001/warrantywallet/ |
    | Backend API | http://localhost:3000/api/test |
+   | Legacy Vite (optional) | http://localhost:5173/warrantywallet/ |
    | MySQL | localhost:3307 |
 
 ### Option B — Local Node.js
@@ -250,19 +260,18 @@ warranty-wallet/
 ```bash
 cd src/backend
 npm install
-# Configure .env.development at project root
 npm run dev          # nodemon on port 3000
 ```
 
-**Frontend:**
+**Next.js (primary frontend):**
 
 ```bash
-cd src/frontend
+cd src/next
 npm install
-npm run dev          # Vite on port 5173
+npm run dev          # http://localhost:3001/warrantywallet/
 ```
 
-Set `VITE_API_BASE_URL=http://localhost:3000` in your frontend environment for local API calls.
+Next.js proxies `/api/*` and `/uploads/*` to Express via `next.config.js` rewrites (`LEGACY_API_URL` defaults to `http://localhost:3000`).
 
 ---
 
@@ -287,7 +296,9 @@ Create `.env.development` (local) or `.env.production` (VPS/Docker) at the **pro
 | `OPENAI_API_KEY` | Yes | OpenAI API key for AI assistant |
 | `PORT` | No | Backend port (default `3000`) |
 | `NODE_ENV` | No | `development` or `production` |
-| `VITE_API_BASE_URL` | Yes* | Frontend API base URL (*build-time for Vite) |
+| `VITE_API_BASE_URL` | Yes* | Legacy Vite API base URL (*build-time for backend fallback image) |
+| `NEXT_PUBLIC_BASE_PATH` | No | Next.js base path (default `/warrantywallet`) |
+| `LEGACY_API_URL` | No | Next dev proxy target for API (default `http://localhost:3000`) |
 | `BACKEND_BASE_URL` | No | Backend public URL (production) |
 
 > **Security note:** Never commit `.env` files. Production secrets are injected via GitHub Actions secrets during deployment.
@@ -316,20 +327,29 @@ All authenticated endpoints require `Authorization: Bearer <accessToken>`.
 | `GET` | `/api/test` | No | Health check |
 | `GET` | `/api/testdb` | No | Database connectivity check |
 
-Full request/response details: [docs/api.md](docs/api.md)
+Full request/response details are in the [API Overview](#api-overview) table above. See [MIGRATION.md](MIGRATION.md) for architecture context.
 
 ---
 
 ## Testing
 
-Frontend tests use **Jest** with **React Testing Library**:
+**Next.js (primary):**
+
+```bash
+cd src/next
+npm test
+```
+
+Current coverage: `LoginForm` component tests. More tests are being ported from legacy.
+
+**Legacy Vite (being phased out):**
 
 ```bash
 cd src/frontend
 npm test
 ```
 
-Current coverage focuses on authentication components (`LogIn`, `SignUp`) with mocked hooks and router context.
+Legacy tests cover `LogIn` and `SignUp` components.
 
 ---
 
@@ -338,20 +358,21 @@ Current coverage focuses on authentication components (`LogIn`, `SignUp`) with m
 Production deployment is fully automated via GitHub Actions (`.github/workflows/deploy.yml`):
 
 1. **Trigger** — Push to `main` branch
-2. **Build** — Install frontend dependencies, run `vite build` with production API URL
-3. **Deploy** — SSH into DigitalOcean VPS, write `.env.production` from GitHub Secrets, pull latest code, rebuild Docker containers
+2. **Build** — Build and push two Docker images to GHCR:
+   - `warranty-wallet-backend` — Express API + embedded Vite fallback SPA
+   - `warranty-wallet-next` — Next.js standalone app
+3. **Deploy** — SSH into DigitalOcean VPS, write `.env.production` from GitHub Secrets, sync nginx config, pull images, recreate containers
 
 Production stack (`docker-compose.yml`):
 
 | Container | Image / Build | Port | Role |
 |-----------|---------------|------|------|
 | `warranty_db` | mysql:8.0 | internal | Database with persistent volume |
-| `warranty_backend` | Multi-stage Dockerfile | 3000 | API + static frontend |
+| `warranty_backend` | Multi-stage Dockerfile | 3000 | API + legacy Vite fallback SPA |
+| `warranty_next` | Next.js Dockerfile | 3001 | Primary UI (all pages) |
 | `warranty_adminer` | adminer:latest | 8080 | Database admin UI |
 
-The production backend Dockerfile builds the frontend inside the image and serves `dist/` as static files — a single container handles both API and SPA.
-
-Detailed deployment guide: [docs/deployment.md](docs/deployment.md)
+Nginx on the VPS routes all `/warrantywallet/*` pages to Next.js (`:3001`), with automatic fallback to the legacy Vite SPA on 502/503/504. See [deploy/nginx/README.md](deploy/nginx/README.md).
 
 ---
 
@@ -359,10 +380,14 @@ Detailed deployment guide: [docs/deployment.md](docs/deployment.md)
 
 | Document | Description |
 |----------|-------------|
-| [docs/architecture.md](docs/architecture.md) | System design, data model, auth, styling, and patterns |
-| [docs/api.md](docs/api.md) | Complete API reference |
-| [docs/development.md](docs/development.md) | Local setup, conventions, and workflow |
-| [docs/deployment.md](docs/deployment.md) | CI/CD pipeline, Docker, and VPS configuration |
+| [MIGRATION.md](MIGRATION.md) | Next.js migration status, route mapping, decommission checklist |
+| [deploy/nginx/README.md](deploy/nginx/README.md) | Nginx strangler routing, VPS setup, verification |
+
+## Migration
+
+The application is migrating from Vite + React Router to Next.js App Router. All user-facing features are live on Next.js in production. The legacy Vite SPA remains as an emergency fallback.
+
+See **[MIGRATION.md](MIGRATION.md)** for the full status, route mapping, and step-by-step decommission plan.
 
 ---
 
