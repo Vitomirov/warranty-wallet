@@ -22,6 +22,22 @@ const nextConfig = {
     externalDir: true,
   },
 
+  // Legacy Vite SPA paths → Next.js routes
+  async redirects() {
+    return [
+      {
+        source: "/warranties/details/:id",
+        destination: "/warrantyDetails/:id/",
+        permanent: true,
+      },
+      {
+        source: "/warranties/delete/:id",
+        destination: "/warrantyDetails/:id/",
+        permanent: true,
+      },
+    ];
+  },
+
   // Dev convenience: proxy API/uploads to Express when running Next alone
   async rewrites() {
     const legacyApi = process.env.LEGACY_API_URL || "http://localhost:3000";
