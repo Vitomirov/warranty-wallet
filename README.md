@@ -47,7 +47,7 @@
 
 ## Architecture Overview
 
-Warranty Wallet uses a **Next.js frontend** with an **Express API backend**, deployed via a strangler pattern on nginx. Next.js serves all user-facing pages; Express handles the API, file uploads, and emergency Vite SPA fallback.
+Warranty Wallet uses a **Next.js frontend** with an **Express API backend**, deployed behind nginx. Next.js serves all user-facing pages; Express handles the API and file uploads.
 
 ```mermaid
 flowchart TB
@@ -107,9 +107,8 @@ hooks/          → Data fetching & form logic
 styles/         → SCSS 7-1 design system
 lib/            → API client, metadata, animations
 providers/      → AuthProvider, global AiChat
+__tests__/      → Jest component tests
 ```
-
-Legacy Vite SPA (`src/frontend/`) is no longer built or deployed. Scheduled for deletion in Phase 4. See [MIGRATION.md](MIGRATION.md).
 
 ### Authentication Flow
 
@@ -137,16 +136,12 @@ Legacy Vite SPA (`src/frontend/`) is no longer built or deployed. Scheduled for 
 | Testing | Jest, React Testing Library | Component tests in `src/next/__tests__/` |
 | Linting | ESLint (eslint-config-next) | Code quality |
 
-### Frontend (Legacy Vite — scheduled for removal)
-
-`src/frontend/` is no longer used in production or Docker dev. Do not extend. See [MIGRATION.md](MIGRATION.md) Phase 4.
-
 ### Backend
 
 | Category | Technology | Purpose |
 |----------|------------|---------|
 | Runtime | Node.js 22 | Server runtime |
-| Framework | Express 4 | HTTP API, static file serving |
+| Framework | Express 4 | HTTP API |
 | Database | MySQL 8 (mysql2) | Persistent storage with connection pooling |
 | Auth | jsonwebtoken, bcryptjs | JWT tokens, password hashing |
 | File upload | Multer | PDF storage to `uploads/` volume |
@@ -175,9 +170,9 @@ warranty-wallet/
 ├── db_init/
 │   └── init.sql                # Database schema bootstrap
 ├── deploy/nginx/
-│   ├── warranty-wallet.conf    # Production strangler routing
+│   ├── warranty-wallet.conf    # Production nginx routing
 │   └── README.md               # Nginx setup guide
-├── MIGRATION.md                # Next.js migration status and decommission checklist
+├── MIGRATION.md                # Migration history (complete)
 ├── src/
 │   ├── backend/
 │   │   ├── ai/                 # OpenAI chat endpoint
@@ -189,23 +184,19 @@ warranty-wallet/
 │   │   ├── user/               # Profile CRUD
 │   │   ├── warranty/           # Warranty CRUD + PDF upload
 │   │   ├── uploads/            # Persisted PDF files (volume-mounted)
-│   │   ├── app.js              # Express app (API + legacy SPA static)
+│   │   ├── app.js              # Express API app
 │   │   ├── server.js           # Entry point, DB retry, cron init
 │   │   ├── cronJobs.js         # Expiration notification scheduler
 │   │   └── Dockerfile          # Production API image
-│   ├── next/                   # Primary frontend (Next.js App Router)
-│   │   ├── app/                # Routes: marketing, auth, app, account
-│   │   ├── components/         # UI by domain
-│   │   ├── hooks/              # Data & form logic
-│   │   ├── styles/             # SCSS 7-1 design system
-│   │   ├── lib/                # API client, metadata, animations
-│   │   ├── providers/          # AuthProvider, AiChat
-│   │   ├── __tests__/          # Jest component tests
-│   │   └── Dockerfile          # Standalone Next.js production image
-│   └── frontend/               # Legacy Vite SPA (unused — Phase 4 deletion)
-│       ├── features/           # auth, warranties, account, ai
-│       ├── styles/             # Original SCSS (copied to src/next/styles/)
-│       └── ...                 # See MIGRATION.md for decommission plan
+│   └── next/                   # Frontend (Next.js App Router)
+│       ├── app/                # Routes: marketing, auth, app, account
+│       ├── components/         # UI by domain
+│       ├── hooks/              # Data & form logic
+│       ├── styles/             # SCSS 7-1 design system
+│       ├── lib/                # API client, metadata, animations
+│       ├── providers/          # AuthProvider, AiChat
+│       ├── __tests__/          # Jest component tests
+│       └── Dockerfile          # Standalone Next.js production image
 ├── docker-compose.yml          # Production stack (mysql, backend, next, adminer)
 ├── docker-compose.dev.yml      # Local development stack
 └── README.md
@@ -337,16 +328,7 @@ cd src/next
 npm test
 ```
 
-Current coverage: `LoginForm` component tests. More tests are being ported from legacy.
-
-**Legacy Vite (being phased out):**
-
-```bash
-cd src/frontend
-npm test
-```
-
-Legacy tests cover `LogIn` and `SignUp` components.
+Current coverage: `LoginForm` and `SignupForm` component tests.
 
 ---
 
@@ -377,14 +359,14 @@ Nginx on the VPS routes all `/warrantywallet/*` pages to Next.js (`:3001`). API 
 
 | Document | Description |
 |----------|-------------|
-| [MIGRATION.md](MIGRATION.md) | Next.js migration status, route mapping, decommission checklist |
+| [MIGRATION.md](MIGRATION.md) | Migration history (Vite → Next.js, complete) |
 | [deploy/nginx/README.md](deploy/nginx/README.md) | Nginx strangler routing, VPS setup, verification |
 
 ## Migration
 
-The application runs on **Next.js App Router** in production. Legacy `src/frontend/` is unused and scheduled for deletion (Phase 4).
+The application was migrated from Vite + React Router to Next.js App Router. Migration is **complete** — `src/frontend/` has been removed.
 
-See **[MIGRATION.md](MIGRATION.md)** for the full status, route mapping, and step-by-step decommission plan.
+See **[MIGRATION.md](MIGRATION.md)** for historical route mapping and architecture notes.
 
 ---
 

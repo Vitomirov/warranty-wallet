@@ -1,4 +1,4 @@
-// Shared animation variants (ported from src/frontend/animations/Animations.js)
+// Animation variants for marketing sections.
 
 export const fadeIn = {
   hidden: { opacity: 0 },
