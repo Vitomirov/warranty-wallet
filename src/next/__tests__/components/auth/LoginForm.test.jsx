@@ -14,7 +14,7 @@ jest.mock("next/link", () => {
   };
 });
 
-jest.mock("@/hooks/auth/useLogin", () => ({
+jest.mock("../../../hooks/auth/useLogin", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
@@ -31,7 +31,7 @@ describe("LoginForm", () => {
     mockHandleSubmit = jest.fn((e) => e.preventDefault());
     mockHandleCancel = jest.fn();
 
-    const useLogin = require("@/hooks/auth/useLogin").default;
+    const useLogin = require("../../../hooks/auth/useLogin").default;
     useLogin.mockReturnValue({
       username: "",
       password: "",
@@ -75,7 +75,7 @@ describe("LoginForm", () => {
   });
 
   test("renders error message if error exists", () => {
-    const useLogin = require("@/hooks/auth/useLogin").default;
+    const useLogin = require("../../../hooks/auth/useLogin").default;
     useLogin.mockReturnValue({
       username: "",
       password: "",
