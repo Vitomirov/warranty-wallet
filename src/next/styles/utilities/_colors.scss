@@ -1,0 +1,10 @@
+@use '../variables';
+
+// Text color utilities
+.text-lightGrayBlue {
+  color: variables.$lightGrayBlue;
+}
+
+.white {
+  color: variables.$white;
+}

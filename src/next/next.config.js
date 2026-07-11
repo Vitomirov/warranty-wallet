@@ -12,14 +12,9 @@ const nextConfig = {
 
   sassOptions: {
     includePaths: [
-      path.join(__dirname, "../frontend/styles"),
+      path.join(__dirname, "styles"),
       path.join(__dirname, "node_modules"),
     ],
-  },
-
-  // Allow importing shared SCSS from src/frontend during migration
-  experimental: {
-    externalDir: true,
   },
 
   // Legacy Vite SPA paths → Next.js routes

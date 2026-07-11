@@ -1,5 +1,4 @@
-// Full frontend design system — mirrors src/frontend/styles/Styles.scss exactly.
-// Paths resolve via sassOptions.includePaths → src/frontend/styles
+// Warranty Wallet design system entry point.
 @use "abstracts/abstracts";
 @use "base/base";
 @use "layout/layout";

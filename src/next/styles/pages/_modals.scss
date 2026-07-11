@@ -1,0 +1,29 @@
+@use '../variables';
+
+// LOGIN / SIGNUP / ACCOUNT MODALS
+.modalWindow-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.modalWindow {
+  background: variables.$brightGray;
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 2px solid variables.$pastelBlue;
+  padding: 1rem;
+  max-width: 1200px;
+  width: 120%;
+  max-height: 85vh;
+  overflow: hidden;
+  outline: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+

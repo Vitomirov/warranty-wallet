@@ -1,0 +1,19 @@
+@use '../variables';
+
+// Navigation links
+.navbar .nav-link {
+  color: black;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: variables.$richNavy;
+  }
+
+  &.active {
+    color: black;
+  }
+}
+
+
+

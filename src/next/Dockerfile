@@ -4,12 +4,11 @@ WORKDIR /app/src/next
 COPY src/next/package.json src/next/package-lock.json* ./
 RUN npm ci
 
-# Stage 2: build Next.js (needs frontend SCSS)
+# Stage 2: build Next.js
 FROM node:22-slim AS builder
 WORKDIR /app
 COPY --from=deps /app/src/next/node_modules ./src/next/node_modules
 COPY src/next ./src/next
-COPY src/frontend/styles ./src/frontend/styles
 WORKDIR /app/src/next
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_PUBLIC_BASE_PATH=/warrantywallet

@@ -72,7 +72,6 @@ services:
     working_dir: /app/src/next
     volumes:
       - ./src/next:/app/src/next
-      - ./src/frontend:/app/src/frontend
       - next_node_modules:/app/src/next/node_modules
     ports:
       - "3001:3001"
