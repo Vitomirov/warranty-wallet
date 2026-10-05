@@ -1,5 +1,9 @@
 import { transporter } from "./email.transporter.js";
-import { validatePdfFile } from "./email.helpers.js";
+import {
+  formatClaimFromHeader,
+  getMailFromAddress,
+  validatePdfFile,
+} from "./email.helpers.js";
 
 // Function to send a warranty claim email
 export async function sendWarrantyClaimEmail(
@@ -30,13 +34,10 @@ ${username}
 
   validatePdfFile(pdfFilePath);
 
-  const mailFrom = process.env.MAIL_FROM_ADDRESS;
-  if (!mailFrom) {
-    throw new Error("MAIL_FROM_ADDRESS is not configured");
-  }
+  const mailFrom = getMailFromAddress();
 
   const mailOptions = {
-    from: `"${fullName} via Warranty Wallet" <${mailFrom}>`,
+    from: formatClaimFromHeader(fullName, mailFrom),
     to: sellersEmail,
     subject,
     text,
@@ -74,12 +75,14 @@ Best regards,
 Warranty Wallet Team
 `;
 
+  const mailFrom = getMailFromAddress();
+
   const mailOptions = {
-    from: process.env.MAIL_FROM_ADDRESS,
+    from: mailFrom,
     to: userEmail,
     subject,
     text,
-    replyTo: process.env.MAIL_FROM_ADDRESS,
+    replyTo: mailFrom,
   };
 
   try {
