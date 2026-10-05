@@ -3,14 +3,8 @@
 import db from "../config/db.js";
 import bcrypt from "bcryptjs";
 import fs from "fs";
-import path from "path";
 import { logActivity } from "../core/logActivity.js";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const uploadsDir = path.join(__dirname, "..", "..", "uploads");
+import { resolveWarrantyPdfPath } from "../core/resolveWarrantyPdfPath.js";
 
 export const getUserData = async (userId) => {
   const sql =
@@ -68,8 +62,8 @@ export const deleteUserAccount = async (user, userId, res) => {
   );
 
   warranties.forEach((warranty) => {
-    const filePath = path.join(uploadsDir, path.basename(warranty.pdfFilePath));
-    if (fs.existsSync(filePath)) {
+    const filePath = resolveWarrantyPdfPath(warranty.pdfFilePath);
+    if (filePath) {
       try {
         fs.unlinkSync(filePath);
       } catch (err) {

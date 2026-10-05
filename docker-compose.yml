@@ -42,7 +42,7 @@ services:
     networks:
       - warranty_network
     volumes:
-      - ./src/backend/uploads:/app/uploads
+      - ./src/backend/uploads:/app/src/backend/uploads
     environment:
       NODE_ENV: production
 

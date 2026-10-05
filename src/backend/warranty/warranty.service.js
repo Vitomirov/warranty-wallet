@@ -8,13 +8,7 @@ import {
   parseAndFormatDateForDB,
 } from "./warranty.helper.js";
 import { logActivity } from "../core/logActivity.js";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-// Correct path to the central uploads directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const uploadsDir = path.join(__dirname, "..", "..", "uploads");
+import { resolveWarrantyPdfPath } from "../core/resolveWarrantyPdfPath.js";
 
 export const getAllWarranties = async (userId) => {
   const sql = "SELECT * FROM warranties WHERE userId = ?";
@@ -82,8 +76,9 @@ export const deleteSingleWarranty = async (user, warrantyId) => {
 
   const { pdfFilePath, productName, warrantyExpireDate } = existingWarranty[0];
 
-  if (pdfFilePath && fs.existsSync(pdfFilePath)) {
-    fs.unlinkSync(pdfFilePath);
+  const resolvedPdf = resolveWarrantyPdfPath(pdfFilePath);
+  if (resolvedPdf) {
+    fs.unlinkSync(resolvedPdf);
   }
 
   const sql = "DELETE FROM warranties WHERE userId = ? AND warrantyId = ?";
@@ -109,8 +104,8 @@ export const getWarrantyPDFFile = async (userId, warrantyId, res) => {
     throw new Error("Warranty or PDF path not found");
   }
 
-  const pdfFilePath = result[0].pdfFilePath;
-  if (!fs.existsSync(pdfFilePath)) {
+  const pdfFilePath = resolveWarrantyPdfPath(result[0].pdfFilePath);
+  if (!pdfFilePath) {
     throw new Error("File not found");
   }
 

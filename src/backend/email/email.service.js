@@ -30,8 +30,13 @@ ${username}
 
   validatePdfFile(pdfFilePath);
 
+  const mailFrom = process.env.MAIL_FROM_ADDRESS;
+  if (!mailFrom) {
+    throw new Error("MAIL_FROM_ADDRESS is not configured");
+  }
+
   const mailOptions = {
-    from: userEmail,
+    from: `"${fullName} via Warranty Wallet" <${mailFrom}>`,
     to: sellersEmail,
     subject,
     text,

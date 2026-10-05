@@ -1,5 +1,6 @@
 import fs from "fs";
 import db from "../config/db.js";
+import { resolveWarrantyPdfPath } from "../core/resolveWarrantyPdfPath.js";
 import { sendWarrantyClaimEmail } from "../email/email.service.js";
 /**
  * Handles warranty claim email sending
@@ -17,9 +18,12 @@ export default async function warrantyClaimHandler(req, res) {
     if (warranties.length === 0)
       return res.status(404).send("Warranty not found");
 
-    const { sellersEmail, pdfFilePath } = warranties[0];
-    if (!pdfFilePath || !fs.existsSync(pdfFilePath)) {
-      return res.status(400).send("File not found or invalid");
+    const { sellersEmail, pdfFilePath: storedPdfPath } = warranties[0];
+    const pdfFilePath = resolveWarrantyPdfPath(storedPdfPath);
+    if (!pdfFilePath) {
+      return res.status(400).send(
+        "Warranty PDF is missing on the server. Please re-upload the warranty document."
+      );
     }
     if (fs.statSync(pdfFilePath).size === 0) {
       return res.status(400).send("File is empty");

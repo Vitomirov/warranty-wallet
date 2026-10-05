@@ -11,8 +11,8 @@ async function checkForNearlyExpiredWarranties() {
   fourteenDaysFromNow.setDate(currentDate.getDate() + 14);
 
   try {
-    const [warranties] = await db.promise().query(
-      `SELECT w.warrantyId, w.sellersEmail, u.userEmail, u.fullName, w.productName
+    const [warranties] = await db.query(
+      `SELECT w.warrantyId, u.userEmail, u.fullName, w.productName
          FROM warranties w 
          JOIN users u ON w.userId = u.id 
          WHERE w.warrantyExpireDate BETWEEN ? AND ? AND w.notified = 0`,
@@ -24,18 +24,12 @@ async function checkForNearlyExpiredWarranties() {
 
     for (const warranty of warranties) {
       try {
-        const { sellersEmail, userEmail, fullName, productName } = warranty;
-        await sendExpirationNotificationEmail(
-          sellersEmail,
-          productName,
-          userEmail,
-          fullName
+        const { userEmail, fullName, productName } = warranty;
+        await sendExpirationNotificationEmail(userEmail, productName, fullName);
+        await db.query(
+          "UPDATE warranties SET notified = 1 WHERE warrantyId = ?",
+          [warranty.warrantyId]
         );
-        await db
-          .promise()
-          .query("UPDATE warranties SET notified = 1 WHERE warrantyId = ?", [
-            warranty.warrantyId,
-          ]);
       } catch (err) {
         console.error(
           `Error sending expiration email for warranty ${warranty.warrantyId}:`,
